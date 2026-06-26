@@ -1,0 +1,204 @@
+import { Link, useNavigate, useLocation } from 'react-router';
+import { useState, useEffect } from 'react';
+import { ArrowUpRight } from 'lucide-react';
+import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
+import { useLanguage } from '../context/LanguageContext';
+
+const MAIN_LINKS = [
+  { name: 'Solutions', path: '/solutions' },
+  { name: 'About', path: '/about' },
+  { name: 'Partners', path: '/partners' },
+  { name: 'Careers', path: '/careers' },
+  { name: 'News', path: '/news' },
+  { name: 'Contact', path: '/contact' },
+];
+
+const SERVICE_LINKS = [
+  { name: 'Property Management', path: '/property-management' },
+  { name: 'Workspace Leasing', path: '/workspace-leasing' },
+  { name: 'Business Services', path: '/business-services' },
+  { name: 'Concierge Services', path: '/concierge-services' },
+  { name: 'Industrial & Logistics', path: '/industrial-logistics' },
+];
+
+export function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { language, setLanguage } = useLanguage();
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 60);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => setIsOpen(false), [location.pathname]);
+
+  // Lock body scroll while the overlay is open
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    if (location.pathname !== '/') { e.preventDefault(); navigate('/'); }
+  };
+
+  const onDark = isOpen;
+
+  return (
+    <>
+      <header
+        className={`sticky top-0 z-[60] transition-colors duration-300 ${
+          onDark
+            ? 'bg-transparent'
+            : isScrolled
+              ? 'bg-[#F8F6F1]/90 backdrop-blur-md shadow-[0_1px_16px_rgba(0,0,0,0.06)]'
+              : 'bg-[#F8F6F1] border-b border-[#0F0F0F]/10'
+        }`}
+      >
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+          <div className="flex items-center justify-between h-[76px]">
+            {/* Logo */}
+            <Link
+              to="/"
+              onClick={handleLogoClick}
+              className="flex items-center shrink-0"
+              aria-label="HiLink — Your Solution"
+            >
+              <img
+                src={onDark ? '/brand/hilink-logo-light.png' : '/brand/hilink-logo.png'}
+                alt="HiLink — Your Solution"
+                className="h-10 lg:h-12 w-auto"
+              />
+            </Link>
+
+            {/* Right cluster */}
+            <div className="flex items-center gap-5 sm:gap-7">
+              {/* Language */}
+              <div className={`flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.14em] ${onDark ? 'text-[#F8F6F1]' : 'text-[#0F0F0F]'}`}>
+                <button onClick={() => setLanguage('en')} className={`transition-colors ${language === 'en' ? 'text-[#C9A55A]' : 'opacity-45 hover:opacity-100'}`}>EN</button>
+                <span className="opacity-30">/</span>
+                <button onClick={() => setLanguage('vi')} className={`transition-colors ${language === 'vi' ? 'text-[#C9A55A]' : 'opacity-45 hover:opacity-100'}`}>VI</button>
+              </div>
+
+              {/* Consultation — desktop only, hidden when overlay open */}
+              {!onDark && (
+                <Link
+                  to="/book-consultation"
+                  className="hidden md:inline-flex items-center gap-2 px-6 py-[10px] bg-[#0F0F0F] text-white text-[11px] font-medium uppercase tracking-[0.15em] hover:bg-[#A88F5C] transition-colors"
+                >
+                  Book Consultation
+                </Link>
+              )}
+
+              {/* Menu toggle */}
+              <button
+                onClick={() => setIsOpen((o) => !o)}
+                className={`flex items-center gap-3 group ${onDark ? 'text-[#F8F6F1]' : 'text-[#0F0F0F]'}`}
+                aria-label="Toggle menu"
+              >
+                <span className="text-[11px] font-medium uppercase tracking-[0.18em] hidden sm:inline">
+                  {isOpen ? 'Close' : 'Menu'}
+                </span>
+                <span className="relative w-7 h-[14px]">
+                  <span className={`absolute left-0 w-7 h-[1.5px] bg-current transition-all duration-300 ${isOpen ? 'top-1/2 -translate-y-1/2 rotate-45' : 'top-0'}`} />
+                  <span className={`absolute left-0 w-7 h-[1.5px] bg-current transition-all duration-300 ${isOpen ? 'opacity-0' : 'top-1/2 -translate-y-1/2'}`} />
+                  <span className={`absolute left-0 w-7 h-[1.5px] bg-current transition-all duration-300 ${isOpen ? 'top-1/2 -translate-y-1/2 -rotate-45' : 'bottom-0'}`} />
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll progress */}
+        {!onDark && (
+          <motion.div className="absolute bottom-0 left-0 h-[2px] bg-[#A88F5C] origin-left w-full" style={{ scaleX }} />
+        )}
+      </header>
+
+      {/* ── Full-screen overlay menu ── */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className="fixed inset-0 z-50 bg-[#0F0F0F] text-[#F8F6F1] overflow-y-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+          >
+            {/* faint gold grid accent */}
+            <div className="absolute inset-0 pointer-events-none opacity-[0.06]"
+              style={{ backgroundImage: 'linear-gradient(#A88F5C 1px, transparent 1px), linear-gradient(90deg, #A88F5C 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
+
+            <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 pt-[120px] pb-16 min-h-full flex flex-col">
+              <div className="grid lg:grid-cols-[1.4fr_1fr] gap-16 flex-1">
+                {/* Primary nav */}
+                <nav className="flex flex-col justify-center">
+                  {MAIN_LINKS.map((item, i) => (
+                    <motion.div
+                      key={item.path}
+                      initial={{ opacity: 0, y: 24 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.08 + i * 0.06, duration: 0.5, ease: 'easeOut' }}
+                    >
+                      <Link
+                        to={item.path}
+                        className="group flex items-center gap-4 py-2 lg:py-3 serif text-[2.4rem] lg:text-[4rem] leading-[1.05] text-[#F8F6F1] hover:text-[#C9A55A] transition-colors"
+                      >
+                        <span className="text-[11px] sans tracking-[0.2em] text-[#A88F5C] opacity-60 w-8 pt-4">0{i + 1}</span>
+                        {item.name}
+                        <ArrowUpRight className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-[#C9A55A]" size={28} />
+                      </Link>
+                    </motion.div>
+                  ))}
+                </nav>
+
+                {/* Secondary: services + contact */}
+                <motion.div
+                  className="flex flex-col justify-center gap-12 border-l border-white/10 lg:pl-16"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.4, duration: 0.5 }}
+                >
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#A88F5C] mb-6">Our Solutions</p>
+                    <div className="flex flex-col gap-3">
+                      {SERVICE_LINKS.map((s) => (
+                        <Link key={s.path} to={s.path} className="text-[15px] text-[#F8F6F1]/80 hover:text-[#C9A55A] hover:translate-x-1 transition-all w-fit">
+                          {s.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#A88F5C] mb-6">Get in touch</p>
+                    <a href="mailto:contact@hilink.vn" className="block serif text-2xl text-[#F8F6F1] hover:text-[#C9A55A] transition-colors">contact@hilink.vn</a>
+                    <a href="tel:+842422029000" className="block text-[#F8F6F1]/70 mt-2 hover:text-[#C9A55A] transition-colors">(84) 24 2202 9000</a>
+                    <Link
+                      to="/book-consultation"
+                      className="mt-8 inline-flex items-center gap-2 px-8 py-4 bg-[#A88F5C] text-white text-[11px] uppercase tracking-[0.18em] hover:bg-[#F8F6F1] hover:text-[#0F0F0F] transition-colors"
+                    >
+                      Book a Consultation <ArrowUpRight size={15} />
+                    </Link>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Footer row */}
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-10 border-t border-white/10 text-[11px] uppercase tracking-[0.18em] text-[#F8F6F1]/45">
+                <span>60 Lý Thái Tổ, Hoàn Kiếm · 4 Tôn Thất Tùng, Đống Đa — Hà Nội</span>
+                <span>© {new Date().getFullYear()} HiLink Vietnam</span>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
