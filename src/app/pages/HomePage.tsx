@@ -96,7 +96,7 @@ export function HomePage() {
   return (
     <>
       {/* ── Hero ── */}
-      <section className="relative min-h-[92vh] flex items-end bg-[#361716] text-white overflow-hidden">
+      <section className="relative min-h-[92vh] flex items-end bg-[#2A2623] text-white overflow-hidden">
         <motion.img
           src={IMG.hero}
           alt=""
@@ -105,8 +105,8 @@ export function HomePage() {
           animate={{ scale: 1, opacity: 0.88 }}
           transition={{ duration: 1.6, ease: 'easeOut' }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#361716]/85 via-[#361716]/25 to-[#361716]/10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#361716]/65 via-[#361716]/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623]/85 via-[#2A2623]/25 to-[#2A2623]/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#2A2623]/65 via-[#2A2623]/20 to-transparent" />
 
         <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 pb-20 lg:pb-28 w-full">
           <motion.p
@@ -182,7 +182,7 @@ export function HomePage() {
             </div>
             <div className="relative overflow-hidden min-h-[200px] lg:min-h-[260px]">
               <img loading="lazy" decoding="async" src={IMG.panel} alt={t.panelAlt} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center" style={{ backgroundColor: 'rgba(54,23,22,0.5)' }}>
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center" style={{ backgroundColor: 'rgba(42,38,35,0.5)' }}>
                 <div className="serif text-white text-[72px] font-light leading-none">2020</div>
                 <div className="text-white uppercase tracking-[0.2em] text-[11px] mt-3">{t.est}</div>
               </div>
@@ -254,9 +254,9 @@ export function HomePage() {
                 className="group relative shrink-0 w-[280px] sm:w-[320px] snap-start"
                 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ delay: (i % 4) * 0.08, duration: 0.6 }}
               >
-                <div className="relative aspect-[3/4] overflow-hidden bg-[#361716]">
+                <div className="relative aspect-[3/4] overflow-hidden bg-[#2A2623]">
                   <img loading="lazy" decoding="async" src={loc.photo} alt={loc.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-[0.9s] group-hover:scale-[1.07]" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#361716]/85 via-[#361716]/10 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623]/85 via-[#2A2623]/10 to-transparent" />
                   <span className="absolute top-4 left-4 text-[9px] uppercase tracking-[0.18em] bg-[#D12126] text-white px-3 py-1.5">
                     {loc.comingSoon ? t.soon : loc.line ? WORKSPACE_LINES[loc.line].label : 'HiLink'}
                   </span>

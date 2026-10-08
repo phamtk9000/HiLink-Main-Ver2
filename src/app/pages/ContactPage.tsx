@@ -63,7 +63,7 @@ export function ContactPage() {
 
   return (
     <>
-      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#361716] text-white">
+      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#2A2623] text-white">
         <HeroBg image="/photos/f15-reception.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="max-w-4xl">

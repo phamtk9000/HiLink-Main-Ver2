@@ -4,14 +4,14 @@ import { Header } from './Header';
 import { Footer } from './FooterNew';
 import { CookieConsent } from './CookieConsent';
 import { ScrollToTop } from './ScrollToTop';
-import { PatternLight, ScrollMotion, SmoothScroll } from '../lib/motion';
+import { PatternDrift, ScrollMotion, SmoothScroll } from '../lib/motion';
 
 export function RootLayout() {
   const { pathname } = useLocation();
   return (
     <>
       <SmoothScroll />
-      <PatternLight />
+      <PatternDrift />
       <div className="min-h-screen flex flex-col">
         <Header />
         <main className="flex-1">

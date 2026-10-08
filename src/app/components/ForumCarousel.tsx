@@ -21,7 +21,7 @@ const CATEGORY: Record<string, { en: string; vi: string }> = {
 };
 
 // How wide each slide is, by distance from the active one.
-const GROW = [7, 1.4, 1, 0.8];
+const GROW = [6, 1.1, 0.8, 0.6];
 
 export function ForumCarousel() {
   const { lang } = useLang();
@@ -35,7 +35,7 @@ export function ForumCarousel() {
 
   return (
     <section className="py-24 lg:py-32 bg-white text-[#2A2623]" aria-roledescription="carousel" aria-label={t.eyebrow}>
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+      <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
         <div className="flex flex-wrap items-end justify-between gap-6 mb-10 lg:mb-14">
           <div>
             <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 inline-flex items-center gap-2.5">
@@ -67,7 +67,7 @@ export function ForumCarousel() {
 
         {/* The squeeze. */}
         <div
-          className="hl-squeeze flex gap-2 sm:gap-3 h-[300px] sm:h-[420px] lg:h-[540px]"
+          className="hl-squeeze flex gap-2 h-[220px] sm:h-[300px] lg:h-[380px]"
           onKeyDown={(e) => {
             if (e.key === 'ArrowRight') { e.preventDefault(); go(active + 1); }
             if (e.key === 'ArrowLeft') { e.preventDefault(); go(active - 1); }
@@ -90,7 +90,7 @@ export function ForumCarousel() {
                 onClick={() => setActive(i)}
                 aria-label={`${t.show}: ${p.title[lang]}`}
                 aria-current={on}
-                className={`group relative min-w-0 basis-0 overflow-hidden rounded-xl bg-[#F4F0EA] ${on ? '' : 'cursor-pointer'}`}
+                className={`group relative min-w-0 basis-0 overflow-hidden rounded-lg bg-[#F4F0EA] ${on ? '' : 'cursor-pointer'}`}
                 style={{ flexGrow: GROW[dist] }}
               >
                 <img
@@ -99,8 +99,8 @@ export function ForumCarousel() {
                   loading="lazy"
                   className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 ${on ? 'scale-100' : 'scale-110 group-hover:scale-105'}`}
                 />
-                <span className={`absolute inset-0 bg-[#361716] transition-opacity duration-500 ${on ? 'opacity-0' : 'opacity-25 group-hover:opacity-10'}`} />
-                <span className={`absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-[#2A2623] transition-opacity duration-500 ${on ? 'opacity-100' : 'opacity-0'}`}>
+                <span className={`absolute inset-0 bg-[#2A2623] transition-opacity duration-500 ${on ? 'opacity-0' : 'opacity-25 group-hover:opacity-10'}`} />
+                <span className={`absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-[#2A2623] transition-opacity duration-500 ${on ? 'opacity-100' : 'opacity-0'}`}>
                   {CATEGORY[p.category]?.[lang] ?? p.category}
                 </span>
               </button>
@@ -109,8 +109,8 @@ export function ForumCarousel() {
         </div>
 
         {/* The chosen post. */}
-        <div className="mt-6 lg:mt-8 flex flex-col md:flex-row md:items-start md:justify-between gap-6" aria-live="polite">
-          <p key={active} className="max-w-3xl text-[1.0625rem] leading-relaxed animate-[hl-fade-up_0.5s_ease_both]">
+        <div className="mt-5 flex flex-col md:flex-row md:items-start md:justify-between gap-6" aria-live="polite">
+          <p key={active} className="max-w-3xl text-[15px] leading-relaxed animate-[hl-fade-up_0.5s_ease_both]">
             <span className="font-semibold">{post.title[lang]}</span>{' '}
             <span className="text-[#6B645D]">{post.excerpt[lang]}</span>
           </p>

@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import { ArrowRight } from 'lucide-react';
-import { TrendingUp, Users, Shield, BarChart, MapPin, Building2, Calendar, Home, Briefcase, Globe, ClipboardList, FileSignature, Settings, LineChart, LayoutDashboard, Bell } from '../components/Glyph';
+import { TrendingUp, Users, Shield, BarChart, MapPin, Building2, Calendar, Home, Briefcase, Globe, ClipboardList, FileSignature, Settings, LineChart } from '../components/Glyph';
 import { motion } from 'motion/react';
 import { PropertyRentalForm } from '../components/PropertyRentalForm';
 import { FAQ } from '../components/FAQ';
@@ -60,17 +60,13 @@ const T = {
     resEyebrow: 'Results & Metrics', resTitle: 'Performance That Speaks for Itself',
     resLead: 'Numbers from the portfolio HiLink runs today.',
     metrics: ['Quarter House Occupancy', 'HiLink Locations', 'Partner Companies', 'Concierge Support'],
-    dashSoon: 'Coming Soon', dashTitle: 'Your Owner Dashboard',
-    dashLead: 'A secure, real-time portal to track occupancy, income, maintenance, and reporting across your entire portfolio — anytime, from anywhere.',
-    dashList: ['Live occupancy & income tracking', 'On-demand financial statements', 'Maintenance request visibility', 'Document vault & lease archive'],
-    dashDev: 'In Development', dashDevLead: 'Launching to managed-property owners soon.',
     faqSub: 'Everything international owners and tenants ask before working with us.', faqEyebrow: 'FAQs', faqTitle: 'Frequently Asked Questions',
     faqs: [
       { question: 'What types of property do you manage?', answer: 'We manage residential apartments, villas and townhouses, commercial offices and retail, hospitality and short-term rentals, and full developer projects.' },
       { question: 'How are your management fees structured?', answer: 'Fees are tailored to your asset type and scope of service, typically as a percentage of collected rent. We agree on a transparent structure during onboarding with no hidden charges.' },
       { question: 'Do you work with overseas and non-resident owners?', answer: 'Yes. Many of our clients are international investors and non-resident landlords. We provide clear reporting and bilingual communication so distance is never a barrier.' },
       { question: 'How quickly can you onboard a new property?', answer: 'Most properties are fully onboarded within one to two weeks, depending on condition and documentation. We handle the assessment, marketing, and tenant acquisition end to end.' },
-      { question: 'How will I track my property’s performance?', answer: 'You receive monthly financial statements and performance analytics. Our owner dashboard (coming soon) will give you real-time visibility into occupancy, income, and maintenance.' },
+      { question: 'How will I track my property’s performance?', answer: 'You receive monthly financial statements and performance analytics.' },
     ],
     ctaTitle: 'Elevate Your Property Performance', ctaLead: "Let's discuss how our concierge approach can maximize your asset value and minimize your stress.", cta: 'Schedule a Consultation',
   },
@@ -117,17 +113,13 @@ const T = {
     resEyebrow: 'Kết quả & số liệu', resTitle: 'Hiệu quả tự nói lên tất cả',
     resLead: 'Số liệu từ danh mục HiLink đang vận hành.',
     metrics: ['Lấp đầy tại Quarter House', 'Địa điểm HiLink', 'Doanh nghiệp đối tác', 'Hỗ trợ concierge'],
-    dashSoon: 'Sắp ra mắt', dashTitle: 'Bảng điều khiển cho chủ sở hữu',
-    dashLead: 'Cổng thông tin bảo mật, theo thời gian thực để theo dõi tỷ lệ lấp đầy, doanh thu, bảo trì và báo cáo của toàn bộ danh mục — mọi lúc, mọi nơi.',
-    dashList: ['Theo dõi lấp đầy & doanh thu trực tiếp', 'Báo cáo tài chính theo yêu cầu', 'Theo dõi yêu cầu bảo trì', 'Kho tài liệu & hợp đồng thuê'],
-    dashDev: 'Đang phát triển', dashDevLead: 'Sớm ra mắt cho chủ sở hữu tài sản do HiLink quản lý.',
     faqSub: 'Những điều chủ sở hữu và khách thuê quốc tế thường hỏi trước khi làm việc với chúng tôi.', faqEyebrow: 'Câu hỏi', faqTitle: 'Câu hỏi thường gặp',
     faqs: [
       { question: 'HiLink quản lý những loại bất động sản nào?', answer: 'Căn hộ, biệt thự và nhà phố; văn phòng và mặt bằng bán lẻ; khách sạn và cho thuê ngắn hạn; và cả dự án của chủ đầu tư.' },
       { question: 'Phí quản lý được tính thế nào?', answer: 'Phí được điều chỉnh theo loại tài sản và phạm vi dịch vụ, thường tính theo phần trăm tiền thuê thu được. Chúng tôi thống nhất cơ cấu phí minh bạch khi tiếp nhận, không có phí ẩn.' },
       { question: 'HiLink có làm việc với chủ sở hữu ở nước ngoài không?', answer: 'Có. Nhiều khách hàng của chúng tôi là nhà đầu tư quốc tế và chủ nhà không cư trú tại Việt Nam. Báo cáo rõ ràng và giao tiếp song ngữ giúp khoảng cách không còn là trở ngại.' },
       { question: 'Mất bao lâu để tiếp nhận một tài sản mới?', answer: 'Hầu hết tài sản được tiếp nhận hoàn tất trong một đến hai tuần, tuỳ hiện trạng và giấy tờ. Chúng tôi lo trọn khâu đánh giá, quảng bá và tìm khách thuê.' },
-      { question: 'Tôi theo dõi hiệu quả tài sản bằng cách nào?', answer: 'Bạn nhận báo cáo tài chính và phân tích hiệu quả hàng tháng. Bảng điều khiển cho chủ sở hữu (sắp ra mắt) sẽ cho bạn theo dõi lấp đầy, doanh thu và bảo trì theo thời gian thực.' },
+      { question: 'Tôi theo dõi hiệu quả tài sản bằng cách nào?', answer: 'Bạn nhận báo cáo tài chính và phân tích hiệu quả hàng tháng.' },
     ],
     ctaTitle: 'Nâng tầm hiệu quả tài sản', ctaLead: 'Cùng trao đổi cách tiếp cận concierge của chúng tôi giúp tối đa hoá giá trị tài sản và giảm bớt nỗi lo cho bạn.', cta: 'Đặt lịch tư vấn',
   },
@@ -147,7 +139,7 @@ export function PropertyManagementPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#361716] text-white">
+      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#2A2623] text-white">
         <HeroBg image="/photos/f19-room.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
@@ -330,42 +322,6 @@ export function PropertyManagementPage() {
                 <div className="text-[11px] uppercase tracking-[0.2em] text-[#6B645D]">{t.metrics[i]}</div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Owner Dashboard (Coming Soon) */}
-      <section className="py-24 lg:py-32 bg-[#F4F0EA]">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-            <motion.div>
-              <span className="inline-block px-4 py-1.5 bg-[#D12126]/15 text-[#D12126] text-[11px] uppercase tracking-[0.2em] mb-6">
-                {t.dashSoon}
-              </span>
-              <h2 className="serif text-4xl lg:text-5xl mb-6">{t.dashTitle}</h2>
-              <p className="text-lg text-[#6B645D] mb-8 leading-relaxed">
-                {t.dashLead}
-              </p>
-              <ul className="space-y-4">
-                {t.dashList.map((f) => (
-                  <li key={f} className="flex items-center gap-3 text-[#444] text-[16px]">
-                    <Bell size={16} className="text-[#D12126] shrink-0" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-            <motion.div
-              className="relative aspect-[4/3] bg-[#EDE7DF] flex items-center justify-center overflow-hidden"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.4 }}
-            >
-              <div className="text-center px-8">
-                <LayoutDashboard size={64} className="text-[#D12126] mx-auto mb-6" />
-                <p className="serif text-2xl text-[#2A2623] mb-2">{t.dashDev}</p>
-                <p className="text-sm text-[#6B645D]">{t.dashDevLead}</p>
-              </div>
-            </motion.div>
           </div>
         </div>
       </section>

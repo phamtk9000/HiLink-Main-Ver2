@@ -103,7 +103,7 @@ export function BusinessConsultingPage() {
   return (
     <>
       {/* ── Hero ── */}
-      <section className="relative min-h-screen bg-[#361716] flex items-end overflow-hidden">
+      <section className="relative min-h-screen bg-[#2A2623] flex items-end overflow-hidden">
         {/* Background image */}
         <div className="absolute inset-0">
           <img
@@ -111,7 +111,7 @@ export function BusinessConsultingPage() {
             alt=""
             className="w-full h-full object-cover opacity-75"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#361716] via-[#361716]/45 to-[#361716]/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623] via-[#2A2623]/45 to-[#2A2623]/10" />
         </div>
 
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 pb-20 w-full">
@@ -196,7 +196,7 @@ export function BusinessConsultingPage() {
                   alt={services[activeService].title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#361716]/60 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623]/60 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-8">
                   <div className="text-[#D12126] mb-3">{services[activeService].icon}</div>
                   <h3 className="serif text-white text-3xl">{services[activeService].title}</h3>

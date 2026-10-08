@@ -9,7 +9,7 @@ import { LOCATIONS, WORKSPACE_LINES } from '../data/locations';
 import { ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
-import { Candles } from '../components/Candles';
+import { Contours } from '../components/Contours';
 import { PartnerMarquee } from '../components/PartnerMarquee';
 
 const AMENITY_ICONS = [<Wifi size={24} />, <Coffee size={24} />, <Users size={24} />, <Building2 size={24} />, <Calendar size={24} />, <Mail size={24} />];
@@ -131,14 +131,14 @@ export function WorkspacePage() {
       </motion.div>
 
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center bg-[#361716] text-white overflow-hidden">
+      <section className="relative min-h-[80vh] flex items-center bg-[#2A2623] text-white overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="/photos/f15-lounge-wide-xl.webp"
             alt=""
             className="w-full h-full object-cover opacity-85"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#361716]/80 via-[#361716]/45 to-[#361716]/15" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#2A2623]/80 via-[#2A2623]/45 to-[#2A2623]/15" />
         </div>
 
         <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 py-24 w-full">
@@ -324,7 +324,7 @@ export function WorkspacePage() {
 
       {/* CTA Section */}
       <section className="relative py-24 lg:py-32 bg-[#361716] text-white overflow-hidden">
-        <Candles />
+        <Contours />
         <motion.div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
           <h2 className="serif text-4xl lg:text-5xl mb-8">
             {t.ctaTitle}

@@ -10,7 +10,7 @@ import { BUSINESS_CLUB_SITE, PARTNERS, ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { LinkPhilosophy } from '../components/LinkPhilosophy';
 import { Flag } from '../components/Flag';
-import { Candles } from '../components/Candles';
+import { Contours } from '../components/Contours';
 import { PartnerMarquee } from '../components/PartnerMarquee';
 
 const T = {
@@ -53,7 +53,7 @@ export function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative min-h-screen bg-[#361716] flex flex-col">
+      <section className="relative min-h-screen bg-[#2A2623] flex flex-col">
         <div className="absolute inset-0 overflow-hidden">
           <img
             src="/photos/f15-lounge-wide-xl.webp"
@@ -284,7 +284,7 @@ export function AboutPage() {
 
       {/* CTA */}
       <section className="relative py-28 bg-[#361716] text-white overflow-hidden">
-        <Candles />
+        <Contours />
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-12">
           <div>
             <h2 className="serif text-4xl lg:text-5xl mb-4">{a.helpTitle}</h2>

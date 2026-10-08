@@ -76,7 +76,7 @@ export function SolutionsPage() {
   return (
     <>
       {/* Hero */}
-      <section id="hero" className="relative overflow-hidden min-h-[72vh] flex items-end bg-[#361716] text-white">
+      <section id="hero" className="relative overflow-hidden min-h-[72vh] flex items-end bg-[#2A2623] text-white">
         <HeroBg image="/photos/hbc-lounge-xl.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28 w-full">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-4xl">
@@ -94,7 +94,7 @@ export function SolutionsPage() {
       </section>
 
       {/* Quick nav strip */}
-      <section className="bg-[#361716] border-t border-white/10">
+      <section className="bg-[#2A2623] border-t border-white/10">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="flex flex-wrap gap-x-8 gap-y-3 py-6">
             {solutions.map((s, i) => (
@@ -143,8 +143,8 @@ export function SolutionsPage() {
                       <span className="serif text-3xl lg:text-4xl">{s.title}</span>
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#361716]/30 to-transparent" />
-                  <span className="absolute top-5 left-5 text-[9px] uppercase tracking-[0.2em] bg-[#361716]/70 text-[#F06A6E] px-3 py-1.5">0{i + 1}</span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623]/30 to-transparent" />
+                  <span className="absolute top-5 left-5 text-[9px] uppercase tracking-[0.2em] bg-[#2A2623]/70 text-[#F06A6E] px-3 py-1.5">0{i + 1}</span>
                 </motion.div>
 
                 <motion.div

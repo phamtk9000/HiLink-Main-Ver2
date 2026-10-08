@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { Plus, Minus, Upload, ChevronDown } from 'lucide-react';
 import { useLang } from '../lib/i18n';
 import { translations } from '../translations';
-import { Candles } from './Candles';
+import { Contours } from './Contours';
 
 export function PropertyRentalForm() {
   const { lang } = useLang();
@@ -57,7 +57,7 @@ export function PropertyRentalForm() {
 
   return (
     <section className="relative overflow-hidden py-24 lg:py-32 bg-[#361716] text-white">
-      <Candles />
+      <Contours />
       <div className="relative max-w-[1200px] mx-auto px-6 lg:px-12">
         <motion.div
           initial={{ opacity: 0, y: 40 }}

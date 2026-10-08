@@ -4,6 +4,7 @@ import { Package, Truck, Factory, Shield, BarChart, MapPin, Warehouse } from '..
 import { motion } from 'motion/react';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Candles } from '../components/Candles';
+import { Contours } from '../components/Contours';
 
 // No HiLink photograph of an industrial site exists yet, so image slots show
 // a dark panel with an icon. Swap in photos when HiLink supplies them.
@@ -207,7 +208,7 @@ export function IndustrialPage() {
 
       {/* CTA Section */}
       <section className="relative py-24 lg:py-32 bg-[#361716] text-white overflow-hidden">
-        <Candles />
+        <Contours />
         <motion.div
           className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center"
         >

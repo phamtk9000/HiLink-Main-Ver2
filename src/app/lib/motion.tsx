@@ -229,39 +229,14 @@ export function ScrollMotion() {
   return null;
 }
 
-// The sections that carry the background pattern (styled in theme.css).
-const PATTERN_SECTIONS = 'main section[class*="bg-[#F4F0EA]"], main section[class*="bg-[#FBECEC]"], footer';
-
-/** Feeds the background pattern its pointer position and scroll drift. */
-export function PatternLight() {
+/** Lets the background pattern (theme.css) drift slowly against the scroll. */
+export function PatternDrift() {
   useEffect(() => {
     if (reducedMotion()) return undefined;
-    const fine = window.matchMedia('(pointer: fine)').matches;
-    let raf = 0;
-    let last: HTMLElement | null = null;
-    const onMove = (e: PointerEvent) => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        raf = 0;
-        const el = (e.target as Element)?.closest?.<HTMLElement>(PATTERN_SECTIONS) ?? null;
-        if (last && last !== el) last.style.removeProperty('--pat-on');
-        last = el;
-        if (!el) return;
-        const r = el.getBoundingClientRect();
-        el.style.setProperty('--mx', `${e.clientX - r.left}px`);
-        el.style.setProperty('--my', `${e.clientY - r.top}px`);
-        el.style.setProperty('--pat-on', '1');
-      });
-    };
     const onScroll = () => document.documentElement.style.setProperty('--pat-drift', `${Math.round(window.scrollY * -0.06)}px`);
-    if (fine) document.addEventListener('pointermove', onMove, { passive: true });
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
-    return () => {
-      document.removeEventListener('pointermove', onMove);
-      window.removeEventListener('scroll', onScroll);
-      cancelAnimationFrame(raf);
-    };
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
   return null;
 }

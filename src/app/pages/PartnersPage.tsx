@@ -90,7 +90,7 @@ export function PartnersPage() {
   return (
     <>
       {/* Hero */}
-      <section id="hero" className="relative overflow-hidden min-h-[72vh] flex items-end bg-[#361716] text-white">
+      <section id="hero" className="relative overflow-hidden min-h-[72vh] flex items-end bg-[#2A2623] text-white">
         <HeroBg image="/photos/hbc-meeting.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28 w-full">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-4xl">
@@ -132,7 +132,7 @@ export function PartnersPage() {
               <motion.div key={title} className="group bg-white overflow-hidden border border-[#2A2623]/10" whileHover={{ y: -6 }}>
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img src={TYPE_META[i].image} alt={title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#361716]/70 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623]/70 to-transparent" />
                   <div className="absolute bottom-4 left-4 w-11 h-11 bg-[#D12126] text-white flex items-center justify-center">{TYPE_META[i].icon}</div>
                 </div>
                 <div className="p-8">

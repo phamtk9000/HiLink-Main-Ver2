@@ -8,7 +8,7 @@ import { HeroBg } from '../components/HeroBg';
 import { POSTS } from '../data/posts';
 import { ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
-import { Candles } from '../components/Candles';
+import { Contours } from '../components/Contours';
 
 const CATS: Record<string, { en: string; vi: string }> = {
   Guide: { en: 'Guide', vi: 'Hướng dẫn' },
@@ -54,7 +54,7 @@ export function NewsPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#361716] text-white">
+      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#2A2623] text-white">
         <HeroBg image="/photos/f15-lounge-cabin.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
@@ -152,7 +152,7 @@ export function NewsPage() {
 
       {/* Forum */}
       <section className="relative py-24 lg:py-32 bg-[#361716] text-white overflow-hidden">
-        <Candles />
+        <Contours />
         <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="max-w-3xl mx-auto text-center"

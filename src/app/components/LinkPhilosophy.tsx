@@ -10,9 +10,9 @@
 //   Destination  locations           the field dims; one route lights up per location
 //
 // As on Stripe, a menu in the corner sets the time of day (pre-dawn → night):
-// the background gradient and the line colours crossfade over 1.2s. It starts
-// at the visitor's local time. The pointer pushes lines aside; a click sends
-// light out from that spot.
+// the background gradient and the line colours crossfade over 1.2s. It opens
+// on Daytime. The pointer pushes lines aside; a click sends light out from
+// that spot.
 //
 // The loop runs only while the section is on screen and the tab is visible.
 // Reduced motion: one still frame, no auto-advance. No WebGL: the gradient,
@@ -100,15 +100,7 @@ const SKIES: Record<Tod, { bg: string; dark: boolean; lines: Palette; Icon: type
 };
 const TODS = Object.keys(SKIES) as Tod[];
 
-function todNow(): Tod {
-  const h = new Date().getHours() + new Date().getMinutes() / 60;
-  if (h >= 4.5 && h < 6) return 'predawn';
-  if (h >= 6 && h < 8) return 'sunrise';
-  if (h >= 8 && h < 16) return 'daytime';
-  if (h >= 16 && h < 17.5) return 'dusk';
-  if (h >= 17.5 && h < 19) return 'sunset';
-  return 'night';
-}
+const DEFAULT_TOD: Tod = 'daytime';
 
 const SCENE_MS = 7000;
 
@@ -120,7 +112,7 @@ export function LinkPhilosophy() {
   const fieldRef = useRef<LinkField | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const [scene, setScene] = useState<Scene>(0);
-  const [tod, setTod] = useState<Tod>('daytime');
+  const [tod, setTod] = useState<Tod>(DEFAULT_TOD);
   const [menu, setMenu] = useState(false);
   const [playing, setPlaying] = useState(true);
   const [inView, setInView] = useState(false);
@@ -131,7 +123,6 @@ export function LinkPhilosophy() {
   const sky = SKIES[tod];
 
   useEffect(() => {
-    setTod(todNow());
     setTouch(window.matchMedia('(pointer: coarse)').matches);
   }, []);
 
@@ -149,7 +140,7 @@ export function LinkPhilosophy() {
     if (!canvas || !wrap) return undefined;
     let field: LinkField;
     try {
-      field = new LinkField(canvas, SKIES[todNow()].lines, LOCATIONS.length);
+      field = new LinkField(canvas, SKIES[DEFAULT_TOD].lines, LOCATIONS.length);
     } catch {
       setWebgl(false);
       return undefined;

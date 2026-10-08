@@ -5,7 +5,7 @@ import { MapPin, TrendingUp, DollarSign, Building2 } from '../components/Glyph';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLang, usePageMeta } from '../lib/i18n';
 import type { Bi } from '../data/site';
-import { Candles } from '../components/Candles';
+import { Contours } from '../components/Contours';
 
 type Photo = { file: string; label: Bi; category: string };
 
@@ -423,7 +423,7 @@ export function WorkspaceDetailPage() {
 
       {/* CTA strip */}
       <section className="relative py-20 bg-[#361716] text-white overflow-hidden">
-        <Candles />
+        <Contours />
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8">
           <div>
             <h2 className="serif text-3xl lg:text-4xl mb-3">{t.stripTitle}</h2>

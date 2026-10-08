@@ -94,7 +94,7 @@ export function CareersPage() {
   return (
     <>
       {/* Hero */}
-      <section id="hero" className="relative overflow-hidden min-h-[72vh] flex items-end bg-[#361716] text-white">
+      <section id="hero" className="relative overflow-hidden min-h-[72vh] flex items-end bg-[#2A2623] text-white">
         <HeroBg image="/photos/hbc-lounge-xl.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28 w-full">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-4xl">
@@ -110,10 +110,10 @@ export function CareersPage() {
       </section>
 
       {/* Stat band */}
-      <section className="bg-[#361716] text-white border-t border-white/10">
+      <section className="bg-[#2A2623] text-white border-t border-white/10">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/10">
           {t.stats.map(([n, label]) => (
-            <div key={label} className="bg-[#361716] py-10 px-6 text-center">
+            <div key={label} className="bg-[#2A2623] py-10 px-6 text-center">
               <div className="serif text-4xl lg:text-5xl text-[#F06A6E] mb-2">{n}</div>
               <div className="text-[11px] uppercase tracking-[0.18em] text-white/60">{label}</div>
             </div>
