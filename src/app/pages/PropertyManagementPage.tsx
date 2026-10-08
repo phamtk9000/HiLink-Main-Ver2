@@ -150,16 +150,16 @@ export function PropertyManagementPage() {
           <motion.div
             className="max-w-4xl"
           >
-            <p className="text-sm uppercase tracking-wider text-[#A88F5C] mb-8">{t.eyebrow}</p>
+            <p className="text-sm uppercase tracking-wider text-[#D12126] mb-8">{t.eyebrow}</p>
             <h1 className="serif text-5xl lg:text-7xl mb-8 leading-tight">
               {t.h1[0]}<br />{t.h1[1]}<br />{t.h1[2]}
             </h1>
-            <p className="text-xl text-[#EAE3D2] mb-12 leading-relaxed">
+            <p className="text-xl text-[#E6E6E6] mb-12 leading-relaxed">
               {t.lead}
             </p>
             <Link
               to={l('/contact')}
-              className="inline-flex items-center gap-2 px-10 py-4 bg-[#A88F5C] text-white text-sm uppercase tracking-wider hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors group"
+              className="inline-flex items-center gap-2 px-10 py-4 bg-[#D12126] text-white text-sm uppercase tracking-wider hover:bg-[#A3181C] transition-colors group"
             >
               {t.review}
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -169,7 +169,7 @@ export function PropertyManagementPage() {
       </section>
 
       {/* Services Grid */}
-      <section className="py-24 lg:py-32 bg-[#F8F6F1]">
+      <section className="py-24 lg:py-32 bg-[#F7F7F7]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="text-center mb-16"
@@ -194,7 +194,7 @@ export function PropertyManagementPage() {
       <section className="py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div className="text-center mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-4">{t.manageEyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.manageEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.manageTitle}</h2>
             <p className="text-xl text-[#707070] max-w-3xl mx-auto">
               {t.manageLead}
@@ -204,7 +204,7 @@ export function PropertyManagementPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {t.types.map(([title, desc], i) => (
               <motion.div key={title} className="bg-white p-8" whileHover={{ y: -5 }}>
-                <div className="text-[#A88F5C] mb-4">{TYPE_ICONS[i]}</div>
+                <div className="text-[#D12126] mb-4">{TYPE_ICONS[i]}</div>
                 <h3 className="serif text-xl mb-3">{title}</h3>
                 <p className="text-[#707070] text-sm leading-relaxed">{desc}</p>
               </motion.div>
@@ -214,10 +214,10 @@ export function PropertyManagementPage() {
       </section>
 
       {/* Who We Serve */}
-      <section className="py-24 lg:py-32 bg-[#F8F6F1]">
+      <section className="py-24 lg:py-32 bg-[#F7F7F7]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div className="text-center mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-4">{t.serveEyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.serveEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.serveTitle}</h2>
             <p className="text-xl text-[#707070] max-w-3xl mx-auto">
               {t.serveLead}
@@ -226,24 +226,24 @@ export function PropertyManagementPage() {
 
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-white p-10 lg:p-12">
-              <div className="text-[#A88F5C] mb-6"><Briefcase size={28} /></div>
+              <div className="text-[#D12126] mb-6"><Briefcase size={28} /></div>
               <h3 className="serif text-2xl lg:text-3xl mb-6">{t.owners}</h3>
               <ul className="space-y-4">
                 {t.ownerList.map((item) => (
                   <li key={item} className="flex items-start gap-3 text-[#444] text-[16px]">
-                    <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#A88F5C] shrink-0" />
+                    <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#D12126] shrink-0" />
                     {item}
                   </li>
                 ))}
               </ul>
             </div>
             <div className="bg-[#0F0F0F] text-white p-10 lg:p-12">
-              <div className="text-[#A88F5C] mb-6"><Globe size={28} /></div>
+              <div className="text-[#D12126] mb-6"><Globe size={28} /></div>
               <h3 className="serif text-2xl lg:text-3xl mb-6">{t.tenants}</h3>
               <ul className="space-y-4">
                 {t.tenantList.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-[#EAE3D2] text-[16px]">
-                    <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#A88F5C] shrink-0" />
+                  <li key={item} className="flex items-start gap-3 text-[#E6E6E6] text-[16px]">
+                    <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#D12126] shrink-0" />
                     {item}
                   </li>
                 ))}
@@ -257,7 +257,7 @@ export function PropertyManagementPage() {
       <section className="py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div className="text-center mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-4">{t.howEyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.howEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.howTitle}</h2>
             <p className="text-xl text-[#707070] max-w-3xl mx-auto">
               {t.howLead}
@@ -266,9 +266,9 @@ export function PropertyManagementPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {t.steps.map(([title, desc], i) => (
-              <motion.div key={title} className="bg-[#F8F6F1] p-8" whileHover={{ y: -5 }}>
+              <motion.div key={title} className="bg-[#F7F7F7] p-8" whileHover={{ y: -5 }}>
                 <div className="flex items-center justify-between mb-6">
-                  <span className="text-[#A88F5C]">{STEP_ICONS[i]}</span>
+                  <span className="text-[#D12126]">{STEP_ICONS[i]}</span>
                   <span className="serif text-3xl text-[#0F0F0F]/10">0{i + 1}</span>
                 </div>
                 <h3 className="serif text-xl mb-3">{title}</h3>
@@ -280,7 +280,7 @@ export function PropertyManagementPage() {
       </section>
 
       {/* Properties We Manage */}
-      <section className="py-24 lg:py-32 bg-[#F8F6F1]">
+      <section className="py-24 lg:py-32 bg-[#F7F7F7]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="text-center mb-16"
@@ -311,9 +311,9 @@ export function PropertyManagementPage() {
       <section className="py-24 lg:py-32 bg-[#0F0F0F] text-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div className="text-center mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-4">{t.resEyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.resEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.resTitle}</h2>
-            <p className="text-xl text-[#EAE3D2] max-w-3xl mx-auto">
+            <p className="text-xl text-[#E6E6E6] max-w-3xl mx-auto">
               {t.resLead}
             </p>
           </motion.div>
@@ -321,10 +321,10 @@ export function PropertyManagementPage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/10">
             {metrics.map(({ value, suffix }, i) => (
               <div key={t.metrics[i]} className="bg-[#0F0F0F] p-10 text-center">
-                <div className="serif text-5xl lg:text-6xl text-[#A88F5C] mb-3">
+                <div className="serif text-5xl lg:text-6xl text-[#D12126] mb-3">
                   <AnimatedCounter end={value} suffix={suffix} />
                 </div>
-                <div className="text-[11px] uppercase tracking-[0.2em] text-[#EAE3D2]">{t.metrics[i]}</div>
+                <div className="text-[11px] uppercase tracking-[0.2em] text-[#E6E6E6]">{t.metrics[i]}</div>
               </div>
             ))}
           </div>
@@ -332,11 +332,11 @@ export function PropertyManagementPage() {
       </section>
 
       {/* Owner Dashboard (Coming Soon) */}
-      <section className="py-24 lg:py-32 bg-[#F8F6F1]">
+      <section className="py-24 lg:py-32 bg-[#F7F7F7]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             <motion.div>
-              <span className="inline-block px-4 py-1.5 bg-[#A88F5C]/15 text-[#8B6914] text-[11px] uppercase tracking-[0.2em] mb-6">
+              <span className="inline-block px-4 py-1.5 bg-[#D12126]/15 text-[#D12126] text-[11px] uppercase tracking-[0.2em] mb-6">
                 {t.dashSoon}
               </span>
               <h2 className="serif text-4xl lg:text-5xl mb-6">{t.dashTitle}</h2>
@@ -346,7 +346,7 @@ export function PropertyManagementPage() {
               <ul className="space-y-4">
                 {t.dashList.map((f) => (
                   <li key={f} className="flex items-center gap-3 text-[#444] text-[16px]">
-                    <Bell size={16} className="text-[#A88F5C] shrink-0" />
+                    <Bell size={16} className="text-[#D12126] shrink-0" />
                     {f}
                   </li>
                 ))}
@@ -358,9 +358,9 @@ export function PropertyManagementPage() {
               transition={{ duration: 0.4 }}
             >
               <div className="text-center px-8">
-                <LayoutDashboard size={64} className="text-[#A88F5C] mx-auto mb-6" />
+                <LayoutDashboard size={64} className="text-[#D12126] mx-auto mb-6" />
                 <p className="serif text-2xl text-white mb-2">{t.dashDev}</p>
-                <p className="text-sm text-[#EAE3D2]">{t.dashDevLead}</p>
+                <p className="text-sm text-[#E6E6E6]">{t.dashDevLead}</p>
               </div>
             </motion.div>
           </div>
@@ -387,12 +387,12 @@ export function PropertyManagementPage() {
           <h2 className="serif text-4xl lg:text-5xl mb-8">
             {t.ctaTitle}
           </h2>
-          <p className="text-xl text-[#EAE3D2] mb-12 max-w-2xl mx-auto">
+          <p className="text-xl text-[#E6E6E6] mb-12 max-w-2xl mx-auto">
             {t.ctaLead}
           </p>
           <Link
             to={l('/contact')}
-            className="inline-block px-12 py-4 bg-[#A88F5C] text-white text-sm uppercase tracking-wider hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors"
+            className="inline-block px-12 py-4 bg-[#D12126] text-white text-sm uppercase tracking-wider hover:bg-[#A3181C] transition-colors"
           >
             {t.cta}
           </Link>
@@ -409,10 +409,10 @@ function ServiceCard({ icon, title, description }: {
 }) {
   return (
     <motion.div
-      className="bg-[#F8F6F1] p-8"
+      className="bg-[#F7F7F7] p-8"
       whileHover={{ y: -5 }}
     >
-      <div className="text-[#A88F5C] mb-4">{icon}</div>
+      <div className="text-[#D12126] mb-4">{icon}</div>
       <h3 className="serif text-xl mb-3">{title}</h3>
       <p className="text-[#707070] text-sm leading-relaxed">{description}</p>
     </motion.div>
@@ -449,7 +449,7 @@ function PropertyCard({ name, location, type, stats, image, to, href, viewLabel 
         </div>
         {linked && (
           <div className="absolute inset-0 bg-[#0F0F0F]/0 group-hover:bg-[#0F0F0F]/20 transition-colors duration-300 flex items-center justify-center">
-            <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-6 py-3 bg-[#A88F5C] text-white text-xs uppercase tracking-widest">
+            <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-6 py-3 bg-[#D12126] text-white text-xs uppercase tracking-widest">
               {viewLabel}
             </span>
           </div>
@@ -457,7 +457,7 @@ function PropertyCard({ name, location, type, stats, image, to, href, viewLabel 
       </div>
       <div className="p-8">
         <h3 className="serif text-3xl mb-2">{name}</h3>
-        <div className="flex items-center gap-2 text-[#A88F5C] mb-6">
+        <div className="flex items-center gap-2 text-[#D12126] mb-6">
           <MapPin size={16} />
           <span className="text-sm">{location}</span>
         </div>

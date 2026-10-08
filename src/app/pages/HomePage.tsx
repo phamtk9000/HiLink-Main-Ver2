@@ -106,19 +106,19 @@ export function HomePage() {
 
         <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 pb-20 lg:pb-28 w-full">
           <motion.p
-            className="text-[11px] uppercase tracking-[0.32em] text-[#C9A55A] mb-7 flex items-center gap-3"
+            className="text-[11px] uppercase tracking-[0.32em] text-[#E5484D] mb-7 flex items-center gap-3"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7 }}
           >
-            <span className="w-8 h-px bg-[#C9A55A]" /> {t.eyebrow}
+            <span className="w-8 h-px bg-[#E5484D]" /> {t.eyebrow}
           </motion.p>
           <motion.h1
             className="serif text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[0.98] mb-8 max-w-5xl"
             initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.8 }}
           >
-            {t.h1a}<br /><span className="text-[#C9A55A]">{t.h1b}</span> {t.h1c}
+            {t.h1a}<br /><span className="text-[#E5484D]">{t.h1b}</span> {t.h1c}
           </motion.h1>
           <motion.p
-            className="text-lg md:text-xl text-[#EAE3D2]/90 mb-11 max-w-2xl leading-relaxed"
+            className="text-lg md:text-xl text-[#E6E6E6]/90 mb-11 max-w-2xl leading-relaxed"
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: 0.8 }}
           >
             {t.lead}
@@ -127,7 +127,7 @@ export function HomePage() {
             className="flex flex-col sm:flex-row gap-4"
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.8 }}
           >
-            <Link to={l('/contact')} className="group inline-flex items-center justify-center gap-2 px-9 py-4 bg-[#A88F5C] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-all">
+            <Link to={l('/contact')} className="group inline-flex items-center justify-center gap-2 px-9 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#A3181C] transition-all">
               {t.book} <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link to={l('/solutions')} className="inline-flex items-center justify-center px-9 py-4 border border-white/40 text-white text-[12px] uppercase tracking-[0.16em] hover:bg-white hover:text-[#0F0F0F] transition-colors">
@@ -138,35 +138,35 @@ export function HomePage() {
       </section>
 
       {/* ── About — editorial three-column ── */}
-      <section className="w-full bg-[#F8F6F1]">
+      <section className="w-full bg-[#F7F7F7]">
         <div className="grid lg:grid-cols-[30%_1fr_28%] min-h-[680px]">
           <div className="relative overflow-hidden min-h-[400px] lg:min-h-0 group">
             <img src={IMG.reception} alt={t.receptionAlt} className="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-105" />
           </div>
 
           <div className="px-10 lg:px-16 py-16 lg:py-20 flex flex-col justify-center">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#A88F5C] mb-10">{t.aboutEyebrow}</p>
-            <h2 className="serif text-[#8B6914] mb-6 leading-none" style={{ fontSize: 'clamp(3rem, 5vw, 5rem)', fontWeight: 400, letterSpacing: '0.06em' }}>HILINK</h2>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-10">{t.aboutEyebrow}</p>
+            <h2 className="serif text-[#D12126] mb-6 leading-none" style={{ fontSize: 'clamp(3rem, 5vw, 5rem)', fontWeight: 400, letterSpacing: '0.06em' }}>HILINK</h2>
             <p className="text-[18px] uppercase tracking-[0.08em] text-[#1a1a1a] mb-6">{t.aboutSub}</p>
-            <div className="w-full h-px mb-6" style={{ backgroundColor: 'rgba(168,143,92,0.3)' }} />
+            <div className="w-full h-px mb-6" style={{ backgroundColor: 'rgba(209,33,38,0.3)' }} />
             <p className="text-[15px] leading-[1.85] text-[#444] max-w-[520px] mb-12">
               {t.aboutBody}
             </p>
             <Link to={l('/about')} className="inline-flex items-center gap-3 group w-fit">
-              <span className="text-[11px] uppercase tracking-[0.2em] text-[#0F0F0F] relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#A88F5C] group-hover:after:w-full after:transition-all after:duration-300">{t.aboutCta}</span>
-              <ArrowRight size={14} className="text-[#A88F5C] group-hover:translate-x-1 transition-transform" />
+              <span className="text-[11px] uppercase tracking-[0.2em] text-[#0F0F0F] relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#D12126] group-hover:after:w-full after:transition-all after:duration-300">{t.aboutCta}</span>
+              <ArrowRight size={14} className="text-[#D12126] group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
 
           <div className="flex flex-col">
-            <div className="bg-[#F0EDE6] px-10 py-10 flex flex-col justify-center gap-8 flex-1">
+            <div className="bg-[#F0F0F0] px-10 py-10 flex flex-col justify-center gap-8 flex-1">
               {[
                 { end: LOCATIONS.length, label: t.stats[0], duration: 1.6 },
                 { end: Object.keys(WORKSPACE_LINES).length, label: t.stats[1], duration: 1.4 },
                 { end: 9, label: t.stats[2], duration: 1.8 },
               ].map((stat) => (
-                <div key={stat.label} className="border-t border-[#A88F5C]/30 pt-5">
-                  <div className="serif text-[40px] font-light text-[#8B6914] leading-none mb-2">
+                <div key={stat.label} className="border-t border-[#D12126]/30 pt-5">
+                  <div className="serif text-[40px] font-light text-[#D12126] leading-none mb-2">
                     <AnimatedCounter end={stat.end} duration={stat.duration} />
                   </div>
                   <div className="text-[11px] uppercase tracking-[0.2em] text-[#555]">{stat.label}</div>
@@ -185,11 +185,11 @@ export function HomePage() {
       </section>
 
       {/* ── Services ── */}
-      <section className="py-24 lg:py-32 bg-[#F8F6F1]">
+      <section className="py-24 lg:py-32 bg-[#F7F7F7]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 mb-20">
             <div className="lg:col-span-4">
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#A88F5C] mb-5">{t.svcEyebrow}</p>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5">{t.svcEyebrow}</p>
               <h2 className="serif text-5xl lg:text-6xl">{t.svcTitle}</h2>
             </div>
             <div className="lg:col-span-8 flex items-end">
@@ -203,7 +203,7 @@ export function HomePage() {
             {SVC.map((s, i) => (
               <ServiceCard key={s.link} icon={s.icon} title={t.svc[i][0]} description={t.svc[i][1]} link={l(s.link)} more={t.learn} />
             ))}
-            <div className="bg-[#A88F5C] p-8 lg:p-12 flex flex-col justify-between">
+            <div className="bg-[#D12126] p-8 lg:p-12 flex flex-col justify-between">
               <div className="text-white/60 text-[10px] uppercase tracking-[0.3em] mb-auto">{t.all}</div>
               <div>
                 <p className="serif text-white text-2xl lg:text-3xl mb-6 leading-snug">{t.allTitle}</p>
@@ -221,13 +221,13 @@ export function HomePage() {
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="flex flex-wrap items-end justify-between gap-8 mb-14">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A55A] mb-5 flex items-center gap-3">
-                <span className="w-8 h-px bg-[#C9A55A]" /> {t.prjEyebrow}
+              <p className="text-[10px] uppercase tracking-[0.3em] text-[#E5484D] mb-5 flex items-center gap-3">
+                <span className="w-8 h-px bg-[#E5484D]" /> {t.prjEyebrow}
               </p>
               <h2 className="serif text-4xl lg:text-6xl leading-none">{t.prjTitle}</h2>
             </div>
             <div className="flex items-center gap-6">
-              <p className="hidden md:block max-w-sm text-[#EAE3D2]/70 leading-relaxed text-[15px]">
+              <p className="hidden md:block max-w-sm text-[#E6E6E6]/70 leading-relaxed text-[15px]">
                 {t.prjLead}
               </p>
               <div className="flex gap-2">
@@ -250,13 +250,13 @@ export function HomePage() {
                 <div className="relative aspect-[3/4] overflow-hidden bg-[#1a1a1a]">
                   <img src={loc.photo} alt={loc.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-[0.9s] group-hover:scale-[1.07]" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F]/85 via-[#0F0F0F]/10 to-transparent" />
-                  <span className="absolute top-4 left-4 text-[9px] uppercase tracking-[0.18em] bg-[#A88F5C] text-white px-3 py-1.5">
+                  <span className="absolute top-4 left-4 text-[9px] uppercase tracking-[0.18em] bg-[#D12126] text-white px-3 py-1.5">
                     {loc.comingSoon ? t.soon : loc.line ? WORKSPACE_LINES[loc.line].label : 'HiLink'}
                   </span>
                   <div className="absolute bottom-0 left-0 right-0 p-6">
                     <h3 className="serif text-2xl mb-1.5 leading-tight">{loc.name}</h3>
-                    <p className="text-[12px] text-[#EAE3D2]/70 flex items-start gap-1.5">
-                      <span className="text-[#C9A55A] mt-0.5">◦</span> {loc.address}
+                    <p className="text-[12px] text-[#E6E6E6]/70 flex items-start gap-1.5">
+                      <span className="text-[#E5484D] mt-0.5">◦</span> {loc.address}
                     </p>
                   </div>
                 </div>
@@ -271,12 +271,12 @@ export function HomePage() {
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#A88F5C] mb-6">{t.whyEyebrow}</p>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-6">{t.whyEyebrow}</p>
               <h2 className="serif text-4xl lg:text-5xl mb-8 leading-tight">{t.whyTitle}</h2>
               <p className="text-lg text-[#707070] mb-8 leading-relaxed">
                 {t.whyBody}
               </p>
-              <Link to={l('/about')} className="inline-flex items-center gap-2 text-[#A88F5C] uppercase text-sm tracking-wider group hover:gap-4 transition-all">
+              <Link to={l('/about')} className="inline-flex items-center gap-2 text-[#D12126] uppercase text-sm tracking-wider group hover:gap-4 transition-all">
                 {t.whyCta} <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
@@ -293,8 +293,8 @@ export function HomePage() {
         <div className="absolute inset-0 bg-[#0F0F0F]/60" />
         <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
           <h2 className="serif text-4xl lg:text-6xl mb-8">{t.ctaTitle}</h2>
-          <p className="text-xl text-[#EAE3D2]/90 mb-12 max-w-2xl mx-auto">{t.ctaLead}</p>
-          <Link to={l('/contact')} className="group inline-flex items-center gap-2 px-12 py-4 bg-[#A88F5C] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors">
+          <p className="text-xl text-[#E6E6E6]/90 mb-12 max-w-2xl mx-auto">{t.ctaLead}</p>
+          <Link to={l('/contact')} className="group inline-flex items-center gap-2 px-12 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#A3181C] transition-colors">
             {t.book} <ArrowUpRight size={15} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </Link>
         </div>
@@ -305,8 +305,8 @@ export function HomePage() {
 
 function ServiceCard({ icon, title, description, link, more }: { icon: React.ReactNode; title: string; description: string; link: string; more: string }) {
   return (
-    <Link to={link} className="group bg-[#F8F6F1] p-8 lg:p-12 hover:bg-[#EAE3D2] transition-all block h-full">
-      <motion.div className="text-[#A88F5C] mb-6" whileHover={{ x: 4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>{icon}</motion.div>
+    <Link to={link} className="group bg-[#F7F7F7] p-8 lg:p-12 hover:bg-[#E6E6E6] transition-all block h-full">
+      <motion.div className="text-[#D12126] mb-6" whileHover={{ x: 4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>{icon}</motion.div>
       <h3 className="serif text-2xl lg:text-[1.7rem] mb-4 leading-snug">{title}</h3>
       <p className="text-[#707070] mb-6 leading-relaxed text-[15px]">{description}</p>
       <div className="inline-flex items-center gap-2 text-[#0F0F0F] text-[11px] uppercase tracking-[0.16em] group-hover:gap-4 transition-all">{more} <ArrowRight size={15} /></div>

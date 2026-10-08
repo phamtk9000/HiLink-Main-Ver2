@@ -39,7 +39,7 @@ export function CookieConsent() {
           transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-[13.5px] text-center md:text-left text-[#EAE3D2]">
+            <p className="text-[13.5px] text-center md:text-left text-[#E6E6E6]">
               {t.text}{' '}
               <Link to={l('/privacy-policy')} className="underline hover:text-white">{t.more}</Link>
             </p>
@@ -47,7 +47,7 @@ export function CookieConsent() {
               <button onClick={() => choose('essential')} className="px-6 py-2 border border-white/30 text-white/80 text-[11px] uppercase tracking-wider hover:border-white hover:text-white transition-colors">
                 {t.decline}
               </button>
-              <button onClick={() => choose('all')} className="px-6 py-2 bg-[#A88F5C] text-white text-[11px] uppercase tracking-wider hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors">
+              <button onClick={() => choose('all')} className="px-6 py-2 bg-[#D12126] text-white text-[11px] uppercase tracking-wider hover:bg-[#A3181C] transition-colors">
                 {t.accept}
               </button>
             </div>

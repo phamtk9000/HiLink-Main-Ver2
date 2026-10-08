@@ -119,7 +119,7 @@ export function WorkspacePage() {
           href={tourUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 px-8 py-4 bg-[#A88F5C] text-white text-sm uppercase tracking-wider hover:bg-[#0F0F0F] transition-colors shadow-2xl"
+          className="flex items-center gap-2 px-8 py-4 bg-[#D12126] text-white text-sm uppercase tracking-wider hover:bg-[#A3181C] transition-colors shadow-2xl"
         >
           <Calendar size={18} />
           {t.tour}
@@ -139,13 +139,13 @@ export function WorkspacePage() {
 
         <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 py-24 w-full">
           <motion.div className="max-w-4xl">
-            <motion.p className="text-sm uppercase tracking-wider text-[#A88F5C] mb-8">
+            <motion.p className="text-sm uppercase tracking-wider text-[#D12126] mb-8">
               {t.eyebrow}
             </motion.p>
             <motion.h1 className="serif text-5xl lg:text-7xl mb-8 leading-tight">
               {t.title}
             </motion.h1>
-            <motion.p className="text-xl text-[#EAE3D2] mb-12 leading-relaxed">
+            <motion.p className="text-xl text-[#E6E6E6] mb-12 leading-relaxed">
               {t.lead}
             </motion.p>
             <motion.div className="flex flex-col sm:flex-row gap-4">
@@ -153,7 +153,7 @@ export function WorkspacePage() {
                 href={tourUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-10 py-4 bg-[#A88F5C] text-white text-sm uppercase tracking-wider hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors group"
+                className="inline-flex items-center justify-center gap-2 px-10 py-4 bg-[#D12126] text-white text-sm uppercase tracking-wider hover:bg-[#A3181C] transition-colors group"
               >
                 <Calendar size={18} />
                 {t.tour}
@@ -162,7 +162,7 @@ export function WorkspacePage() {
                 href={ws(lang)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-10 py-4 bg-[#A88F5C] text-white text-sm uppercase tracking-wider hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors group"
+                className="inline-flex items-center justify-center gap-2 px-10 py-4 bg-[#D12126] text-white text-sm uppercase tracking-wider hover:bg-[#A3181C] transition-colors group"
               >
                 <ExternalLink size={18} />
                 {t.visit}
@@ -179,7 +179,7 @@ export function WorkspacePage() {
       </section>
 
       {/* Why HiLink Workspaces */}
-      <section className="py-24 lg:py-32 bg-[#F8F6F1]">
+      <section className="py-24 lg:py-32 bg-[#F7F7F7]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div className="text-center mb-16">
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.whyTitle}</h2>
@@ -195,7 +195,7 @@ export function WorkspacePage() {
                 className="text-center"
                 whileHover={{ y: -5 }}
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full text-[#A88F5C] mb-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full text-[#D12126] mb-4">
                   {AMENITY_ICONS[i]}
                 </div>
                 <h3 className="serif text-lg mb-2">{name}</h3>
@@ -229,8 +229,8 @@ export function WorkspacePage() {
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="flex flex-wrap items-end justify-between gap-6 mb-14">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A55A] mb-4 flex items-center gap-3">
-                <span className="w-8 h-px bg-[#C9A55A]" /> {t.spacesEyebrow}
+              <p className="text-[10px] uppercase tracking-[0.3em] text-[#E5484D] mb-4 flex items-center gap-3">
+                <span className="w-8 h-px bg-[#E5484D]" /> {t.spacesEyebrow}
               </p>
               <h2 className="serif text-4xl lg:text-5xl">{t.spacesTitle}</h2>
             </div>
@@ -238,7 +238,7 @@ export function WorkspacePage() {
               href={ws(lang, '/locations')}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[#C9A55A] border-b border-[#C9A55A]/40 pb-1 hover:border-[#C9A55A] transition-colors"
+              className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[#E5484D] border-b border-[#E5484D]/40 pb-1 hover:border-[#E5484D] transition-colors"
             >
               {t.live} <ExternalLink size={13} />
             </a>
@@ -256,14 +256,14 @@ export function WorkspacePage() {
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img src={SPACE_PHOTOS[i]} alt={name} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-[#0F0F0F]/20 to-transparent" />
-                  <span className="absolute top-4 left-4 text-[9px] uppercase tracking-[0.16em] px-2.5 py-1 bg-[#A88F5C] text-white">{type}</span>
+                  <span className="absolute top-4 left-4 text-[9px] uppercase tracking-[0.16em] px-2.5 py-1 bg-[#D12126] text-white">{type}</span>
                 </div>
                 <div className="flex items-end justify-between p-5">
                   <div>
-                    <p className="text-[9px] uppercase tracking-[0.2em] text-[#C9A55A] mb-1.5">{floor}</p>
+                    <p className="text-[9px] uppercase tracking-[0.2em] text-[#E5484D] mb-1.5">{floor}</p>
                     <h3 className="serif text-xl">{name}</h3>
                   </div>
-                  <ExternalLink size={16} className="text-[#C9A55A] shrink-0" />
+                  <ExternalLink size={16} className="text-[#E5484D] shrink-0" />
                 </div>
               </a>
             ))}
@@ -272,7 +272,7 @@ export function WorkspacePage() {
       </section>
 
       {/* Locations */}
-      <section id="locations" className="py-24 lg:py-32 bg-[#F8F6F1]">
+      <section id="locations" className="py-24 lg:py-32 bg-[#F7F7F7]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div className="text-center mb-16">
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.locTitle}</h2>
@@ -331,14 +331,14 @@ export function WorkspacePage() {
           <h2 className="serif text-4xl lg:text-5xl mb-8">
             {t.ctaTitle}
           </h2>
-          <p className="text-xl text-[#EAE3D2] mb-12 max-w-2xl mx-auto">
+          <p className="text-xl text-[#E6E6E6] mb-12 max-w-2xl mx-auto">
             {t.ctaLead}
           </p>
           <a
             href={tourUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-12 py-4 bg-[#A88F5C] text-white text-sm uppercase tracking-wider hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors"
+            className="inline-flex items-center gap-2 px-12 py-4 bg-[#D12126] text-white text-sm uppercase tracking-wider hover:bg-[#A3181C] transition-colors"
           >
             <Calendar size={18} />
             {t.ctaBtn}
@@ -362,11 +362,11 @@ function PlanCard({ name, price, period, description, features, popular, href, p
 }) {
   return (
     <motion.div
-      className={`bg-white p-8 relative ${popular ? 'ring-2 ring-[#A88F5C]' : 'border border-[#0F0F0F]/10'}`}
+      className={`bg-white p-8 relative ${popular ? 'ring-2 ring-[#D12126]' : 'border border-[#0F0F0F]/10'}`}
       whileHover={{ y: -10, boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}
     >
       {popular && (
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#A88F5C] text-white text-xs uppercase tracking-wider">
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#D12126] text-white text-xs uppercase tracking-wider">
           {popularLabel}
         </div>
       )}
@@ -379,7 +379,7 @@ function PlanCard({ name, price, period, description, features, popular, href, p
       <ul className="space-y-3 mb-8">
         {features.map((feature, index) => (
           <li key={index} className="flex items-start gap-3 text-sm">
-            <Check size={16} className="text-[#A88F5C] flex-shrink-0 mt-0.5" />
+            <Check size={16} className="text-[#D12126] flex-shrink-0 mt-0.5" />
             <span>{feature}</span>
           </li>
         ))}
@@ -388,7 +388,7 @@ function PlanCard({ name, price, period, description, features, popular, href, p
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="block w-full text-center px-6 py-3 bg-[#0F0F0F] text-white text-sm uppercase tracking-wider hover:bg-[#A88F5C] transition-colors"
+        className="block w-full text-center px-6 py-3 bg-[#0F0F0F] text-white text-sm uppercase tracking-wider hover:bg-[#D12126] transition-colors"
       >
         {cta}
       </a>
@@ -423,7 +423,7 @@ function LocationCard({ href, name, address, city, type, capacity, available, im
           />
           <div className="absolute top-6 right-6">
             <div className={`px-4 py-2 text-xs uppercase tracking-wider ${
-              available ? 'bg-[#A88F5C] text-white' : 'bg-[#707070] text-white'
+              available ? 'bg-[#D12126] text-white' : 'bg-[#707070] text-white'
             }`}>
               {available ? labels.available : labels.soon}
             </div>
@@ -447,7 +447,7 @@ function LocationCard({ href, name, address, city, type, capacity, available, im
             </div>
           </div>
           <div className="mt-6">
-            <div className="inline-flex items-center gap-2 text-sm uppercase tracking-wider text-[#0F0F0F] group-hover:text-[#A88F5C] group-hover:gap-4 transition-all">
+            <div className="inline-flex items-center gap-2 text-sm uppercase tracking-wider text-[#0F0F0F] group-hover:text-[#D12126] group-hover:gap-4 transition-all">
               {labels.explore} <ArrowRight size={16} />
             </div>
           </div>

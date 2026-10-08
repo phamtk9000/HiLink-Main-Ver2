@@ -92,22 +92,22 @@ export function IndustrialPage() {
             className="grid lg:grid-cols-12 gap-12 lg:gap-24"
           >
             <motion.div className="lg:col-span-6">
-              <p className="text-sm uppercase tracking-wider text-[#A88F5C] mb-8">{t.eyebrow}</p>
+              <p className="text-sm uppercase tracking-wider text-[#D12126] mb-8">{t.eyebrow}</p>
               <h1 className="serif text-5xl lg:text-7xl mb-8 leading-tight">
                 {t.title}
               </h1>
-              <p className="text-xl text-[#EAE3D2] mb-12 leading-relaxed">
+              <p className="text-xl text-[#E6E6E6] mb-12 leading-relaxed">
                 {t.lead}
               </p>
               <Link
                 to={l('/contact')}
-                className="inline-flex items-center gap-2 px-10 py-4 bg-[#A88F5C] text-white text-sm uppercase tracking-wider hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors group"
+                className="inline-flex items-center gap-2 px-10 py-4 bg-[#D12126] text-white text-sm uppercase tracking-wider hover:bg-[#A3181C] transition-colors group"
               >
                 {t.request}
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
-            <div className="hidden lg:flex lg:col-span-6 items-center justify-center text-[#A88F5C]/40">
+            <div className="hidden lg:flex lg:col-span-6 items-center justify-center text-[#D12126]/40">
               <Warehouse size={220} strokeWidth={0.6} />
             </div>
           </motion.div>
@@ -115,7 +115,7 @@ export function IndustrialPage() {
       </section>
 
       {/* Services Overview */}
-      <section className="py-24 lg:py-32 bg-[#F8F6F1]">
+      <section className="py-24 lg:py-32 bg-[#F7F7F7]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="text-center mb-16"
@@ -159,7 +159,7 @@ export function IndustrialPage() {
       </section>
 
       {/* Facility Types */}
-      <section className="py-24 lg:py-32 bg-[#EAE3D2]">
+      <section className="py-24 lg:py-32 bg-[#E6E6E6]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="text-center mb-16"
@@ -194,7 +194,7 @@ export function IndustrialPage() {
               </div>
             </motion.div>
             <motion.div
-              className="relative aspect-[4/3] overflow-hidden bg-[#0F0F0F] flex items-center justify-center text-[#A88F5C]"
+              className="relative aspect-[4/3] overflow-hidden bg-[#0F0F0F] flex items-center justify-center text-[#D12126]"
             >
               <Warehouse size={120} strokeWidth={0.8} />
             </motion.div>
@@ -210,12 +210,12 @@ export function IndustrialPage() {
           <h2 className="serif text-4xl lg:text-5xl mb-8">
             {t.ctaTitle}
           </h2>
-          <p className="text-xl text-[#EAE3D2] mb-12 max-w-2xl mx-auto">
+          <p className="text-xl text-[#E6E6E6] mb-12 max-w-2xl mx-auto">
             {t.ctaLead}
           </p>
           <Link
             to={l('/contact')}
-            className="inline-block px-12 py-4 bg-[#A88F5C] text-white text-sm uppercase tracking-wider hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors"
+            className="inline-block px-12 py-4 bg-[#D12126] text-white text-sm uppercase tracking-wider hover:bg-[#A3181C] transition-colors"
           >
             {t.cta}
           </Link>
@@ -232,10 +232,10 @@ function ServiceCard({ icon, title, description }: {
 }) {
   return (
     <motion.div
-      className="bg-[#F8F6F1] p-8 lg:p-10"
+      className="bg-[#F7F7F7] p-8 lg:p-10"
       whileHover={{ y: -5 }}
     >
-      <div className="text-[#A88F5C] mb-6">{icon}</div>
+      <div className="text-[#D12126] mb-6">{icon}</div>
       <h3 className="serif text-2xl mb-4">{title}</h3>
       <p className="text-[#707070] leading-relaxed">{description}</p>
     </motion.div>
@@ -252,16 +252,16 @@ function IndustrialParkCard({ name, location, features, icon }: {
     <motion.div
       className="bg-white overflow-hidden"
     >
-      <div className="relative aspect-[16/9] overflow-hidden bg-[#0F0F0F] flex items-center justify-center text-[#A88F5C]">
+      <div className="relative aspect-[16/9] overflow-hidden bg-[#0F0F0F] flex items-center justify-center text-[#D12126]">
         {icon}
       </div>
       <div className="p-8">
         <h3 className="serif text-3xl mb-2">{name}</h3>
-        <p className="text-[#A88F5C] mb-6">{location}</p>
+        <p className="text-[#D12126] mb-6">{location}</p>
         <ul className="space-y-3">
           {features.map((feature, index) => (
             <li key={index} className="flex items-start gap-3">
-              <div className="w-1.5 h-1.5 bg-[#A88F5C] rounded-full mt-2 flex-shrink-0" />
+              <div className="w-1.5 h-1.5 bg-[#D12126] rounded-full mt-2 flex-shrink-0" />
               <span className="text-[#707070]">{feature}</span>
             </li>
           ))}
@@ -283,7 +283,7 @@ function FacilityCard({ type, description, size }: {
     >
       <h3 className="serif text-2xl mb-4">{type}</h3>
       <p className="text-[#707070] mb-6 leading-relaxed">{description}</p>
-      <div className="text-[#A88F5C] text-sm uppercase tracking-wider">{size}</div>
+      <div className="text-[#D12126] text-sm uppercase tracking-wider">{size}</div>
     </motion.div>
   );
 }

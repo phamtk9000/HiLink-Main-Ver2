@@ -47,7 +47,7 @@ export function BookConsultationPage() {
   };
 
   const inputClass =
-    'w-full bg-transparent border-b border-white/30 py-3 text-white placeholder-white/40 focus:border-[#A88F5C] focus:outline-none transition-colors';
+    'w-full bg-transparent border-b border-white/30 py-3 text-white placeholder-white/40 focus:border-[#D12126] focus:outline-none transition-colors';
 
   return (
     <>
@@ -60,11 +60,11 @@ export function BookConsultationPage() {
             transition={{ duration: 0.6 }}
             className="max-w-3xl"
           >
-            <p className="text-sm uppercase tracking-wider text-[#A88F5C] mb-8">{t.eyebrow}</p>
+            <p className="text-sm uppercase tracking-wider text-[#D12126] mb-8">{t.eyebrow}</p>
             <h1 className="serif text-5xl lg:text-7xl mb-8 leading-tight">
               {t.title}
             </h1>
-            <p className="text-xl text-[#EAE3D2] leading-relaxed">
+            <p className="text-xl text-[#E6E6E6] leading-relaxed">
               {t.lead}
             </p>
           </motion.div>
@@ -80,9 +80,9 @@ export function BookConsultationPage() {
               animate={{ opacity: 1, y: 0 }}
               className="text-center py-16"
             >
-              <CheckCircle2 size={56} className="text-[#A88F5C] mx-auto mb-8" />
+              <CheckCircle2 size={56} className="text-[#D12126] mx-auto mb-8" />
               <h2 className="serif text-4xl mb-4">{t.thanks}</h2>
-              <p className="text-xl text-[#EAE3D2]">
+              <p className="text-xl text-[#E6E6E6]">
                 {t.thanksBody}
               </p>
             </motion.div>
@@ -90,7 +90,7 @@ export function BookConsultationPage() {
             <div className="space-y-8">
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <label className="block text-sm uppercase tracking-wider text-[#A88F5C] mb-3">{t.name}</label>
+                  <label className="block text-sm uppercase tracking-wider text-[#D12126] mb-3">{t.name}</label>
                   <input
                     type="text"
                     value={form.name}
@@ -100,7 +100,7 @@ export function BookConsultationPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm uppercase tracking-wider text-[#A88F5C] mb-3">{t.email}</label>
+                  <label className="block text-sm uppercase tracking-wider text-[#D12126] mb-3">{t.email}</label>
                   <input
                     type="email"
                     value={form.email}
@@ -113,7 +113,7 @@ export function BookConsultationPage() {
 
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <label className="block text-sm uppercase tracking-wider text-[#A88F5C] mb-3">{t.phone}</label>
+                  <label className="block text-sm uppercase tracking-wider text-[#D12126] mb-3">{t.phone}</label>
                   <input
                     type="tel"
                     value={form.phone}
@@ -123,7 +123,7 @@ export function BookConsultationPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm uppercase tracking-wider text-[#A88F5C] mb-3">{t.interest}</label>
+                  <label className="block text-sm uppercase tracking-wider text-[#D12126] mb-3">{t.interest}</label>
                   <select
                     value={form.interest || interests[0]}
                     onChange={(e) => update('interest', e.target.value)}
@@ -137,7 +137,7 @@ export function BookConsultationPage() {
               </div>
 
               <div>
-                <label className="block text-sm uppercase tracking-wider text-[#A88F5C] mb-3">{t.message}</label>
+                <label className="block text-sm uppercase tracking-wider text-[#D12126] mb-3">{t.message}</label>
                 <textarea
                   rows={4}
                   value={form.message}
@@ -150,7 +150,7 @@ export function BookConsultationPage() {
               <button
                 onClick={handleSubmit}
                 disabled={submitting}
-                className="px-12 py-4 bg-[#A88F5C] text-white text-sm uppercase tracking-wider hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors disabled:opacity-60"
+                className="px-12 py-4 bg-[#D12126] text-white text-sm uppercase tracking-wider hover:bg-[#A3181C] transition-colors disabled:opacity-60"
               >
                 {submitting ? t.submitting : t.submit}
               </button>

@@ -18,11 +18,11 @@ export function LegalPage({ doc, pdf }: { doc: 'privacy' | 'terms'; pdf?: string
       <section id="hero" className="py-20 lg:py-28 bg-[#0F0F0F] text-white">
         <div className="max-w-[900px] mx-auto px-6 lg:px-12">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <p className="text-sm uppercase tracking-wider text-[#A88F5C] mb-8">{s.legal}</p>
+            <p className="text-sm uppercase tracking-wider text-[#D12126] mb-8">{s.legal}</p>
             <h1 className="serif text-5xl lg:text-6xl mb-6 leading-tight">{d.title}</h1>
-            <p className="text-[#EAE3D2]">
+            <p className="text-[#E6E6E6]">
               {s.updated}: {d.updatedDate}{d.ref ? ` · ${d.ref}` : ''}
-              {pdf && <> · <a href={pdf} className="underline hover:text-[#A88F5C]">{s.download}</a></>}
+              {pdf && <> · <a href={pdf} className="underline hover:text-[#D12126]">{s.download}</a></>}
             </p>
           </motion.div>
         </div>
@@ -33,7 +33,7 @@ export function LegalPage({ doc, pdf }: { doc: 'privacy' | 'terms'; pdf?: string
           <p className="text-lg text-[#707070] leading-relaxed mb-6">
             {d.intro}
           </p>
-          <p className="text-sm text-[#707070] leading-relaxed mb-12 border-l-2 border-[#A88F5C] pl-4">{s.note}</p>
+          <p className="text-sm text-[#707070] leading-relaxed mb-12 border-l-2 border-[#D12126] pl-4">{s.note}</p>
           <div className="space-y-12">
             {d.sections.map((sec) => (
               <div key={sec.n} id={`section-${sec.n}`}>
@@ -49,7 +49,7 @@ export function LegalPage({ doc, pdf }: { doc: 'privacy' | 'terms'; pdf?: string
               <address className="not-italic text-[#444] leading-relaxed">
                 <strong>{s.companyName}</strong><br />
                 {s.companyAddress}<br />
-                {s.companyPhone} · <a href={`mailto:${s.companyEmail}`} className="underline hover:text-[#A88F5C]">{s.companyEmail}</a>
+                {s.companyPhone} · <a href={`mailto:${s.companyEmail}`} className="underline hover:text-[#D12126]">{s.companyEmail}</a>
               </address>
             </div>
           </div>

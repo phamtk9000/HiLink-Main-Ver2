@@ -96,11 +96,11 @@ export function CareersPage() {
         <HeroBg image="/photos/hbc-lounge-xl.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28 w-full">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-4xl">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#C9A55A] mb-7 flex items-center gap-3">
-              <span className="w-8 h-px bg-[#C9A55A]" /> {t.eyebrow}
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#E5484D] mb-7 flex items-center gap-3">
+              <span className="w-8 h-px bg-[#E5484D]" /> {t.eyebrow}
             </p>
             <h1 className="serif text-5xl lg:text-[5rem] mb-8 leading-[0.98]">{c.heroTitle}</h1>
-            <p className="text-lg md:text-xl text-[#EAE3D2]/90 leading-relaxed max-w-2xl">
+            <p className="text-lg md:text-xl text-[#E6E6E6]/90 leading-relaxed max-w-2xl">
               {c.heroSub}
             </p>
           </motion.div>
@@ -112,7 +112,7 @@ export function CareersPage() {
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/10">
           {t.stats.map(([n, label]) => (
             <div key={label} className="bg-[#0F0F0F] py-10 px-6 text-center">
-              <div className="serif text-4xl lg:text-5xl text-[#C9A55A] mb-2">{n}</div>
+              <div className="serif text-4xl lg:text-5xl text-[#E5484D] mb-2">{n}</div>
               <div className="text-[11px] uppercase tracking-[0.18em] text-white/60">{label}</div>
             </div>
           ))}
@@ -120,11 +120,11 @@ export function CareersPage() {
       </section>
 
       {/* Life at HiLink — gallery */}
-      <section className="py-24 lg:py-32 bg-[#F8F6F1]">
+      <section className="py-24 lg:py-32 bg-[#F7F7F7]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-14">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#A88F5C] mb-5">{t.lifeEyebrow}</p>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5">{t.lifeEyebrow}</p>
               <h2 className="serif text-4xl lg:text-5xl leading-tight">{t.lifeTitle}</h2>
             </div>
             <p className="text-[15px] text-[#707070] max-w-sm">
@@ -149,13 +149,13 @@ export function CareersPage() {
       <section id="why-join" className="py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="text-center mb-16">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#A88F5C] mb-5">{t.whyEyebrow}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5">{t.whyEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{t.whyTitle}</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#0F0F0F]/10">
             {t.values.map(([title, description], i) => (
-              <div key={title} className="bg-white p-8 lg:p-10 hover:bg-[#F8F6F1] transition-colors">
-                <div className="text-[#A88F5C] mb-5">{VALUE_ICONS[i]}</div>
+              <div key={title} className="bg-white p-8 lg:p-10 hover:bg-[#F7F7F7] transition-colors">
+                <div className="text-[#D12126] mb-5">{VALUE_ICONS[i]}</div>
                 <h3 className="serif text-2xl mb-3">{title}</h3>
                 <p className="text-[#707070] leading-relaxed text-[15px]">{description}</p>
               </div>
@@ -171,12 +171,12 @@ export function CareersPage() {
             <img src="/photos/hbc-team.webp" alt={t.teamAlt} className="w-full h-full object-cover" />
           </div>
           <div>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A55A] mb-5">{c.benefitsE}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#E5484D] mb-5">{c.benefitsE}</p>
             <h2 className="serif text-4xl lg:text-5xl mb-10 leading-tight">{c.benefitsT}</h2>
             <ul className="grid sm:grid-cols-2 gap-y-4 gap-x-8">
               {c.perks.map((b) => (
-                <li key={b.t} className="flex items-start gap-3 text-[15px] text-[#EAE3D2]">
-                  <span className="w-1.5 h-1.5 bg-[#A88F5C] rounded-full mt-2.5 flex-shrink-0" />
+                <li key={b.t} className="flex items-start gap-3 text-[15px] text-[#E6E6E6]">
+                  <span className="w-1.5 h-1.5 bg-[#D12126] rounded-full mt-2.5 flex-shrink-0" />
                   <span><strong className="font-medium text-white">{b.t}</strong> — {b.d}</span>
                 </li>
               ))}
@@ -186,15 +186,15 @@ export function CareersPage() {
       </section>
 
       {/* Teams */}
-      <section className="py-24 lg:py-32 bg-[#F8F6F1]">
+      <section className="py-24 lg:py-32 bg-[#F7F7F7]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="text-center mb-16">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#A88F5C] mb-5">{t.teamsEyebrow}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5">{t.teamsEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{t.teamsTitle}</h2>
           </div>
           <div className="grid sm:grid-cols-2 gap-px bg-[#0F0F0F]/10">
             {t.teams.map(([title, desc]) => (
-              <div key={title} className="bg-[#F8F6F1] p-8 lg:p-12">
+              <div key={title} className="bg-[#F7F7F7] p-8 lg:p-12">
                 <h3 className="serif text-2xl mb-3">{title}</h3>
                 <p className="text-[#707070] leading-relaxed">{desc}</p>
               </div>
@@ -207,13 +207,13 @@ export function CareersPage() {
       <section className="py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="mb-14 max-w-2xl">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#A88F5C] mb-5">{t.hireEyebrow}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5">{t.hireEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl leading-tight">{t.hireTitle}</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#0F0F0F]/10">
             {t.hiring.map(([title, desc], i) => (
               <div key={title} className="bg-white p-8 lg:p-10">
-                <span className="serif text-3xl text-[#A88F5C]">0{i + 1}</span>
+                <span className="serif text-3xl text-[#D12126]">0{i + 1}</span>
                 <h3 className="serif text-xl mt-4 mb-3">{title}</h3>
                 <p className="text-[#707070] text-[14px] leading-relaxed">{desc}</p>
               </div>
@@ -227,14 +227,14 @@ export function CareersPage() {
         <img src="/photos/f15-lounge-cabin.webp" alt="" className="absolute inset-0 w-full h-full object-cover opacity-20" />
         <div className="absolute inset-0 bg-[#0F0F0F]/70" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A55A] mb-5 flex items-center justify-center gap-3">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-[#E5484D] mb-5 flex items-center justify-center gap-3">
             <Clock size={13} /> {t.openEyebrow}
           </p>
           <h2 className="serif text-4xl lg:text-5xl mb-10">{t.openTitle}</h2>
           <ul className="max-w-2xl mx-auto mb-12 divide-y divide-white/10 border-y border-white/10 text-left">
             {c.jobs.map((j) => (
               <li key={j.t}>
-                <a href={mail(`${t.applySubject}: ${j.t}`)} className="group flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-4 hover:text-[#C9A55A] transition-colors">
+                <a href={mail(`${t.applySubject}: ${j.t}`)} className="group flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-4 hover:text-[#E5484D] transition-colors">
                   <span className="serif text-xl">{j.t}</span>
                   <span className="text-[12px] uppercase tracking-[0.14em] text-white/50 flex items-center gap-2">
                     {j.dept} · <MapPin size={12} /> {j.loc}
@@ -243,10 +243,10 @@ export function CareersPage() {
               </li>
             ))}
           </ul>
-          <p className="text-xl text-[#EAE3D2]/90 mb-4 max-w-2xl mx-auto">
+          <p className="text-xl text-[#E6E6E6]/90 mb-4 max-w-2xl mx-auto">
             <strong className="font-medium">{c.noRole}</strong> {c.noRoleSub}
           </p>
-          <a href={mail('CV')} className="mt-8 group inline-flex items-center gap-2 px-12 py-4 bg-[#A88F5C] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors">
+          <a href={mail('CV')} className="mt-8 group inline-flex items-center gap-2 px-12 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#A3181C] transition-colors">
             <Mail size={16} /> {CONTACT.email}
             <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
           </a>

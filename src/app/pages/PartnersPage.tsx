@@ -92,11 +92,11 @@ export function PartnersPage() {
         <HeroBg image="/photos/hbc-meeting.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28 w-full">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-4xl">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#C9A55A] mb-7 flex items-center gap-3">
-              <span className="w-8 h-px bg-[#C9A55A]" /> {t.eyebrow}
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#E5484D] mb-7 flex items-center gap-3">
+              <span className="w-8 h-px bg-[#E5484D]" /> {t.eyebrow}
             </p>
             <h1 className="serif text-5xl lg:text-[5rem] mb-8 leading-[0.98]">{t.h1a}<br />{t.h1b}</h1>
-            <p className="text-lg md:text-xl text-[#EAE3D2]/90 leading-relaxed max-w-2xl">
+            <p className="text-lg md:text-xl text-[#E6E6E6]/90 leading-relaxed max-w-2xl">
               {t.lead}
             </p>
           </motion.div>
@@ -104,10 +104,10 @@ export function PartnersPage() {
       </section>
 
       {/* Intro */}
-      <section className="py-24 lg:py-32 bg-[#F8F6F1]">
+      <section className="py-24 lg:py-32 bg-[#F7F7F7]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-12 lg:gap-24">
           <div className="lg:col-span-5">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#A88F5C] mb-5">{t.introEyebrow}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5">{t.introEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl leading-tight">{t.introTitle}</h2>
           </div>
           <div className="lg:col-span-7 flex items-center">
@@ -122,7 +122,7 @@ export function PartnersPage() {
       <section id="our-partners" className="py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="text-center mb-16">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#A88F5C] mb-5">{t.typesEyebrow}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5">{t.typesEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{t.typesTitle}</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -131,7 +131,7 @@ export function PartnersPage() {
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img src={TYPE_META[i].image} alt={title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F]/70 to-transparent" />
-                  <div className="absolute bottom-4 left-4 w-11 h-11 bg-[#A88F5C] text-white flex items-center justify-center">{TYPE_META[i].icon}</div>
+                  <div className="absolute bottom-4 left-4 w-11 h-11 bg-[#D12126] text-white flex items-center justify-center">{TYPE_META[i].icon}</div>
                 </div>
                 <div className="p-8">
                   <h3 className="serif text-2xl mb-4">{title}</h3>
@@ -147,14 +147,14 @@ export function PartnersPage() {
       <section className="py-24 lg:py-32 bg-[#0F0F0F] text-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A55A] mb-5">{t.whyEyebrow}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#E5484D] mb-5">{t.whyEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl mb-12 leading-tight">{t.whyTitle}</h2>
             <div className="grid sm:grid-cols-2 gap-px bg-white/10">
               {t.benefits.map(([title, desc], i) => (
                 <div key={title} className="bg-[#0F0F0F] p-7">
-                  <div className="text-[#A88F5C] mb-4">{BENEFIT_ICONS[i]}</div>
+                  <div className="text-[#D12126] mb-4">{BENEFIT_ICONS[i]}</div>
                   <h3 className="serif text-xl mb-2">{title}</h3>
-                  <p className="text-[#EAE3D2]/70 text-[14px] leading-relaxed">{desc}</p>
+                  <p className="text-[#E6E6E6]/70 text-[14px] leading-relaxed">{desc}</p>
                 </div>
               ))}
             </div>
@@ -166,12 +166,12 @@ export function PartnersPage() {
       </section>
 
       {/* Partners strip */}
-      <section className="py-20 bg-[#F8F6F1] border-y border-[#0F0F0F]/10">
+      <section className="py-20 bg-[#F7F7F7] border-y border-[#0F0F0F]/10">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-[#A88F5C] mb-8">{t.stripLbl}</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-8">{t.stripLbl}</p>
           <div className="flex flex-wrap justify-center items-center gap-x-10 gap-y-4">
             {PARTNERS.map((p) => (
-              <span key={p.id} className="serif text-2xl text-[#0F0F0F]/35 hover:text-[#8B6914] transition-colors">{p.name}</span>
+              <span key={p.id} className="serif text-2xl text-[#0F0F0F]/35 hover:text-[#D12126] transition-colors">{p.name}</span>
             ))}
           </div>
         </div>
@@ -181,14 +181,14 @@ export function PartnersPage() {
       <section className="py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="mb-14 max-w-2xl">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#A88F5C] mb-5">{t.howEyebrow}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5">{t.howEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl leading-tight">{t.howTitle}</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#0F0F0F]/10">
             {t.steps.map(([title, desc], i) => (
               <div key={title} className="bg-white p-8 lg:p-10">
                 <div className="flex items-center justify-between mb-6">
-                  <span className="text-[#A88F5C]">{STEP_ICONS[i]}</span>
+                  <span className="text-[#D12126]">{STEP_ICONS[i]}</span>
                   <span className="serif text-3xl text-[#0F0F0F]/15">0{i + 1}</span>
                 </div>
                 <h3 className="serif text-xl mb-3">{title}</h3>
@@ -206,9 +206,9 @@ export function PartnersPage() {
             <img src="/photos/hbc-boardroom.webp" alt={t.withAlt} className="absolute inset-0 w-full h-full object-cover" />
           </div>
           <div className="px-8 lg:px-16 py-20 lg:py-28">
-            <div className="text-[#A88F5C] mb-6"><Handshake size={40} /></div>
+            <div className="text-[#D12126] mb-6"><Handshake size={40} /></div>
             <h2 className="serif text-4xl lg:text-5xl mb-8">{t.withTitle}</h2>
-            <p className="text-lg text-[#EAE3D2]/85 leading-relaxed mb-8">
+            <p className="text-lg text-[#E6E6E6]/85 leading-relaxed mb-8">
               {t.withBody}
             </p>
             <div className="bg-white/[0.04] border border-white/10 p-8 mb-10">
@@ -216,13 +216,13 @@ export function PartnersPage() {
               <ul className="space-y-4">
                 {t.lookItems.map((item) => (
                   <li key={item} className="flex items-start gap-3">
-                    <div className="w-1.5 h-1.5 bg-[#A88F5C] rounded-full mt-2.5 flex-shrink-0" />
-                    <span className="text-[#EAE3D2] text-[15px]">{item}</span>
+                    <div className="w-1.5 h-1.5 bg-[#D12126] rounded-full mt-2.5 flex-shrink-0" />
+                    <span className="text-[#E6E6E6] text-[15px]">{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
-            <Link to={l('/contact')} className="group inline-flex items-center gap-2 px-10 py-4 bg-[#A88F5C] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors">
+            <Link to={l('/contact')} className="group inline-flex items-center gap-2 px-10 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#A3181C] transition-colors">
               {t.start}
               <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
             </Link>

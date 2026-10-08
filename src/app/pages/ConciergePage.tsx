@@ -102,8 +102,8 @@ export function ConciergePage() {
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 py-24 w-full">
           <div className="max-w-3xl">
             <div className="flex items-center gap-3 mb-8">
-              <Sparkles size={16} className="text-[#A88F5C]" />
-              <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C]">
+              <Sparkles size={16} className="text-[#D12126]" />
+              <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126]">
                 {t.eyebrow}
               </p>
             </div>
@@ -113,12 +113,12 @@ export function ConciergePage() {
             >
               {t.h1[0]}<br />{t.h1[1]}
             </h1>
-            <p className="text-lg md:text-xl text-[#EAE3D2] mb-12 leading-relaxed max-w-2xl font-light">
+            <p className="text-lg md:text-xl text-[#E6E6E6] mb-12 leading-relaxed max-w-2xl font-light">
               {t.lead}
             </p>
             <a
               href="#enquire"
-              className="inline-flex items-center gap-3 px-10 py-4 bg-[#A88F5C] text-white text-[11px] uppercase tracking-[0.2em] hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors"
+              className="inline-flex items-center gap-3 px-10 py-4 bg-[#D12126] text-white text-[11px] uppercase tracking-[0.2em] hover:bg-[#A3181C] transition-colors"
             >
               <Lock size={16} />
               {t.request}
@@ -134,7 +134,7 @@ export function ConciergePage() {
       </section>
 
       {/* Philosophy */}
-      <section className="py-28 lg:py-40 bg-[#F8F6F1]">
+      <section className="py-28 lg:py-40 bg-[#F7F7F7]">
         <div className="max-w-[900px] mx-auto px-6 lg:px-12 text-center">
           <h2 className="serif font-light text-4xl lg:text-5xl mb-8 leading-tight text-[#1A1A1A]">
             {t.philTitle}
@@ -142,7 +142,7 @@ export function ConciergePage() {
           <p className="text-lg text-[#707070] leading-relaxed mb-10">
             {t.phil}
           </p>
-          <div className="w-16 h-px bg-[#A88F5C] mx-auto" />
+          <div className="w-16 h-px bg-[#D12126] mx-auto" />
         </div>
       </section>
 
@@ -150,7 +150,7 @@ export function ConciergePage() {
       <section className="py-28 lg:py-40 bg-white">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="text-center mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-4">{t.arrEyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.arrEyebrow}</p>
             <h2 className="serif font-light text-4xl lg:text-5xl mb-6 text-[#1A1A1A]">{t.arrTitle}</h2>
             <p className="text-lg text-[#707070]">
               {t.arrLead}
@@ -166,7 +166,7 @@ export function ConciergePage() {
       </section>
 
       {/* The Difference */}
-      <section className="py-28 lg:py-40 bg-[#F8F6F1]">
+      <section className="py-28 lg:py-40 bg-[#F7F7F7]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div>
@@ -188,7 +188,7 @@ export function ConciergePage() {
                 alt={t.diffAlt}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#A88F5C]" />
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#D12126]" />
             </div>
           </div>
         </div>
@@ -198,7 +198,7 @@ export function ConciergePage() {
       <section id="enquire" className="py-28 lg:py-40 bg-white">
         <div className="max-w-[760px] mx-auto px-6 lg:px-12">
           <div className="text-center mb-16">
-            <Lock size={36} className="mx-auto mb-8 text-[#A88F5C]" />
+            <Lock size={36} className="mx-auto mb-8 text-[#D12126]" />
             <h2 className="serif font-light text-4xl lg:text-5xl mb-6 text-[#1A1A1A]">{t.formTitle}</h2>
             <p className="text-lg text-[#707070]">
               {t.formLead}
@@ -211,7 +211,7 @@ export function ConciergePage() {
               placeholder={t.name}
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#0F0F0F]/15 text-[#1A1A1A] placeholder-[#9a9a9a] focus:outline-none focus:border-[#A88F5C] transition-colors"
+              className="w-full px-6 py-4 bg-[#F7F7F7] border border-[#0F0F0F]/15 text-[#1A1A1A] placeholder-[#9a9a9a] focus:outline-none focus:border-[#D12126] transition-colors"
               required
             />
             <input
@@ -219,7 +219,7 @@ export function ConciergePage() {
               placeholder={t.email}
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#0F0F0F]/15 text-[#1A1A1A] placeholder-[#9a9a9a] focus:outline-none focus:border-[#A88F5C] transition-colors"
+              className="w-full px-6 py-4 bg-[#F7F7F7] border border-[#0F0F0F]/15 text-[#1A1A1A] placeholder-[#9a9a9a] focus:outline-none focus:border-[#D12126] transition-colors"
               required
             />
             <input
@@ -227,7 +227,7 @@ export function ConciergePage() {
               placeholder={t.phone}
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#0F0F0F]/15 text-[#1A1A1A] placeholder-[#9a9a9a] focus:outline-none focus:border-[#A88F5C] transition-colors"
+              className="w-full px-6 py-4 bg-[#F7F7F7] border border-[#0F0F0F]/15 text-[#1A1A1A] placeholder-[#9a9a9a] focus:outline-none focus:border-[#D12126] transition-colors"
               required
             />
             <textarea
@@ -235,12 +235,12 @@ export function ConciergePage() {
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               rows={6}
-              className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#0F0F0F]/15 text-[#1A1A1A] placeholder-[#9a9a9a] focus:outline-none focus:border-[#A88F5C] transition-colors resize-none"
+              className="w-full px-6 py-4 bg-[#F7F7F7] border border-[#0F0F0F]/15 text-[#1A1A1A] placeholder-[#9a9a9a] focus:outline-none focus:border-[#D12126] transition-colors resize-none"
               required
             />
             <button
               type="submit"
-              className="w-full px-12 py-4 bg-[#A88F5C] text-white text-[11px] uppercase tracking-[0.2em] hover:bg-[#0F0F0F] transition-colors"
+              className="w-full px-12 py-4 bg-[#D12126] text-white text-[11px] uppercase tracking-[0.2em] hover:bg-[#A3181C] transition-colors"
             >
               {t.submit}
             </button>
@@ -252,17 +252,17 @@ export function ConciergePage() {
       </section>
 
       {/* Contact */}
-      <section className="py-20 bg-[#F8F6F1] border-t border-[#A88F5C]/20">
+      <section className="py-20 bg-[#F7F7F7] border-t border-[#D12126]/20">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div>
-              <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-2">{t.qLbl}</p>
+              <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-2">{t.qLbl}</p>
               <p className="text-xl text-[#1A1A1A]">{t.qText}</p>
             </div>
             <div className="flex items-center gap-8">
               <a
                 href={CONTACT.emailHref}
-                className="flex items-center gap-3 text-[#707070] hover:text-[#A88F5C] transition-colors"
+                className="flex items-center gap-3 text-[#707070] hover:text-[#D12126] transition-colors"
               >
                 <Mail size={20} />
                 <span>{CONTACT.email}</span>
@@ -296,7 +296,7 @@ function ServiceCard({ icon, title, description, image }: {
         />
       </div>
       <div className="p-8">
-        <div className="text-[#A88F5C] mb-4">{icon}</div>
+        <div className="text-[#D12126] mb-4">{icon}</div>
         <h3 className="serif text-2xl mb-3 text-[#1A1A1A]">{title}</h3>
         <p className="text-[#707070] text-sm leading-relaxed">{description}</p>
       </div>

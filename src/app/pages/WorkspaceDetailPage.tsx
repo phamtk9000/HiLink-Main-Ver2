@@ -96,7 +96,7 @@ function Lightbox({ images, startIndex, onClose }: {
         <span className="serif text-lg">{images[current].label[lang]}</span>
         <button
           onClick={onClose}
-          className="p-2 hover:text-[#A88F5C] transition-colors"
+          className="p-2 hover:text-[#D12126] transition-colors"
           aria-label={t.close}
         >
           <X size={24} />
@@ -143,7 +143,7 @@ function Lightbox({ images, startIndex, onClose }: {
               key={i}
               onClick={() => setCurrent(i)}
               className={`w-16 h-12 shrink-0 overflow-hidden transition-all ${
-                i === current ? 'ring-2 ring-[#A88F5C]' : 'opacity-50 hover:opacity-80'
+                i === current ? 'ring-2 ring-[#D12126]' : 'opacity-50 hover:opacity-80'
               }`}
             >
               <img
@@ -226,10 +226,10 @@ export function WorkspaceDetailPage() {
 
   if (!property) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center bg-[#F8F6F1]">
+      <div className="min-h-[60vh] flex items-center justify-center bg-[#F7F7F7]">
         <div className="text-center">
           <h2 className="serif text-4xl mb-4">{t.notFound}</h2>
-          <Link to={l('/workspace-leasing')} className="text-[#A88F5C] uppercase text-sm tracking-wider underline">
+          <Link to={l('/workspace-leasing')} className="text-[#D12126] uppercase text-sm tracking-wider underline">
             {t.backWs}
           </Link>
         </div>
@@ -248,11 +248,11 @@ export function WorkspaceDetailPage() {
   return (
     <>
       {/* Back nav */}
-      <div className="bg-[#F8F6F1] border-b border-[#0F0F0F]/10">
+      <div className="bg-[#F7F7F7] border-b border-[#0F0F0F]/10">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-4">
           <Link
             to={l('/property-management')}
-            className="inline-flex items-center gap-2 text-sm uppercase tracking-wider text-[#707070] hover:text-[#A88F5C] transition-colors"
+            className="inline-flex items-center gap-2 text-sm uppercase tracking-wider text-[#707070] hover:text-[#D12126] transition-colors"
           >
             <ArrowLeft size={16} /> {t.back}
           </Link>
@@ -260,24 +260,24 @@ export function WorkspaceDetailPage() {
       </div>
 
       {/* Header info */}
-      <section className="bg-[#F8F6F1] pt-10 pb-6">
+      <section className="bg-[#F7F7F7] pt-10 pb-6">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <p className="text-xs uppercase tracking-[0.2em] text-[#A88F5C] mb-3">{property.type[lang]}</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-[#D12126] mb-3">{property.type[lang]}</p>
           <h1 className="serif text-5xl lg:text-6xl mb-3">{property.name}</h1>
           <div className="flex items-center gap-2 text-[#707070]">
-            <MapPin size={16} className="text-[#A88F5C]" />
+            <MapPin size={16} className="text-[#D12126]" />
             <span>{property.location[lang]}</span>
           </div>
         </div>
       </section>
 
       {/* Photo grid */}
-      <section className="bg-[#F8F6F1] pb-8">
+      <section className="bg-[#F7F7F7] pb-8">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <PhotoGrid images={images} onOpen={(i) => setLightboxIndex(i)} />
           <button
             onClick={() => setLightboxIndex(0)}
-            className="mt-4 text-sm uppercase tracking-wider underline underline-offset-4 text-[#0F0F0F] hover:text-[#A88F5C] transition-colors"
+            className="mt-4 text-sm uppercase tracking-wider underline underline-offset-4 text-[#0F0F0F] hover:text-[#D12126] transition-colors"
           >
             {t.showAll(images.length)}
           </button>
@@ -299,7 +299,7 @@ export function WorkspaceDetailPage() {
                   { icon: <DollarSign size={20} />, label: t.rent, value: property.avgRent },
                 ].map(({ icon, label, value }) => (
                   <div key={label} className="bg-white px-8 py-6 flex items-center gap-4">
-                    <div className="text-[#A88F5C]">{icon}</div>
+                    <div className="text-[#D12126]">{icon}</div>
                     <div>
                       <div className="text-xs uppercase tracking-wider text-[#707070] mb-1">{label}</div>
                       <div className="serif text-2xl">{value}</div>
@@ -320,7 +320,7 @@ export function WorkspaceDetailPage() {
                 <div className="grid sm:grid-cols-2 gap-4">
                   {property.highlights[lang].map((h) => (
                     <div key={h} className="flex items-center gap-3 text-[#444]">
-                      <div className="w-1 h-1 rounded-full bg-[#A88F5C] shrink-0" />
+                      <div className="w-1 h-1 rounded-full bg-[#D12126] shrink-0" />
                       {h}
                     </div>
                   ))}
@@ -340,7 +340,7 @@ export function WorkspaceDetailPage() {
                       className={`px-5 py-2 text-xs uppercase tracking-wider transition-all ${
                         activeCategory === key
                           ? 'bg-[#0F0F0F] text-white'
-                          : 'border border-[#0F0F0F]/20 hover:border-[#A88F5C] hover:text-[#A88F5C]'
+                          : 'border border-[#0F0F0F]/20 hover:border-[#D12126] hover:text-[#D12126]'
                       }`}
                     >
                       {t.cats[key]}
@@ -399,7 +399,7 @@ export function WorkspaceDetailPage() {
 
                 <Link
                   to={l('/contact')}
-                  className="block w-full py-4 bg-[#A88F5C] text-white text-sm uppercase tracking-widest text-center hover:bg-[#0F0F0F] transition-colors mb-3"
+                  className="block w-full py-4 bg-[#D12126] text-white text-sm uppercase tracking-widest text-center hover:bg-[#A3181C] transition-colors mb-3"
                 >
                   {t.enquire}
                 </Link>
@@ -424,11 +424,11 @@ export function WorkspaceDetailPage() {
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8">
           <div>
             <h2 className="serif text-3xl lg:text-4xl mb-3">{t.stripTitle}</h2>
-            <p className="text-[#EAE3D2]">{t.stripLead}</p>
+            <p className="text-[#E6E6E6]">{t.stripLead}</p>
           </div>
           <Link
             to={l('/contact')}
-            className="shrink-0 px-10 py-4 bg-[#A88F5C] text-white text-sm uppercase tracking-widest hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors"
+            className="shrink-0 px-10 py-4 bg-[#D12126] text-white text-sm uppercase tracking-widest hover:bg-[#A3181C] transition-colors"
           >
             {t.stripCta}
           </Link>

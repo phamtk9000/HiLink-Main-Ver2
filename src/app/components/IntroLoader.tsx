@@ -57,7 +57,7 @@ export function IntroLoader({ onDone }: { onDone: () => void }) {
               className="w-auto mb-3"
               style={{ height: 'clamp(64px, 12vw, 110px)' }}
             />
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[#A88F5C]">
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[#D12126]">
               Your Solution
             </p>
           </motion.div>
@@ -75,7 +75,7 @@ export function IntroLoader({ onDone }: { onDone: () => void }) {
             </div>
             <div className="h-px w-full bg-white/10 overflow-hidden">
               <motion.div
-                className="h-full bg-[#A88F5C]"
+                className="h-full bg-[#D12126]"
                 style={{ width: `${progress}%` }}
                 transition={{ duration: 0.1 }}
               />

@@ -3,7 +3,7 @@
 export const WORKSPACE_LINES = {
   "HPW": {
     "label": "HiLink Premium Workspace",
-    "color": "#A88F5C"
+    "color": "#D12126"
   },
   "HW": {
     "label": "HiLink Workspace",

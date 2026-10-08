@@ -77,13 +77,13 @@ export function SolutionsPage() {
         <HeroBg image="/photos/hbc-lounge-xl.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28 w-full">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-4xl">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#C9A55A] mb-7 flex items-center gap-3">
-              <span className="w-8 h-px bg-[#C9A55A]" /> {t.eyebrow}
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#E5484D] mb-7 flex items-center gap-3">
+              <span className="w-8 h-px bg-[#E5484D]" /> {t.eyebrow}
             </p>
             <h1 className="serif text-5xl lg:text-[5rem] mb-8 leading-[0.98]">
               {t.h1a}<br />{t.h1b}
             </h1>
-            <p className="text-lg md:text-xl text-[#EAE3D2]/90 leading-relaxed max-w-2xl">
+            <p className="text-lg md:text-xl text-[#E6E6E6]/90 leading-relaxed max-w-2xl">
               {t.lead}
             </p>
           </motion.div>
@@ -95,7 +95,7 @@ export function SolutionsPage() {
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="flex flex-wrap gap-x-8 gap-y-3 py-6">
             {solutions.map((s, i) => (
-              <a key={s.path} href={`#solution-${i}`} className="text-[11px] uppercase tracking-[0.16em] text-white/55 hover:text-[#C9A55A] transition-colors">
+              <a key={s.path} href={`#solution-${i}`} className="text-[11px] uppercase tracking-[0.16em] text-white/55 hover:text-[#E5484D] transition-colors">
                 {s.title}
               </a>
             ))}
@@ -104,10 +104,10 @@ export function SolutionsPage() {
       </section>
 
       {/* Intro */}
-      <section className="py-24 lg:py-32 bg-[#F8F6F1]">
+      <section className="py-24 lg:py-32 bg-[#F7F7F7]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-12 lg:gap-24">
           <div className="lg:col-span-5">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#A88F5C] mb-5">{t.introEyebrow}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5">{t.introEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl leading-tight">{t.introTitle}</h2>
           </div>
           <div className="lg:col-span-7 flex items-center">
@@ -124,7 +124,7 @@ export function SolutionsPage() {
           <div
             id={`solution-${i}`}
             key={s.path}
-            className={`border-t border-[#0F0F0F]/10 ${i % 2 === 1 ? 'bg-[#F8F6F1]' : 'bg-white'}`}
+            className={`border-t border-[#0F0F0F]/10 ${i % 2 === 1 ? 'bg-[#F7F7F7]' : 'bg-white'}`}
           >
             <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28">
               <div className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${i % 2 === 1 ? 'lg:[direction:rtl]' : ''}`}>
@@ -135,36 +135,36 @@ export function SolutionsPage() {
                   {s.image ? (
                     <img src={s.image} alt={s.title} className="w-full h-full object-cover" />
                   ) : (
-                    <div className="w-full h-full bg-[#0F0F0F] flex flex-col items-start justify-end p-10 text-[#C9A55A]">
+                    <div className="w-full h-full bg-[#0F0F0F] flex flex-col items-start justify-end p-10 text-[#E5484D]">
                       <Factory size={56} strokeWidth={1} className="mb-6" />
                       <span className="serif text-3xl lg:text-4xl">{s.title}</span>
                     </div>
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F]/30 to-transparent" />
-                  <span className="absolute top-5 left-5 text-[9px] uppercase tracking-[0.2em] bg-[#0F0F0F]/70 text-[#C9A55A] px-3 py-1.5">0{i + 1}</span>
+                  <span className="absolute top-5 left-5 text-[9px] uppercase tracking-[0.2em] bg-[#0F0F0F]/70 text-[#E5484D] px-3 py-1.5">0{i + 1}</span>
                 </motion.div>
 
                 <motion.div
                   className="lg:[direction:ltr]"
                   initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6 }}
                 >
-                  <div className="text-[#A88F5C] mb-5">{s.icon}</div>
-                  <p className="text-[10px] uppercase tracking-[0.28em] text-[#A88F5C] mb-3">{s.tag}</p>
+                  <div className="text-[#D12126] mb-5">{s.icon}</div>
+                  <p className="text-[10px] uppercase tracking-[0.28em] text-[#D12126] mb-3">{s.tag}</p>
                   <h3 className="serif text-3xl lg:text-4xl mb-6">{s.title}</h3>
                   <p className="text-[#707070] leading-relaxed mb-8 text-[17px]">{s.description}</p>
                   <ul className="grid sm:grid-cols-2 gap-y-3 gap-x-6 mb-10">
                     {s.points.map((pt) => (
                       <li key={pt} className="flex items-start gap-3 text-[15px] text-[#0F0F0F]">
-                        <span className="w-1.5 h-1.5 bg-[#A88F5C] rounded-full mt-2.5 flex-shrink-0" />
+                        <span className="w-1.5 h-1.5 bg-[#D12126] rounded-full mt-2.5 flex-shrink-0" />
                         {pt}
                       </li>
                     ))}
                   </ul>
                   <Link to={l(s.path)} className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[#0F0F0F] group">
-                    <span className="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#A88F5C] group-hover:after:w-full after:transition-all after:duration-300">
+                    <span className="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#D12126] group-hover:after:w-full after:transition-all after:duration-300">
                       {t.explore} {s.title}
                     </span>
-                    <ArrowRight size={15} className="text-[#A88F5C] group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight size={15} className="text-[#D12126] group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </motion.div>
               </div>
@@ -177,18 +177,18 @@ export function SolutionsPage() {
       <section className="py-24 lg:py-32 bg-[#0F0F0F] text-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="mb-14 max-w-2xl">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A55A] mb-5">{t.howEyebrow}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#E5484D] mb-5">{t.howEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl leading-tight">{t.howTitle}</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10">
             {t.steps.map(([title, desc], i) => (
               <div key={title} className="bg-[#0F0F0F] p-8 lg:p-10">
                 <div className="flex items-center justify-between mb-6">
-                  <span className="text-[#A88F5C]">{STEP_ICONS[i]}</span>
+                  <span className="text-[#D12126]">{STEP_ICONS[i]}</span>
                   <span className="serif text-3xl text-white/20">0{i + 1}</span>
                 </div>
                 <h3 className="serif text-xl mb-3">{title}</h3>
-                <p className="text-[#EAE3D2]/70 text-[14px] leading-relaxed">{desc}</p>
+                <p className="text-[#E6E6E6]/70 text-[14px] leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -196,13 +196,13 @@ export function SolutionsPage() {
       </section>
 
       {/* CTA */}
-      <section id="cta" className="py-24 lg:py-32 bg-[#F8F6F1]">
+      <section id="cta" className="py-24 lg:py-32 bg-[#F7F7F7]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
           <h2 className="serif text-4xl lg:text-5xl mb-8">{t.ctaTitle}</h2>
           <p className="text-xl text-[#707070] mb-12 max-w-2xl mx-auto">
             {t.ctaLead}
           </p>
-          <Link to={l('/book-consultation')} className="group inline-flex items-center gap-2 px-12 py-4 bg-[#A88F5C] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#0F0F0F] transition-colors">
+          <Link to={l('/book-consultation')} className="group inline-flex items-center gap-2 px-12 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#A3181C] transition-colors">
             {t.cta} <ArrowUpRight size={15} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </Link>
         </div>

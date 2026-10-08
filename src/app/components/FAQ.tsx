@@ -22,13 +22,13 @@ export function FAQ({
   background?: 'beige' | 'white';
 }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const bg = background === 'white' ? 'bg-white' : 'bg-[#F8F6F1]';
+  const bg = background === 'white' ? 'bg-white' : 'bg-[#F7F7F7]';
 
   return (
     <section className={`py-24 lg:py-32 ${bg}`}>
       <div className="max-w-[1000px] mx-auto px-6 lg:px-12">
         <div className="text-center mb-16">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-4">{eyebrow}</p>
+          <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{eyebrow}</p>
           <h2 className="serif text-4xl lg:text-5xl mb-6">{title}</h2>
           {subtitle && <p className="text-xl text-[#707070] max-w-2xl mx-auto">{subtitle}</p>}
         </div>
@@ -45,12 +45,12 @@ export function FAQ({
                 >
                   <span
                     className={`serif text-xl lg:text-2xl transition-colors ${
-                      isOpen ? 'text-[#A88F5C]' : 'text-[#0F0F0F] group-hover:text-[#A88F5C]'
+                      isOpen ? 'text-[#D12126]' : 'text-[#0F0F0F] group-hover:text-[#D12126]'
                     }`}
                   >
                     {item.question}
                   </span>
-                  <span className="shrink-0 text-[#A88F5C]">
+                  <span className="shrink-0 text-[#D12126]">
                     {isOpen ? <Minus size={22} /> : <Plus size={22} />}
                   </span>
                 </button>

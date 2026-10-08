@@ -58,7 +58,7 @@ export function AboutPage() {
           />
         </div>
         <div className="relative flex-1 flex flex-col items-center justify-center text-center px-6 lg:px-12">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-8">
+          <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-8">
             {t.est}
           </p>
           <h1
@@ -87,16 +87,16 @@ export function AboutPage() {
                     alt={t.storyAlt}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#A88F5C]" />
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#D12126]" />
                 </div>
                 <div>
                   <blockquote
-                    className="serif italic text-[#A88F5C] leading-snug"
+                    className="serif italic text-[#D12126] leading-snug"
                     style={{ fontSize: 'clamp(1.3rem, 2vw, 1.7rem)' }}
                   >
                     "{a.solveTitle}"
                   </blockquote>
-                  <div className="mt-6 w-8 h-px bg-[#A88F5C]/40" />
+                  <div className="mt-6 w-8 h-px bg-[#D12126]/40" />
                 </div>
               </div>
             </div>
@@ -109,8 +109,8 @@ export function AboutPage() {
               </div>
               <div className="grid grid-cols-2 gap-x-10 gap-y-8">
                 {t.facts.map(([value, label]) => (
-                  <div key={label} className="border-t pt-5" style={{ borderColor: 'rgba(168,143,92,0.3)' }}>
-                    <div className="serif text-2xl text-[#8B6914] mb-2">{value}</div>
+                  <div key={label} className="border-t pt-5" style={{ borderColor: 'rgba(209,33,38,0.3)' }}>
+                    <div className="serif text-2xl text-[#D12126] mb-2">{value}</div>
                     <div className="text-[11px] uppercase tracking-wider text-[#707070]">{label}</div>
                   </div>
                 ))}
@@ -125,22 +125,22 @@ export function AboutPage() {
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="grid md:grid-cols-2 gap-px bg-white/10">
             <div className="bg-[#0F0F0F] p-10 lg:p-14">
-              <div className="text-[#A88F5C] mb-8"><Compass size={32} /></div>
-              <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-5">{a.visionLbl}</p>
+              <div className="text-[#D12126] mb-8"><Compass size={32} /></div>
+              <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-5">{a.visionLbl}</p>
               <h2 className="serif text-3xl lg:text-4xl mb-6 leading-snug">
                 {a.vision}
               </h2>
-              <p className="text-[#EAE3D2] text-[16px] leading-relaxed">
+              <p className="text-[#E6E6E6] text-[16px] leading-relaxed">
                 {a.ecoClose}
               </p>
             </div>
             <div className="bg-[#0F0F0F] p-10 lg:p-14">
-              <div className="text-[#A88F5C] mb-8"><Target size={32} /></div>
-              <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-5">{a.missionLbl}</p>
+              <div className="text-[#D12126] mb-8"><Target size={32} /></div>
+              <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-5">{a.missionLbl}</p>
               <h2 className="serif text-3xl lg:text-4xl mb-6 leading-snug">
                 {a.whoTitle}
               </h2>
-              <p className="text-[#EAE3D2] text-[16px] leading-relaxed">
+              <p className="text-[#E6E6E6] text-[16px] leading-relaxed">
                 {a.mission}
               </p>
             </div>
@@ -149,9 +149,9 @@ export function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="bg-[#F8F6F1] py-32">
+      <section className="bg-[#F7F7F7] py-32">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-16">{t.standFor}</p>
+          <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-16">{t.standFor}</p>
           <div className="divide-y divide-[#0F0F0F]/10">
             {a.diffs.map(({ t: title, d: desc }, i) => (
               <div key={title} className="flex items-start gap-8 py-10">
@@ -172,15 +172,15 @@ export function AboutPage() {
       <section className="bg-white py-32">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-4">{t.journeyEyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.journeyEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{a.howTitle}</h2>
             <p className="text-[#707070] text-[15px] leading-relaxed max-w-2xl mt-6">{a.howBody}</p>
           </div>
-          <div className="border-l-2 border-[#A88F5C]/30 ml-2 lg:ml-4">
+          <div className="border-l-2 border-[#D12126]/30 ml-2 lg:ml-4">
             {a.stages.map(({ t: title, s }, i) => (
               <div key={title} className="relative pl-10 lg:pl-14 pb-12 last:pb-0">
-                <span className="absolute left-0 -translate-x-1/2 top-1 w-3 h-3 rounded-full bg-[#A88F5C]" />
-                <div className="serif text-2xl text-[#8B6914] mb-2">{String(i + 1).padStart(2, '0')}</div>
+                <span className="absolute left-0 -translate-x-1/2 top-1 w-3 h-3 rounded-full bg-[#D12126]" />
+                <div className="serif text-2xl text-[#D12126] mb-2">{String(i + 1).padStart(2, '0')}</div>
                 <h3 className="serif text-xl mb-2">{title}</h3>
                 <p className="text-[#707070] text-[15px] leading-relaxed max-w-2xl">{s}</p>
               </div>
@@ -190,10 +190,10 @@ export function AboutPage() {
       </section>
 
       {/* Properties we run */}
-      <section className="bg-[#F8F6F1] py-32">
+      <section className="bg-[#F7F7F7] py-32">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-4">{t.workEyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.workEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{t.workTitle}</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -213,7 +213,7 @@ export function AboutPage() {
                   </div>
                   <div className="p-6">
                     <h3 className="serif text-2xl mb-1">{name}</h3>
-                    <p className="text-[13px] text-[#A88F5C] uppercase tracking-wider">{location}</p>
+                    <p className="text-[13px] text-[#D12126] uppercase tracking-wider">{location}</p>
                   </div>
                 </>
               );
@@ -234,7 +234,7 @@ export function AboutPage() {
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16">
             <div>
-              <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-4">{a.ecoEyebrow}</p>
+              <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{a.ecoEyebrow}</p>
               <h2 className="serif text-4xl lg:text-5xl">{a.oneRel}</h2>
             </div>
             <p className="text-[15px] text-[#707070] max-w-sm">
@@ -246,11 +246,11 @@ export function AboutPage() {
             {a.eco.map((c, i) => {
               const inner = (
                 <>
-                  <h3 className="serif text-2xl mb-3 text-[#0F0F0F] group-hover:text-[#8B6914] transition-colors">{c.t}</h3>
+                  <h3 className="serif text-2xl mb-3 text-[#0F0F0F] group-hover:text-[#D12126] transition-colors">{c.t}</h3>
                   <p className="text-[14px] text-[#707070] leading-relaxed">{c.d}</p>
                 </>
               );
-              const cls = 'group block bg-white p-8 lg:p-10 hover:bg-[#F8F6F1] transition-colors';
+              const cls = 'group block bg-white p-8 lg:p-10 hover:bg-[#F7F7F7] transition-colors';
               return ECO_LINKS[i]
                 ? <Link key={c.t} to={l(ECO_LINKS[i])} className={cls}>{inner}</Link>
                 : <a key={c.t} href={BUSINESS_CLUB_SITE} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>;
@@ -266,9 +266,9 @@ export function AboutPage() {
       </section>
 
       {/* Partners ticker */}
-      <section className="bg-[#F8F6F1] py-16 overflow-hidden border-t border-b border-[#0F0F0F]/08">
+      <section className="bg-[#F7F7F7] py-16 overflow-hidden border-t border-b border-[#0F0F0F]/08">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 mb-10">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-[#A88F5C] text-center">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] text-center">
             {t.partnersLbl}
           </p>
         </div>
@@ -277,7 +277,7 @@ export function AboutPage() {
             {[...partners, ...partners].map((name, i) => (
               <span
                 key={i}
-                className="serif text-[22px] font-light text-[#0F0F0F]/30 whitespace-nowrap hover:text-[#A88F5C] transition-colors cursor-default select-none px-10"
+                className="serif text-[22px] font-light text-[#0F0F0F]/30 whitespace-nowrap hover:text-[#D12126] transition-colors cursor-default select-none px-10"
               >
                 {name}
               </span>
@@ -299,9 +299,9 @@ export function AboutPage() {
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-12">
           <div>
             <h2 className="serif text-4xl lg:text-5xl mb-4">{a.helpTitle}</h2>
-            <p className="text-[#EAE3D2] text-lg">{a.helpBody}</p>
+            <p className="text-[#E6E6E6] text-lg">{a.helpBody}</p>
           </div>
-          <Link to={l('/contact')} className="shrink-0 inline-flex items-center gap-3 px-9 py-4 bg-[#A88F5C] text-white text-[11px] uppercase tracking-[0.2em] hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors group">
+          <Link to={l('/contact')} className="shrink-0 inline-flex items-center gap-3 px-9 py-4 bg-[#D12126] text-white text-[11px] uppercase tracking-[0.2em] hover:bg-[#A3181C] transition-colors group">
             {t.cta}
             <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
           </Link>

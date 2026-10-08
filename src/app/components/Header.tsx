@@ -59,8 +59,8 @@ export function Header() {
           onDark
             ? 'bg-transparent'
             : isScrolled
-              ? 'bg-[#F8F6F1]/90 backdrop-blur-md shadow-[0_1px_16px_rgba(0,0,0,0.06)]'
-              : 'bg-[#F8F6F1] border-b border-[#0F0F0F]/10'
+              ? 'bg-white/90 backdrop-blur-md shadow-[0_1px_16px_rgba(0,0,0,0.06)]'
+              : 'bg-white border-b border-[#0F0F0F]/10'
         }`}
       >
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
@@ -81,17 +81,17 @@ export function Header() {
             {/* Right cluster */}
             <div className="flex items-center gap-5 sm:gap-7">
               {/* Language */}
-              <div className={`flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.14em] ${onDark ? 'text-[#F8F6F1]' : 'text-[#0F0F0F]'}`}>
-                <Link to={switchTo('en')} className={`transition-colors ${lang === 'en' ? 'text-[#C9A55A]' : 'opacity-45 hover:opacity-100'}`}>EN</Link>
+              <div className={`flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.14em] ${onDark ? 'text-[#F7F7F7]' : 'text-[#0F0F0F]'}`}>
+                <Link to={switchTo('en')} className={`transition-colors ${lang === 'en' ? 'text-[#E5484D]' : 'opacity-45 hover:opacity-100'}`}>EN</Link>
                 <span className="opacity-30">/</span>
-                <Link to={switchTo('vi')} className={`transition-colors ${lang === 'vi' ? 'text-[#C9A55A]' : 'opacity-45 hover:opacity-100'}`}>VI</Link>
+                <Link to={switchTo('vi')} className={`transition-colors ${lang === 'vi' ? 'text-[#E5484D]' : 'opacity-45 hover:opacity-100'}`}>VI</Link>
               </div>
 
               {/* Consultation — desktop only, hidden when overlay open */}
               {!onDark && (
                 <Link
                   to={l('/book-consultation')}
-                  className="hidden md:inline-flex items-center gap-2 px-6 py-[10px] bg-[#0F0F0F] text-white text-[11px] font-medium uppercase tracking-[0.15em] hover:bg-[#A88F5C] transition-colors"
+                  className="hidden md:inline-flex items-center gap-2 px-6 py-[10px] bg-[#0F0F0F] text-white text-[11px] font-medium uppercase tracking-[0.15em] hover:bg-[#D12126] transition-colors"
                 >
                   {t.book}
                 </Link>
@@ -100,7 +100,7 @@ export function Header() {
               {/* Menu toggle */}
               <button
                 onClick={() => setIsOpen((o) => !o)}
-                className={`flex items-center gap-3 group ${onDark ? 'text-[#F8F6F1]' : 'text-[#0F0F0F]'}`}
+                className={`flex items-center gap-3 group ${onDark ? 'text-[#F7F7F7]' : 'text-[#0F0F0F]'}`}
                 aria-label={t.toggle}
               >
                 <span className="text-[11px] font-medium uppercase tracking-[0.18em] hidden sm:inline">
@@ -118,7 +118,7 @@ export function Header() {
 
         {/* Scroll progress */}
         {!onDark && (
-          <motion.div className="absolute bottom-0 left-0 h-[2px] bg-[#A88F5C] origin-left w-full" style={{ scaleX }} />
+          <motion.div className="absolute bottom-0 left-0 h-[2px] bg-[#D12126] origin-left w-full" style={{ scaleX }} />
         )}
       </header>
 
@@ -126,7 +126,7 @@ export function Header() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed inset-0 z-50 bg-[#0F0F0F] text-[#F8F6F1] overflow-y-auto"
+            className="fixed inset-0 z-50 bg-[#0F0F0F] text-[#F7F7F7] overflow-y-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -134,7 +134,7 @@ export function Header() {
           >
             {/* faint gold grid accent */}
             <div className="absolute inset-0 pointer-events-none opacity-[0.06]"
-              style={{ backgroundImage: 'linear-gradient(#A88F5C 1px, transparent 1px), linear-gradient(90deg, #A88F5C 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
+              style={{ backgroundImage: 'linear-gradient(#D12126 1px, transparent 1px), linear-gradient(90deg, #D12126 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
 
             <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 pt-[120px] pb-16 min-h-full flex flex-col">
               <div className="grid lg:grid-cols-[1.4fr_1fr] gap-16 flex-1">
@@ -149,11 +149,11 @@ export function Header() {
                     >
                       <Link
                         to={l(item.path)}
-                        className="group flex items-center gap-4 py-2 lg:py-3 serif text-[2.4rem] lg:text-[4rem] leading-[1.05] text-[#F8F6F1] hover:text-[#C9A55A] transition-colors"
+                        className="group flex items-center gap-4 py-2 lg:py-3 serif text-[2.4rem] lg:text-[4rem] leading-[1.05] text-[#F7F7F7] hover:text-[#E5484D] transition-colors"
                       >
-                        <span className="text-[11px] sans tracking-[0.2em] text-[#A88F5C] opacity-60 w-8 pt-4">0{i + 1}</span>
+                        <span className="text-[11px] sans tracking-[0.2em] text-[#D12126] opacity-60 w-8 pt-4">0{i + 1}</span>
                         {item[lang]}
-                        <ArrowUpRight className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-[#C9A55A]" size={28} />
+                        <ArrowUpRight className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-[#E5484D]" size={28} />
                       </Link>
                     </motion.div>
                   ))}
@@ -167,10 +167,10 @@ export function Header() {
                   transition={{ delay: 0.4, duration: 0.5 }}
                 >
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#A88F5C] mb-6">{t.ours}</p>
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-6">{t.ours}</p>
                     <div className="flex flex-col gap-3">
                       {SERVICE_LINKS.map((s) => (
-                        <Link key={s.path} to={l(s.path)} className="text-[15px] text-[#F8F6F1]/80 hover:text-[#C9A55A] hover:translate-x-1 transition-all w-fit">
+                        <Link key={s.path} to={l(s.path)} className="text-[15px] text-[#F7F7F7]/80 hover:text-[#E5484D] hover:translate-x-1 transition-all w-fit">
                           {s[lang]}
                         </Link>
                       ))}
@@ -178,12 +178,12 @@ export function Header() {
                   </div>
 
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#A88F5C] mb-6">{t.touch}</p>
-                    <a href={CONTACT.emailHref} className="block serif text-2xl text-[#F8F6F1] hover:text-[#C9A55A] transition-colors">{CONTACT.email}</a>
-                    <a href={CONTACT.phoneHref} className="block text-[#F8F6F1]/70 mt-2 hover:text-[#C9A55A] transition-colors">{CONTACT.phone}</a>
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-6">{t.touch}</p>
+                    <a href={CONTACT.emailHref} className="block serif text-2xl text-[#F7F7F7] hover:text-[#E5484D] transition-colors">{CONTACT.email}</a>
+                    <a href={CONTACT.phoneHref} className="block text-[#F7F7F7]/70 mt-2 hover:text-[#E5484D] transition-colors">{CONTACT.phone}</a>
                     <Link
                       to={l('/book-consultation')}
-                      className="mt-8 inline-flex items-center gap-2 px-8 py-4 bg-[#A88F5C] text-white text-[11px] uppercase tracking-[0.18em] hover:bg-[#F8F6F1] hover:text-[#0F0F0F] transition-colors"
+                      className="mt-8 inline-flex items-center gap-2 px-8 py-4 bg-[#D12126] text-white text-[11px] uppercase tracking-[0.18em] hover:bg-[#A3181C] transition-colors"
                     >
                       {t.cta} <ArrowUpRight size={15} />
                     </Link>
@@ -192,7 +192,7 @@ export function Header() {
               </div>
 
               {/* Footer row */}
-              <div className="flex flex-wrap items-center justify-between gap-4 pt-10 border-t border-white/10 text-[11px] uppercase tracking-[0.18em] text-[#F8F6F1]/45">
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-10 border-t border-white/10 text-[11px] uppercase tracking-[0.18em] text-[#F7F7F7]/45">
                 <span>{t.addr}</span>
                 <span>© {new Date().getFullYear()} HiLink Vietnam</span>
               </div>

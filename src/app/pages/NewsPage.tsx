@@ -58,11 +58,11 @@ export function NewsPage() {
           <motion.div
             className="max-w-4xl"
           >
-            <p className="text-sm uppercase tracking-wider text-[#A88F5C] mb-8">{t.eyebrow}</p>
+            <p className="text-sm uppercase tracking-wider text-[#D12126] mb-8">{t.eyebrow}</p>
             <h1 className="serif text-5xl lg:text-7xl mb-8 leading-tight">
               {t.title}
             </h1>
-            <p className="text-xl text-[#EAE3D2] leading-relaxed">
+            <p className="text-xl text-[#E6E6E6] leading-relaxed">
               {t.lead}
             </p>
           </motion.div>
@@ -71,7 +71,7 @@ export function NewsPage() {
 
       {/* Featured Article */}
       {featuredArticle && (
-        <section className="py-24 bg-[#F8F6F1]">
+        <section className="py-24 bg-[#F7F7F7]">
           <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
             <motion.div
               className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center"
@@ -84,12 +84,12 @@ export function NewsPage() {
                   alt={featuredArticle.title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute top-6 left-6 px-4 py-2 bg-[#A88F5C] text-white text-xs uppercase tracking-wider">
+                <div className="absolute top-6 left-6 px-4 py-2 bg-[#D12126] text-white text-xs uppercase tracking-wider">
                   {t.featured}
                 </div>
               </motion.div>
               <motion.div>
-                <div className="text-sm uppercase tracking-wider text-[#A88F5C] mb-4">
+                <div className="text-sm uppercase tracking-wider text-[#D12126] mb-4">
                   {featuredArticle.category}
                 </div>
                 <h2 className="serif text-4xl lg:text-5xl mb-6">{featuredArticle.title}</h2>
@@ -106,7 +106,7 @@ export function NewsPage() {
                   href={featuredArticle.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-10 py-4 bg-[#0F0F0F] text-white text-sm uppercase tracking-wider hover:bg-[#A88F5C] transition-colors group"
+                  className="inline-flex items-center gap-2 px-10 py-4 bg-[#0F0F0F] text-white text-sm uppercase tracking-wider hover:bg-[#D12126] transition-colors group"
                 >
                   {t.read}
                   <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -154,18 +154,18 @@ export function NewsPage() {
           <motion.div
             className="max-w-3xl mx-auto text-center"
           >
-            <TrendingUp size={48} className="mx-auto mb-8 text-[#A88F5C]" />
+            <TrendingUp size={48} className="mx-auto mb-8 text-[#D12126]" />
             <h2 className="serif text-4xl lg:text-5xl mb-6">
               {t.subTitle}
             </h2>
-            <p className="text-xl text-[#EAE3D2] mb-12">
+            <p className="text-xl text-[#E6E6E6] mb-12">
               {t.subLead}
             </p>
             <a
               href={ws(lang, '/forum')}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-8 py-4 bg-[#A88F5C] text-white text-sm uppercase tracking-wider hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors whitespace-nowrap"
+              className="inline-block px-8 py-4 bg-[#D12126] text-white text-sm uppercase tracking-wider hover:bg-[#A3181C] transition-colors whitespace-nowrap"
             >
               {t.subCta}
             </a>
@@ -200,10 +200,10 @@ function ArticleCard({ category, title, excerpt, date, image, href }: {
             transition={{ duration: 0.4 }}
           />
         </div>
-        <div className="text-sm uppercase tracking-wider text-[#A88F5C] mb-3">
+        <div className="text-sm uppercase tracking-wider text-[#D12126] mb-3">
           {category}
         </div>
-        <h3 className="serif text-2xl mb-4 group-hover:text-[#A88F5C] transition-colors">
+        <h3 className="serif text-2xl mb-4 group-hover:text-[#D12126] transition-colors">
           {title}
         </h3>
         <p className="text-[#707070] mb-6 leading-relaxed line-clamp-3">
