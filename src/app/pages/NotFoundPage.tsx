@@ -1,9 +1,9 @@
+import { Link } from 'react-router';
 import { useLang, usePageMeta } from '../lib/i18n';
-import { Button, Section } from '../components/Kit';
 
 const T = {
-  en: { title: 'Page not found', lead: 'The page you are looking for has moved or no longer exists.', home: 'Back to home', contact: 'Contact us' },
-  vi: { title: 'Không tìm thấy trang', lead: 'Trang bạn tìm đã được chuyển đi hoặc không còn tồn tại.', home: 'Về trang chủ', contact: 'Liên hệ' },
+  en: { title: 'Page Not Found', back: 'Back to Home' },
+  vi: { title: 'Không tìm thấy trang', back: 'Về trang chủ' },
 };
 
 export function NotFoundPage() {
@@ -11,14 +11,14 @@ export function NotFoundPage() {
   const t = T[lang];
   usePageMeta(t.title);
   return (
-    <Section tone="cream" className="min-h-[60vh]">
-      <p className="eyebrow">404</p>
-      <h1 className="mb-6">{t.title}</h1>
-      <p className="lede mb-10 max-w-xl">{t.lead}</p>
-      <div className="flex flex-wrap gap-4">
-        <Button to={l('/')} variant="dark">{t.home}</Button>
-        <Button to={l('/contact')} variant="line">{t.contact}</Button>
+    <div className="min-h-[60vh] flex items-center justify-center bg-[#F8F6F1]">
+      <div className="text-center">
+        <p className="text-sm uppercase tracking-wider text-[#A88F5C] mb-4">404</p>
+        <h2 className="serif text-4xl mb-4">{t.title}</h2>
+        <Link to={l('/')} className="text-[#A88F5C] uppercase text-sm tracking-wider underline">
+          {t.back}
+        </Link>
       </div>
-    </Section>
+    </div>
   );
 }

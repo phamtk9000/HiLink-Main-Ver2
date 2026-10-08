@@ -1,115 +1,305 @@
-import { ServicePage, type ServiceCopy } from '../components/ServicePage';
+import { Plane, UtensilsCrossed, Calendar, Key, Briefcase, Sparkles, Mail, Lock } from 'lucide-react';
+import { motion } from 'motion/react';
+import { useState } from 'react';
+import { CONTACT } from '../data/site';
+import { useLang, usePageMeta } from '../lib/i18n';
 
-const COPY: { en: ServiceCopy; vi: ServiceCopy } = {
+const SERVICE_META = [
+  { icon: <Plane size={26} />, image: '/photos/hbc-host.webp' },
+  { icon: <UtensilsCrossed size={26} />, image: '/photos/hbc-fandb.webp' },
+  { icon: <Calendar size={26} />, image: '/photos/quarter-club-bar.webp' },
+  { icon: <Key size={26} />, image: '/properties/quarter-house/qh-02.webp' },
+  { icon: <Briefcase size={26} />, image: '/photos/hbc-meeting.webp' },
+  { icon: <Sparkles size={26} />, image: '/photos/hbc-bar.webp' },
+];
+
+const T = {
   en: {
-    meta: 'Concierge services by HiLink in Hanoi — reception, guest care, meeting and event support, bookings and everyday help for members and tenants.',
-    hero: {
-      eyebrow: 'Concierge Services',
-      title: 'Someone to take care of the details.',
-      lead: 'Day-to-day support for members, tenants and their guests — so the people you work with feel looked after from the moment they arrive.',
-    },
-    intro: {
-      eyebrow: 'What we do',
-      title: 'The small things, done well, every day.',
-      body: [
-        'Every HiLink location has a staffed reception. Our concierge team welcomes your guests, handles your mail and deliveries, prepares your meetings and takes care of the requests that would otherwise interrupt your day.',
-        'For clients new to Hanoi, the same team helps with the practical side of settling in.',
-      ],
-    },
-    offer: {
-      eyebrow: 'Services',
-      title: 'What our concierge team looks after',
-      items: [
-        { t: 'Reception & guests', d: 'A staffed front desk that welcomes visitors and lets you know when they arrive.' },
-        { t: 'Mail & deliveries', d: 'Letters, parcels and couriers received, recorded and passed on to you.' },
-        { t: 'Meetings & events', d: 'Room set-up, refreshments and equipment ready before you walk in.' },
-        { t: 'Bookings', d: 'Restaurants, travel and accommodation arranged for you and your guests.' },
-        { t: 'Settling in', d: 'Help with housing, local services and paperwork for people new to Hanoi.' },
-        { t: 'Everyday requests', d: 'Printing, errands and the many small tasks that keep a team moving.' },
-      ],
-    },
-    steps: {
-      eyebrow: 'How it works',
-      title: 'Ask once. We take it from there.',
-      items: [
-        { t: 'Ask', d: 'Speak to reception in person, by phone or by email.' },
-        { t: 'Confirm', d: 'We confirm what will happen and, where there is a cost, what it is.' },
-        { t: 'Arrange', d: 'Our team makes it happen and keeps you posted.' },
-        { t: 'Follow up', d: 'We check that everything went as it should.' },
-      ],
-    },
-    faqs: [
-      { question: 'Who can use the concierge service?', answer: 'Members and tenants at HiLink locations, and clients of HiLink property and business services.' },
-      { question: 'Is concierge included in my membership?', answer: 'Reception, guest welcome and mail handling come with HiLink workspaces. Bookings and requests with a third-party cost are confirmed with you first.' },
-      { question: 'What are the reception hours?', answer: 'Opening hours vary by location — check each location on hilink.vn.' },
+    meta: 'A dedicated HiLink concierge team for travel, dining, events, lifestyle and business support.',
+    eyebrow: 'Concierge Services', h1: ['Your Life.', 'Perfected.'],
+    lead: 'A dedicated concierge team at your service, 24/7. From the extraordinary to the everyday, we make the impossible, effortless.',
+    request: 'Request Membership', scroll: 'Scroll to discover',
+    philTitle: 'Time is Your Most Valuable Asset',
+    phil: 'Your dedicated concierge manages the details, so you can focus on what truly matters. From securing impossible reservations to orchestrating seamless travel, we anticipate your needs before you voice them.',
+    arrEyebrow: 'What We Arrange', arrTitle: 'What We Can Arrange', arrLead: 'A selection of our most requested services',
+    services: [
+      ['Travel & Aviation', 'Private jet charters, first-class bookings, luxury hotel reservations, bespoke itineraries'],
+      ['Dining & Entertainment', 'Private chef services, restaurant reservations at Michelin-starred venues, exclusive event access'],
+      ['Events & Experiences', 'VIP access to cultural events, private tours, yacht charters, curated experiences'],
+      ['Lifestyle Management', 'Personal shopping, home services, relocation support, wellness and spa bookings'],
+      ['Business Support', 'Executive assistance, meeting coordination, translation services, corporate gifting'],
+      ['Bespoke Requests', 'Whatever you need, whenever you need it. Your dedicated concierge makes it happen'],
     ],
-    form: {
-      title: 'How can we help?',
-      lead: 'Tell us what you need and when. Our team will confirm the details with you.',
-      interests: ['Guest or event support', 'Bookings (dining, travel, accommodation)', 'Settling in Hanoi', 'Something else'],
-      messageLabel: 'Your request',
-    },
+    diffTitle: 'The HiLink Difference', diffAlt: 'Reception at the HiLink Business Club',
+    diffs: [
+      ['Personal. Not Automated.', 'You work with a dedicated concierge team who knows your preferences, anticipates your needs, and operates with complete discretion.'],
+      ['Connected. Not Limited.', 'Our network spans Vietnam and beyond—exclusive access to private clubs, VIP events, and experiences unavailable to the public.'],
+      ['Proactive. Not Reactive.', "We don't wait for requests. We know your calendar, understand your preferences, and have everything arranged before you need it."],
+    ],
+    formTitle: 'Membership Enquiry', formLead: 'Concierge services are available exclusively to HiLink property clients and select members.',
+    name: 'Full Name', email: 'Email Address', phone: 'Phone Number', message: 'Tell us about your needs and how we can assist you...',
+    submit: 'Submit Enquiry', formNote: 'Your enquiry is handled with complete confidentiality. A member of our team will contact you within 24 hours.',
+    qLbl: 'Questions?', qText: 'Our concierge team is available 24/7',
   },
   vi: {
-    meta: 'Dịch vụ concierge của HiLink tại Hà Nội — lễ tân, đón khách, hỗ trợ họp và sự kiện, đặt chỗ và hỗ trợ hằng ngày cho thành viên và khách thuê.',
-    hero: {
-      eyebrow: 'Dịch vụ concierge',
-      title: 'Luôn có người lo những điều nhỏ.',
-      lead: 'Hỗ trợ hằng ngày cho thành viên, khách thuê và khách của họ — để những người làm việc cùng bạn cảm thấy được chăm sóc ngay từ khi bước vào.',
-    },
-    intro: {
-      eyebrow: 'Chúng tôi làm gì',
-      title: 'Những việc nhỏ, làm tốt, mỗi ngày.',
-      body: [
-        'Mỗi địa điểm HiLink đều có lễ tân trực. Đội concierge đón khách của bạn, nhận thư và hàng, chuẩn bị phòng họp và lo những yêu cầu lẽ ra làm gián đoạn ngày làm việc của bạn.',
-        'Với khách hàng mới đến Hà Nội, cùng đội ngũ đó hỗ trợ những việc thiết thực để ổn định cuộc sống.',
-      ],
-    },
-    offer: {
-      eyebrow: 'Dịch vụ',
-      title: 'Những việc đội concierge đảm nhận',
-      items: [
-        { t: 'Lễ tân & đón khách', d: 'Quầy lễ tân có người trực, đón khách và báo cho bạn khi khách đến.' },
-        { t: 'Thư & hàng hoá', d: 'Thư, bưu phẩm và chuyển phát được nhận, ghi sổ và chuyển đến bạn.' },
-        { t: 'Họp & sự kiện', d: 'Phòng, đồ uống và thiết bị sẵn sàng trước khi bạn đến.' },
-        { t: 'Đặt chỗ', d: 'Nhà hàng, đi lại và lưu trú được sắp xếp cho bạn và khách.' },
-        { t: 'Ổn định cuộc sống', d: 'Hỗ trợ nhà ở, dịch vụ địa phương và giấy tờ cho người mới đến Hà Nội.' },
-        { t: 'Yêu cầu hằng ngày', d: 'In ấn, việc vặt và vô số việc nhỏ giúp đội ngũ làm việc trôi chảy.' },
-      ],
-    },
-    steps: {
-      eyebrow: 'Quy trình',
-      title: 'Chỉ cần nói một lần. Phần còn lại để chúng tôi.',
-      items: [
-        { t: 'Yêu cầu', d: 'Gặp lễ tân trực tiếp, gọi điện hoặc gửi email.' },
-        { t: 'Xác nhận', d: 'Chúng tôi xác nhận việc sẽ làm và chi phí, nếu có.' },
-        { t: 'Sắp xếp', d: 'Đội ngũ thực hiện và cập nhật cho bạn.' },
-        { t: 'Theo dõi', d: 'Chúng tôi kiểm tra để mọi việc diễn ra đúng như mong muốn.' },
-      ],
-    },
-    faqs: [
-      { question: 'Ai có thể dùng dịch vụ concierge?', answer: 'Thành viên và khách thuê tại các địa điểm HiLink, cùng khách hàng của dịch vụ quản lý bất động sản và dịch vụ doanh nghiệp của HiLink.' },
-      { question: 'Concierge có nằm trong gói thành viên không?', answer: 'Lễ tân, đón khách và nhận thư đi kèm không gian làm việc HiLink. Các yêu cầu đặt chỗ có chi phí bên thứ ba sẽ được xác nhận với bạn trước.' },
-      { question: 'Lễ tân làm việc giờ nào?', answer: 'Giờ mở cửa khác nhau theo địa điểm — xem từng địa điểm trên hilink.vn.' },
+    meta: 'Đội ngũ concierge riêng của HiLink cho đi lại, ẩm thực, sự kiện, phong cách sống và hỗ trợ công việc.',
+    eyebrow: 'Dịch vụ concierge', h1: ['Cuộc sống của bạn.', 'Trọn vẹn.'],
+    lead: 'Một đội ngũ concierge riêng phục vụ bạn 24/7. Từ những điều đặc biệt đến việc thường ngày, chúng tôi biến điều khó thành dễ dàng.',
+    request: 'Đăng ký thành viên', scroll: 'Cuộn để khám phá',
+    philTitle: 'Thời gian là tài sản quý nhất của bạn',
+    phil: 'Concierge riêng lo từng chi tiết để bạn tập trung vào điều thật sự quan trọng. Từ những đặt chỗ khó nhất đến hành trình liền mạch, chúng tôi đón trước nhu cầu của bạn.',
+    arrEyebrow: 'Chúng tôi sắp xếp', arrTitle: 'Những gì chúng tôi có thể sắp xếp', arrLead: 'Một số dịch vụ được yêu cầu nhiều nhất',
+    services: [
+      ['Đi lại & hàng không', 'Thuê chuyên cơ, đặt vé hạng nhất, đặt khách sạn cao cấp, lịch trình riêng'],
+      ['Ẩm thực & giải trí', 'Đầu bếp riêng, đặt bàn nhà hàng Michelin, sự kiện đặc quyền'],
+      ['Sự kiện & trải nghiệm', 'Vé VIP sự kiện văn hoá, tour riêng, thuê du thuyền, trải nghiệm được tuyển chọn'],
+      ['Phong cách sống', 'Mua sắm riêng, dịch vụ tại nhà, hỗ trợ chuyển đến, đặt lịch wellness và spa'],
+      ['Hỗ trợ công việc', 'Trợ lý điều hành, điều phối cuộc họp, phiên dịch, quà tặng doanh nghiệp'],
+      ['Yêu cầu riêng', 'Bất cứ điều gì bạn cần, bất cứ khi nào. Concierge riêng sẽ biến điều đó thành hiện thực'],
     ],
-    form: {
-      title: 'Chúng tôi có thể giúp gì?',
-      lead: 'Cho chúng tôi biết bạn cần gì và khi nào. Đội ngũ sẽ xác nhận chi tiết với bạn.',
-      interests: ['Hỗ trợ đón khách hoặc sự kiện', 'Đặt chỗ (ăn uống, đi lại, lưu trú)', 'Ổn định cuộc sống tại Hà Nội', 'Nhu cầu khác'],
-      messageLabel: 'Yêu cầu của bạn',
-    },
+    diffTitle: 'Khác biệt của HiLink', diffAlt: 'Quầy lễ tân tại HiLink Business Club',
+    diffs: [
+      ['Cá nhân hoá. Không tự động hoá.', 'Bạn làm việc với một đội concierge riêng hiểu sở thích, đón trước nhu cầu và luôn kín đáo tuyệt đối.'],
+      ['Kết nối. Không giới hạn.', 'Mạng lưới của chúng tôi trải khắp Việt Nam và hơn thế — quyền vào câu lạc bộ riêng, sự kiện VIP và trải nghiệm không mở cho công chúng.'],
+      ['Chủ động. Không bị động.', 'Chúng tôi không chờ yêu cầu. Chúng tôi nắm lịch trình, hiểu sở thích và chuẩn bị sẵn mọi thứ trước khi bạn cần.'],
+    ],
+    formTitle: 'Đăng ký thành viên', formLead: 'Dịch vụ concierge dành riêng cho khách hàng bất động sản của HiLink và thành viên được chọn.',
+    name: 'Họ và tên', email: 'Địa chỉ email', phone: 'Số điện thoại', message: 'Cho chúng tôi biết nhu cầu của bạn và chúng tôi có thể hỗ trợ thế nào...',
+    submit: 'Gửi yêu cầu', formNote: 'Yêu cầu của bạn được bảo mật tuyệt đối. Một thành viên đội ngũ sẽ liên hệ với bạn trong vòng 24 giờ.',
+    qLbl: 'Câu hỏi?', qText: 'Đội concierge sẵn sàng 24/7',
   },
 };
 
 export function ConciergePage() {
+  const { lang } = useLang();
+  const t = T[lang];
+  usePageMeta(t.eyebrow, t.meta);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle form submission
+  };
+
   return (
-    <ServicePage
-      copy={COPY}
-      path="/concierge-services"
-      formType="concierge"
-      photo="/photos/hbc-bar.webp"
-      introPhoto="/photos/hbc-reception.webp"
-      introAlt={{ en: 'Reception at the HiLink Business Club', vi: 'Quầy lễ tân tại HiLink Business Club' }}
-    />
+    <>
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center bg-[#0F0F0F] text-white overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src="/photos/hbc-lounge-xl.webp"
+            alt=""
+            className="w-full h-full object-cover opacity-[0.35]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0F0F0F]/80 via-[#0F0F0F]/55 to-[#0F0F0F]" />
+        </div>
+
+        <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 py-24 w-full">
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-3 mb-8">
+              <Sparkles size={16} className="text-[#A88F5C]" />
+              <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C]">
+                {t.eyebrow}
+              </p>
+            </div>
+            <h1
+              className="serif text-white mb-8 leading-[1.05]"
+              style={{ fontSize: 'clamp(3.5rem, 7vw, 7rem)', fontWeight: 300 }}
+            >
+              {t.h1[0]}<br />{t.h1[1]}
+            </h1>
+            <p className="text-lg md:text-xl text-[#EAE3D2] mb-12 leading-relaxed max-w-2xl font-light">
+              {t.lead}
+            </p>
+            <a
+              href="#enquire"
+              className="inline-flex items-center gap-3 px-10 py-4 bg-[#A88F5C] text-white text-[11px] uppercase tracking-[0.2em] hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors"
+            >
+              <Lock size={16} />
+              {t.request}
+            </a>
+          </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
+          <div className="w-px h-12 bg-white/20" />
+          <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">{t.scroll}</p>
+        </div>
+      </section>
+
+      {/* Philosophy */}
+      <section className="py-28 lg:py-40 bg-[#F8F6F1]">
+        <div className="max-w-[900px] mx-auto px-6 lg:px-12 text-center">
+          <h2 className="serif font-light text-4xl lg:text-5xl mb-8 leading-tight text-[#1A1A1A]">
+            {t.philTitle}
+          </h2>
+          <p className="text-lg text-[#707070] leading-relaxed mb-10">
+            {t.phil}
+          </p>
+          <div className="w-16 h-px bg-[#A88F5C] mx-auto" />
+        </div>
+      </section>
+
+      {/* What We Arrange */}
+      <section className="py-28 lg:py-40 bg-white">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="text-center mb-16">
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-4">{t.arrEyebrow}</p>
+            <h2 className="serif font-light text-4xl lg:text-5xl mb-6 text-[#1A1A1A]">{t.arrTitle}</h2>
+            <p className="text-lg text-[#707070]">
+              {t.arrLead}
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#0F0F0F]/10">
+            {t.services.map(([title, description], i) => (
+              <ServiceCard key={title} icon={SERVICE_META[i].icon} image={SERVICE_META[i].image} title={title} description={description} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* The Difference */}
+      <section className="py-28 lg:py-40 bg-[#F8F6F1]">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+            <div>
+              <h2 className="serif font-light text-4xl lg:text-5xl mb-12 text-[#1A1A1A]">{t.diffTitle}</h2>
+              <div className="divide-y divide-[#0F0F0F]/10">
+                {t.diffs.map(([title, body], i) => (
+                  <div key={title} className={i === 0 ? 'pb-8' : i === t.diffs.length - 1 ? 'pt-8' : 'py-8'}>
+                    <h3 className="serif text-2xl mb-3 text-[#1A1A1A]">{title}</h3>
+                    <p className="text-[#707070] leading-relaxed">
+                      {body}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative aspect-[3/4] overflow-hidden">
+              <img
+                src="/photos/hbc-reception.webp"
+                alt={t.diffAlt}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#A88F5C]" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Membership Enquiry */}
+      <section id="enquire" className="py-28 lg:py-40 bg-white">
+        <div className="max-w-[760px] mx-auto px-6 lg:px-12">
+          <div className="text-center mb-16">
+            <Lock size={36} className="mx-auto mb-8 text-[#A88F5C]" />
+            <h2 className="serif font-light text-4xl lg:text-5xl mb-6 text-[#1A1A1A]">{t.formTitle}</h2>
+            <p className="text-lg text-[#707070]">
+              {t.formLead}
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <input
+              type="text"
+              placeholder={t.name}
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#0F0F0F]/15 text-[#1A1A1A] placeholder-[#9a9a9a] focus:outline-none focus:border-[#A88F5C] transition-colors"
+              required
+            />
+            <input
+              type="email"
+              placeholder={t.email}
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#0F0F0F]/15 text-[#1A1A1A] placeholder-[#9a9a9a] focus:outline-none focus:border-[#A88F5C] transition-colors"
+              required
+            />
+            <input
+              type="tel"
+              placeholder={t.phone}
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#0F0F0F]/15 text-[#1A1A1A] placeholder-[#9a9a9a] focus:outline-none focus:border-[#A88F5C] transition-colors"
+              required
+            />
+            <textarea
+              placeholder={t.message}
+              value={formData.message}
+              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+              rows={6}
+              className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#0F0F0F]/15 text-[#1A1A1A] placeholder-[#9a9a9a] focus:outline-none focus:border-[#A88F5C] transition-colors resize-none"
+              required
+            />
+            <button
+              type="submit"
+              className="w-full px-12 py-4 bg-[#A88F5C] text-white text-[11px] uppercase tracking-[0.2em] hover:bg-[#0F0F0F] transition-colors"
+            >
+              {t.submit}
+            </button>
+            <p className="text-sm text-[#707070] text-center">
+              {t.formNote}
+            </p>
+          </form>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section className="py-20 bg-[#F8F6F1] border-t border-[#A88F5C]/20">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-2">{t.qLbl}</p>
+              <p className="text-xl text-[#1A1A1A]">{t.qText}</p>
+            </div>
+            <div className="flex items-center gap-8">
+              <a
+                href={CONTACT.emailHref}
+                className="flex items-center gap-3 text-[#707070] hover:text-[#A88F5C] transition-colors"
+              >
+                <Mail size={20} />
+                <span>{CONTACT.email}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function ServiceCard({ icon, title, description, image }: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  image: string;
+}) {
+  return (
+    <motion.div
+      className="group bg-white overflow-hidden"
+      whileHover={{ y: -6 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="relative aspect-[4/3] overflow-hidden">
+        <img
+          src={image}
+          alt={title}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          loading="lazy"
+        />
+      </div>
+      <div className="p-8">
+        <div className="text-[#A88F5C] mb-4">{icon}</div>
+        <h3 className="serif text-2xl mb-3 text-[#1A1A1A]">{title}</h3>
+        <p className="text-[#707070] text-sm leading-relaxed">{description}</p>
+      </div>
+    </motion.div>
   );
 }

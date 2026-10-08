@@ -3,24 +3,14 @@ import { router } from './routes';
 import { useState } from 'react';
 import { IntroLoader } from './components/IntroLoader';
 
-const KEY = 'hilink_intro_seen';
-
-// The intro plays once per browser session, and never for visitors who ask
-// for reduced motion.
-function shouldShowIntro() {
-  try {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
-    return !sessionStorage.getItem(KEY);
-  } catch {
-    return false;
-  }
-}
-
 export default function App() {
-  const [showIntro, setShowIntro] = useState(shouldShowIntro);
+  // Only show intro on first visit per session
+  const [showIntro, setShowIntro] = useState(() => {
+    try { return !sessionStorage.getItem('hilink_intro_seen'); } catch { return false; }
+  });
 
   const handleIntroDone = () => {
-    try { sessionStorage.setItem(KEY, '1'); } catch { /* storage blocked */ }
+    try { sessionStorage.setItem('hilink_intro_seen', '1'); } catch { /* storage blocked */ }
     setShowIntro(false);
   };
 

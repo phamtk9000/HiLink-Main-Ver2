@@ -1,117 +1,301 @@
-import { ServicePage, type ServiceCopy } from '../components/ServicePage';
+import { Link } from 'react-router';
+import { Package, Truck, Factory, Shield, BarChart, MapPin, ArrowRight, Warehouse } from 'lucide-react';
+import { motion } from 'motion/react';
+import { useLang, usePageMeta } from '../lib/i18n';
 
-// No HiLink photograph of an industrial site exists yet, so this page uses
-// type-only panels instead of stand-in pictures. Add photos when HiLink
-// supplies them.
-const COPY: { en: ServiceCopy; vi: ServiceCopy } = {
+// No HiLink photograph of an industrial site exists yet, so image slots show
+// a dark panel with an icon. Swap in photos when HiLink supplies them.
+const SERVICE_ICONS = [<Package size={32} />, <Factory size={32} />, <MapPin size={32} />, <Truck size={32} />, <Shield size={32} />, <BarChart size={32} />];
+
+const T = {
   en: {
-    meta: 'Industrial and logistics property support by HiLink — site search, leasing, fit-out coordination and facilities management for warehouses and factories.',
-    hero: {
-      eyebrow: 'Industrial & Logistics',
-      title: 'Warehouse and factory space, without the legwork.',
-      lead: 'From finding the right site to running it day to day, HiLink takes on the operational work of industrial property for occupiers and owners.',
-    },
-    intro: {
-      eyebrow: 'What we do',
-      title: 'One partner from site search to operations.',
-      body: [
-        'Industrial space comes with its own questions: access, power, permits, fit-out and the people who keep it running. We coordinate them under one relationship.',
-        'For owners, the same approach as our property management applies: leasing, tenant care, maintenance and reporting.',
-      ],
-    },
-    offer: {
-      eyebrow: 'Services',
-      title: 'Support across the life of an industrial site',
-      items: [
-        { t: 'Site search', d: 'A shortlist of warehouses, factories or land that match your requirements.' },
-        { t: 'Due diligence', d: 'Checks on documents, condition, access and utilities before you commit.' },
-        { t: 'Leasing', d: 'Negotiation and lease preparation, on behalf of occupiers or owners.' },
-        { t: 'Fit-out coordination', d: 'Planning and coordinating contractors until the space is ready to use.' },
-        { t: 'Facilities management', d: 'Maintenance, security, cleaning and supplier management on site.' },
-        { t: 'Owner reporting', d: 'Regular reporting on occupancy, income and works for asset owners.' },
-      ],
-    },
-    who: {
-      eyebrow: 'Who we work with',
-      title: 'For businesses that need space to make, store and move goods',
-      items: ['Manufacturers setting up or expanding', 'Logistics and distribution companies', 'Retail and e-commerce businesses', 'Owners of warehouses and industrial land'],
-    },
-    steps: {
-      eyebrow: 'How it works',
-      title: 'A clear path from brief to running site',
-      items: [
-        { t: 'Brief', d: 'Location, size, power, access and timing — we agree what the site must deliver.' },
-        { t: 'Search & check', d: 'We shortlist options and check them before you visit.' },
-        { t: 'Secure & fit out', d: 'We support the lease and coordinate the works.' },
-        { t: 'Operate', d: 'We can stay on to manage the facility day to day.' },
-      ],
-    },
-    faqs: [
-      { question: 'Where do you search for sites?', answer: 'Tell us the area you need. We will say plainly whether we can help there, and with which partners.' },
-      { question: 'Do you work for occupiers or owners?', answer: 'Both — occupiers looking for space, and owners who want their industrial property leased and run.' },
+    meta: 'Warehousing, factory and logistics property solutions across Vietnam — from site selection to facility operations.',
+    eyebrow: 'Industrial & Logistics', title: 'Strategic Solutions for Manufacturing & Distribution',
+    lead: 'Specialized warehousing, factory, and logistics property management for businesses with supply chain and manufacturing operations in Vietnam.',
+    request: 'Request Information',
+    svcTitle: 'Comprehensive Industrial Solutions', svcLead: 'End-to-end support for your manufacturing and logistics operations',
+    services: [
+      ['Warehouse & Distribution Centers', 'Modern warehousing facilities with advanced logistics infrastructure, security systems, and efficient layouts.'],
+      ['Factory & Manufacturing Space', 'Purpose-built manufacturing facilities in established industrial parks with full utilities and compliance.'],
+      ['Industrial Park Placement', "Strategic site selection within Vietnam's top-tier industrial zones with optimal infrastructure and incentives."],
+      ['Logistics Coordination', 'Supply chain optimization, last-mile delivery solutions, and transportation network integration.'],
+      ['Compliance & Safety Management', 'Regulatory compliance support, safety protocols, environmental standards, and permit management.'],
+      ['Facility Operations Support', 'Ongoing operational management, maintenance, utilities, and vendor coordination for seamless operations.'],
     ],
-    form: {
-      title: 'Tell us about your requirements',
-      lead: 'Location, size and timing are a good start. We will come back to discuss options.',
-      interests: ['Find a warehouse or factory', 'Lease out my industrial property', 'Facilities management', 'Something else'],
-      messageLabel: 'Location, size and timing',
-    },
+    locTitle: 'Strategic Locations', locLead: "Access to Vietnam's premier industrial zones",
+    parks: [
+      { name: 'Northern Industrial Corridor', location: 'Bac Ninh, Bac Giang, Hai Phong', features: ['Proximity to Hanoi and major ports', 'Electronics and manufacturing hub', 'Excellent highway and rail connections', 'Favorable tax incentives'] },
+      { name: 'Southern Logistics Hub', location: 'Binh Duong, Dong Nai, Long An', features: ['Adjacent to HCMC metropolitan area', 'Deep-water port access', 'Multimodal transportation links', 'Established supply chain ecosystem'] },
+    ],
+    facTitle: 'Facility Options',
+    facilities: [
+      ['Built-to-Suit', 'Custom-designed facilities tailored to your specific operational requirements and specifications', 'From 5,000m²'],
+      ['Ready-Built Warehouses', 'Immediate occupancy warehouses with standard specifications and flexible lease terms', '1,000 - 20,000m²'],
+      ['Shared Logistics Centers', 'Cost-effective shared warehousing solutions with professional management and security', 'From 500m²'],
+    ],
+    whyTitle: 'Why Partner with HiLink for Industrial Real Estate',
+    values: [
+      ['Local Expertise', 'Deep relationships with industrial park developers and understanding of regional advantages'],
+      ['Regulatory Navigation', 'Expert support for permits, environmental compliance, and operational licensing'],
+      ['Cost Optimization', 'Negotiate favorable terms and identify tax incentives and operational efficiencies'],
+      ['Operational Continuity', 'Ensure uninterrupted operations with proactive maintenance and vendor management'],
+    ],
+    ctaTitle: 'Find Your Ideal Industrial Space', ctaLead: 'Discuss your manufacturing and logistics requirements with our industrial real estate specialists.', cta: 'Request Site Information',
   },
   vi: {
-    meta: 'Hỗ trợ bất động sản công nghiệp và logistics của HiLink — tìm địa điểm, cho thuê, điều phối thi công và quản lý vận hành kho bãi, nhà xưởng.',
-    hero: {
-      eyebrow: 'Công nghiệp & logistics',
-      title: 'Kho bãi và nhà xưởng, không phải tự chạy việc.',
-      lead: 'Từ tìm đúng địa điểm đến vận hành hằng ngày, HiLink đảm nhận phần việc vận hành bất động sản công nghiệp cho bên thuê và chủ sở hữu.',
-    },
-    intro: {
-      eyebrow: 'Chúng tôi làm gì',
-      title: 'Một đối tác từ tìm địa điểm đến vận hành.',
-      body: [
-        'Không gian công nghiệp có những câu hỏi riêng: giao thông, điện, giấy phép, thi công và đội ngũ vận hành. Chúng tôi điều phối tất cả trong một mối quan hệ.',
-        'Với chủ sở hữu, cách làm giống dịch vụ quản lý bất động sản của chúng tôi: cho thuê, chăm sóc khách thuê, bảo trì và báo cáo.',
-      ],
-    },
-    offer: {
-      eyebrow: 'Dịch vụ',
-      title: 'Hỗ trợ suốt vòng đời một cơ sở công nghiệp',
-      items: [
-        { t: 'Tìm địa điểm', d: 'Danh sách kho, xưởng hoặc đất phù hợp với yêu cầu của bạn.' },
-        { t: 'Thẩm định', d: 'Kiểm tra giấy tờ, hiện trạng, giao thông và hạ tầng trước khi bạn quyết định.' },
-        { t: 'Cho thuê', d: 'Đàm phán và chuẩn bị hợp đồng, cho bên thuê hoặc chủ sở hữu.' },
-        { t: 'Điều phối thi công', d: 'Lập kế hoạch và điều phối nhà thầu đến khi không gian sẵn sàng sử dụng.' },
-        { t: 'Quản lý vận hành', d: 'Bảo trì, an ninh, vệ sinh và quản lý nhà cung cấp tại chỗ.' },
-        { t: 'Báo cáo cho chủ sở hữu', d: 'Báo cáo định kỳ về tỷ lệ lấp đầy, doanh thu và công việc.' },
-      ],
-    },
-    who: {
-      eyebrow: 'Chúng tôi làm việc với ai',
-      title: 'Cho doanh nghiệp cần không gian để sản xuất, lưu trữ và vận chuyển hàng hoá',
-      items: ['Nhà sản xuất mới thành lập hoặc mở rộng', 'Công ty logistics và phân phối', 'Doanh nghiệp bán lẻ và thương mại điện tử', 'Chủ sở hữu kho bãi và đất công nghiệp'],
-    },
-    steps: {
-      eyebrow: 'Quy trình',
-      title: 'Lộ trình rõ ràng từ yêu cầu đến cơ sở đi vào hoạt động',
-      items: [
-        { t: 'Yêu cầu', d: 'Vị trí, diện tích, điện, giao thông và thời gian — thống nhất điều cơ sở cần đáp ứng.' },
-        { t: 'Tìm & kiểm tra', d: 'Chúng tôi chọn lọc phương án và kiểm tra trước khi bạn đến xem.' },
-        { t: 'Ký kết & thi công', d: 'Hỗ trợ hợp đồng thuê và điều phối thi công.' },
-        { t: 'Vận hành', d: 'Chúng tôi có thể tiếp tục quản lý cơ sở hằng ngày.' },
-      ],
-    },
-    faqs: [
-      { question: 'HiLink tìm địa điểm ở những khu vực nào?', answer: 'Hãy cho chúng tôi biết khu vực bạn cần. Chúng tôi sẽ nói rõ liệu có hỗ trợ được ở đó không, và cùng những đối tác nào.' },
-      { question: 'HiLink làm cho bên thuê hay chủ sở hữu?', answer: 'Cả hai — bên thuê đang tìm không gian, và chủ sở hữu muốn bất động sản công nghiệp được cho thuê và vận hành.' },
+    meta: 'Giải pháp bất động sản kho bãi, nhà xưởng và logistics trên khắp Việt Nam — từ chọn địa điểm đến vận hành cơ sở.',
+    eyebrow: 'Công nghiệp & logistics', title: 'Giải pháp chiến lược cho sản xuất & phân phối',
+    lead: 'Quản lý bất động sản kho bãi, nhà xưởng và logistics chuyên biệt cho doanh nghiệp có hoạt động chuỗi cung ứng và sản xuất tại Việt Nam.',
+    request: 'Yêu cầu thông tin',
+    svcTitle: 'Giải pháp công nghiệp toàn diện', svcLead: 'Hỗ trợ trọn gói cho hoạt động sản xuất và logistics của bạn',
+    services: [
+      ['Kho & trung tâm phân phối', 'Kho bãi hiện đại với hạ tầng logistics tiên tiến, hệ thống an ninh và bố trí hiệu quả.'],
+      ['Nhà xưởng & không gian sản xuất', 'Nhà xưởng xây sẵn trong các khu công nghiệp lâu năm, đầy đủ tiện ích và tuân thủ.'],
+      ['Chọn khu công nghiệp', 'Chọn địa điểm chiến lược trong các khu công nghiệp hàng đầu Việt Nam với hạ tầng và ưu đãi tốt nhất.'],
+      ['Điều phối logistics', 'Tối ưu chuỗi cung ứng, giải pháp giao hàng chặng cuối và kết nối mạng lưới vận tải.'],
+      ['Quản lý tuân thủ & an toàn', 'Hỗ trợ tuân thủ quy định, quy trình an toàn, tiêu chuẩn môi trường và quản lý giấy phép.'],
+      ['Hỗ trợ vận hành cơ sở', 'Quản lý vận hành, bảo trì, tiện ích và điều phối nhà cung cấp để hoạt động liền mạch.'],
     ],
-    form: {
-      title: 'Cho chúng tôi biết yêu cầu của bạn',
-      lead: 'Vị trí, diện tích và thời gian là khởi đầu tốt. Chúng tôi sẽ liên hệ để trao đổi phương án.',
-      interests: ['Tìm kho hoặc nhà xưởng', 'Cho thuê bất động sản công nghiệp', 'Quản lý vận hành', 'Nhu cầu khác'],
-      messageLabel: 'Vị trí, diện tích và thời gian',
-    },
+    locTitle: 'Vị trí chiến lược', locLead: 'Tiếp cận các khu công nghiệp hàng đầu Việt Nam',
+    parks: [
+      { name: 'Hành lang công nghiệp phía Bắc', location: 'Bắc Ninh, Bắc Giang, Hải Phòng', features: ['Gần Hà Nội và các cảng lớn', 'Trung tâm điện tử và sản xuất', 'Kết nối cao tốc và đường sắt thuận lợi', 'Ưu đãi thuế hấp dẫn'] },
+      { name: 'Trung tâm logistics phía Nam', location: 'Bình Dương, Đồng Nai, Long An', features: ['Liền kề vùng đô thị TP.HCM', 'Tiếp cận cảng nước sâu', 'Kết nối vận tải đa phương thức', 'Hệ sinh thái chuỗi cung ứng hoàn chỉnh'] },
+    ],
+    facTitle: 'Loại hình cơ sở',
+    facilities: [
+      ['Xây theo yêu cầu', 'Cơ sở thiết kế riêng theo yêu cầu và thông số vận hành của bạn', 'Từ 5.000m²'],
+      ['Kho xây sẵn', 'Kho sẵn sàng sử dụng với thông số tiêu chuẩn và thời hạn thuê linh hoạt', '1.000 - 20.000m²'],
+      ['Trung tâm logistics chia sẻ', 'Giải pháp kho chia sẻ tiết kiệm với quản lý chuyên nghiệp và an ninh', 'Từ 500m²'],
+    ],
+    whyTitle: 'Vì sao chọn HiLink cho bất động sản công nghiệp',
+    values: [
+      ['Am hiểu địa phương', 'Quan hệ sâu rộng với chủ đầu tư khu công nghiệp và hiểu rõ lợi thế từng vùng'],
+      ['Xử lý thủ tục', 'Hỗ trợ chuyên sâu về giấy phép, tuân thủ môi trường và cấp phép vận hành'],
+      ['Tối ưu chi phí', 'Đàm phán điều khoản có lợi, tìm ưu đãi thuế và hiệu quả vận hành'],
+      ['Vận hành liên tục', 'Đảm bảo hoạt động không gián đoạn với bảo trì chủ động và quản lý nhà cung cấp'],
+    ],
+    ctaTitle: 'Tìm không gian công nghiệp phù hợp', ctaLead: 'Trao đổi yêu cầu sản xuất và logistics với chuyên gia bất động sản công nghiệp của chúng tôi.', cta: 'Yêu cầu thông tin địa điểm',
   },
 };
 
 export function IndustrialPage() {
-  return <ServicePage copy={COPY} path="/industrial-logistics" formType="industrial" />;
+  const { lang, l } = useLang();
+  const t = T[lang];
+  usePageMeta(t.eyebrow, t.meta);
+
+  return (
+    <>
+      {/* Hero Section */}
+      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#0F0F0F] text-white">
+        <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12">
+          <motion.div
+            className="grid lg:grid-cols-12 gap-12 lg:gap-24"
+          >
+            <motion.div className="lg:col-span-6">
+              <p className="text-sm uppercase tracking-wider text-[#A88F5C] mb-8">{t.eyebrow}</p>
+              <h1 className="serif text-5xl lg:text-7xl mb-8 leading-tight">
+                {t.title}
+              </h1>
+              <p className="text-xl text-[#EAE3D2] mb-12 leading-relaxed">
+                {t.lead}
+              </p>
+              <Link
+                to={l('/contact')}
+                className="inline-flex items-center gap-2 px-10 py-4 bg-[#A88F5C] text-white text-sm uppercase tracking-wider hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors group"
+              >
+                {t.request}
+                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </motion.div>
+            <div className="hidden lg:flex lg:col-span-6 items-center justify-center text-[#A88F5C]/40">
+              <Warehouse size={220} strokeWidth={0.6} />
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Services Overview */}
+      <section className="py-24 lg:py-32 bg-[#F8F6F1]">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+          <motion.div
+            className="text-center mb-16"
+          >
+            <h2 className="serif text-4xl lg:text-5xl mb-6">{t.svcTitle}</h2>
+            <p className="text-xl text-[#707070] max-w-3xl mx-auto">
+              {t.svcLead}
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#0F0F0F]"
+          >
+            {t.services.map(([title, description], i) => (
+              <ServiceCard key={title} icon={SERVICE_ICONS[i]} title={title} description={description} />
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Industrial Parks */}
+      <section className="py-24 lg:py-32 bg-white">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+          <motion.div
+            className="text-center mb-16"
+          >
+            <h2 className="serif text-4xl lg:text-5xl mb-6">{t.locTitle}</h2>
+            <p className="text-xl text-[#707070] max-w-3xl mx-auto">
+              {t.locLead}
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="grid md:grid-cols-2 gap-12"
+          >
+            {t.parks.map((p, i) => (
+              <IndustrialParkCard key={p.name} {...p} icon={i === 0 ? <Factory size={64} strokeWidth={1} /> : <Truck size={64} strokeWidth={1} />} />
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Facility Types */}
+      <section className="py-24 lg:py-32 bg-[#EAE3D2]">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+          <motion.div
+            className="text-center mb-16"
+          >
+            <h2 className="serif text-4xl lg:text-5xl mb-6">{t.facTitle}</h2>
+          </motion.div>
+
+          <motion.div
+            className="grid md:grid-cols-3 gap-8"
+          >
+            {t.facilities.map(([type, description, size]) => (
+              <FacilityCard key={type} type={type} description={description} size={size} />
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Value Proposition */}
+      <section className="py-24 lg:py-32 bg-white">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+          <motion.div
+            className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center"
+          >
+            <motion.div>
+              <h2 className="serif text-4xl lg:text-5xl mb-8">
+                {t.whyTitle}
+              </h2>
+              <div className="space-y-6">
+                {t.values.map(([title, description]) => (
+                  <ValuePoint key={title} title={title} description={description} />
+                ))}
+              </div>
+            </motion.div>
+            <motion.div
+              className="relative aspect-[4/3] overflow-hidden bg-[#0F0F0F] flex items-center justify-center text-[#A88F5C]"
+            >
+              <Warehouse size={120} strokeWidth={0.8} />
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 lg:py-32 bg-[#0F0F0F] text-white">
+        <motion.div
+          className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center"
+        >
+          <h2 className="serif text-4xl lg:text-5xl mb-8">
+            {t.ctaTitle}
+          </h2>
+          <p className="text-xl text-[#EAE3D2] mb-12 max-w-2xl mx-auto">
+            {t.ctaLead}
+          </p>
+          <Link
+            to={l('/contact')}
+            className="inline-block px-12 py-4 bg-[#A88F5C] text-white text-sm uppercase tracking-wider hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors"
+          >
+            {t.cta}
+          </Link>
+        </motion.div>
+      </section>
+    </>
+  );
+}
+
+function ServiceCard({ icon, title, description }: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) {
+  return (
+    <motion.div
+      className="bg-[#F8F6F1] p-8 lg:p-10"
+      whileHover={{ y: -5 }}
+    >
+      <div className="text-[#A88F5C] mb-6">{icon}</div>
+      <h3 className="serif text-2xl mb-4">{title}</h3>
+      <p className="text-[#707070] leading-relaxed">{description}</p>
+    </motion.div>
+  );
+}
+
+function IndustrialParkCard({ name, location, features, icon }: {
+  name: string;
+  location: string;
+  features: string[];
+  icon: React.ReactNode;
+}) {
+  return (
+    <motion.div
+      className="bg-white overflow-hidden"
+    >
+      <div className="relative aspect-[16/9] overflow-hidden bg-[#0F0F0F] flex items-center justify-center text-[#A88F5C]">
+        {icon}
+      </div>
+      <div className="p-8">
+        <h3 className="serif text-3xl mb-2">{name}</h3>
+        <p className="text-[#A88F5C] mb-6">{location}</p>
+        <ul className="space-y-3">
+          {features.map((feature, index) => (
+            <li key={index} className="flex items-start gap-3">
+              <div className="w-1.5 h-1.5 bg-[#A88F5C] rounded-full mt-2 flex-shrink-0" />
+              <span className="text-[#707070]">{feature}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </motion.div>
+  );
+}
+
+function FacilityCard({ type, description, size }: {
+  type: string;
+  description: string;
+  size: string;
+}) {
+  return (
+    <motion.div
+      className="bg-white p-8"
+      whileHover={{ y: -5 }}
+    >
+      <h3 className="serif text-2xl mb-4">{type}</h3>
+      <p className="text-[#707070] mb-6 leading-relaxed">{description}</p>
+      <div className="text-[#A88F5C] text-sm uppercase tracking-wider">{size}</div>
+    </motion.div>
+  );
+}
+
+function ValuePoint({ title, description }: {
+  title: string;
+  description: string;
+}) {
+  return (
+    <div>
+      <h3 className="serif text-xl mb-2">{title}</h3>
+      <p className="text-[#707070] leading-relaxed">{description}</p>
+    </div>
+  );
 }

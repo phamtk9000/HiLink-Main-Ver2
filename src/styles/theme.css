@@ -232,8 +232,3 @@
   }
 }
 
-/* Section headings inside long legal texts sit one step down the scale. Must
-   live in the base layer: an !important rule there beats any utility. */
-@layer base {
-  h2.legal-h { font-size: var(--step-h3) !important; line-height: 1.3; }
-}

@@ -1,24 +1,26 @@
-import { CONTACT, ws } from '../data/site';
+import { useState } from 'react';
+import { CheckCircle2 } from 'lucide-react';
+import { motion } from 'motion/react';
 import { useLang, usePageMeta } from '../lib/i18n';
-import { PageHero, Section, TextLink } from '../components/Kit';
-import { LeadForm } from '../components/LeadForm';
 
 const T = {
   en: {
-    eyebrow: 'Book a consultation', title: 'Start with a conversation.',
-    lead: 'Tell us about your business and what you are looking for. We will suggest a time to meet — at a HiLink location or online.',
-    steps: ['You tell us what you need', 'We arrange a time to meet', 'We propose a solution, in writing'],
-    tourT: 'Just want to see a workspace?', tourD: 'Book a tour of any HiLink location directly on hilink.vn.', tour: 'Book a tour',
-    interests: ['Workspace', 'Property & asset management', 'Business services', 'Concierge services', 'Industrial & logistics', 'Not sure yet'],
-    messageLabel: 'What would you like to discuss?',
+    eyebrow: 'Book Consultation', title: 'Let’s talk about your goals',
+    lead: 'Share a few details and one of our advisors will be in touch to arrange a consultation.',
+    interests: ['Property Management', 'Workspace Leasing', 'Business Services', 'Concierge Services', 'Industrial & Logistics', 'Something else'],
+    thanks: 'Thank you', thanksBody: 'We have received your request and will contact you shortly.',
+    name: 'Full Name', namePh: 'Your name', email: 'Email Address', emailPh: 'Your email', phone: 'Phone Number', phonePh: 'Your phone number',
+    interest: 'I’m interested in', message: 'Message', messagePh: 'Tell us a little about what you need',
+    submitting: 'Submitting…', submit: 'Request Consultation',
   },
   vi: {
-    eyebrow: 'Đặt lịch tư vấn', title: 'Bắt đầu bằng một cuộc trò chuyện.',
-    lead: 'Hãy cho chúng tôi biết về doanh nghiệp và điều bạn đang tìm. Chúng tôi sẽ hẹn thời gian gặp — tại một địa điểm HiLink hoặc trực tuyến.',
-    steps: ['Bạn cho chúng tôi biết nhu cầu', 'Chúng tôi hẹn lịch gặp', 'Chúng tôi đề xuất giải pháp bằng văn bản'],
-    tourT: 'Chỉ muốn xem không gian làm việc?', tourD: 'Đặt lịch tham quan bất kỳ địa điểm HiLink nào ngay trên hilink.vn.', tour: 'Đặt lịch tham quan',
-    interests: ['Không gian làm việc', 'Quản lý bất động sản & tài sản', 'Dịch vụ doanh nghiệp', 'Dịch vụ concierge', 'Công nghiệp & logistics', 'Chưa chắc chắn'],
-    messageLabel: 'Bạn muốn trao đổi về điều gì?',
+    eyebrow: 'Đặt lịch tư vấn', title: 'Hãy cùng trao đổi về mục tiêu của bạn',
+    lead: 'Chia sẻ đôi chút thông tin, một chuyên viên tư vấn sẽ liên hệ để sắp xếp buổi tư vấn.',
+    interests: ['Quản lý bất động sản', 'Cho thuê văn phòng', 'Dịch vụ doanh nghiệp', 'Dịch vụ concierge', 'Công nghiệp & logistics', 'Nhu cầu khác'],
+    thanks: 'Cảm ơn bạn', thanksBody: 'Chúng tôi đã nhận được yêu cầu và sẽ liên hệ với bạn sớm.',
+    name: 'Họ và tên', namePh: 'Tên của bạn', email: 'Địa chỉ email', emailPh: 'Email của bạn', phone: 'Số điện thoại', phonePh: 'Số điện thoại của bạn',
+    interest: 'Tôi quan tâm đến', message: 'Lời nhắn', messagePh: 'Cho chúng tôi biết đôi chút về nhu cầu của bạn',
+    submitting: 'Đang gửi…', submit: 'Yêu cầu tư vấn',
   },
 };
 
@@ -26,44 +28,136 @@ export function BookConsultationPage() {
   const { lang } = useLang();
   const t = T[lang];
   usePageMeta(t.eyebrow, t.lead);
+  const interests = t.interests;
+  const [form, setForm] = useState({ name: '', email: '', phone: '', interest: '', message: '' });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const update = (field: string, value: string) => setForm((f) => ({ ...f, [field]: value }));
+
+  const handleSubmit = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!form.name || !form.email) return;
+    setSubmitting(true);
+    // Submission is stubbed until the backend endpoint is wired up.
+    setTimeout(() => {
+      setSubmitting(false);
+      setSubmitted(true);
+    }, 800);
+  };
+
+  const inputClass =
+    'w-full bg-transparent border-b border-white/30 py-3 text-white placeholder-white/40 focus:border-[#A88F5C] focus:outline-none transition-colors';
 
   return (
     <>
-      <PageHero eyebrow={t.eyebrow} title={t.title} lead={t.lead} photo="/photos/hbc-meeting.webp" />
-
-      <Section tone="cream">
-        <div className="grid lg:grid-cols-12 gap-14 lg:gap-20">
-          <aside className="lg:col-span-4">
-            <ol className="space-y-6 mb-14">
-              {t.steps.map((s, i) => (
-                <li key={s} className="flex gap-5">
-                  <span className="text-[11px] font-semibold tracking-[0.16em] text-[#7A653B] pt-1">{String(i + 1).padStart(2, '0')}</span>
-                  <span className="text-[1.0625rem]">{s}</span>
-                </li>
-              ))}
-            </ol>
-            <div className="border-t border-[#0F0F0F]/10 pt-8 mb-10">
-              <h3 className="mb-3">{t.tourT}</h3>
-              <p className="text-[#555] mb-5">{t.tourD}</p>
-              <TextLink href={ws(lang, '/book-a-tour')}>{t.tour}</TextLink>
-            </div>
-            <div className="border-t border-[#0F0F0F]/10 pt-8">
-              <a href={CONTACT.emailHref} className="block serif text-[1.3rem] hover:text-[#7A653B]">{CONTACT.email}</a>
-              <a href={CONTACT.phoneHref} className="block mt-1 text-[#555] hover:text-[#7A653B]">{CONTACT.phone}</a>
-            </div>
-          </aside>
-
-          <div className="lg:col-span-8 relative">
-            <LeadForm
-              formType="consultation"
-              source="/book-consultation"
-              fields={['company', 'phone', 'interest', 'date', 'message']}
-              interests={t.interests}
-              messageLabel={t.messageLabel}
-            />
-          </div>
+      {/* Hero */}
+      <section id="hero" className="py-20 lg:py-28 bg-[#0F0F0F] text-white">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-3xl"
+          >
+            <p className="text-sm uppercase tracking-wider text-[#A88F5C] mb-8">{t.eyebrow}</p>
+            <h1 className="serif text-5xl lg:text-7xl mb-8 leading-tight">
+              {t.title}
+            </h1>
+            <p className="text-xl text-[#EAE3D2] leading-relaxed">
+              {t.lead}
+            </p>
+          </motion.div>
         </div>
-      </Section>
+      </section>
+
+      {/* Form */}
+      <section id="consultation-form" className="py-20 lg:py-28 bg-[#0F0F0F] text-white">
+        <div className="max-w-[800px] mx-auto px-6 lg:px-12">
+          {submitted ? (
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center py-16"
+            >
+              <CheckCircle2 size={56} className="text-[#A88F5C] mx-auto mb-8" />
+              <h2 className="serif text-4xl mb-4">{t.thanks}</h2>
+              <p className="text-xl text-[#EAE3D2]">
+                {t.thanksBody}
+              </p>
+            </motion.div>
+          ) : (
+            <div className="space-y-8">
+              <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <label className="block text-sm uppercase tracking-wider text-[#A88F5C] mb-3">{t.name}</label>
+                  <input
+                    type="text"
+                    value={form.name}
+                    onChange={(e) => update('name', e.target.value)}
+                    placeholder={t.namePh}
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm uppercase tracking-wider text-[#A88F5C] mb-3">{t.email}</label>
+                  <input
+                    type="email"
+                    value={form.email}
+                    onChange={(e) => update('email', e.target.value)}
+                    placeholder={t.emailPh}
+                    className={inputClass}
+                  />
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <label className="block text-sm uppercase tracking-wider text-[#A88F5C] mb-3">{t.phone}</label>
+                  <input
+                    type="tel"
+                    value={form.phone}
+                    onChange={(e) => update('phone', e.target.value)}
+                    placeholder={t.phonePh}
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm uppercase tracking-wider text-[#A88F5C] mb-3">{t.interest}</label>
+                  <select
+                    value={form.interest || interests[0]}
+                    onChange={(e) => update('interest', e.target.value)}
+                    className={`${inputClass} [&>option]:text-[#0F0F0F]`}
+                  >
+                    {interests.map((i) => (
+                      <option key={i} value={i}>{i}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm uppercase tracking-wider text-[#A88F5C] mb-3">{t.message}</label>
+                <textarea
+                  rows={4}
+                  value={form.message}
+                  onChange={(e) => update('message', e.target.value)}
+                  placeholder={t.messagePh}
+                  className={`${inputClass} resize-none`}
+                />
+              </div>
+
+              <button
+                onClick={handleSubmit}
+                disabled={submitting}
+                className="px-12 py-4 bg-[#A88F5C] text-white text-sm uppercase tracking-wider hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors disabled:opacity-60"
+              >
+                {submitting ? t.submitting : t.submit}
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
     </>
   );
 }

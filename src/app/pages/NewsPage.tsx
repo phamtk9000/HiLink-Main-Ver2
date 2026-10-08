@@ -1,59 +1,221 @@
-// News — the articles published on the HiLink forum (hilink.vn/forum). Each
-// card opens the full article there.
+// News — the articles published on the HiLink forum (hilink.vn/forum), in the
+// original page layout. Each article opens on hilink.vn.
+import { useState } from 'react';
+import { Calendar, ArrowRight, TrendingUp } from 'lucide-react';
+import { motion } from 'motion/react';
+import { HeroBg } from '../components/HeroBg';
 import { POSTS } from '../data/posts';
 import { ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
-import { Button, PageHero, PhotoCard, Reveal, Section } from '../components/Kit';
+
+const CATS: Record<string, { en: string; vi: string }> = {
+  Guide: { en: 'Guide', vi: 'Hướng dẫn' },
+  Design: { en: 'Design', vi: 'Thiết kế' },
+  Neighbourhood: { en: 'Neighbourhood', vi: 'Khu vực' },
+};
 
 const T = {
-  en: { eyebrow: 'News & Insights', title: 'Notes on workspace, Hanoi and how teams work.', lead: 'Guides and stories from the HiLink forum.', read: 'Read on hilink.vn', all: 'All articles', cats: { Guide: 'Guide', Design: 'Design', Neighbourhood: 'Neighbourhood' } as Record<string, string> },
-  vi: { eyebrow: 'Tin tức & góc nhìn', title: 'Về không gian làm việc, Hà Nội và cách đội ngũ làm việc.', lead: 'Hướng dẫn và câu chuyện từ diễn đàn HiLink.', read: 'Đọc trên hilink.vn', all: 'Tất cả bài viết', cats: { Guide: 'Hướng dẫn', Design: 'Thiết kế', Neighbourhood: 'Khu vực' } as Record<string, string> },
+  en: {
+    eyebrow: 'News & Insights', title: 'Insights on workspace, Hanoi and how teams work',
+    lead: 'Guides and stories from the HiLink forum.',
+    featured: 'Featured', read: 'Read Article', all: 'All',
+    subTitle: 'More on the HiLink forum', subLead: 'Guides, neighbourhood notes and stories from HiLink workspaces.', subCta: 'Visit the forum',
+  },
+  vi: {
+    eyebrow: 'Tin tức & góc nhìn', title: 'Góc nhìn về không gian làm việc, Hà Nội và cách đội ngũ làm việc',
+    lead: 'Hướng dẫn và câu chuyện từ diễn đàn HiLink.',
+    featured: 'Nổi bật', read: 'Đọc bài viết', all: 'Tất cả',
+    subTitle: 'Đọc thêm trên diễn đàn HiLink', subLead: 'Hướng dẫn, ghi chép về khu vực và câu chuyện từ các không gian HiLink.', subCta: 'Đến diễn đàn',
+  },
 };
 
 export function NewsPage() {
   const { lang } = useLang();
   const t = T[lang];
   usePageMeta(t.eyebrow, t.lead);
-  const [first, ...rest] = POSTS;
+  const [cat, setCat] = useState('All');
+
+  const articles = POSTS.map((p) => ({
+    id: p.slug,
+    category: CATS[p.category]?.[lang] ?? p.category,
+    rawCategory: p.category,
+    title: p.title[lang],
+    excerpt: p.excerpt[lang],
+    date: p.date,
+    image: p.photo,
+    href: ws(lang, `/forum/${p.slug}`),
+  }));
+  const [featuredArticle, ...rest] = articles;
+  const regularArticles = rest.filter((a) => cat === 'All' || a.rawCategory === cat);
+  const categories = ['All', ...Object.keys(CATS)];
 
   return (
     <>
-      <PageHero eyebrow={t.eyebrow} title={t.title} lead={t.lead} />
-
-      <Section tone="cream">
-        <Reveal>
-          <a href={ws(lang, `/forum/${first.slug}`)} target="_blank" rel="noopener noreferrer" className="group grid lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-20">
-            <div className="aspect-[4/3] overflow-hidden bg-[#EAE3D2]">
-              <img src={first.photo} alt="" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
-            </div>
-            <div>
-              <p className="eyebrow">{t.cats[first.category] ?? first.category} · {first.date}</p>
-              <h2 className="mb-6 group-hover:text-[#7A653B] transition-colors">{first.title[lang]}</h2>
-              <p className="lede mb-8">{first.excerpt[lang]}</p>
-              <span className="text-[11px] font-medium uppercase tracking-[0.18em] border-b border-current/30 pb-1">{t.read} ↗</span>
-            </div>
-          </a>
-        </Reveal>
-
-        <div className="grid md:grid-cols-3 gap-x-8 gap-y-14">
-          {rest.map((p, i) => (
-            <Reveal key={p.slug} delay={i * 0.08}>
-              <PhotoCard
-                photo={p.photo}
-                eyebrow={`${t.cats[p.category] ?? p.category} · ${p.date}`}
-                title={p.title[lang]}
-                text={p.excerpt[lang]}
-                href={ws(lang, `/forum/${p.slug}`)}
-                cta={t.read}
-              />
-            </Reveal>
-          ))}
+      {/* Hero Section */}
+      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#0F0F0F] text-white">
+        <HeroBg image="/photos/f15-lounge-cabin.webp" />
+        <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12">
+          <motion.div
+            className="max-w-4xl"
+          >
+            <p className="text-sm uppercase tracking-wider text-[#A88F5C] mb-8">{t.eyebrow}</p>
+            <h1 className="serif text-5xl lg:text-7xl mb-8 leading-tight">
+              {t.title}
+            </h1>
+            <p className="text-xl text-[#EAE3D2] leading-relaxed">
+              {t.lead}
+            </p>
+          </motion.div>
         </div>
+      </section>
 
-        <div className="mt-16 text-center">
-          <Button href={ws(lang, '/forum')} variant="dark">{t.all}</Button>
+      {/* Featured Article */}
+      {featuredArticle && (
+        <section className="py-24 bg-[#F8F6F1]">
+          <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+            <motion.div
+              className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center"
+            >
+              <motion.div
+                className="relative aspect-[4/3] overflow-hidden"
+              >
+                <img
+                  src={featuredArticle.image}
+                  alt={featuredArticle.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-6 left-6 px-4 py-2 bg-[#A88F5C] text-white text-xs uppercase tracking-wider">
+                  {t.featured}
+                </div>
+              </motion.div>
+              <motion.div>
+                <div className="text-sm uppercase tracking-wider text-[#A88F5C] mb-4">
+                  {featuredArticle.category}
+                </div>
+                <h2 className="serif text-4xl lg:text-5xl mb-6">{featuredArticle.title}</h2>
+                <p className="text-lg text-[#707070] mb-8 leading-relaxed">
+                  {featuredArticle.excerpt}
+                </p>
+                <div className="flex items-center gap-6 text-sm text-[#707070] mb-8">
+                  <div className="flex items-center gap-2">
+                    <Calendar size={16} />
+                    {featuredArticle.date}
+                  </div>
+                </div>
+                <a
+                  href={featuredArticle.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-10 py-4 bg-[#0F0F0F] text-white text-sm uppercase tracking-wider hover:bg-[#A88F5C] transition-colors group"
+                >
+                  {t.read}
+                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </a>
+              </motion.div>
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {/* Category Filter */}
+      <section className="py-12 bg-white border-b border-[#0F0F0F]/10">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+          <div className="flex flex-wrap gap-4">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setCat(category)}
+                aria-pressed={cat === category}
+                className={`px-6 py-2 text-sm uppercase tracking-wider border border-[#0F0F0F]/20 hover:bg-[#0F0F0F] hover:text-white transition-colors ${cat === category ? 'bg-[#0F0F0F] text-white' : ''}`}
+              >
+                {category === 'All' ? t.all : CATS[category][lang]}
+              </button>
+            ))}
+          </div>
         </div>
-      </Section>
+      </section>
+
+      {/* Articles Grid */}
+      <section className="py-24 bg-white">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+          <motion.div
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-12"
+          >
+            {regularArticles.map((article) => (
+              <ArticleCard key={article.id} {...article} />
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Forum */}
+      <section className="py-24 lg:py-32 bg-[#0F0F0F] text-white">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+          <motion.div
+            className="max-w-3xl mx-auto text-center"
+          >
+            <TrendingUp size={48} className="mx-auto mb-8 text-[#A88F5C]" />
+            <h2 className="serif text-4xl lg:text-5xl mb-6">
+              {t.subTitle}
+            </h2>
+            <p className="text-xl text-[#EAE3D2] mb-12">
+              {t.subLead}
+            </p>
+            <a
+              href={ws(lang, '/forum')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-8 py-4 bg-[#A88F5C] text-white text-sm uppercase tracking-wider hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors whitespace-nowrap"
+            >
+              {t.subCta}
+            </a>
+          </motion.div>
+        </div>
+      </section>
     </>
+  );
+}
+
+function ArticleCard({ category, title, excerpt, date, image, href }: {
+  category: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  image: string;
+  href: string;
+}) {
+  return (
+    <motion.article
+      className="group"
+      whileHover={{ y: -10 }}
+      transition={{ type: "spring", stiffness: 300 }}
+    >
+      <a href={href} target="_blank" rel="noopener noreferrer" className="block">
+        <div className="relative aspect-[4/3] overflow-hidden mb-6">
+          <motion.img
+            src={image}
+            alt={title}
+            className="w-full h-full object-cover"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.4 }}
+          />
+        </div>
+        <div className="text-sm uppercase tracking-wider text-[#A88F5C] mb-3">
+          {category}
+        </div>
+        <h3 className="serif text-2xl mb-4 group-hover:text-[#A88F5C] transition-colors">
+          {title}
+        </h3>
+        <p className="text-[#707070] mb-6 leading-relaxed line-clamp-3">
+          {excerpt}
+        </p>
+        <div className="flex items-center gap-6 text-sm text-[#707070]">
+          <div className="flex items-center gap-2">
+            <Calendar size={14} />
+            {date}
+          </div>
+        </div>
+      </a>
+    </motion.article>
   );
 }

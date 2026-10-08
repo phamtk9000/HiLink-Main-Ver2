@@ -4,7 +4,7 @@ import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { SolutionsPage } from './pages/SolutionsPage';
 import { WorkspacePage } from './pages/WorkspacePage';
-import { PropertyDetailPage } from './pages/PropertyDetailPage';
+import { WorkspaceDetailPage } from './pages/WorkspaceDetailPage';
 import { PropertyManagementPage } from './pages/PropertyManagementPage';
 import { ConciergePage } from './pages/ConciergePage';
 import { ContactPage } from './pages/ContactPage';
@@ -41,7 +41,7 @@ export const router = createBrowserRouter([
       { path: 'about', Component: AboutPage },
       { path: 'solutions', Component: SolutionsPage },
       { path: 'workspace-leasing', Component: WorkspacePage },
-      { path: 'properties/:propertyId', Component: PropertyDetailPage },
+      { path: 'workspace/:locationId', Component: WorkspaceDetailPage },
       { path: 'property-management', Component: PropertyManagementPage },
       { path: 'concierge-services', Component: ConciergePage },
       { path: 'business-services', Component: BusinessConsultingPage },
@@ -57,8 +57,6 @@ export const router = createBrowserRouter([
       { path: 'services', loader: moved('/solutions') },
       { path: 'concierge', loader: moved('/concierge-services') },
       { path: 'business-consulting', loader: moved('/business-services') },
-      { path: 'workspace/quarter-house', loader: moved('/properties/quarter-house') },
-      { path: 'workspace/:locationId', loader: moved('/workspace-leasing') },
 
       { path: '*', Component: NotFoundPage },
     ],

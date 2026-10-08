@@ -13,12 +13,8 @@ npm run dev      # development server
 npm run build    # production build into dist/
 ```
 
-Enquiry forms post to `api/lead.js`, a Vercel serverless function. Copy
-`.env.example` to `.env` and set **one** destination: `LEAD_WEBHOOK_URL`, or the
-three `RESEND_*` / `LEAD_*_EMAIL` variables. With neither set, forms tell the
-visitor to email contact@hilink.vn instead — check this before launch.
-`npm run dev` does not run the function; deploy to Vercel (or use `vercel dev`)
-to test delivery.
+Forms are front-end only for now: they show a confirmation but do not send
+anything. Connect them to HiLink's inbox or CRM before launch.
 
 ## How it is organised
 
@@ -27,10 +23,7 @@ to test delivery.
 | `src/app/routes.tsx` | Route table. Every URL starts with `/en` or `/vi`; paths without a language redirect to `/en/…` |
 | `src/app/lib/i18n.tsx` | `useLang()` — current language, `l(path)` for links, page title/description |
 | `src/app/data/site.ts` | Contact details, company info, social links, partners, service lines, workspace solutions |
-| `src/app/data/*Copy.ts`, `locations.ts`, `posts.ts` | Generated from the approved copy of hilink.vn — regenerate rather than hand-edit |
-| `src/app/components/Kit.tsx` | Shared layout blocks: container, section, heading, hero, buttons, cards |
-| `src/app/components/ServicePage.tsx` | The one layout used by every service page |
-| `src/app/components/LeadForm.tsx` | The one enquiry form |
+| `src/app/data/aboutCopy.ts`, `careersCopy.ts`, `legalCopy.ts`, `locations.ts`, `posts.ts` | Generated from the approved copy of hilink.vn — regenerate rather than hand-edit |
 | `src/styles/theme.css` | Colours and the type scale (same steps as hilink.vn) |
 | `public/photos/` | HiLink photographs |
 

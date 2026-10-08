@@ -1,164 +1,312 @@
-// About HiLink — the copy HiLink approved for hilink.vn/about (data/aboutCopy.ts),
-// in the same order, with HiLink's own photographs.
+// About — the original page layout, filled with the copy HiLink approved for
+// hilink.vn/about (data/aboutCopy.ts) and HiLink's own photographs.
+import { Link } from 'react-router';
+import { ArrowRight, Target, Compass } from 'lucide-react';
+import { motion } from 'motion/react';
 import { ABOUT } from '../data/aboutCopy';
-import { BUSINESS_CLUB_SITE } from '../data/site';
+import { LOCATIONS } from '../data/locations';
+import { BUSINESS_CLUB_SITE, PARTNERS, ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
-import { Button, CtaBand, PageHero, PhotoCard, Reveal, Section, SectionHead, TextLink } from '../components/Kit';
-import { PartnerLogos } from '../components/Blocks';
 
-const ALT = {
+const T = {
   en: {
-    who: 'A client at work in a private office at the HiLink Business Club',
-    vision: 'Reception on Floor 15 at 4 Ton That Tung',
-    diffs: ['A HiLink team working with clients', 'The glass meeting pod on Floor 15', 'A staffed HiLink reception, ready every day'],
-    eco: ['Floor 19, a HiLink-managed floor with views over Dong Da', 'The reception lounge on Floor 15', 'A HiLink team working with clients', 'The HiLink Business Club'],
+    est: 'Est. 2020 · Ha Noi, Vietnam', scroll: 'Scroll to discover', storyAlt: 'A client at work in a private office at the HiLink Business Club',
+    facts: [['2020', 'Year Founded'], ['Ha Noi', 'Headquarters'], [`${LOCATIONS.length} Locations`, 'HiLink Workspaces'], [`${PARTNERS.length} Partners`, 'Companies we work with']],
+    standFor: 'What We Stand For',
+    journeyEyebrow: 'Our Approach',
+    workEyebrow: 'Selected Work', workTitle: 'Properties We Run',
+    work: [
+      { name: 'The Quarter House', location: 'Hoan Kiem, Hanoi', tag: 'Boutique Townhouse', image: '/properties/quarter-house/qh-07.webp', to: '/workspace/quarter-house' },
+      { name: 'Floor 19 · 4 Ton That Tung', location: 'Dong Da, Hanoi', tag: 'Private Floor', image: '/photos/f19-window.webp', href: '/locations/ttt-f19' },
+      { name: 'HiLink Business Club', location: 'Hoan Kiem, Hanoi', tag: "Members' Club", image: '/photos/hbc-lounge.webp', href: '/locations/obc' },
+    ],
+    partnersLbl: 'Trusted Partners & Affiliates', cta: 'Get in Touch',
   },
   vi: {
-    who: 'Khách hàng làm việc trong văn phòng riêng tại HiLink Business Club',
-    vision: 'Quầy lễ tân tầng 15, 4 Tôn Thất Tùng',
-    diffs: ['Đội ngũ HiLink làm việc cùng khách hàng', 'Phòng họp kính trên tầng 15', 'Quầy lễ tân HiLink có người trực, sẵn sàng mỗi ngày'],
-    eco: ['Tầng 19, một sàn do HiLink quản lý, nhìn ra Đống Đa', 'Sảnh lễ tân tầng 15', 'Đội ngũ HiLink làm việc cùng khách hàng', 'HiLink Business Club'],
+    est: 'Thành lập 2020 · Hà Nội, Việt Nam', scroll: 'Cuộn để khám phá', storyAlt: 'Khách hàng làm việc trong văn phòng riêng tại HiLink Business Club',
+    facts: [['2020', 'Năm thành lập'], ['Hà Nội', 'Trụ sở'], [`${LOCATIONS.length} địa điểm`, 'HiLink Workspaces'], [`${PARTNERS.length} đối tác`, 'Doanh nghiệp đồng hành']],
+    standFor: 'Giá trị cốt lõi',
+    journeyEyebrow: 'Cách tiếp cận',
+    workEyebrow: 'Dự án tiêu biểu', workTitle: 'Bất động sản chúng tôi vận hành',
+    work: [
+      { name: 'The Quarter House', location: 'Hoàn Kiếm, Hà Nội', tag: 'Nhà phố boutique', image: '/properties/quarter-house/qh-07.webp', to: '/workspace/quarter-house' },
+      { name: 'Tầng 19 · 4 Tôn Thất Tùng', location: 'Đống Đa, Hà Nội', tag: 'Sàn riêng', image: '/photos/f19-window.webp', href: '/locations/ttt-f19' },
+      { name: 'HiLink Business Club', location: 'Hoàn Kiếm, Hà Nội', tag: 'Câu lạc bộ thành viên', image: '/photos/hbc-lounge.webp', href: '/locations/obc' },
+    ],
+    partnersLbl: 'Đối tác & đơn vị đồng hành', cta: 'Liên hệ',
   },
 };
 
-const DIFF_PHOTOS = ['/photos/hbc-team.webp', '/photos/f15-meeting-pod.webp', '/photos/f15-reception.webp'];
-const ECO = [
-  { photo: '/photos/f19-window.webp', to: '/property-management' },
-  { photo: '/photos/f15-lounge-cabin.webp', to: '/workspace-leasing' },
-  { photo: '/photos/hbc-client-meeting.webp', to: '/business-services' },
-  { photo: '/photos/hbc-lounge.webp', href: BUSINESS_CLUB_SITE },
-];
+const ECO_LINKS = ['/property-management', '/workspace-leasing', '/business-services', ''];
 
 export function AboutPage() {
   const { lang, l } = useLang();
+  const t = T[lang];
   const a = ABOUT[lang];
-  const alt = ALT[lang];
-  const more = lang === 'vi' ? 'Tìm hiểu thêm' : 'Learn more';
   usePageMeta(lang === 'vi' ? 'Về HiLink' : 'About HiLink', a.heroBody);
+  const partners = PARTNERS.map((p) => p.name);
 
   return (
     <>
-      <PageHero eyebrow={a.heroEyebrow} title={a.heroTitle} photo="/photos/f15-lounge-wide-xl.webp" />
-
-      {/* Who we are */}
-      <section className="bg-[#F8F6F1]">
-        <div className="grid lg:grid-cols-2">
-          <div className="relative min-h-[360px] lg:min-h-[640px]">
-            <img src="/photos/hbc-desk.webp" alt={alt.who} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
-          </div>
-          <Reveal className="px-6 lg:px-20 py-20 lg:py-28 flex flex-col justify-center max-w-[680px]">
-            <p className="eyebrow">{a.whoEyebrow}</p>
-            <h2 className="mb-6">{a.whoTitle}</h2>
-            <p className="lede mb-5">{a.heroLead}</p>
-            <p className="text-[#555] mb-10">{a.heroBody}</p>
-            <TextLink to={l('/solutions')}>{a.heroCta}</TextLink>
-          </Reveal>
+      {/* Hero */}
+      <section className="relative min-h-screen bg-[#0F0F0F] flex flex-col">
+        <div className="absolute inset-0 overflow-hidden">
+          <img
+            src="/photos/f15-lounge-wide-xl.webp"
+            alt=""
+            className="w-full h-full object-cover opacity-30"
+          />
         </div>
-      </section>
-
-      {/* Vision & mission */}
-      <section className="bg-[#F0EDE6]">
-        <div className="grid lg:grid-cols-2">
-          <Reveal className="order-2 lg:order-1 px-6 lg:px-20 py-20 lg:py-28 flex flex-col justify-center max-w-[680px] lg:ml-auto">
-            <p className="eyebrow">{a.visionLbl}</p>
-            <p className="serif text-[clamp(1.4rem,2.4vw,2rem)] leading-snug mb-12">{a.vision}</p>
-            <p className="eyebrow">{a.missionLbl}</p>
-            <p className="text-[#555]">{a.mission}</p>
-          </Reveal>
-          <div className="order-1 lg:order-2 relative min-h-[360px] lg:min-h-[560px]">
-            <img src="/photos/f15-reception.webp" alt={alt.vision} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
-          </div>
-        </div>
-      </section>
-
-      {/* Principles */}
-      <Section tone="cream">
-        <SectionHead eyebrow={a.diffEyebrow} title={a.diffTitle} lead={a.diffLead} />
-        <div className="grid md:grid-cols-3 gap-x-8 gap-y-14">
-          {a.diffs.map((d, i) => (
-            <Reveal key={d.t} delay={i * 0.1}>
-              <PhotoCard photo={DIFF_PHOTOS[i]} alt={alt.diffs[i]} title={d.t} text={d.d} />
-            </Reveal>
-          ))}
-        </div>
-      </Section>
-
-      {/* What we solve */}
-      <Section tone="beige">
-        <Reveal className="max-w-3xl mx-auto text-center">
-          <img src="/brand/logo-hilink-lockup.svg" alt="HiLink" width={120} height={68} className="mx-auto mb-10" loading="lazy" />
-          <blockquote className="serif text-[clamp(1.6rem,3vw,2.6rem)] leading-tight mb-6">{a.solveTitle}</blockquote>
-          <p className="eyebrow">{a.solveEyebrow}</p>
-          <p className="text-[#555] max-w-2xl mx-auto">{a.solveBody}</p>
-        </Reveal>
-        <Reveal className="mt-14">
-          <ol className="grid grid-cols-2 md:grid-cols-5 gap-px bg-[#0F0F0F]/10">
-            {a.needs.map((n, i) => (
-              <li key={n} className="bg-[#F0EDE6] p-6 text-center">
-                <span className="block text-[11px] font-semibold tracking-[0.12em] text-[#7A653B] mb-2">{String(i + 1).padStart(2, '0')}</span>
-                <span className="text-[14px]">{n}</span>
-              </li>
-            ))}
-          </ol>
-          <p className="mt-4 flex items-center gap-4 text-[12px] text-[#666]" aria-hidden="true">
-            <span>{a.simple}</span>
-            <i className="flex-1 h-px bg-gradient-to-r from-[#0F0F0F]/15 to-[#A88F5C]" />
-            <span className="text-[#7A653B]">{a.complex}</span>
+        <div className="relative flex-1 flex flex-col items-center justify-center text-center px-6 lg:px-12">
+          <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-8">
+            {t.est}
           </p>
-        </Reveal>
-      </Section>
+          <h1
+            className="serif text-white max-w-5xl leading-[1.05]"
+            style={{ fontSize: 'clamp(4rem, 8vw, 8rem)', fontWeight: 300 }}
+          >
+            {a.heroTitle}
+          </h1>
+        </div>
+        <div className="relative pb-12 flex flex-col items-center gap-4">
+          <div className="w-px h-12 bg-white/20" />
+          <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">{t.scroll}</p>
+        </div>
+      </section>
+
+      {/* Story */}
+      <section className="bg-white py-32">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+            {/* Left — image + pull-quote */}
+            <div className="lg:w-[35%]">
+              <div className="lg:sticky lg:top-32 space-y-8">
+                <div className="relative aspect-[3/4] overflow-hidden">
+                  <img
+                    src="/photos/hbc-desk.webp"
+                    alt={t.storyAlt}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#A88F5C]" />
+                </div>
+                <div>
+                  <blockquote
+                    className="serif italic text-[#A88F5C] leading-snug"
+                    style={{ fontSize: 'clamp(1.3rem, 2vw, 1.7rem)' }}
+                  >
+                    "{a.solveTitle}"
+                  </blockquote>
+                  <div className="mt-6 w-8 h-px bg-[#A88F5C]/40" />
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:w-[65%]">
+              <div className="space-y-7 text-[17px] text-[#444] leading-[1.85] mb-16">
+                <p>{a.heroLead}</p>
+                <p>{a.heroBody}</p>
+                <p>{a.solveBody}</p>
+              </div>
+              <div className="grid grid-cols-2 gap-x-10 gap-y-8">
+                {t.facts.map(([value, label]) => (
+                  <div key={label} className="border-t pt-5" style={{ borderColor: 'rgba(168,143,92,0.3)' }}>
+                    <div className="serif text-2xl text-[#8B6914] mb-2">{value}</div>
+                    <div className="text-[11px] uppercase tracking-wider text-[#707070]">{label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Vision & Mission */}
+      <section className="bg-[#0F0F0F] py-32 text-white">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="grid md:grid-cols-2 gap-px bg-white/10">
+            <div className="bg-[#0F0F0F] p-10 lg:p-14">
+              <div className="text-[#A88F5C] mb-8"><Compass size={32} /></div>
+              <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-5">{a.visionLbl}</p>
+              <h2 className="serif text-3xl lg:text-4xl mb-6 leading-snug">
+                {a.vision}
+              </h2>
+              <p className="text-[#EAE3D2] text-[16px] leading-relaxed">
+                {a.ecoClose}
+              </p>
+            </div>
+            <div className="bg-[#0F0F0F] p-10 lg:p-14">
+              <div className="text-[#A88F5C] mb-8"><Target size={32} /></div>
+              <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-5">{a.missionLbl}</p>
+              <h2 className="serif text-3xl lg:text-4xl mb-6 leading-snug">
+                {a.whoTitle}
+              </h2>
+              <p className="text-[#EAE3D2] text-[16px] leading-relaxed">
+                {a.mission}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Values */}
+      <section className="bg-[#F8F6F1] py-32">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-16">{t.standFor}</p>
+          <div className="divide-y divide-[#0F0F0F]/10">
+            {a.diffs.map(({ t: title, d: desc }, i) => (
+              <div key={title} className="flex items-start gap-8 py-10">
+                <span className="serif font-light text-[#0F0F0F]/[0.07] leading-none select-none shrink-0 hidden lg:block" style={{ fontSize: '80px' }}>
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <div className="flex-1 lg:pt-4">
+                  <h3 className="serif text-3xl mb-3">{title}</h3>
+                  <p className="text-[#707070] text-[16px] leading-relaxed max-w-2xl">{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How we work — timeline */}
+      <section className="bg-white py-32">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="mb-16">
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-4">{t.journeyEyebrow}</p>
+            <h2 className="serif text-4xl lg:text-5xl">{a.howTitle}</h2>
+            <p className="text-[#707070] text-[15px] leading-relaxed max-w-2xl mt-6">{a.howBody}</p>
+          </div>
+          <div className="border-l-2 border-[#A88F5C]/30 ml-2 lg:ml-4">
+            {a.stages.map(({ t: title, s }, i) => (
+              <div key={title} className="relative pl-10 lg:pl-14 pb-12 last:pb-0">
+                <span className="absolute left-0 -translate-x-1/2 top-1 w-3 h-3 rounded-full bg-[#A88F5C]" />
+                <div className="serif text-2xl text-[#8B6914] mb-2">{String(i + 1).padStart(2, '0')}</div>
+                <h3 className="serif text-xl mb-2">{title}</h3>
+                <p className="text-[#707070] text-[15px] leading-relaxed max-w-2xl">{s}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Properties we run */}
+      <section className="bg-[#F8F6F1] py-32">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="mb-16">
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-4">{t.workEyebrow}</p>
+            <h2 className="serif text-4xl lg:text-5xl">{t.workTitle}</h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {t.work.map(({ name, location, tag, image, to, href }) => {
+              const card = (
+                <>
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <img
+                      src={image}
+                      alt={name}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div className="absolute top-5 left-5 px-3 py-1.5 bg-white/95 text-[10px] uppercase tracking-[0.2em]">
+                      {tag}
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="serif text-2xl mb-1">{name}</h3>
+                    <p className="text-[13px] text-[#A88F5C] uppercase tracking-wider">{location}</p>
+                  </div>
+                </>
+              );
+              return (
+                <motion.div key={name} className="group bg-white overflow-hidden" whileHover={{ y: -8 }}>
+                  {to
+                    ? <Link to={l(to)}>{card}</Link>
+                    : <a href={ws(lang, href)} target="_blank" rel="noopener noreferrer">{card}</a>}
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
       {/* Ecosystem */}
-      <Section tone="white">
-        <SectionHead eyebrow={a.ecoEyebrow} title={a.ecoTitle} />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-14">
-          {a.eco.map((e, i) => (
-            <Reveal key={e.t} delay={i * 0.08}>
-              <PhotoCard
-                photo={ECO[i].photo}
-                alt={alt.eco[i]}
-                title={e.t}
-                text={e.d}
-                to={ECO[i].to ? l(ECO[i].to!) : undefined}
-                href={ECO[i].href}
-                cta={more}
-              />
-            </Reveal>
-          ))}
+      <section className="bg-white py-32">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-4">{a.ecoEyebrow}</p>
+              <h2 className="serif text-4xl lg:text-5xl">{a.oneRel}</h2>
+            </div>
+            <p className="text-[15px] text-[#707070] max-w-sm">
+              {a.ecoTitle}
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#0F0F0F]/10">
+            {a.eco.map((c, i) => {
+              const inner = (
+                <>
+                  <h3 className="serif text-2xl mb-3 text-[#0F0F0F] group-hover:text-[#8B6914] transition-colors">{c.t}</h3>
+                  <p className="text-[14px] text-[#707070] leading-relaxed">{c.d}</p>
+                </>
+              );
+              const cls = 'group block bg-white p-8 lg:p-10 hover:bg-[#F8F6F1] transition-colors';
+              return ECO_LINKS[i]
+                ? <Link key={c.t} to={l(ECO_LINKS[i])} className={cls}>{inner}</Link>
+                : <a key={c.t} href={BUSINESS_CLUB_SITE} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>;
+            })}
+          </div>
+
+          <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3 text-[12px] uppercase tracking-[0.18em] text-[#0F0F0F]/40">
+            {a.needs.map((n, i) => (
+              <span key={n} className="flex items-center gap-8">{i > 0 && <span>·</span>}{n}</span>
+            ))}
+          </div>
         </div>
-        <p className="mt-14 max-w-2xl text-[#555]">
-          <span className="eyebrow block">{a.oneRel}</span>
-          {a.ecoClose}
-        </p>
-      </Section>
+      </section>
 
-      {/* How we work */}
-      <Section tone="dark">
-        <SectionHead eyebrow={a.howEyebrow} title={a.howTitle} lead={a.howBody} />
-        <ol className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10">
-          {a.stages.map((s, i) => (
-            <li key={s.t} className="bg-[#0F0F0F] p-8 lg:p-10">
-              <span className="block text-[11px] font-semibold tracking-[0.16em] text-[#D8BE86] mb-6">{String(i + 1).padStart(2, '0')}</span>
-              <h3>{s.t}</h3>
-              <p className="text-[#EAE3D2]/75">{s.s}</p>
-            </li>
-          ))}
-        </ol>
-        <p className="mt-8 serif text-[clamp(1.2rem,2vw,1.6rem)] text-[#D8BE86]">→ {a.performs}</p>
-      </Section>
-
-      {/* Partnerships */}
-      <Section tone="cream">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-14">
-          <SectionHead eyebrow={a.prtEyebrow} title={a.prtLead} className="!mb-0" />
-          <div className="shrink-0"><Button to={l('/partners')} variant="dark">{a.prtCta}</Button></div>
+      {/* Partners ticker */}
+      <section className="bg-[#F8F6F1] py-16 overflow-hidden border-t border-b border-[#0F0F0F]/08">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 mb-10">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-[#A88F5C] text-center">
+            {t.partnersLbl}
+          </p>
         </div>
-        <PartnerLogos />
-      </Section>
+        <div className="overflow-hidden">
+          <div className="flex w-max" style={{ animation: 'ticker 32s linear infinite' }}>
+            {[...partners, ...partners].map((name, i) => (
+              <span
+                key={i}
+                className="serif text-[22px] font-light text-[#0F0F0F]/30 whitespace-nowrap hover:text-[#A88F5C] transition-colors cursor-default select-none px-10"
+              >
+                {name}
+              </span>
+            ))}
+          </div>
+        </div>
+        <style>{`
+          @keyframes ticker {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+          }
+        `}</style>
+      </section>
 
-      <CtaBand title={a.helpTitle} lead={a.helpBody} photo="/photos/hbc-boardroom.webp">
-        <Button to={l('/contact')}>{a.helpContact}</Button>
-      </CtaBand>
+      {/* CTA */}
+      <section className="relative py-28 text-white overflow-hidden">
+        <img src="/photos/hbc-boardroom.webp" alt="" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-[#0F0F0F]/72" />
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-12">
+          <div>
+            <h2 className="serif text-4xl lg:text-5xl mb-4">{a.helpTitle}</h2>
+            <p className="text-[#EAE3D2] text-lg">{a.helpBody}</p>
+          </div>
+          <Link to={l('/contact')} className="shrink-0 inline-flex items-center gap-3 px-9 py-4 bg-[#A88F5C] text-white text-[11px] uppercase tracking-[0.2em] hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors group">
+            {t.cta}
+            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+      </section>
     </>
   );
 }
