@@ -1,56 +1,54 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
+import { useLang } from '../lib/i18n';
 
+const KEY = 'hilink_consent';
+
+const T = {
+  en: { text: 'We use cookies to run this site and remember your preferences, such as language.', more: 'Privacy Policy', accept: 'Accept', decline: 'Essential only' },
+  vi: { text: 'Chúng tôi dùng cookie để vận hành trang web và ghi nhớ lựa chọn của bạn, như ngôn ngữ.', more: 'Chính sách bảo mật', accept: 'Đồng ý', decline: 'Chỉ cookie cần thiết' },
+};
+
+// Shown to every visitor until they choose. No geolocation lookup: asking a
+// third-party service for the visitor's country would itself send their IP away.
 export function CookieConsent() {
-  const [showBanner, setShowBanner] = useState(false);
+  const { lang, l } = useLang();
+  const t = T[lang];
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const consentGiven = localStorage.getItem('hilink_consent');
-    if (consentGiven === 'true') return;
-
-    fetch('https://ipapi.co/json/')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.country_code !== 'VN') {
-          setShowBanner(true);
-        }
-      })
-      .catch(() => {
-        // Silently fail — don't show banner if geo check fails
-      });
+    try { setShow(!localStorage.getItem(KEY)); } catch { setShow(true); }
   }, []);
 
-  const handleAccept = () => {
-    localStorage.setItem('hilink_consent', 'true');
-    setShowBanner(false);
+  const choose = (value: 'all' | 'essential') => {
+    try { localStorage.setItem(KEY, value); } catch { /* private mode — just hide */ }
+    setShow(false);
   };
 
   return (
     <AnimatePresence>
-      {showBanner && (
+      {show && (
         <motion.div
-          className="fixed bottom-0 left-0 right-0 z-[200] bg-[#111] text-white px-6 py-6"
+          role="dialog"
+          aria-label="Cookies"
+          className="fixed bottom-0 left-0 right-0 z-[200] bg-[#111] text-white px-6 py-5"
           initial={{ y: '100%' }}
           animate={{ y: 0 }}
           exit={{ y: '100%' }}
           transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-center md:text-left text-[#EAE3D2]">
-              We use cookies to improve your experience. By continuing, you agree to our Privacy Policy.
+            <p className="text-[13.5px] text-center md:text-left text-[#EAE3D2]">
+              {t.text}{' '}
+              <Link to={l('/privacy-policy')} className="underline hover:text-white">{t.more}</Link>
             </p>
             <div className="flex gap-3 shrink-0">
-              <a
-                href="/privacy-policy"
-                className="px-6 py-2 border border-white/30 text-white/70 text-xs uppercase tracking-wider hover:border-white hover:text-white transition-colors"
-              >
-                Learn More
-              </a>
-              <button
-                onClick={handleAccept}
-                className="px-6 py-2 bg-[#A88F5C] text-white text-xs uppercase tracking-wider hover:bg-[#C9A84C] transition-colors"
-              >
-                Accept
+              <button onClick={() => choose('essential')} className="px-6 py-2 border border-white/30 text-white/80 text-[11px] uppercase tracking-wider hover:border-white hover:text-white transition-colors">
+                {t.decline}
+              </button>
+              <button onClick={() => choose('all')} className="px-6 py-2 bg-[#A88F5C] text-white text-[11px] uppercase tracking-wider hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors">
+                {t.accept}
               </button>
             </div>
           </div>

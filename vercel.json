@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/((?!api/|assets/|photos/|partners/|brand/|legal/).*)", "destination": "/index.html" }
+  ]
+}

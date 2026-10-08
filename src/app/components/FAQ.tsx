@@ -22,15 +22,15 @@ export function FAQ({
   background?: 'beige' | 'white';
 }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const bg = background === 'white' ? 'bg-white' : 'bg-[#F8F6F1]';
+  const bg = background === 'white' ? 'bg-white' : 'bg-[#F0EDE6]';
 
   return (
-    <section className={`py-24 lg:py-32 ${bg}`}>
+    <section className={`py-20 lg:py-28 ${bg}`}>
       <div className="max-w-[1000px] mx-auto px-6 lg:px-12">
         <div className="text-center mb-16">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-[#A88F5C] mb-4">{eyebrow}</p>
-          <h2 className="serif text-4xl lg:text-5xl mb-6">{title}</h2>
-          {subtitle && <p className="text-xl text-[#707070] max-w-2xl mx-auto">{subtitle}</p>}
+          <p className="eyebrow">{eyebrow}</p>
+          <h2 className="mb-6">{title}</h2>
+          {subtitle && <p className="text-[#555] max-w-2xl mx-auto">{subtitle}</p>}
         </div>
 
         <div className="divide-y divide-[#0F0F0F]/10 border-t border-b border-[#0F0F0F]/10">
@@ -44,8 +44,8 @@ export function FAQ({
                   aria-expanded={isOpen}
                 >
                   <span
-                    className={`serif text-xl lg:text-2xl transition-colors ${
-                      isOpen ? 'text-[#A88F5C]' : 'text-[#0F0F0F] group-hover:text-[#A88F5C]'
+                    className={`serif text-[var(--step-h3)] transition-colors ${
+                      isOpen ? 'text-[#7A653B]' : 'text-[#0F0F0F] group-hover:text-[#7A653B]'
                     }`}
                   >
                     {item.question}
@@ -63,7 +63,7 @@ export function FAQ({
                       transition={{ duration: 0.3, ease: 'easeInOut' }}
                       className="overflow-hidden"
                     >
-                      <p className="pb-7 text-[16px] text-[#707070] leading-relaxed max-w-3xl">
+                      <p className="pb-7 text-[#555] max-w-3xl">
                         {item.answer}
                       </p>
                     </motion.div>

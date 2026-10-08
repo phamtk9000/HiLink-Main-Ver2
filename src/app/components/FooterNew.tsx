@@ -1,122 +1,87 @@
 import { Link } from 'react-router';
-import { Facebook, Linkedin, Instagram, Youtube } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
+import { useLang } from '../lib/i18n';
+import { COMPANY, CONTACT, SERVICES, SOCIAL, ws } from '../data/site';
 
-const socials = [
-  { label: 'Facebook', href: 'https://facebook.com/hilink.vn', Icon: Facebook },
-  { label: 'LinkedIn', href: 'https://linkedin.com/company/hilink-vietnam', Icon: Linkedin },
-  { label: 'Instagram', href: 'https://instagram.com/hilink.vn', Icon: Instagram },
-  { label: 'YouTube', href: 'https://youtube.com/@hilinkvietnam', Icon: Youtube },
-];
+const T = {
+  en: {
+    blurb: 'Workspace, property and asset management, business services and operational support — under one relationship.',
+    solutions: 'Solutions', company: 'Company', contact: 'Contact', follow: 'Follow us',
+    about: 'About HiLink', partners: 'Partners', careers: 'Careers', news: 'News', all: 'All solutions', contactUs: 'Contact us',
+    workspaces: 'HiLink Workspaces',
+    rights: 'All rights reserved.', privacy: 'Privacy Policy', terms: 'Terms & Conditions', code: 'Enterprise code',
+  },
+  vi: {
+    blurb: 'Không gian làm việc, quản lý bất động sản và tài sản, dịch vụ doanh nghiệp và hỗ trợ vận hành — trong một mối quan hệ.',
+    solutions: 'Giải pháp', company: 'Công ty', contact: 'Liên hệ', follow: 'Theo dõi',
+    about: 'Về HiLink', partners: 'Đối tác', careers: 'Tuyển dụng', news: 'Tin tức', all: 'Tất cả giải pháp', contactUs: 'Liên hệ',
+    workspaces: 'HiLink Workspaces',
+    rights: 'Bảo lưu mọi quyền.', privacy: 'Chính sách bảo mật', terms: 'Điều khoản & Điều kiện', code: 'Mã số doanh nghiệp',
+  },
+};
+
+const linkCls = 'block text-[#EAE3D2]/80 hover:text-white transition-colors';
+const headCls = 'text-[11px] font-semibold uppercase tracking-[0.2em] text-[#D8BE86] mb-6';
 
 export function Footer() {
-  const currentYear = new Date().getFullYear();
+  const { lang, l } = useLang();
+  const t = T[lang];
 
   return (
-    <footer className="bg-[#0F0F0F] text-white border-t-2 border-[#A88F5C]/35">
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-24">
-        {/* Pre-footer CTA band */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-16 mb-16 border-b border-white/10">
-          <h2 className="serif text-4xl lg:text-5xl leading-tight max-w-2xl">Let's build something <span className="text-[#C9A55A]">exceptional</span>.</h2>
-          <Link to="/book-consultation" className="shrink-0 inline-flex items-center gap-2 px-9 py-4 bg-[#A88F5C] text-white text-[11px] uppercase tracking-[0.18em] hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors">
-            Book a Consultation
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-24">
+    <footer className="bg-[#0F0F0F] text-white border-t-2 border-[#A88F5C]/35 on-dark">
+      <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-24">
+
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16">
           <div className="md:col-span-4">
             <img src="/brand/hilink-logo-light.png" alt="HiLink — Your Solution" className="h-12 w-auto mb-6" />
-            <p className="text-[#EAE3D2] text-base leading-relaxed mb-8">
-              Premium real estate solutions for international clients seeking excellence in Vietnam.
-            </p>
-            <Link
-              to="/book-consultation"
-              className="inline-block px-8 py-3 bg-[#A88F5C] text-white text-sm uppercase tracking-wider hover:bg-[#EAE3D2] hover:text-[#0F0F0F] transition-colors"
-            >
-              Book a Consultation
-            </Link>
-
-            <div className="mt-10">
-              <h4 className="text-xs uppercase tracking-wider text-[#EAE3D2] mb-4">Follow Us</h4>
-              <div className="flex gap-4">
-                {socials.map(({ label, href, Icon }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className="w-10 h-10 flex items-center justify-center border border-white/20 text-[#EAE3D2] hover:bg-[#A88F5C] hover:border-[#A88F5C] hover:text-white transition-colors"
-                  >
-                    <Icon size={18} />
-                  </a>
-                ))}
-              </div>
+            <p className="text-[#EAE3D2]/80 mb-8 max-w-sm">{t.blurb}</p>
+            <p className={headCls}>{t.follow}</p>
+            <div className="flex flex-wrap gap-x-6 gap-y-2">
+              {SOCIAL.map((s) => (
+                <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[13px] text-[#EAE3D2]/80 hover:text-white transition-colors">
+                  {s.label} <ArrowUpRight size={12} />
+                </a>
+              ))}
             </div>
           </div>
 
-          <div className="md:col-span-3">
-            <h4 className="text-sm uppercase tracking-wider mb-6">Solutions</h4>
-            <nav className="space-y-3">
-              {[
-                { to: '/property-management', label: 'Property Management' },
-                { to: '/workspace-leasing', label: 'Workspace Leasing' },
-                { to: '/concierge-services', label: 'Concierge Services' },
-                { to: '/business-services', label: 'Business Services' },
-                { to: '/industrial-logistics', label: 'Industrial & Logistics' },
-              ].map(({ to, label }) => (
-                <Link key={to} to={to} className="block text-[#EAE3D2] hover:text-white transition-colors">
-                  {label}
-                </Link>
-              ))}
-            </nav>
-          </div>
+          <nav className="md:col-span-3 space-y-3 text-[14px]" aria-label={t.solutions}>
+            <p className={headCls}>{t.solutions}</p>
+            {SERVICES.map((s) => (
+              <Link key={s.path} to={l(s.path)} className={linkCls}>{s.t[lang]}</Link>
+            ))}
+            <a href={ws(lang)} target="_blank" rel="noopener noreferrer" className={`${linkCls} inline-flex items-center gap-1`}>
+              {t.workspaces} <ArrowUpRight size={12} />
+            </a>
+          </nav>
 
-          <div className="md:col-span-2">
-            <h4 className="text-sm uppercase tracking-wider mb-6">Company</h4>
-            <nav className="space-y-3">
-              {[
-                { to: '/about', label: 'About Us' },
-                { to: '/partners', label: 'Partners' },
-                { to: '/careers', label: 'Careers' },
-                { to: '/news', label: 'News' },
-                { to: '/solutions', label: 'All Solutions' },
-                { to: '/contact', label: 'Contact' },
-              ].map(({ to, label }) => (
-                <Link key={to} to={to} className="block text-[#EAE3D2] hover:text-white transition-colors">
-                  {label}
-                </Link>
-              ))}
-            </nav>
-          </div>
+          <nav className="md:col-span-2 space-y-3 text-[14px]" aria-label={t.company}>
+            <p className={headCls}>{t.company}</p>
+            <Link to={l('/about')} className={linkCls}>{t.about}</Link>
+            <Link to={l('/partners')} className={linkCls}>{t.partners}</Link>
+            <Link to={l('/careers')} className={linkCls}>{t.careers}</Link>
+            <Link to={l('/news')} className={linkCls}>{t.news}</Link>
+            <Link to={l('/solutions')} className={linkCls}>{t.all}</Link>
+            <Link to={l('/contact')} className={linkCls}>{t.contactUs}</Link>
+          </nav>
 
-          <div className="md:col-span-3">
-            <h4 className="text-sm uppercase tracking-wider mb-6">Contact</h4>
-            <address className="not-italic space-y-3 text-[#EAE3D2]">
-              <p>
-                <a href="mailto:contact@hilink.vn" className="hover:text-white transition-colors">
-                  contact@hilink.vn
-                </a>
-              </p>
-              <p>
-                <a href="tel:+842422029000" className="hover:text-white transition-colors">
-                  (+84) 24 2202 9000
-                </a>
-              </p>
-              <p>Tầng 15 số 4 Tôn Thất Tùng,<br />Đống Đa, Hà Nội, Việt Nam</p>
+          <div className="md:col-span-3 text-[14px]">
+            <p className={headCls}>{t.contact}</p>
+            <address className="not-italic space-y-3 text-[#EAE3D2]/80">
+              <p><a href={CONTACT.emailHref} className="hover:text-white transition-colors">{CONTACT.email}</a></p>
+              <p><a href={CONTACT.phoneHref} className="hover:text-white transition-colors">{CONTACT.phone}</a></p>
+              <p>{CONTACT.address[lang]}</p>
             </address>
           </div>
         </div>
 
-        <div className="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-[#EAE3D2] text-sm">
-            © {currentYear} HiLink Vietnam. All rights reserved.
+        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between md:items-center gap-4 text-[12.5px] text-[#EAE3D2]/60">
+          <p className="text-[12.5px]">
+            © {new Date().getFullYear()} {COMPANY.name[lang]} · {t.code} {COMPANY.enterpriseCode}. {t.rights}
           </p>
-          <div className="flex gap-8 text-sm">
-            <Link to="/privacy-policy" className="text-[#EAE3D2] hover:text-white transition-colors">
-              Privacy Policy
-            </Link>
-            <Link to="/terms" className="text-[#EAE3D2] hover:text-white transition-colors">
-              Terms and Conditions
-            </Link>
+          <div className="flex gap-8">
+            <Link to={l('/privacy-policy')} className="hover:text-white transition-colors">{t.privacy}</Link>
+            <Link to={l('/terms')} className="hover:text-white transition-colors">{t.terms}</Link>
           </div>
         </div>
       </div>

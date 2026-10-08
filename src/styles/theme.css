@@ -5,6 +5,19 @@
   --font-size: 16px;
   --font-serif: 'Playfair Display', serif;
   --font-sans: 'Inter', sans-serif;
+
+  --step-h1: clamp(2rem, 5vw, 4.2rem);
+  --step-h2: clamp(1.6rem, 3vw, 2.6rem);
+  --step-h3: clamp(1.15rem, 1.5vw, 1.45rem);
+  --step-h4: 1.0625rem;
+  --step-body: 15px;
+  --step-body-sm: 13.5px;
+  --step-eyebrow: 11px;
+
+  /* Brand gold #A88F5C only reaches 3:1 on cream — small text uses the darker
+     ink (5:1). Dark bands switch to the light gold. */
+  --gold-ink: #7A653B;
+  --gold-ink-dark: #D8BE86;
   
   /* Color System - Premium Editorial */
   --color-charcoal: #0F0F0F;
@@ -128,39 +141,33 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Editorial Typography System */
+  /* Type scale — the same steps as hilink.vn (src/index.css there), so the two
+     sites read as one brand. Headings are forced to the scale on purpose: a page
+     must not invent its own heading sizes. */
   html {
     font-size: var(--font-size);
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-serif);
-    font-weight: var(--font-weight-normal);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    font-weight: var(--font-weight-normal) !important;
+    letter-spacing: -0.01em !important;
+    text-wrap: balance;
+    font-variant-numeric: lining-nums;
   }
 
-  h1 {
-    font-size: clamp(3rem, 8vw, 6rem);
-  }
+  h1 { font-size: var(--step-h1) !important; line-height: 1.06; }
+  h2 { font-size: var(--step-h2) !important; line-height: 1.12; }
+  h3 { font-size: var(--step-h3) !important; line-height: 1.25; }
+  h4 { font-size: var(--step-h4) !important; line-height: 1.35; }
 
-  h2 {
-    font-size: clamp(2rem, 5vw, 4rem);
-  }
-
-  h3 {
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
-  }
-
-  h4 {
-    font-size: clamp(1.25rem, 2vw, 1.75rem);
-  }
+  h1, h2 { overflow-wrap: break-word; }
 
   p {
     font-family: var(--font-sans);
-    font-size: 1.125rem;
-    line-height: 1.6;
-    letter-spacing: -0.01em;
+    font-size: var(--step-body);
+    line-height: 1.7;
+    text-wrap: pretty;
   }
 
   label {
@@ -169,7 +176,6 @@
     font-weight: var(--font-weight-medium);
     line-height: 1.5;
     letter-spacing: 0.01em;
-    text-transform: uppercase;
   }
 
   button {
@@ -196,6 +202,24 @@
     font-family: var(--font-sans);
   }
 
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--step-eyebrow);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-ink);
+    margin-bottom: 12px;
+  }
+
+  .on-dark .eyebrow, .eyebrow.on-dark { color: var(--gold-ink-dark); }
+
+  .lede {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: #444;
+  }
+
   .editorial-spacing {
     padding-top: calc(var(--spacing-unit) * 12);
     padding-bottom: calc(var(--spacing-unit) * 12);
@@ -206,4 +230,10 @@
     grid-template-columns: repeat(12, 1fr);
     gap: calc(var(--spacing-unit) * 3);
   }
+}
+
+/* Section headings inside long legal texts sit one step down the scale. Must
+   live in the base layer: an !important rule there beats any utility. */
+@layer base {
+  h2.legal-h { font-size: var(--step-h3) !important; line-height: 1.3; }
 }
