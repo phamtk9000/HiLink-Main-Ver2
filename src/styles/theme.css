@@ -233,3 +233,78 @@
   }
 }
 
+
+/* ---------------------------------------------------------------------------
+   Scroll motion (lib/motion.tsx). SplitText puts each heading line in its own
+   overflow-hidden mask; the line itself has to be a block it can translate.
+--------------------------------------------------------------------------- */
+.line-mask__line {
+  display: block;
+  will-change: transform;
+}
+
+/* ---------------------------------------------------------------------------
+   Hidden background pattern — interlinked loops drawn from the HiLink logo's
+   single continuous stroke. Barely there at rest, fading out towards one
+   corner (alternating corners down the page); it brightens in a soft circle
+   around the pointer, and drifts slowly against the scroll.
+
+   Applied by selector, so pages need no extra markup: stone sections, the
+   pale-red call to action, and the footer. White sections stay clean.
+--------------------------------------------------------------------------- */
+:root { --pat-drift: 0px; }
+
+main section[class*="bg-[#F4F0EA]"],
+main section[class*="bg-[#FBECEC]"],
+footer {
+  position: relative;
+  isolation: isolate;
+  --pat-ink: #2A2623;
+  --pat-base: 0.075;
+  --pat-glow: 0.22;
+  --pat-corner: 100% 0%;
+}
+main section[class*="bg-[#FBECEC]"] { --pat-ink: #D12126; --pat-base: 0.1; --pat-glow: 0.28; --pat-corner: 50% 100%; }
+footer { --pat-ink: #FFFFFF; --pat-base: 0.045; --pat-glow: 0.12; --pat-corner: 0% 0%; }
+main section[class*="bg-[#F4F0EA]"]:nth-of-type(even) { --pat-corner: 0% 100%; }
+
+main section[class*="bg-[#F4F0EA]"]::before,
+main section[class*="bg-[#FBECEC]"]::before,
+footer::before,
+main section[class*="bg-[#F4F0EA]"]::after,
+main section[class*="bg-[#FBECEC]"]::after,
+footer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--pat-ink);
+  -webkit-mask-image: url(/patterns/links.svg), radial-gradient(ellipse 75% 85% at var(--pat-corner), #000 0%, transparent 72%);
+  mask-image: url(/patterns/links.svg), radial-gradient(ellipse 75% 85% at var(--pat-corner), #000 0%, transparent 72%);
+  -webkit-mask-size: 240px 120px, 100% 100%;
+  mask-size: 240px 120px, 100% 100%;
+  -webkit-mask-repeat: repeat, no-repeat;
+  mask-repeat: repeat, no-repeat;
+  -webkit-mask-position: 0 var(--pat-drift), 0 0;
+  mask-position: 0 var(--pat-drift), 0 0;
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  opacity: var(--pat-base);
+}
+
+/* The light under the pointer: same pattern, masked to a soft circle. */
+main section[class*="bg-[#F4F0EA]"]::after,
+main section[class*="bg-[#FBECEC]"]::after,
+footer::after {
+  -webkit-mask-image: url(/patterns/links.svg), radial-gradient(circle 260px at var(--mx, -999px) var(--my, -999px), #000 0%, transparent 70%);
+  mask-image: url(/patterns/links.svg), radial-gradient(circle 260px at var(--mx, -999px) var(--my, -999px), #000 0%, transparent 70%);
+  opacity: calc(var(--pat-on, 0) * var(--pat-glow));
+  transition: opacity 0.5s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main section[class*="bg-[#F4F0EA]"]::after,
+  main section[class*="bg-[#FBECEC]"]::after,
+  footer::after { display: none; }
+}
