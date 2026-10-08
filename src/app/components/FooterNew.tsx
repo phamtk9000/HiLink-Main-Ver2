@@ -31,11 +31,11 @@ export function Footer() {
   const t = T[lang];
 
   return (
-    <footer className="bg-[#0F0F0F] text-white border-t-2 border-[#D12126]/35">
+    <footer className="bg-[#2A2623] text-white border-t-2 border-[#D12126]/35">
       <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-24">
         {/* Pre-footer CTA band */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-16 mb-16 border-b border-white/10">
-          <h2 className="serif text-4xl lg:text-5xl leading-tight max-w-2xl">{t.cta1} <span className="text-[#E5484D]">{t.cta2}</span>.</h2>
+          <h2 className="serif text-4xl lg:text-5xl leading-tight max-w-2xl">{t.cta1} <span className="text-[#F06A6E]">{t.cta2}</span>.</h2>
           <Link to={l('/book-consultation')} className="shrink-0 inline-flex items-center gap-2 px-9 py-4 bg-[#D12126] text-white text-[11px] uppercase tracking-[0.18em] hover:bg-[#A3181C] transition-colors">
             {t.book}
           </Link>
@@ -43,7 +43,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-24">
           <div className="md:col-span-4">
             <img src="/brand/hilink-logo-light.png" alt="HiLink — Your Solution" className="h-12 w-auto mb-6" />
-            <p className="text-[#E6E6E6] text-base leading-relaxed mb-8">
+            <p className="text-[#E9E3DA] text-base leading-relaxed mb-8">
               {t.blurb}
             </p>
             <Link
@@ -54,7 +54,7 @@ export function Footer() {
             </Link>
 
             <div className="mt-10">
-              <h4 className="text-xs uppercase tracking-wider text-[#E6E6E6] mb-4">{t.follow}</h4>
+              <h4 className="text-xs uppercase tracking-wider text-[#E9E3DA] mb-4">{t.follow}</h4>
               <div className="flex gap-4">
                 {socials.map(({ label, href, Icon }) => (
                   <a
@@ -63,7 +63,7 @@ export function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="w-10 h-10 flex items-center justify-center border border-white/20 text-[#E6E6E6] hover:bg-[#D12126] hover:border-[#D12126] hover:text-white transition-colors"
+                    className="w-10 h-10 flex items-center justify-center border border-white/20 text-[#E9E3DA] hover:bg-[#D12126] hover:border-[#D12126] hover:text-white transition-colors"
                   >
                     <Icon size={18} />
                   </a>
@@ -78,7 +78,7 @@ export function Footer() {
               {[
                 '/property-management', '/workspace-leasing', '/concierge-services', '/business-services', '/industrial-logistics',
               ].map((to, i) => ({ to, label: t.sol[i] })).map(({ to, label }) => (
-                <Link key={to} to={l(to)} className="block text-[#E6E6E6] hover:text-white transition-colors">
+                <Link key={to} to={l(to)} className="block text-[#E9E3DA] hover:text-white transition-colors">
                   {label}
                 </Link>
               ))}
@@ -91,7 +91,7 @@ export function Footer() {
               {[
                 '/about', '/partners', '/careers', '/news', '/solutions', '/contact',
               ].map((to, i) => ({ to, label: t.comp[i] })).map(({ to, label }) => (
-                <Link key={to} to={l(to)} className="block text-[#E6E6E6] hover:text-white transition-colors">
+                <Link key={to} to={l(to)} className="block text-[#E9E3DA] hover:text-white transition-colors">
                   {label}
                 </Link>
               ))}
@@ -100,7 +100,7 @@ export function Footer() {
 
           <div className="md:col-span-3">
             <h4 className="text-sm uppercase tracking-wider mb-6">{t.contact}</h4>
-            <address className="not-italic space-y-3 text-[#E6E6E6]">
+            <address className="not-italic space-y-3 text-[#E9E3DA]">
               <p>
                 <a href={CONTACT.emailHref} className="hover:text-white transition-colors">
                   {CONTACT.email}
@@ -117,14 +117,14 @@ export function Footer() {
         </div>
 
         <div className="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-[#E6E6E6] text-sm">
+          <p className="text-[#E9E3DA] text-sm">
             © {currentYear} {COMPANY.name[lang]} · {t.code} {COMPANY.enterpriseCode}. {t.rights}
           </p>
           <div className="flex gap-8 text-sm">
-            <Link to={l('/privacy-policy')} className="text-[#E6E6E6] hover:text-white transition-colors">
+            <Link to={l('/privacy-policy')} className="text-[#E9E3DA] hover:text-white transition-colors">
               {t.privacy}
             </Link>
-            <Link to={l('/terms')} className="text-[#E6E6E6] hover:text-white transition-colors">
+            <Link to={l('/terms')} className="text-[#E9E3DA] hover:text-white transition-colors">
               {t.terms}
             </Link>
           </div>

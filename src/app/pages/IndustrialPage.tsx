@@ -86,17 +86,17 @@ export function IndustrialPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#0F0F0F] text-white">
+      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#2A2623] text-white">
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="grid lg:grid-cols-12 gap-12 lg:gap-24"
           >
             <motion.div className="lg:col-span-6">
-              <p className="text-sm uppercase tracking-wider text-[#D12126] mb-8">{t.eyebrow}</p>
+              <p className="text-sm uppercase tracking-wider text-[#F06A6E] mb-8">{t.eyebrow}</p>
               <h1 className="serif text-5xl lg:text-7xl mb-8 leading-tight">
                 {t.title}
               </h1>
-              <p className="text-xl text-[#E6E6E6] mb-12 leading-relaxed">
+              <p className="text-xl text-[#E9E3DA] mb-12 leading-relaxed">
                 {t.lead}
               </p>
               <Link
@@ -107,7 +107,7 @@ export function IndustrialPage() {
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
-            <div className="hidden lg:flex lg:col-span-6 items-center justify-center text-[#D12126]/40">
+            <div className="hidden lg:flex lg:col-span-6 items-center justify-center text-[#F06A6E]/40">
               <Warehouse size={220} strokeWidth={0.6} />
             </div>
           </motion.div>
@@ -115,19 +115,19 @@ export function IndustrialPage() {
       </section>
 
       {/* Services Overview */}
-      <section className="py-24 lg:py-32 bg-[#F7F7F7]">
+      <section className="py-24 lg:py-32 bg-[#F4F0EA]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="text-center mb-16"
           >
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.svcTitle}</h2>
-            <p className="text-xl text-[#707070] max-w-3xl mx-auto">
+            <p className="text-xl text-[#6B645D] max-w-3xl mx-auto">
               {t.svcLead}
             </p>
           </motion.div>
 
           <motion.div
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#0F0F0F]"
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#2A2623]/15"
           >
             {t.services.map(([title, description], i) => (
               <ServiceCard key={title} icon={SERVICE_ICONS[i]} title={title} description={description} />
@@ -143,7 +143,7 @@ export function IndustrialPage() {
             className="text-center mb-16"
           >
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.locTitle}</h2>
-            <p className="text-xl text-[#707070] max-w-3xl mx-auto">
+            <p className="text-xl text-[#6B645D] max-w-3xl mx-auto">
               {t.locLead}
             </p>
           </motion.div>
@@ -159,7 +159,7 @@ export function IndustrialPage() {
       </section>
 
       {/* Facility Types */}
-      <section className="py-24 lg:py-32 bg-[#E6E6E6]">
+      <section className="py-24 lg:py-32 bg-[#F4F0EA]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="text-center mb-16"
@@ -194,7 +194,7 @@ export function IndustrialPage() {
               </div>
             </motion.div>
             <motion.div
-              className="relative aspect-[4/3] overflow-hidden bg-[#0F0F0F] flex items-center justify-center text-[#D12126]"
+              className="relative aspect-[4/3] overflow-hidden bg-[#EDE7DF] flex items-center justify-center text-[#D12126]"
             >
               <Warehouse size={120} strokeWidth={0.8} />
             </motion.div>
@@ -203,14 +203,14 @@ export function IndustrialPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 lg:py-32 bg-[#0F0F0F] text-white">
+      <section className="py-24 lg:py-32 bg-[#FBECEC] text-[#2A2623]">
         <motion.div
           className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center"
         >
           <h2 className="serif text-4xl lg:text-5xl mb-8">
             {t.ctaTitle}
           </h2>
-          <p className="text-xl text-[#E6E6E6] mb-12 max-w-2xl mx-auto">
+          <p className="text-xl text-[#6B645D] mb-12 max-w-2xl mx-auto">
             {t.ctaLead}
           </p>
           <Link
@@ -232,12 +232,12 @@ function ServiceCard({ icon, title, description }: {
 }) {
   return (
     <motion.div
-      className="bg-[#F7F7F7] p-8 lg:p-10"
+      className="bg-[#F4F0EA] p-8 lg:p-10"
       whileHover={{ y: -5 }}
     >
       <div className="text-[#D12126] mb-6">{icon}</div>
       <h3 className="serif text-2xl mb-4">{title}</h3>
-      <p className="text-[#707070] leading-relaxed">{description}</p>
+      <p className="text-[#6B645D] leading-relaxed">{description}</p>
     </motion.div>
   );
 }
@@ -252,7 +252,7 @@ function IndustrialParkCard({ name, location, features, icon }: {
     <motion.div
       className="bg-white overflow-hidden"
     >
-      <div className="relative aspect-[16/9] overflow-hidden bg-[#0F0F0F] flex items-center justify-center text-[#D12126]">
+      <div className="relative aspect-[16/9] overflow-hidden bg-[#EDE7DF] flex items-center justify-center text-[#D12126]">
         {icon}
       </div>
       <div className="p-8">
@@ -262,7 +262,7 @@ function IndustrialParkCard({ name, location, features, icon }: {
           {features.map((feature, index) => (
             <li key={index} className="flex items-start gap-3">
               <div className="w-1.5 h-1.5 bg-[#D12126] rounded-full mt-2 flex-shrink-0" />
-              <span className="text-[#707070]">{feature}</span>
+              <span className="text-[#6B645D]">{feature}</span>
             </li>
           ))}
         </ul>
@@ -282,7 +282,7 @@ function FacilityCard({ type, description, size }: {
       whileHover={{ y: -5 }}
     >
       <h3 className="serif text-2xl mb-4">{type}</h3>
-      <p className="text-[#707070] mb-6 leading-relaxed">{description}</p>
+      <p className="text-[#6B645D] mb-6 leading-relaxed">{description}</p>
       <div className="text-[#D12126] text-sm uppercase tracking-wider">{size}</div>
     </motion.div>
   );
@@ -295,7 +295,7 @@ function ValuePoint({ title, description }: {
   return (
     <div>
       <h3 className="serif text-xl mb-2">{title}</h3>
-      <p className="text-[#707070] leading-relaxed">{description}</p>
+      <p className="text-[#6B645D] leading-relaxed">{description}</p>
     </div>
   );
 }

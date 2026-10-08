@@ -16,19 +16,19 @@
 
   /* Brand colours — red, black, white, from the official HiLink logo (red
      #D12126). Brand red passes 4.5:1 on white but only 3.6:1 on black, so
-     small red text on dark backgrounds uses the lighter #E5484D. */
+     small red text on dark backgrounds uses the lighter #F06A6E. */
   --gold-ink: #B01B20;
-  --gold-ink-dark: #E5484D;
+  --gold-ink-dark: #F06A6E;
   
   /* Color System — HiLink red / black / white (legacy token names kept) */
-  --color-charcoal: #0F0F0F;
-  --color-beige: #E6E6E6;
-  --color-cream: #F7F7F7;
+  --color-charcoal: #2A2623;
+  --color-beige: #E9E3DA;
+  --color-cream: #F4F0EA;
   --color-gold: #D12126;
   --color-olive: #7B7D6B;
   --color-white: #FFFFFF;
-  --color-light-gray: #E5E5E5;
-  --color-mid-gray: #707070;
+  --color-light-gray: #E9E3DA;
+  --color-mid-gray: #6B645D;
   
   /* Design Tokens */
   --background: var(--color-cream);
@@ -41,7 +41,7 @@
   --accent-foreground: var(--color-white);
   --muted: var(--color-light-gray);
   --muted-foreground: var(--color-mid-gray);
-  --border: rgba(15, 15, 15, 0.1);
+  --border: rgba(42, 38, 35, 0.12);
   --ring: var(--color-gold);
   
   /* Legacy tokens for component compatibility */
@@ -136,7 +136,7 @@
   }
 
   body {
-    @apply bg-white text-[#0F0F0F];
+    @apply bg-white text-[#2A2623];
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

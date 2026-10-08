@@ -8,7 +8,7 @@ export function HeroBg({
   image,
   video,
   poster,
-  opacity = 0.4,
+  opacity = 0.85,
 }: {
   image?: string;
   video?: string;
@@ -32,8 +32,8 @@ export function HeroBg({
       ) : (
         <img src={image} alt="" className="w-full h-full object-cover" style={{ opacity }} />
       )}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-[#0F0F0F]/55 to-[#0F0F0F]/45" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0F0F0F]/70 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623]/85 via-[#2A2623]/35 to-[#2A2623]/15" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#2A2623]/65 via-[#2A2623]/20 to-transparent" />
     </div>
   );
 }

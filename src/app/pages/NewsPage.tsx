@@ -52,17 +52,17 @@ export function NewsPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#0F0F0F] text-white">
+      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#2A2623] text-white">
         <HeroBg image="/photos/f15-lounge-cabin.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="max-w-4xl"
           >
-            <p className="text-sm uppercase tracking-wider text-[#D12126] mb-8">{t.eyebrow}</p>
+            <p className="text-sm uppercase tracking-wider text-[#F06A6E] mb-8">{t.eyebrow}</p>
             <h1 className="serif text-5xl lg:text-7xl mb-8 leading-tight">
               {t.title}
             </h1>
-            <p className="text-xl text-[#E6E6E6] leading-relaxed">
+            <p className="text-xl text-[#E9E3DA] leading-relaxed">
               {t.lead}
             </p>
           </motion.div>
@@ -71,7 +71,7 @@ export function NewsPage() {
 
       {/* Featured Article */}
       {featuredArticle && (
-        <section className="py-24 bg-[#F7F7F7]">
+        <section className="py-24 bg-[#F4F0EA]">
           <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
             <motion.div
               className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center"
@@ -93,10 +93,10 @@ export function NewsPage() {
                   {featuredArticle.category}
                 </div>
                 <h2 className="serif text-4xl lg:text-5xl mb-6">{featuredArticle.title}</h2>
-                <p className="text-lg text-[#707070] mb-8 leading-relaxed">
+                <p className="text-lg text-[#6B645D] mb-8 leading-relaxed">
                   {featuredArticle.excerpt}
                 </p>
-                <div className="flex items-center gap-6 text-sm text-[#707070] mb-8">
+                <div className="flex items-center gap-6 text-sm text-[#6B645D] mb-8">
                   <div className="flex items-center gap-2">
                     <Calendar size={16} />
                     {featuredArticle.date}
@@ -106,7 +106,7 @@ export function NewsPage() {
                   href={featuredArticle.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-10 py-4 bg-[#0F0F0F] text-white text-sm uppercase tracking-wider hover:bg-[#D12126] transition-colors group"
+                  className="inline-flex items-center gap-2 px-10 py-4 bg-[#2A2623] text-white text-sm uppercase tracking-wider hover:bg-[#D12126] transition-colors group"
                 >
                   {t.read}
                   <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -118,7 +118,7 @@ export function NewsPage() {
       )}
 
       {/* Category Filter */}
-      <section className="py-12 bg-white border-b border-[#0F0F0F]/10">
+      <section className="py-12 bg-white border-b border-[#2A2623]/10">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="flex flex-wrap gap-4">
             {categories.map((category) => (
@@ -126,7 +126,7 @@ export function NewsPage() {
                 key={category}
                 onClick={() => setCat(category)}
                 aria-pressed={cat === category}
-                className={`px-6 py-2 text-sm uppercase tracking-wider border border-[#0F0F0F]/20 hover:bg-[#0F0F0F] hover:text-white transition-colors ${cat === category ? 'bg-[#0F0F0F] text-white' : ''}`}
+                className={`px-6 py-2 text-sm uppercase tracking-wider border border-[#2A2623]/20 hover:bg-[#2A2623] hover:text-white transition-colors ${cat === category ? 'bg-[#2A2623] text-white' : ''}`}
               >
                 {category === 'All' ? t.all : CATS[category][lang]}
               </button>
@@ -149,7 +149,7 @@ export function NewsPage() {
       </section>
 
       {/* Forum */}
-      <section className="py-24 lg:py-32 bg-[#0F0F0F] text-white">
+      <section className="py-24 lg:py-32 bg-[#FBECEC] text-[#2A2623]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="max-w-3xl mx-auto text-center"
@@ -158,7 +158,7 @@ export function NewsPage() {
             <h2 className="serif text-4xl lg:text-5xl mb-6">
               {t.subTitle}
             </h2>
-            <p className="text-xl text-[#E6E6E6] mb-12">
+            <p className="text-xl text-[#6B645D] mb-12">
               {t.subLead}
             </p>
             <a
@@ -206,10 +206,10 @@ function ArticleCard({ category, title, excerpt, date, image, href }: {
         <h3 className="serif text-2xl mb-4 group-hover:text-[#D12126] transition-colors">
           {title}
         </h3>
-        <p className="text-[#707070] mb-6 leading-relaxed line-clamp-3">
+        <p className="text-[#6B645D] mb-6 leading-relaxed line-clamp-3">
           {excerpt}
         </p>
-        <div className="flex items-center gap-6 text-sm text-[#707070]">
+        <div className="flex items-center gap-6 text-sm text-[#6B645D]">
           <div className="flex items-center gap-2">
             <Calendar size={14} />
             {date}

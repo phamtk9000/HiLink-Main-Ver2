@@ -47,12 +47,12 @@ export function BookConsultationPage() {
   };
 
   const inputClass =
-    'w-full bg-transparent border-b border-white/30 py-3 text-white placeholder-white/40 focus:border-[#D12126] focus:outline-none transition-colors';
+    'w-full bg-transparent border-b border-[#2A2623]/25 py-3 text-[#2A2623] placeholder-[#6B645D] focus:border-[#D12126] focus:outline-none transition-colors';
 
   return (
     <>
       {/* Hero */}
-      <section id="hero" className="py-20 lg:py-28 bg-[#0F0F0F] text-white">
+      <section id="hero" className="py-20 lg:py-28 bg-[#2A2623] text-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -60,11 +60,11 @@ export function BookConsultationPage() {
             transition={{ duration: 0.6 }}
             className="max-w-3xl"
           >
-            <p className="text-sm uppercase tracking-wider text-[#D12126] mb-8">{t.eyebrow}</p>
+            <p className="text-sm uppercase tracking-wider text-[#F06A6E] mb-8">{t.eyebrow}</p>
             <h1 className="serif text-5xl lg:text-7xl mb-8 leading-tight">
               {t.title}
             </h1>
-            <p className="text-xl text-[#E6E6E6] leading-relaxed">
+            <p className="text-xl text-[#E9E3DA] leading-relaxed">
               {t.lead}
             </p>
           </motion.div>
@@ -72,7 +72,7 @@ export function BookConsultationPage() {
       </section>
 
       {/* Form */}
-      <section id="consultation-form" className="py-20 lg:py-28 bg-[#0F0F0F] text-white">
+      <section id="consultation-form" className="py-20 lg:py-28 bg-[#F4F0EA] text-[#2A2623]">
         <div className="max-w-[800px] mx-auto px-6 lg:px-12">
           {submitted ? (
             <motion.div
@@ -82,7 +82,7 @@ export function BookConsultationPage() {
             >
               <CheckCircle2 size={56} className="text-[#D12126] mx-auto mb-8" />
               <h2 className="serif text-4xl mb-4">{t.thanks}</h2>
-              <p className="text-xl text-[#E6E6E6]">
+              <p className="text-xl text-[#6B645D]">
                 {t.thanksBody}
               </p>
             </motion.div>
@@ -127,7 +127,7 @@ export function BookConsultationPage() {
                   <select
                     value={form.interest || interests[0]}
                     onChange={(e) => update('interest', e.target.value)}
-                    className={`${inputClass} [&>option]:text-[#0F0F0F]`}
+                    className={`${inputClass} [&>option]:text-[#2A2623]`}
                   >
                     {interests.map((i) => (
                       <option key={i} value={i}>{i}</option>

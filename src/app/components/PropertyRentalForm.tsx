@@ -55,7 +55,7 @@ export function PropertyRentalForm() {
   };
 
   return (
-    <section className="py-24 lg:py-32 bg-[#1A1A1A] text-white">
+    <section className="py-24 lg:py-32 bg-[#2A2623] text-white">
       <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -63,10 +63,10 @@ export function PropertyRentalForm() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="serif text-4xl lg:text-5xl mb-6 text-[#E6E6E6] uppercase tracking-wider">
+          <h2 className="serif text-4xl lg:text-5xl mb-6 text-[#E9E3DA] uppercase tracking-wider">
             {t('propertyForm.title')}
           </h2>
-          <p className="text-lg text-[#E6E6E6]/80">
+          <p className="text-lg text-[#E9E3DA]/80">
             {t('propertyForm.subtitle')}
           </p>
         </motion.div>
@@ -75,10 +75,10 @@ export function PropertyRentalForm() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-center py-16 bg-[#0F0F0F] rounded-lg"
+            className="text-center py-16 bg-[#2A2623] rounded-lg"
           >
             <div className="text-3xl mb-4">✓</div>
-            <p className="text-2xl text-[#E6E6E6]">{t('propertyForm.success')}</p>
+            <p className="text-2xl text-[#E9E3DA]">{t('propertyForm.success')}</p>
           </motion.div>
         ) : (
           <motion.form
@@ -98,7 +98,7 @@ export function PropertyRentalForm() {
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder={t('propertyForm.locationPlaceholder')}
                 required
-                className="w-full px-6 py-4 bg-transparent border border-white/40 text-white placeholder:text-white/50 focus:border-[#E6E6E6] focus:outline-none transition-colors"
+                className="w-full px-6 py-4 bg-transparent border border-white/40 text-white placeholder:text-white/50 focus:border-[#E9E3DA] focus:outline-none transition-colors"
               />
             </div>
 
@@ -113,7 +113,7 @@ export function PropertyRentalForm() {
                   <button
                     type="button"
                     onClick={() => setBedrooms(Math.max(0, bedrooms - 1))}
-                    className="text-white hover:text-[#E6E6E6] transition-colors"
+                    className="text-white hover:text-[#E9E3DA] transition-colors"
                   >
                     <Minus size={20} />
                   </button>
@@ -121,7 +121,7 @@ export function PropertyRentalForm() {
                   <button
                     type="button"
                     onClick={() => setBedrooms(bedrooms + 1)}
-                    className="text-white hover:text-[#E6E6E6] transition-colors"
+                    className="text-white hover:text-[#E9E3DA] transition-colors"
                   >
                     <Plus size={20} />
                   </button>
@@ -137,7 +137,7 @@ export function PropertyRentalForm() {
                   <button
                     type="button"
                     onClick={() => setBathrooms(Math.max(0, bathrooms - 1))}
-                    className="text-white hover:text-[#E6E6E6] transition-colors"
+                    className="text-white hover:text-[#E9E3DA] transition-colors"
                   >
                     <Minus size={20} />
                   </button>
@@ -145,7 +145,7 @@ export function PropertyRentalForm() {
                   <button
                     type="button"
                     onClick={() => setBathrooms(bathrooms + 1)}
-                    className="text-white hover:text-[#E6E6E6] transition-colors"
+                    className="text-white hover:text-[#E9E3DA] transition-colors"
                   >
                     <Plus size={20} />
                   </button>
@@ -161,14 +161,14 @@ export function PropertyRentalForm() {
                   <select
                     value={utility}
                     onChange={(e) => setUtility(e.target.value)}
-                    className="w-full px-6 py-4 bg-transparent border border-white/40 text-white appearance-none focus:border-[#E6E6E6] focus:outline-none transition-colors cursor-pointer"
+                    className="w-full px-6 py-4 bg-transparent border border-white/40 text-white appearance-none focus:border-[#E9E3DA] focus:outline-none transition-colors cursor-pointer"
                   >
-                    <option value="0" className="bg-[#1A1A1A]">{lang === 'vi' ? 'Không' : 'None'}</option>
-                    <option value="1" className="bg-[#1A1A1A]">{lang === 'vi' ? 'Phòng gym' : 'Gym'}</option>
-                    <option value="2" className="bg-[#1A1A1A]">{lang === 'vi' ? 'Hồ bơi' : 'Pool'}</option>
-                    <option value="3" className="bg-[#1A1A1A]">{lang === 'vi' ? 'Gym + hồ bơi' : 'Gym + Pool'}</option>
-                    <option value="4" className="bg-[#1A1A1A]">{lang === 'vi' ? 'Gym + hồ bơi + bãi đỗ xe' : 'Gym + Pool + Parking'}</option>
-                    <option value="5" className="bg-[#1A1A1A]">{lang === 'vi' ? 'Đầy đủ tiện ích' : 'Full Amenities'}</option>
+                    <option value="0" className="bg-[#2A2623]">{lang === 'vi' ? 'Không' : 'None'}</option>
+                    <option value="1" className="bg-[#2A2623]">{lang === 'vi' ? 'Phòng gym' : 'Gym'}</option>
+                    <option value="2" className="bg-[#2A2623]">{lang === 'vi' ? 'Hồ bơi' : 'Pool'}</option>
+                    <option value="3" className="bg-[#2A2623]">{lang === 'vi' ? 'Gym + hồ bơi' : 'Gym + Pool'}</option>
+                    <option value="4" className="bg-[#2A2623]">{lang === 'vi' ? 'Gym + hồ bơi + bãi đỗ xe' : 'Gym + Pool + Parking'}</option>
+                    <option value="5" className="bg-[#2A2623]">{lang === 'vi' ? 'Đầy đủ tiện ích' : 'Full Amenities'}</option>
                   </select>
                   <ChevronDown size={20} className="absolute right-6 top-1/2 -translate-y-1/2 text-white pointer-events-none" />
                 </div>
@@ -191,7 +191,7 @@ export function PropertyRentalForm() {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="w-full px-6 py-4 bg-transparent border border-white/40 text-white text-left hover:border-[#E6E6E6] transition-colors flex items-center justify-between"
+                  className="w-full px-6 py-4 bg-transparent border border-white/40 text-white text-left hover:border-[#E9E3DA] transition-colors flex items-center justify-between"
                 >
                   <span className={imageName ? 'text-white' : 'text-white/50'}>
                     {imageName || t('propertyForm.chooseImage')}
@@ -212,7 +212,7 @@ export function PropertyRentalForm() {
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder={t('propertyForm.fullNamePlaceholder')}
                 required
-                className="w-full px-6 py-4 bg-transparent border border-white/40 text-white placeholder:text-white/50 focus:border-[#E6E6E6] focus:outline-none transition-colors"
+                className="w-full px-6 py-4 bg-transparent border border-white/40 text-white placeholder:text-white/50 focus:border-[#E9E3DA] focus:outline-none transition-colors"
               />
             </div>
 
@@ -229,7 +229,7 @@ export function PropertyRentalForm() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t('propertyForm.emailPlaceholder')}
                   required
-                  className="w-full px-6 py-4 bg-transparent border border-white/40 text-white placeholder:text-white/50 focus:border-[#E6E6E6] focus:outline-none transition-colors"
+                  className="w-full px-6 py-4 bg-transparent border border-white/40 text-white placeholder:text-white/50 focus:border-[#E9E3DA] focus:outline-none transition-colors"
                 />
               </div>
 
@@ -243,7 +243,7 @@ export function PropertyRentalForm() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder={t('propertyForm.phonePlaceholder')}
-                  className="w-full px-6 py-4 bg-transparent border border-white/40 text-white placeholder:text-white/50 focus:border-[#E6E6E6] focus:outline-none transition-colors"
+                  className="w-full px-6 py-4 bg-transparent border border-white/40 text-white placeholder:text-white/50 focus:border-[#E9E3DA] focus:outline-none transition-colors"
                 />
               </div>
             </div>

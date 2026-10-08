@@ -32,14 +32,14 @@ export function CookieConsent() {
         <motion.div
           role="dialog"
           aria-label="Cookies"
-          className="fixed bottom-0 left-0 right-0 z-[200] bg-[#111] text-white px-6 py-5"
+          className="fixed bottom-0 left-0 right-0 z-[200] bg-[#2A2623] text-white px-6 py-5"
           initial={{ y: '100%' }}
           animate={{ y: 0 }}
           exit={{ y: '100%' }}
           transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-[13.5px] text-center md:text-left text-[#E6E6E6]">
+            <p className="text-[13.5px] text-center md:text-left text-[#E9E3DA]">
               {t.text}{' '}
               <Link to={l('/privacy-policy')} className="underline hover:text-white">{t.more}</Link>
             </p>

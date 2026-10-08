@@ -89,21 +89,21 @@ export function ConciergePage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center bg-[#0F0F0F] text-white overflow-hidden">
+      <section className="relative min-h-screen flex items-center bg-[#2A2623] text-white overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="/photos/hbc-lounge-xl.webp"
             alt=""
-            className="w-full h-full object-cover opacity-[0.35]"
+            className="w-full h-full object-cover opacity-[0.8]"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0F0F0F]/80 via-[#0F0F0F]/55 to-[#0F0F0F]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#2A2623]/85 via-[#2A2623]/45 to-[#2A2623]/20" />
         </div>
 
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 py-24 w-full">
           <div className="max-w-3xl">
             <div className="flex items-center gap-3 mb-8">
-              <Sparkles size={16} className="text-[#D12126]" />
-              <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126]">
+              <Sparkles size={16} className="text-[#F06A6E]" />
+              <p className="text-[11px] uppercase tracking-[0.3em] text-[#F06A6E]">
                 {t.eyebrow}
               </p>
             </div>
@@ -113,7 +113,7 @@ export function ConciergePage() {
             >
               {t.h1[0]}<br />{t.h1[1]}
             </h1>
-            <p className="text-lg md:text-xl text-[#E6E6E6] mb-12 leading-relaxed max-w-2xl font-light">
+            <p className="text-lg md:text-xl text-[#E9E3DA] mb-12 leading-relaxed max-w-2xl font-light">
               {t.lead}
             </p>
             <a
@@ -134,12 +134,12 @@ export function ConciergePage() {
       </section>
 
       {/* Philosophy */}
-      <section className="py-28 lg:py-40 bg-[#F7F7F7]">
+      <section className="py-28 lg:py-40 bg-[#F4F0EA]">
         <div className="max-w-[900px] mx-auto px-6 lg:px-12 text-center">
-          <h2 className="serif font-light text-4xl lg:text-5xl mb-8 leading-tight text-[#1A1A1A]">
+          <h2 className="serif font-light text-4xl lg:text-5xl mb-8 leading-tight text-[#2A2623]">
             {t.philTitle}
           </h2>
-          <p className="text-lg text-[#707070] leading-relaxed mb-10">
+          <p className="text-lg text-[#6B645D] leading-relaxed mb-10">
             {t.phil}
           </p>
           <div className="w-16 h-px bg-[#D12126] mx-auto" />
@@ -151,13 +151,13 @@ export function ConciergePage() {
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="text-center mb-16">
             <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.arrEyebrow}</p>
-            <h2 className="serif font-light text-4xl lg:text-5xl mb-6 text-[#1A1A1A]">{t.arrTitle}</h2>
-            <p className="text-lg text-[#707070]">
+            <h2 className="serif font-light text-4xl lg:text-5xl mb-6 text-[#2A2623]">{t.arrTitle}</h2>
+            <p className="text-lg text-[#6B645D]">
               {t.arrLead}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#0F0F0F]/10">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#2A2623]/10">
             {t.services.map(([title, description], i) => (
               <ServiceCard key={title} icon={SERVICE_META[i].icon} image={SERVICE_META[i].image} title={title} description={description} />
             ))}
@@ -166,16 +166,16 @@ export function ConciergePage() {
       </section>
 
       {/* The Difference */}
-      <section className="py-28 lg:py-40 bg-[#F7F7F7]">
+      <section className="py-28 lg:py-40 bg-[#F4F0EA]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div>
-              <h2 className="serif font-light text-4xl lg:text-5xl mb-12 text-[#1A1A1A]">{t.diffTitle}</h2>
-              <div className="divide-y divide-[#0F0F0F]/10">
+              <h2 className="serif font-light text-4xl lg:text-5xl mb-12 text-[#2A2623]">{t.diffTitle}</h2>
+              <div className="divide-y divide-[#2A2623]/10">
                 {t.diffs.map(([title, body], i) => (
                   <div key={title} className={i === 0 ? 'pb-8' : i === t.diffs.length - 1 ? 'pt-8' : 'py-8'}>
-                    <h3 className="serif text-2xl mb-3 text-[#1A1A1A]">{title}</h3>
-                    <p className="text-[#707070] leading-relaxed">
+                    <h3 className="serif text-2xl mb-3 text-[#2A2623]">{title}</h3>
+                    <p className="text-[#6B645D] leading-relaxed">
                       {body}
                     </p>
                   </div>
@@ -199,8 +199,8 @@ export function ConciergePage() {
         <div className="max-w-[760px] mx-auto px-6 lg:px-12">
           <div className="text-center mb-16">
             <Lock size={36} className="mx-auto mb-8 text-[#D12126]" />
-            <h2 className="serif font-light text-4xl lg:text-5xl mb-6 text-[#1A1A1A]">{t.formTitle}</h2>
-            <p className="text-lg text-[#707070]">
+            <h2 className="serif font-light text-4xl lg:text-5xl mb-6 text-[#2A2623]">{t.formTitle}</h2>
+            <p className="text-lg text-[#6B645D]">
               {t.formLead}
             </p>
           </div>
@@ -211,7 +211,7 @@ export function ConciergePage() {
               placeholder={t.name}
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-6 py-4 bg-[#F7F7F7] border border-[#0F0F0F]/15 text-[#1A1A1A] placeholder-[#9a9a9a] focus:outline-none focus:border-[#D12126] transition-colors"
+              className="w-full px-6 py-4 bg-[#F4F0EA] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#9a9a9a] focus:outline-none focus:border-[#D12126] transition-colors"
               required
             />
             <input
@@ -219,7 +219,7 @@ export function ConciergePage() {
               placeholder={t.email}
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full px-6 py-4 bg-[#F7F7F7] border border-[#0F0F0F]/15 text-[#1A1A1A] placeholder-[#9a9a9a] focus:outline-none focus:border-[#D12126] transition-colors"
+              className="w-full px-6 py-4 bg-[#F4F0EA] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#9a9a9a] focus:outline-none focus:border-[#D12126] transition-colors"
               required
             />
             <input
@@ -227,7 +227,7 @@ export function ConciergePage() {
               placeholder={t.phone}
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              className="w-full px-6 py-4 bg-[#F7F7F7] border border-[#0F0F0F]/15 text-[#1A1A1A] placeholder-[#9a9a9a] focus:outline-none focus:border-[#D12126] transition-colors"
+              className="w-full px-6 py-4 bg-[#F4F0EA] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#9a9a9a] focus:outline-none focus:border-[#D12126] transition-colors"
               required
             />
             <textarea
@@ -235,7 +235,7 @@ export function ConciergePage() {
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               rows={6}
-              className="w-full px-6 py-4 bg-[#F7F7F7] border border-[#0F0F0F]/15 text-[#1A1A1A] placeholder-[#9a9a9a] focus:outline-none focus:border-[#D12126] transition-colors resize-none"
+              className="w-full px-6 py-4 bg-[#F4F0EA] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#9a9a9a] focus:outline-none focus:border-[#D12126] transition-colors resize-none"
               required
             />
             <button
@@ -244,7 +244,7 @@ export function ConciergePage() {
             >
               {t.submit}
             </button>
-            <p className="text-sm text-[#707070] text-center">
+            <p className="text-sm text-[#6B645D] text-center">
               {t.formNote}
             </p>
           </form>
@@ -252,17 +252,17 @@ export function ConciergePage() {
       </section>
 
       {/* Contact */}
-      <section className="py-20 bg-[#F7F7F7] border-t border-[#D12126]/20">
+      <section className="py-20 bg-[#F4F0EA] border-t border-[#D12126]/20">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div>
               <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-2">{t.qLbl}</p>
-              <p className="text-xl text-[#1A1A1A]">{t.qText}</p>
+              <p className="text-xl text-[#2A2623]">{t.qText}</p>
             </div>
             <div className="flex items-center gap-8">
               <a
                 href={CONTACT.emailHref}
-                className="flex items-center gap-3 text-[#707070] hover:text-[#D12126] transition-colors"
+                className="flex items-center gap-3 text-[#6B645D] hover:text-[#D12126] transition-colors"
               >
                 <Mail size={20} />
                 <span>{CONTACT.email}</span>
@@ -297,8 +297,8 @@ function ServiceCard({ icon, title, description, image }: {
       </div>
       <div className="p-8">
         <div className="text-[#D12126] mb-4">{icon}</div>
-        <h3 className="serif text-2xl mb-3 text-[#1A1A1A]">{title}</h3>
-        <p className="text-[#707070] text-sm leading-relaxed">{description}</p>
+        <h3 className="serif text-2xl mb-3 text-[#2A2623]">{title}</h3>
+        <p className="text-[#6B645D] text-sm leading-relaxed">{description}</p>
       </div>
     </motion.div>
   );

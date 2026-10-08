@@ -226,7 +226,7 @@ export function WorkspaceDetailPage() {
 
   if (!property) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center bg-[#F7F7F7]">
+      <div className="min-h-[60vh] flex items-center justify-center bg-[#F4F0EA]">
         <div className="text-center">
           <h2 className="serif text-4xl mb-4">{t.notFound}</h2>
           <Link to={l('/workspace-leasing')} className="text-[#D12126] uppercase text-sm tracking-wider underline">
@@ -248,11 +248,11 @@ export function WorkspaceDetailPage() {
   return (
     <>
       {/* Back nav */}
-      <div className="bg-[#F7F7F7] border-b border-[#0F0F0F]/10">
+      <div className="bg-[#F4F0EA] border-b border-[#2A2623]/10">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-4">
           <Link
             to={l('/property-management')}
-            className="inline-flex items-center gap-2 text-sm uppercase tracking-wider text-[#707070] hover:text-[#D12126] transition-colors"
+            className="inline-flex items-center gap-2 text-sm uppercase tracking-wider text-[#6B645D] hover:text-[#D12126] transition-colors"
           >
             <ArrowLeft size={16} /> {t.back}
           </Link>
@@ -260,11 +260,11 @@ export function WorkspaceDetailPage() {
       </div>
 
       {/* Header info */}
-      <section className="bg-[#F7F7F7] pt-10 pb-6">
+      <section className="bg-[#F4F0EA] pt-10 pb-6">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <p className="text-xs uppercase tracking-[0.2em] text-[#D12126] mb-3">{property.type[lang]}</p>
           <h1 className="serif text-5xl lg:text-6xl mb-3">{property.name}</h1>
-          <div className="flex items-center gap-2 text-[#707070]">
+          <div className="flex items-center gap-2 text-[#6B645D]">
             <MapPin size={16} className="text-[#D12126]" />
             <span>{property.location[lang]}</span>
           </div>
@@ -272,12 +272,12 @@ export function WorkspaceDetailPage() {
       </section>
 
       {/* Photo grid */}
-      <section className="bg-[#F7F7F7] pb-8">
+      <section className="bg-[#F4F0EA] pb-8">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <PhotoGrid images={images} onOpen={(i) => setLightboxIndex(i)} />
           <button
             onClick={() => setLightboxIndex(0)}
-            className="mt-4 text-sm uppercase tracking-wider underline underline-offset-4 text-[#0F0F0F] hover:text-[#D12126] transition-colors"
+            className="mt-4 text-sm uppercase tracking-wider underline underline-offset-4 text-[#2A2623] hover:text-[#D12126] transition-colors"
           >
             {t.showAll(images.length)}
           </button>
@@ -292,7 +292,7 @@ export function WorkspaceDetailPage() {
             {/* Left column */}
             <div>
               {/* Stats row */}
-              <div className="grid grid-cols-3 gap-px bg-[#0F0F0F]/10 mb-12">
+              <div className="grid grid-cols-3 gap-px bg-[#2A2623]/10 mb-12">
                 {[
                   { icon: <Building2 size={20} />, label: t.units, value: property.units },
                   { icon: <TrendingUp size={20} />, label: t.occ, value: `${property.occupancy}%` },
@@ -301,7 +301,7 @@ export function WorkspaceDetailPage() {
                   <div key={label} className="bg-white px-8 py-6 flex items-center gap-4">
                     <div className="text-[#D12126]">{icon}</div>
                     <div>
-                      <div className="text-xs uppercase tracking-wider text-[#707070] mb-1">{label}</div>
+                      <div className="text-xs uppercase tracking-wider text-[#6B645D] mb-1">{label}</div>
                       <div className="serif text-2xl">{value}</div>
                     </div>
                   </div>
@@ -309,13 +309,13 @@ export function WorkspaceDetailPage() {
               </div>
 
               {/* Description */}
-              <div className="mb-12 pb-12 border-b border-[#0F0F0F]/10">
+              <div className="mb-12 pb-12 border-b border-[#2A2623]/10">
                 <h2 className="serif text-3xl mb-6">{t.about}</h2>
                 <p className="text-[#444] leading-relaxed text-lg">{property.description[lang]}</p>
               </div>
 
               {/* Highlights */}
-              <div className="mb-12 pb-12 border-b border-[#0F0F0F]/10">
+              <div className="mb-12 pb-12 border-b border-[#2A2623]/10">
                 <h2 className="serif text-3xl mb-6">{t.highlights}</h2>
                 <div className="grid sm:grid-cols-2 gap-4">
                   {property.highlights[lang].map((h) => (
@@ -339,8 +339,8 @@ export function WorkspaceDetailPage() {
                       onClick={() => setActiveCategory(key)}
                       className={`px-5 py-2 text-xs uppercase tracking-wider transition-all ${
                         activeCategory === key
-                          ? 'bg-[#0F0F0F] text-white'
-                          : 'border border-[#0F0F0F]/20 hover:border-[#D12126] hover:text-[#D12126]'
+                          ? 'bg-[#2A2623] text-white'
+                          : 'border border-[#2A2623]/20 hover:border-[#D12126] hover:text-[#D12126]'
                       }`}
                     >
                       {t.cats[key]}
@@ -378,9 +378,9 @@ export function WorkspaceDetailPage() {
 
             {/* Right sticky CTA panel */}
             <div className="lg:sticky lg:top-24 h-fit">
-              <div className="border border-[#0F0F0F]/15 p-8 bg-white shadow-[0_4px_40px_rgba(0,0,0,0.08)]">
+              <div className="border border-[#2A2623]/15 p-8 bg-white shadow-[0_4px_40px_rgba(0,0,0,0.08)]">
                 <p className="serif text-3xl mb-1">{property.avgRent}</p>
-                <p className="text-sm text-[#707070] mb-8 uppercase tracking-wider">{t.avg}</p>
+                <p className="text-sm text-[#6B645D] mb-8 uppercase tracking-wider">{t.avg}</p>
 
                 <div className="space-y-4 mb-8 text-sm">
                   {[
@@ -390,8 +390,8 @@ export function WorkspaceDetailPage() {
                     [t.occRate, `${property.occupancy}%`],
                     [t.mgmt, 'HiLink Vietnam'],
                   ].map(([k, v]) => (
-                    <div key={k} className="flex justify-between items-center py-3 border-b border-[#0F0F0F]/08">
-                      <span className="text-[#707070] uppercase tracking-wider text-xs">{k}</span>
+                    <div key={k} className="flex justify-between items-center py-3 border-b border-[#2A2623]/08">
+                      <span className="text-[#6B645D] uppercase tracking-wider text-xs">{k}</span>
                       <span className="font-medium">{v}</span>
                     </div>
                   ))}
@@ -405,12 +405,12 @@ export function WorkspaceDetailPage() {
                 </Link>
                 <Link
                   to={l('/contact')}
-                  className="block w-full py-4 border border-[#0F0F0F] text-sm uppercase tracking-widest text-center hover:bg-[#0F0F0F] hover:text-white transition-colors"
+                  className="block w-full py-4 border border-[#2A2623] text-sm uppercase tracking-widest text-center hover:bg-[#2A2623] hover:text-white transition-colors"
                 >
                   {t.viewing}
                 </Link>
 
-                <p className="text-center text-xs text-[#707070] mt-6">
+                <p className="text-center text-xs text-[#6B645D] mt-6">
                   {t.managed}
                 </p>
               </div>
@@ -420,11 +420,11 @@ export function WorkspaceDetailPage() {
       </section>
 
       {/* CTA strip */}
-      <section className="py-20 bg-[#0F0F0F] text-white">
+      <section className="py-20 bg-[#FBECEC] text-[#2A2623]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8">
           <div>
             <h2 className="serif text-3xl lg:text-4xl mb-3">{t.stripTitle}</h2>
-            <p className="text-[#E6E6E6]">{t.stripLead}</p>
+            <p className="text-[#6B645D]">{t.stripLead}</p>
           </div>
           <Link
             to={l('/contact')}

@@ -127,25 +127,25 @@ export function WorkspacePage() {
       </motion.div>
 
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center bg-[#0F0F0F] text-white overflow-hidden">
+      <section className="relative min-h-[80vh] flex items-center bg-[#2A2623] text-white overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="/photos/f15-lounge-wide-xl.webp"
             alt=""
-            className="w-full h-full object-cover opacity-40"
+            className="w-full h-full object-cover opacity-85"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0F0F0F]/60 to-[#0F0F0F]/90" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#2A2623]/80 via-[#2A2623]/45 to-[#2A2623]/15" />
         </div>
 
         <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 py-24 w-full">
           <motion.div className="max-w-4xl">
-            <motion.p className="text-sm uppercase tracking-wider text-[#D12126] mb-8">
+            <motion.p className="text-sm uppercase tracking-wider text-[#F06A6E] mb-8">
               {t.eyebrow}
             </motion.p>
             <motion.h1 className="serif text-5xl lg:text-7xl mb-8 leading-tight">
               {t.title}
             </motion.h1>
-            <motion.p className="text-xl text-[#E6E6E6] mb-12 leading-relaxed">
+            <motion.p className="text-xl text-[#E9E3DA] mb-12 leading-relaxed">
               {t.lead}
             </motion.p>
             <motion.div className="flex flex-col sm:flex-row gap-4">
@@ -169,7 +169,7 @@ export function WorkspacePage() {
               </a>
               <a
                 href="#locations"
-                className="inline-flex items-center justify-center px-10 py-4 border border-white text-white text-sm uppercase tracking-wider hover:bg-white hover:text-[#0F0F0F] transition-colors"
+                className="inline-flex items-center justify-center px-10 py-4 border border-white text-white text-sm uppercase tracking-wider hover:bg-white hover:text-[#2A2623] transition-colors"
               >
                 {t.view}
               </a>
@@ -179,11 +179,11 @@ export function WorkspacePage() {
       </section>
 
       {/* Why HiLink Workspaces */}
-      <section className="py-24 lg:py-32 bg-[#F7F7F7]">
+      <section className="py-24 lg:py-32 bg-[#F4F0EA]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div className="text-center mb-16">
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.whyTitle}</h2>
-            <p className="text-xl text-[#707070] max-w-3xl mx-auto">
+            <p className="text-xl text-[#6B645D] max-w-3xl mx-auto">
               {t.whyLead}
             </p>
           </motion.div>
@@ -199,7 +199,7 @@ export function WorkspacePage() {
                   {AMENITY_ICONS[i]}
                 </div>
                 <h3 className="serif text-lg mb-2">{name}</h3>
-                <p className="text-sm text-[#707070]">{description}</p>
+                <p className="text-sm text-[#6B645D]">{description}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -211,7 +211,7 @@ export function WorkspacePage() {
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div className="text-center mb-16">
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.pricingTitle}</h2>
-            <p className="text-xl text-[#707070] max-w-3xl mx-auto">
+            <p className="text-xl text-[#6B645D] max-w-3xl mx-auto">
               {t.pricingLead}
             </p>
           </motion.div>
@@ -225,12 +225,12 @@ export function WorkspacePage() {
       </section>
 
       {/* Featured Spaces */}
-      <section className="py-24 lg:py-32 bg-[#0F0F0F] text-white overflow-hidden">
+      <section className="py-24 lg:py-32 bg-[#F4F0EA] text-[#2A2623] overflow-hidden">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="flex flex-wrap items-end justify-between gap-6 mb-14">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#E5484D] mb-4 flex items-center gap-3">
-                <span className="w-8 h-px bg-[#E5484D]" /> {t.spacesEyebrow}
+              <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-3">
+                <span className="w-8 h-px bg-[#D12126]" /> {t.spacesEyebrow}
               </p>
               <h2 className="serif text-4xl lg:text-5xl">{t.spacesTitle}</h2>
             </div>
@@ -238,7 +238,7 @@ export function WorkspacePage() {
               href={ws(lang, '/locations')}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[#E5484D] border-b border-[#E5484D]/40 pb-1 hover:border-[#E5484D] transition-colors"
+              className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[#D12126] border-b border-[#D12126]/40 pb-1 hover:border-[#D12126] transition-colors"
             >
               {t.live} <ExternalLink size={13} />
             </a>
@@ -251,19 +251,18 @@ export function WorkspacePage() {
                 href={ws(lang, '/locations')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative block overflow-hidden bg-[#1a1a1a]"
+                className="group relative block overflow-hidden bg-white"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img src={SPACE_PHOTOS[i]} alt={name} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-[#0F0F0F]/20 to-transparent" />
                   <span className="absolute top-4 left-4 text-[9px] uppercase tracking-[0.16em] px-2.5 py-1 bg-[#D12126] text-white">{type}</span>
                 </div>
                 <div className="flex items-end justify-between p-5">
                   <div>
-                    <p className="text-[9px] uppercase tracking-[0.2em] text-[#E5484D] mb-1.5">{floor}</p>
+                    <p className="text-[9px] uppercase tracking-[0.2em] text-[#D12126] mb-1.5">{floor}</p>
                     <h3 className="serif text-xl">{name}</h3>
                   </div>
-                  <ExternalLink size={16} className="text-[#E5484D] shrink-0" />
+                  <ExternalLink size={16} className="text-[#D12126] shrink-0" />
                 </div>
               </a>
             ))}
@@ -272,11 +271,11 @@ export function WorkspacePage() {
       </section>
 
       {/* Locations */}
-      <section id="locations" className="py-24 lg:py-32 bg-[#F7F7F7]">
+      <section id="locations" className="py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div className="text-center mb-16">
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.locTitle}</h2>
-            <p className="text-xl text-[#707070] max-w-3xl mx-auto">
+            <p className="text-xl text-[#6B645D] max-w-3xl mx-auto">
               {t.locLead}
             </p>
           </motion.div>
@@ -301,14 +300,14 @@ export function WorkspacePage() {
       </section>
 
       {/* Client Logos */}
-      <section className="py-16 bg-white border-y border-[#0F0F0F]/10">
+      <section className="py-16 bg-[#F4F0EA] border-y border-[#2A2623]/10">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <p className="text-center text-sm uppercase tracking-wider text-[#707070] mb-12">
+          <p className="text-center text-sm uppercase tracking-wider text-[#6B645D] mb-12">
             {t.trusted}
           </p>
           <div className="flex flex-wrap justify-center items-center gap-12">
             {PARTNERS.map((p) => (
-              <div key={p.id} className="text-[#0F0F0F]/40 text-lg uppercase tracking-wider">
+              <div key={p.id} className="text-[#2A2623]/40 text-lg uppercase tracking-wider">
                 {p.name}
               </div>
             ))}
@@ -322,16 +321,16 @@ export function WorkspacePage() {
         eyebrow={t.faqEyebrow}
         title={t.faqTitle}
         subtitle={t.faqSub}
-        background="beige"
+        background="white"
       />
 
       {/* CTA Section */}
-      <section className="py-24 lg:py-32 bg-[#0F0F0F] text-white">
+      <section className="py-24 lg:py-32 bg-[#FBECEC] text-[#2A2623]">
         <motion.div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
           <h2 className="serif text-4xl lg:text-5xl mb-8">
             {t.ctaTitle}
           </h2>
-          <p className="text-xl text-[#E6E6E6] mb-12 max-w-2xl mx-auto">
+          <p className="text-xl text-[#6B645D] mb-12 max-w-2xl mx-auto">
             {t.ctaLead}
           </p>
           <a
@@ -362,7 +361,7 @@ function PlanCard({ name, price, period, description, features, popular, href, p
 }) {
   return (
     <motion.div
-      className={`bg-white p-8 relative ${popular ? 'ring-2 ring-[#D12126]' : 'border border-[#0F0F0F]/10'}`}
+      className={`bg-white p-8 relative ${popular ? 'ring-2 ring-[#D12126]' : 'border border-[#2A2623]/10'}`}
       whileHover={{ y: -10, boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}
     >
       {popular && (
@@ -371,10 +370,10 @@ function PlanCard({ name, price, period, description, features, popular, href, p
         </div>
       )}
       <h3 className="serif text-2xl mb-2">{name}</h3>
-      <p className="text-sm text-[#707070] mb-6">{description}</p>
+      <p className="text-sm text-[#6B645D] mb-6">{description}</p>
       <div className="mb-8">
         <span className="serif text-4xl">{price}</span>
-        <span className="text-[#707070]">{period}</span>
+        <span className="text-[#6B645D]">{period}</span>
       </div>
       <ul className="space-y-3 mb-8">
         {features.map((feature, index) => (
@@ -388,7 +387,7 @@ function PlanCard({ name, price, period, description, features, popular, href, p
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="block w-full text-center px-6 py-3 bg-[#0F0F0F] text-white text-sm uppercase tracking-wider hover:bg-[#D12126] transition-colors"
+        className="block w-full text-center px-6 py-3 bg-[#2A2623] text-white text-sm uppercase tracking-wider hover:bg-[#D12126] transition-colors"
       >
         {cta}
       </a>
@@ -409,7 +408,7 @@ function LocationCard({ href, name, address, city, type, capacity, available, im
 }) {
   return (
     <motion.div
-      className="group bg-white overflow-hidden"
+      className="group bg-[#F4F0EA] overflow-hidden"
       whileHover={{ y: -10, boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }}
     >
       <a href={href} target="_blank" rel="noopener noreferrer">
@@ -423,31 +422,31 @@ function LocationCard({ href, name, address, city, type, capacity, available, im
           />
           <div className="absolute top-6 right-6">
             <div className={`px-4 py-2 text-xs uppercase tracking-wider ${
-              available ? 'bg-[#D12126] text-white' : 'bg-[#707070] text-white'
+              available ? 'bg-[#D12126] text-white' : 'bg-[#6B645D] text-white'
             }`}>
               {available ? labels.available : labels.soon}
             </div>
           </div>
         </div>
         <div className="p-8">
-          <div className="text-sm text-[#707070] mb-3">{city}</div>
+          <div className="text-sm text-[#6B645D] mb-3">{city}</div>
           <h3 className="serif text-3xl mb-4">{name}</h3>
-          <div className="flex items-start gap-2 text-[#707070] mb-4">
+          <div className="flex items-start gap-2 text-[#6B645D] mb-4">
             <MapPin size={16} className="flex-shrink-0 mt-1" />
             <span className="text-sm">{address}</span>
           </div>
-          <div className="flex items-center justify-between gap-6 pt-6 border-t border-[#0F0F0F]/10">
+          <div className="flex items-center justify-between gap-6 pt-6 border-t border-[#2A2623]/10">
             <div>
-              <div className="text-xs text-[#707070] mb-1">{labels.type}</div>
+              <div className="text-xs text-[#6B645D] mb-1">{labels.type}</div>
               <div className="text-sm">{type}</div>
             </div>
             <div className="text-right">
-              <div className="text-xs text-[#707070] mb-1">{labels.capacity}</div>
+              <div className="text-xs text-[#6B645D] mb-1">{labels.capacity}</div>
               <div className="text-sm">{capacity}</div>
             </div>
           </div>
           <div className="mt-6">
-            <div className="inline-flex items-center gap-2 text-sm uppercase tracking-wider text-[#0F0F0F] group-hover:text-[#D12126] group-hover:gap-4 transition-all">
+            <div className="inline-flex items-center gap-2 text-sm uppercase tracking-wider text-[#2A2623] group-hover:text-[#D12126] group-hover:gap-4 transition-all">
               {labels.explore} <ArrowRight size={16} />
             </div>
           </div>

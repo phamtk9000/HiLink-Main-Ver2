@@ -100,27 +100,27 @@ export function BusinessConsultingPage() {
   return (
     <>
       {/* ── Hero ── */}
-      <section className="relative min-h-screen bg-[#0F0F0F] flex items-end overflow-hidden">
+      <section className="relative min-h-screen bg-[#2A2623] flex items-end overflow-hidden">
         {/* Background image */}
         <div className="absolute inset-0">
           <img
             src="/photos/hbc-boardroom.webp"
             alt=""
-            className="w-full h-full object-cover opacity-25"
+            className="w-full h-full object-cover opacity-75"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-[#0F0F0F]/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623] via-[#2A2623]/45 to-[#2A2623]/10" />
         </div>
 
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 pb-20 w-full">
           <div className="max-w-3xl">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-8">{t.eyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#F06A6E] mb-8">{t.eyebrow}</p>
             <h1
               className="serif text-white mb-8 leading-[1.05]"
               style={{ fontSize: 'clamp(3rem, 6vw, 6rem)', fontWeight: 300 }}
             >
               {t.title}
             </h1>
-            <p className="text-[#E6E6E6] text-lg mb-10 max-w-xl leading-relaxed">
+            <p className="text-[#E9E3DA] text-lg mb-10 max-w-xl leading-relaxed">
               {t.lead}
             </p>
             <div className="flex flex-wrap gap-4">
@@ -143,8 +143,8 @@ export function BusinessConsultingPage() {
           {/* Stat strip */}
           <div className="grid grid-cols-3 gap-px bg-white/10 mt-20">
             {t.stats.map(([value, label]) => (
-              <div key={label} className="bg-[#0a0a0a] border-t border-white/10 px-8 py-6">
-                <div className="serif text-3xl text-[#D12126] mb-1">{value}</div>
+              <div key={label} className="bg-[#23201D] border-t border-white/10 px-8 py-6">
+                <div className="serif text-3xl text-[#F06A6E] mb-1">{value}</div>
                 <div className="text-[10px] uppercase tracking-[0.25em] text-white/50">{label}</div>
               </div>
             ))}
@@ -153,14 +153,14 @@ export function BusinessConsultingPage() {
       </section>
 
       {/* ── Services — interactive tabs ── */}
-      <section id="services" className="bg-[#F7F7F7] py-28">
+      <section id="services" className="bg-[#F4F0EA] py-28">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-16">
             <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.svcEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{t.svcTitle}</h2>
           </div>
 
-          <div className="grid lg:grid-cols-[340px_1fr] gap-px bg-[#0F0F0F]/10">
+          <div className="grid lg:grid-cols-[340px_1fr] gap-px bg-[#2A2623]/10">
             {/* Tab list */}
             <div className="bg-white">
               {services.map((s, i) => (
@@ -169,12 +169,12 @@ export function BusinessConsultingPage() {
                   onClick={() => setActiveService(i)}
                   className={`w-full text-left px-8 py-6 border-l-[3px] transition-all duration-200 flex items-center justify-between group ${
                     activeService === i
-                      ? 'border-[#D12126] bg-[#F7F7F7]'
+                      ? 'border-[#D12126] bg-[#F4F0EA]'
                       : 'border-transparent hover:border-[#D12126]/40'
                   }`}
                 >
                   <div>
-                    <div className={`text-[10px] uppercase tracking-[0.25em] mb-1 transition-colors ${activeService === i ? 'text-[#D12126]' : 'text-[#707070]'}`}>
+                    <div className={`text-[10px] uppercase tracking-[0.25em] mb-1 transition-colors ${activeService === i ? 'text-[#D12126]' : 'text-[#6B645D]'}`}>
                       0{i + 1}
                     </div>
                     <div className="serif text-lg">{s.title}</div>
@@ -193,7 +193,7 @@ export function BusinessConsultingPage() {
                   alt={services[activeService].title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F]/60 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623]/60 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-8">
                   <div className="text-[#D12126] mb-3">{services[activeService].icon}</div>
                   <h3 className="serif text-white text-3xl">{services[activeService].title}</h3>
@@ -223,13 +223,13 @@ export function BusinessConsultingPage() {
             <h2 className="serif text-4xl lg:text-5xl max-w-lg">{t.howTitle}</h2>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-px bg-[#0F0F0F]/10">
+          <div className="grid md:grid-cols-4 gap-px bg-[#2A2623]/10">
             {t.steps.map(([title, desc], i) => (
               <div key={title} className="bg-white p-8 lg:p-10">
-                <div className="serif text-[56px] font-light text-[#0F0F0F]/08 leading-none mb-6">0{i + 1}</div>
+                <div className="serif text-[56px] font-light text-[#2A2623]/08 leading-none mb-6">0{i + 1}</div>
                 <div className="w-6 h-px bg-[#D12126] mb-6" />
                 <h3 className="serif text-2xl mb-4">{title}</h3>
-                <p className="text-[#707070] text-[14px] leading-relaxed">{desc}</p>
+                <p className="text-[#6B645D] text-[14px] leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -237,19 +237,19 @@ export function BusinessConsultingPage() {
       </section>
 
       {/* ── Sector expertise ── */}
-      <section className="bg-[#0F0F0F] py-28 text-white">
+      <section className="bg-[#F4F0EA] py-28 text-[#2A2623]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-16">
             <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.secEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{t.secTitle}</h2>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#2A2623]/10">
             {t.sectors.map((name, i) => (
-              <div key={name} className="bg-[#0F0F0F] p-8 group hover:bg-[#1a1a1a] transition-colors">
+              <div key={name} className="bg-white p-8 group hover:bg-[#FBECEC] transition-colors">
                 <div className="serif text-4xl text-[#D12126] mb-1">0{i + 1}</div>
-                <div className="text-[10px] uppercase tracking-[0.2em] text-white/40 mb-6">{t.secLabel}</div>
-                <h3 className="serif text-xl text-white mb-3">{name}</h3>
+                <div className="text-[10px] uppercase tracking-[0.2em] text-[#6B645D] mb-6">{t.secLabel}</div>
+                <h3 className="serif text-xl text-[#2A2623] mb-3">{name}</h3>
                 <div className="w-8 h-px bg-[#D12126]/30 group-hover:bg-[#D12126] transition-colors" />
               </div>
             ))}
@@ -263,15 +263,15 @@ export function BusinessConsultingPage() {
           <div className="mb-16 text-center">
             <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.prtEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.prtTitle}</h2>
-            <p className="text-lg text-[#707070] max-w-2xl mx-auto">
+            <p className="text-lg text-[#6B645D] max-w-2xl mx-auto">
               {t.prtLead}
             </p>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-[#0F0F0F]/10">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-[#2A2623]/10">
             {PARTNERS.map((p) => (
               <div
                 key={p.id}
-                className="bg-white py-10 flex items-center justify-center text-[#0F0F0F]/40 hover:text-[#D12126] transition-colors"
+                className="bg-white py-10 flex items-center justify-center text-[#2A2623]/40 hover:text-[#D12126] transition-colors"
               >
                 <span className="serif text-xl lg:text-2xl font-light whitespace-nowrap">{p.name}</span>
               </div>
@@ -294,11 +294,11 @@ export function BusinessConsultingPage() {
       />
 
       {/* ── CTA ── */}
-      <section className="bg-[#0F0F0F] py-28 text-white">
+      <section className="bg-[#FBECEC] py-28 text-[#2A2623]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-12">
           <div>
             <h2 className="serif text-4xl lg:text-5xl mb-4">{t.ctaTitle}</h2>
-            <p className="text-[#E6E6E6] text-lg max-w-lg">
+            <p className="text-[#6B645D] text-lg max-w-lg">
               {t.ctaLead}
             </p>
           </div>

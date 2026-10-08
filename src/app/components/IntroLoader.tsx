@@ -40,7 +40,7 @@ export function IntroLoader({ onDone }: { onDone: () => void }) {
     <AnimatePresence>
       {phase === 'loading' && (
         <motion.div
-          className="fixed inset-0 z-[9999] bg-[#0F0F0F] flex flex-col items-center justify-center"
+          className="fixed inset-0 z-[9999] bg-[#2A2623] flex flex-col items-center justify-center"
           exit={{ opacity: 0 }}
           transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
         >
@@ -57,7 +57,7 @@ export function IntroLoader({ onDone }: { onDone: () => void }) {
               className="w-auto mb-3"
               style={{ height: 'clamp(64px, 12vw, 110px)' }}
             />
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[#D12126]">
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[#F06A6E]">
               Your Solution
             </p>
           </motion.div>

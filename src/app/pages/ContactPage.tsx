@@ -59,26 +59,26 @@ export function ContactPage() {
   };
 
   const inputClass =
-    'w-full px-6 py-4 bg-white border border-[#0F0F0F]/10 focus:outline-none focus:border-[#D12126] transition-colors text-[#0F0F0F] placeholder:text-[#0F0F0F]/30';
+    'w-full px-6 py-4 bg-white border border-[#2A2623]/10 focus:outline-none focus:border-[#D12126] transition-colors text-[#2A2623] placeholder:text-[#2A2623]/30';
 
   return (
     <>
-      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#0F0F0F] text-white">
+      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#2A2623] text-white">
         <HeroBg image="/photos/f15-reception.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="max-w-4xl">
-            <p className="text-sm uppercase tracking-wider text-[#D12126] mb-8">{t.eyebrow}</p>
+            <p className="text-sm uppercase tracking-wider text-[#F06A6E] mb-8">{t.eyebrow}</p>
             <h1 className="serif text-5xl lg:text-7xl mb-8 leading-tight">
               {t.title}
             </h1>
-            <p className="text-xl text-[#E6E6E6] leading-relaxed">
+            <p className="text-xl text-[#E9E3DA] leading-relaxed">
               {t.lead}
             </p>
           </div>
         </div>
       </section>
 
-      <section className="py-24 lg:py-32 bg-[#F7F7F7]">
+      <section className="py-24 lg:py-32 bg-[#F4F0EA]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-24">
             {/* Form */}
@@ -92,7 +92,7 @@ export function ContactPage() {
                 >
                   <CheckCircle size={48} className="text-[#D12126] mb-6" />
                   <h2 className="serif text-3xl mb-4">{t.sentTitle}</h2>
-                  <p className="text-[#707070] max-w-md">
+                  <p className="text-[#6B645D] max-w-md">
                     {t.sentBody}
                   </p>
                 </motion.div>
@@ -210,7 +210,7 @@ export function ContactPage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-12 py-4 bg-[#0F0F0F] text-white text-sm uppercase tracking-wider hover:bg-[#D12126] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="px-12 py-4 bg-[#2A2623] text-white text-sm uppercase tracking-wider hover:bg-[#D12126] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? t.sending : t.send}
                   </button>
@@ -226,7 +226,7 @@ export function ContactPage() {
                   <div className="flex gap-4">
                     <Mail size={20} className="text-[#D12126] shrink-0 mt-1" />
                     <div>
-                      <p className="text-xs uppercase tracking-wider text-[#707070] mb-1">{t.emailLbl}</p>
+                      <p className="text-xs uppercase tracking-wider text-[#6B645D] mb-1">{t.emailLbl}</p>
                       <a href={CONTACT.emailHref} className="hover:text-[#D12126] transition-colors">
                         {CONTACT.email}
                       </a>
@@ -235,7 +235,7 @@ export function ContactPage() {
                   <div className="flex gap-4">
                     <Phone size={20} className="text-[#D12126] shrink-0 mt-1" />
                     <div>
-                      <p className="text-xs uppercase tracking-wider text-[#707070] mb-1">{t.phoneLbl}</p>
+                      <p className="text-xs uppercase tracking-wider text-[#6B645D] mb-1">{t.phoneLbl}</p>
                       <a href={CONTACT.phoneHref} className="hover:text-[#D12126] transition-colors">
                         {CONTACT.phone}
                       </a>
@@ -244,7 +244,7 @@ export function ContactPage() {
                   <div className="flex gap-4">
                     <MapPin size={20} className="text-[#D12126] shrink-0 mt-1" />
                     <div>
-                      <p className="text-xs uppercase tracking-wider text-[#707070] mb-1">{t.office}</p>
+                      <p className="text-xs uppercase tracking-wider text-[#6B645D] mb-1">{t.office}</p>
                       <address className="not-italic text-[#333] leading-relaxed">
                         {CONTACT.address[lang]}
                       </address>
@@ -253,8 +253,8 @@ export function ContactPage() {
                 </div>
               </div>
 
-              <div className="border-t border-[#0F0F0F]/10 pt-12">
-                <p className="text-xs uppercase tracking-wider text-[#707070] mb-4">{t.respTitle}</p>
+              <div className="border-t border-[#2A2623]/10 pt-12">
+                <p className="text-xs uppercase tracking-wider text-[#6B645D] mb-4">{t.respTitle}</p>
                 <p className="text-[#333] leading-relaxed">
                   {t.resp}
                 </p>

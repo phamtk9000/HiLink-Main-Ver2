@@ -22,7 +22,7 @@ export function FAQ({
   background?: 'beige' | 'white';
 }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const bg = background === 'white' ? 'bg-white' : 'bg-[#F7F7F7]';
+  const bg = background === 'white' ? 'bg-white' : 'bg-[#F4F0EA]';
 
   return (
     <section className={`py-24 lg:py-32 ${bg}`}>
@@ -30,10 +30,10 @@ export function FAQ({
         <div className="text-center mb-16">
           <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{eyebrow}</p>
           <h2 className="serif text-4xl lg:text-5xl mb-6">{title}</h2>
-          {subtitle && <p className="text-xl text-[#707070] max-w-2xl mx-auto">{subtitle}</p>}
+          {subtitle && <p className="text-xl text-[#6B645D] max-w-2xl mx-auto">{subtitle}</p>}
         </div>
 
-        <div className="divide-y divide-[#0F0F0F]/10 border-t border-b border-[#0F0F0F]/10">
+        <div className="divide-y divide-[#2A2623]/10 border-t border-b border-[#2A2623]/10">
           {items.map((item, index) => {
             const isOpen = openIndex === index;
             return (
@@ -45,7 +45,7 @@ export function FAQ({
                 >
                   <span
                     className={`serif text-xl lg:text-2xl transition-colors ${
-                      isOpen ? 'text-[#D12126]' : 'text-[#0F0F0F] group-hover:text-[#D12126]'
+                      isOpen ? 'text-[#D12126]' : 'text-[#2A2623] group-hover:text-[#D12126]'
                     }`}
                   >
                     {item.question}
@@ -63,7 +63,7 @@ export function FAQ({
                       transition={{ duration: 0.3, ease: 'easeInOut' }}
                       className="overflow-hidden"
                     >
-                      <p className="pb-7 text-[16px] text-[#707070] leading-relaxed max-w-3xl">
+                      <p className="pb-7 text-[16px] text-[#6B645D] leading-relaxed max-w-3xl">
                         {item.answer}
                       </p>
                     </motion.div>

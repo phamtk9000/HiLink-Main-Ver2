@@ -15,14 +15,14 @@ export function LegalPage({ doc, pdf }: { doc: 'privacy' | 'terms'; pdf?: string
 
   return (
     <>
-      <section id="hero" className="py-20 lg:py-28 bg-[#0F0F0F] text-white">
+      <section id="hero" className="py-20 lg:py-28 bg-[#2A2623] text-white">
         <div className="max-w-[900px] mx-auto px-6 lg:px-12">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <p className="text-sm uppercase tracking-wider text-[#D12126] mb-8">{s.legal}</p>
+            <p className="text-sm uppercase tracking-wider text-[#F06A6E] mb-8">{s.legal}</p>
             <h1 className="serif text-5xl lg:text-6xl mb-6 leading-tight">{d.title}</h1>
-            <p className="text-[#E6E6E6]">
+            <p className="text-[#E9E3DA]">
               {s.updated}: {d.updatedDate}{d.ref ? ` · ${d.ref}` : ''}
-              {pdf && <> · <a href={pdf} className="underline hover:text-[#D12126]">{s.download}</a></>}
+              {pdf && <> · <a href={pdf} className="underline hover:text-[#F06A6E]">{s.download}</a></>}
             </p>
           </motion.div>
         </div>
@@ -30,22 +30,22 @@ export function LegalPage({ doc, pdf }: { doc: 'privacy' | 'terms'; pdf?: string
 
       <section className="py-20 lg:py-28 bg-white">
         <div className="max-w-[900px] mx-auto px-6 lg:px-12">
-          <p className="text-lg text-[#707070] leading-relaxed mb-6">
+          <p className="text-lg text-[#6B645D] leading-relaxed mb-6">
             {d.intro}
           </p>
-          <p className="text-sm text-[#707070] leading-relaxed mb-12 border-l-2 border-[#D12126] pl-4">{s.note}</p>
+          <p className="text-sm text-[#6B645D] leading-relaxed mb-12 border-l-2 border-[#D12126] pl-4">{s.note}</p>
           <div className="space-y-12">
             {d.sections.map((sec) => (
               <div key={sec.n} id={`section-${sec.n}`}>
                 <h2 className="serif text-3xl mb-4">{sec.n}. {sec.title}</h2>
                 {sec.body.split('\n\n').map((para, i) => (
-                  <p key={i} className="text-[#707070] leading-relaxed mb-4 whitespace-pre-line">{para}</p>
+                  <p key={i} className="text-[#6B645D] leading-relaxed mb-4 whitespace-pre-line">{para}</p>
                 ))}
               </div>
             ))}
             <div id="contact">
               <h2 className="serif text-3xl mb-4">{s.contactTitle}</h2>
-              <p className="text-[#707070] leading-relaxed mb-4">{s.contactBody}</p>
+              <p className="text-[#6B645D] leading-relaxed mb-4">{s.contactBody}</p>
               <address className="not-italic text-[#444] leading-relaxed">
                 <strong>{s.companyName}</strong><br />
                 {s.companyAddress}<br />
