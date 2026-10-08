@@ -332,3 +332,69 @@ footer::after {
   .hl-squeeze > * { transition: none; }
 }
 @keyframes hl-fade-up { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* Candlestick background (components/Candles.tsx), after reckoner.com: every
+   candle bobs ±16 units over 4s, staggered across 6s so a wave runs along. */
+.hl-candles g { animation: hl-candle-bob 4s ease-in-out infinite alternate; }
+.hl-candles path { transform-box: fill-box; transform-origin: center; }
+@keyframes hl-candle-bob { from { transform: translateY(-16px); } to { transform: translateY(16px); } }
+@media (prefers-reduced-motion: reduce) { .hl-candles g { animation: none; } }
+
+/* Partner strip (components/PartnerMarquee.tsx), after stripe.com/enterprise. */
+.hl-marquee {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+.hl-marquee__track { animation: hl-marquee 40s linear infinite; }
+@keyframes hl-marquee { to { transform: translateX(-50%); } }
+/* One quiet tone; the logo's own colours on hover. */
+.hl-logo { filter: brightness(0) opacity(0.42); transition: filter 0.3s ease; }
+.hl-logo--light { filter: brightness(0) invert(1) opacity(0.55); }
+.hl-logo:hover { filter: none; }
+@media (prefers-reduced-motion: reduce) {
+  .hl-marquee { -webkit-mask-image: none; mask-image: none; }
+  .hl-marquee__track { animation: none; width: auto; flex-wrap: wrap; justify-content: center; }
+  .hl-marquee__track > li[aria-hidden] { display: none; }
+}
+
+/* HiLink glyphs (components/Glyph.tsx). Strokes draw in once on view, then
+   one part of each glyph keeps a slow, quiet motion. */
+.hl-glyph { overflow: visible; }
+.hl-glyph .fill { fill: currentColor; stroke: none; }
+.hl-glyph .d > * { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.hl-glyph.is-in .d > * { animation: hl-draw 1.1s cubic-bezier(0.65, 0, 0.35, 1) forwards; animation-delay: calc(var(--i, 0) * 0.14s); }
+@keyframes hl-draw { to { stroke-dashoffset: 0; } }
+.hl-glyph .lv { transform-box: fill-box; transform-origin: center; }
+.hl-glyph .lv-run { stroke-width: 2.6; stroke-dasharray: 0.001 1; opacity: 0; }
+.hl-glyph.is-in .lv-run { animation: hl-run 3s linear infinite; opacity: 1; transition: opacity 0.4s 1s; }
+@keyframes hl-run { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -1; } }
+.hl-glyph .lv-floor { animation: hl-floor 4.5s ease-in-out infinite; }
+@keyframes hl-floor { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: 1; } 70% { transform: translateY(-10px); opacity: 1; } 85%, 100% { transform: translateY(-10px); opacity: 0; } }
+.hl-glyph .lv-sway { animation: hl-sway 5s ease-in-out infinite alternate; }
+@keyframes hl-sway { from { transform: translateX(-1.4px); } to { transform: translateX(1.2px); } }
+.hl-glyph .lv-wave { animation: hl-wave 2.4s ease-in-out infinite; }
+@keyframes hl-wave { 0%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
+.hl-glyph .lv-steam { animation: hl-steam 3.6s ease-in-out infinite; }
+@keyframes hl-steam { 0% { transform: translateY(1.5px); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(-3px); opacity: 0; } }
+.hl-glyph .lv-turn { transform-box: view-box; transform-origin: 12px 12px; animation: hl-turn 9s linear infinite; }
+@keyframes hl-turn { to { transform: rotate(360deg); } }
+.hl-glyph .lv-scan { animation: hl-scan 3.4s ease-in-out infinite alternate; }
+@keyframes hl-scan { from { transform: translateY(0); } to { transform: translateY(5.5px); } }
+.hl-glyph .lv-lift { animation: hl-lift 3.2s ease-in-out infinite alternate; }
+@keyframes hl-lift { from { transform: translateY(0); } to { transform: translateY(-1.8px); } }
+.hl-glyph .lv-write { stroke-dasharray: 1; stroke-dashoffset: 1; animation: hl-write 4.5s ease-in-out infinite; }
+@keyframes hl-write { 0% { stroke-dashoffset: 1; opacity: 1; } 30%, 75% { stroke-dashoffset: 0; opacity: 1; } 95%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+.hl-glyph .lv-focus { animation: hl-focus 3s ease-in-out infinite; }
+@keyframes hl-focus { 0%, 100% { transform: scale(0.5); opacity: 0.35; } 50% { transform: scale(1); opacity: 0.9; } }
+.hl-glyph .lv-cell { opacity: 0; animation: hl-cell 3.6s ease-in-out infinite; }
+@keyframes hl-cell { 0%, 40%, 100% { opacity: 0; } 15% { opacity: 0.85; } }
+.hl-glyph .lv-spin { transform-box: view-box; transform-origin: 12px 12px; animation: hl-spin 5s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+@keyframes hl-spin { 0%, 55% { transform: rotate(0); } 85%, 100% { transform: rotate(90deg); } }
+.hl-glyph .lv-ring { animation: hl-ring 2.8s ease-out infinite; }
+@keyframes hl-ring { from { transform: scale(0.3); opacity: 0.9; } to { transform: scale(1.5); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .hl-glyph .d > * { stroke-dashoffset: 0; }
+  .hl-glyph.is-in .d > *, .hl-glyph .lv, .hl-glyph.is-in .lv-run { animation: none; }
+  .hl-glyph .lv-run, .hl-glyph .lv-cell { opacity: 0; }
+  .hl-glyph .lv-write { stroke-dashoffset: 0; }
+}

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useLang, usePageMeta } from '../lib/i18n';
+import { Candles } from '../components/Candles';
 
 const T = {
   en: {
@@ -52,8 +53,9 @@ export function BookConsultationPage() {
   return (
     <>
       {/* Hero */}
-      <section id="hero" className="py-20 lg:py-28 bg-[#2A2623] text-white">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+      <section id="hero" className="relative overflow-hidden py-20 lg:py-28 bg-[#361716] text-white">
+        <Candles />
+        <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

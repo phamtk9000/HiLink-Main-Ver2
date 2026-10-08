@@ -99,7 +99,7 @@ export function ForumCarousel() {
                   loading="lazy"
                   className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 ${on ? 'scale-100' : 'scale-110 group-hover:scale-105'}`}
                 />
-                <span className={`absolute inset-0 bg-[#2A2623] transition-opacity duration-500 ${on ? 'opacity-0' : 'opacity-25 group-hover:opacity-10'}`} />
+                <span className={`absolute inset-0 bg-[#361716] transition-opacity duration-500 ${on ? 'opacity-0' : 'opacity-25 group-hover:opacity-10'}`} />
                 <span className={`absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-[#2A2623] transition-opacity duration-500 ${on ? 'opacity-100' : 'opacity-0'}`}>
                   {CATEGORY[p.category]?.[lang] ?? p.category}
                 </span>

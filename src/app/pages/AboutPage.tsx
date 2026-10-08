@@ -1,7 +1,8 @@
 // About — the original page layout, filled with the copy HiLink approved for
 // hilink.vn/about (data/aboutCopy.ts) and HiLink's own photographs.
 import { Link } from 'react-router';
-import { ArrowRight, Target, Compass } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { Target, Compass } from '../components/Glyph';
 import { motion } from 'motion/react';
 import { ABOUT } from '../data/aboutCopy';
 import { LOCATIONS } from '../data/locations';
@@ -9,6 +10,8 @@ import { BUSINESS_CLUB_SITE, PARTNERS, ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { LinkPhilosophy } from '../components/LinkPhilosophy';
 import { Flag } from '../components/Flag';
+import { Candles } from '../components/Candles';
+import { PartnerMarquee } from '../components/PartnerMarquee';
 
 const T = {
   en: {
@@ -46,12 +49,11 @@ export function AboutPage() {
   const t = T[lang];
   const a = ABOUT[lang];
   usePageMeta(lang === 'vi' ? 'Về HiLink' : 'About HiLink', a.heroBody);
-  const partners = PARTNERS.map((p) => p.name);
 
   return (
     <>
       {/* Hero */}
-      <section className="relative min-h-screen bg-[#2A2623] flex flex-col">
+      <section className="relative min-h-screen bg-[#361716] flex flex-col">
         <div className="absolute inset-0 overflow-hidden">
           <img
             src="/photos/f15-lounge-wide-xl.webp"
@@ -271,38 +273,22 @@ export function AboutPage() {
       </section>
 
       {/* Partners ticker */}
-      <section className="bg-white py-16 overflow-hidden border-t border-b border-[#2A2623]/08">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 mb-10">
+      <section className="bg-white py-16 border-t border-b border-[#2A2623]/08">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 mb-4">
           <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] text-center">
             {t.partnersLbl}
           </p>
         </div>
-        <div className="overflow-hidden">
-          <div className="flex w-max" style={{ animation: 'ticker 32s linear infinite' }}>
-            {[...partners, ...partners].map((name, i) => (
-              <span
-                key={i}
-                className="serif text-[22px] font-light text-[#2A2623]/30 whitespace-nowrap hover:text-[#D12126] transition-colors cursor-default select-none px-10"
-              >
-                {name}
-              </span>
-            ))}
-          </div>
-        </div>
-        <style>{`
-          @keyframes ticker {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-          }
-        `}</style>
+        <PartnerMarquee className="max-w-[1400px] mx-auto" />
       </section>
 
       {/* CTA */}
-      <section className="relative py-28 bg-[#FBECEC] text-[#2A2623] overflow-hidden">
+      <section className="relative py-28 bg-[#361716] text-white overflow-hidden">
+        <Candles />
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-12">
           <div>
             <h2 className="serif text-4xl lg:text-5xl mb-4">{a.helpTitle}</h2>
-            <p className="text-[#6B645D] text-lg">{a.helpBody}</p>
+            <p className="text-white/70 text-lg">{a.helpBody}</p>
           </div>
           <Link to={l('/contact')} className="shrink-0 inline-flex items-center gap-3 px-9 py-4 bg-[#D12126] text-white text-[11px] uppercase tracking-[0.2em] hover:bg-[#A3181C] transition-colors group">
             {t.cta}

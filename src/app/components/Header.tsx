@@ -91,7 +91,7 @@ export function Header() {
               {!onDark && (
                 <Link
                   to={l('/book-consultation')}
-                  className="hidden md:inline-flex items-center gap-2 px-6 py-[10px] bg-[#2A2623] text-white text-[11px] font-medium uppercase tracking-[0.15em] hover:bg-[#D12126] transition-colors"
+                  className="hidden md:inline-flex items-center gap-2 px-6 py-[10px] bg-[#361716] text-white text-[11px] font-medium uppercase tracking-[0.15em] hover:bg-[#D12126] transition-colors"
                 >
                   {t.book}
                 </Link>

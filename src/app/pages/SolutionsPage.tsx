@@ -1,9 +1,11 @@
 import { Link } from 'react-router';
-import { Building2, Briefcase, Sparkles, Factory, MonitorSmartphone, ArrowRight, ArrowUpRight, ClipboardList, Handshake, Settings, LineChart } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { Building2, Briefcase, Sparkles, Factory, MonitorSmartphone, ClipboardList, Handshake, Settings, LineChart } from '../components/Glyph';
 import { motion } from 'motion/react';
 import { HeroBg } from '../components/HeroBg';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
+import { Candles } from '../components/Candles';
 
 const META = [
   { icon: <Building2 size={30} />, path: '/property-management', image: '/photos/f19-window.webp' },
@@ -74,7 +76,7 @@ export function SolutionsPage() {
   return (
     <>
       {/* Hero */}
-      <section id="hero" className="relative overflow-hidden min-h-[72vh] flex items-end bg-[#2A2623] text-white">
+      <section id="hero" className="relative overflow-hidden min-h-[72vh] flex items-end bg-[#361716] text-white">
         <HeroBg image="/photos/hbc-lounge-xl.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28 w-full">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-4xl">
@@ -92,7 +94,7 @@ export function SolutionsPage() {
       </section>
 
       {/* Quick nav strip */}
-      <section className="bg-[#2A2623] border-t border-white/10">
+      <section className="bg-[#361716] border-t border-white/10">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="flex flex-wrap gap-x-8 gap-y-3 py-6">
             {solutions.map((s, i) => (
@@ -141,8 +143,8 @@ export function SolutionsPage() {
                       <span className="serif text-3xl lg:text-4xl">{s.title}</span>
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623]/30 to-transparent" />
-                  <span className="absolute top-5 left-5 text-[9px] uppercase tracking-[0.2em] bg-[#2A2623]/70 text-[#F06A6E] px-3 py-1.5">0{i + 1}</span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#361716]/30 to-transparent" />
+                  <span className="absolute top-5 left-5 text-[9px] uppercase tracking-[0.2em] bg-[#361716]/70 text-[#F06A6E] px-3 py-1.5">0{i + 1}</span>
                 </motion.div>
 
                 <motion.div
@@ -197,10 +199,11 @@ export function SolutionsPage() {
       </section>
 
       {/* CTA */}
-      <section id="cta" className="py-24 lg:py-32 bg-[#FBECEC]">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
+      <section id="cta" className="relative py-24 lg:py-32 bg-[#361716] text-white overflow-hidden">
+        <Candles />
+        <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
           <h2 className="serif text-4xl lg:text-5xl mb-8">{t.ctaTitle}</h2>
-          <p className="text-xl text-[#6B645D] mb-12 max-w-2xl mx-auto">
+          <p className="text-xl text-white/70 mb-12 max-w-2xl mx-auto">
             {t.ctaLead}
           </p>
           <Link to={l('/book-consultation')} className="group inline-flex items-center gap-2 px-12 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#A3181C] transition-colors">

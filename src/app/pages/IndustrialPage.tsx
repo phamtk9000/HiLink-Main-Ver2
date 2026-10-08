@@ -1,7 +1,9 @@
 import { Link } from 'react-router';
-import { Package, Truck, Factory, Shield, BarChart, MapPin, ArrowRight, Warehouse } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { Package, Truck, Factory, Shield, BarChart, MapPin, Warehouse } from '../components/Glyph';
 import { motion } from 'motion/react';
 import { useLang, usePageMeta } from '../lib/i18n';
+import { Candles } from '../components/Candles';
 
 // No HiLink photograph of an industrial site exists yet, so image slots show
 // a dark panel with an icon. Swap in photos when HiLink supplies them.
@@ -86,7 +88,8 @@ export function IndustrialPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#2A2623] text-white">
+      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#361716] text-white">
+        <Candles />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="grid lg:grid-cols-12 gap-12 lg:gap-24"
@@ -203,14 +206,15 @@ export function IndustrialPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 lg:py-32 bg-[#FBECEC] text-[#2A2623]">
+      <section className="relative py-24 lg:py-32 bg-[#361716] text-white overflow-hidden">
+        <Candles />
         <motion.div
           className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center"
         >
           <h2 className="serif text-4xl lg:text-5xl mb-8">
             {t.ctaTitle}
           </h2>
-          <p className="text-xl text-[#6B645D] mb-12 max-w-2xl mx-auto">
+          <p className="text-xl text-white/70 mb-12 max-w-2xl mx-auto">
             {t.ctaLead}
           </p>
           <Link

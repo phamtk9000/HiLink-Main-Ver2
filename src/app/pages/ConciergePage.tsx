@@ -1,4 +1,4 @@
-import { Plane, UtensilsCrossed, Calendar, Key, Briefcase, Sparkles, Mail, Lock } from 'lucide-react';
+import { Plane, UtensilsCrossed, Calendar, Key, Briefcase, Sparkles, Mail, Lock } from '../components/Glyph';
 import { motion } from 'motion/react';
 import { useState } from 'react';
 import { CONTACT } from '../data/site';
@@ -90,14 +90,14 @@ export function ConciergePage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center bg-[#2A2623] text-white overflow-hidden">
+      <section className="relative min-h-screen flex items-center bg-[#361716] text-white overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="/photos/hbc-lounge-xl.webp"
             alt=""
             className="w-full h-full object-cover opacity-[0.8]"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#2A2623]/85 via-[#2A2623]/45 to-[#2A2623]/20" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#361716]/85 via-[#361716]/45 to-[#361716]/20" />
         </div>
 
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 py-24 w-full">

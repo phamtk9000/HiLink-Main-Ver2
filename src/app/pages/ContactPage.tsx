@@ -63,7 +63,7 @@ export function ContactPage() {
 
   return (
     <>
-      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#2A2623] text-white">
+      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#361716] text-white">
         <HeroBg image="/photos/f15-reception.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="max-w-4xl">
@@ -210,7 +210,7 @@ export function ContactPage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-12 py-4 bg-[#2A2623] text-white text-sm uppercase tracking-wider hover:bg-[#D12126] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="px-12 py-4 bg-[#361716] text-white text-sm uppercase tracking-wider hover:bg-[#D12126] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? t.sending : t.send}
                   </button>

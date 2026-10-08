@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Plus, Minus, Upload, ChevronDown } from 'lucide-react';
 import { useLang } from '../lib/i18n';
 import { translations } from '../translations';
+import { Candles } from './Candles';
 
 export function PropertyRentalForm() {
   const { lang } = useLang();
@@ -55,8 +56,9 @@ export function PropertyRentalForm() {
   };
 
   return (
-    <section className="py-24 lg:py-32 bg-[#2A2623] text-white">
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
+    <section className="relative overflow-hidden py-24 lg:py-32 bg-[#361716] text-white">
+      <Candles />
+      <div className="relative max-w-[1200px] mx-auto px-6 lg:px-12">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -75,7 +77,7 @@ export function PropertyRentalForm() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-center py-16 bg-[#2A2623] rounded-lg"
+            className="text-center py-16 bg-[#361716] rounded-lg"
           >
             <div className="text-3xl mb-4">✓</div>
             <p className="text-2xl text-[#E9E3DA]">{t('propertyForm.success')}</p>
@@ -163,12 +165,12 @@ export function PropertyRentalForm() {
                     onChange={(e) => setUtility(e.target.value)}
                     className="w-full px-6 py-4 bg-transparent border border-white/40 text-white appearance-none focus:border-[#E9E3DA] focus:outline-none transition-colors cursor-pointer"
                   >
-                    <option value="0" className="bg-[#2A2623]">{lang === 'vi' ? 'Không' : 'None'}</option>
-                    <option value="1" className="bg-[#2A2623]">{lang === 'vi' ? 'Phòng gym' : 'Gym'}</option>
-                    <option value="2" className="bg-[#2A2623]">{lang === 'vi' ? 'Hồ bơi' : 'Pool'}</option>
-                    <option value="3" className="bg-[#2A2623]">{lang === 'vi' ? 'Gym + hồ bơi' : 'Gym + Pool'}</option>
-                    <option value="4" className="bg-[#2A2623]">{lang === 'vi' ? 'Gym + hồ bơi + bãi đỗ xe' : 'Gym + Pool + Parking'}</option>
-                    <option value="5" className="bg-[#2A2623]">{lang === 'vi' ? 'Đầy đủ tiện ích' : 'Full Amenities'}</option>
+                    <option value="0" className="bg-[#361716]">{lang === 'vi' ? 'Không' : 'None'}</option>
+                    <option value="1" className="bg-[#361716]">{lang === 'vi' ? 'Phòng gym' : 'Gym'}</option>
+                    <option value="2" className="bg-[#361716]">{lang === 'vi' ? 'Hồ bơi' : 'Pool'}</option>
+                    <option value="3" className="bg-[#361716]">{lang === 'vi' ? 'Gym + hồ bơi' : 'Gym + Pool'}</option>
+                    <option value="4" className="bg-[#361716]">{lang === 'vi' ? 'Gym + hồ bơi + bãi đỗ xe' : 'Gym + Pool + Parking'}</option>
+                    <option value="5" className="bg-[#361716]">{lang === 'vi' ? 'Đầy đủ tiện ích' : 'Full Amenities'}</option>
                   </select>
                   <ChevronDown size={20} className="absolute right-6 top-1/2 -translate-y-1/2 text-white pointer-events-none" />
                 </div>

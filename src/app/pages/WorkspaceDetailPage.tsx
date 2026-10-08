@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router';
-import { MapPin, TrendingUp, DollarSign, X, ChevronLeft, ChevronRight, ArrowLeft, Building2 } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react';
+import { MapPin, TrendingUp, DollarSign, Building2 } from '../components/Glyph';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLang, usePageMeta } from '../lib/i18n';
 import type { Bi } from '../data/site';
+import { Candles } from '../components/Candles';
 
 type Photo = { file: string; label: Bi; category: string };
 
@@ -339,7 +341,7 @@ export function WorkspaceDetailPage() {
                       onClick={() => setActiveCategory(key)}
                       className={`px-5 py-2 text-xs uppercase tracking-wider transition-all ${
                         activeCategory === key
-                          ? 'bg-[#2A2623] text-white'
+                          ? 'bg-[#361716] text-white'
                           : 'border border-[#2A2623]/20 hover:border-[#D12126] hover:text-[#D12126]'
                       }`}
                     >
@@ -405,7 +407,7 @@ export function WorkspaceDetailPage() {
                 </Link>
                 <Link
                   to={l('/contact')}
-                  className="block w-full py-4 border border-[#2A2623] text-sm uppercase tracking-widest text-center hover:bg-[#2A2623] hover:text-white transition-colors"
+                  className="block w-full py-4 border border-[#2A2623] text-sm uppercase tracking-widest text-center hover:bg-[#361716] hover:text-white transition-colors"
                 >
                   {t.viewing}
                 </Link>
@@ -420,11 +422,12 @@ export function WorkspaceDetailPage() {
       </section>
 
       {/* CTA strip */}
-      <section className="py-20 bg-[#FBECEC] text-[#2A2623]">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8">
+      <section className="relative py-20 bg-[#361716] text-white overflow-hidden">
+        <Candles />
+        <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8">
           <div>
             <h2 className="serif text-3xl lg:text-4xl mb-3">{t.stripTitle}</h2>
-            <p className="text-[#6B645D]">{t.stripLead}</p>
+            <p className="text-white/70">{t.stripLead}</p>
           </div>
           <Link
             to={l('/contact')}

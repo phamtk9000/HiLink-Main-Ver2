@@ -1,12 +1,14 @@
 // News — the articles published on the HiLink forum (hilink.vn/forum), in the
 // original page layout. Each article opens on hilink.vn.
 import { useState } from 'react';
-import { Calendar, ArrowRight, TrendingUp } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { Calendar, TrendingUp } from '../components/Glyph';
 import { motion } from 'motion/react';
 import { HeroBg } from '../components/HeroBg';
 import { POSTS } from '../data/posts';
 import { ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
+import { Candles } from '../components/Candles';
 
 const CATS: Record<string, { en: string; vi: string }> = {
   Guide: { en: 'Guide', vi: 'Hướng dẫn' },
@@ -52,7 +54,7 @@ export function NewsPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#2A2623] text-white">
+      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#361716] text-white">
         <HeroBg image="/photos/f15-lounge-cabin.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
@@ -106,7 +108,7 @@ export function NewsPage() {
                   href={featuredArticle.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-10 py-4 bg-[#2A2623] text-white text-sm uppercase tracking-wider hover:bg-[#D12126] transition-colors group"
+                  className="inline-flex items-center gap-2 px-10 py-4 bg-[#361716] text-white text-sm uppercase tracking-wider hover:bg-[#D12126] transition-colors group"
                 >
                   {t.read}
                   <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -126,7 +128,7 @@ export function NewsPage() {
                 key={category}
                 onClick={() => setCat(category)}
                 aria-pressed={cat === category}
-                className={`px-6 py-2 text-sm uppercase tracking-wider border border-[#2A2623]/20 hover:bg-[#2A2623] hover:text-white transition-colors ${cat === category ? 'bg-[#2A2623] text-white' : ''}`}
+                className={`px-6 py-2 text-sm uppercase tracking-wider border border-[#2A2623]/20 hover:bg-[#361716] hover:text-white transition-colors ${cat === category ? 'bg-[#361716] text-white' : ''}`}
               >
                 {category === 'All' ? t.all : CATS[category][lang]}
               </button>
@@ -149,16 +151,17 @@ export function NewsPage() {
       </section>
 
       {/* Forum */}
-      <section className="py-24 lg:py-32 bg-[#FBECEC] text-[#2A2623]">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+      <section className="relative py-24 lg:py-32 bg-[#361716] text-white overflow-hidden">
+        <Candles />
+        <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="max-w-3xl mx-auto text-center"
           >
-            <TrendingUp size={48} className="mx-auto mb-8 text-[#D12126]" />
+            <TrendingUp size={48} className="mx-auto mb-8 text-[#F06A6E]" />
             <h2 className="serif text-4xl lg:text-5xl mb-6">
               {t.subTitle}
             </h2>
-            <p className="text-xl text-[#6B645D] mb-12">
+            <p className="text-xl text-white/70 mb-12">
               {t.subLead}
             </p>
             <a

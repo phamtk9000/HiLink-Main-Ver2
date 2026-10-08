@@ -32,7 +32,7 @@ export function CookieConsent() {
         <motion.div
           role="dialog"
           aria-label="Cookies"
-          className="fixed bottom-0 left-0 right-0 z-[200] bg-[#2A2623] text-white px-6 py-5"
+          className="fixed bottom-0 left-0 right-0 z-[200] bg-[#361716] text-white px-6 py-5"
           initial={{ y: '100%' }}
           animate={{ y: 0 }}
           exit={{ y: '100%' }}

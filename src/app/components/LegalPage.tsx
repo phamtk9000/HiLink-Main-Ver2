@@ -3,6 +3,7 @@
 import { motion } from 'motion/react';
 import { LEGAL } from '../data/legalCopy';
 import { useLang, usePageMeta } from '../lib/i18n';
+import { Candles } from './Candles';
 
 export function LegalPage({ doc, pdf }: { doc: 'privacy' | 'terms'; pdf?: string }) {
   const { lang } = useLang();
@@ -15,8 +16,9 @@ export function LegalPage({ doc, pdf }: { doc: 'privacy' | 'terms'; pdf?: string
 
   return (
     <>
-      <section id="hero" className="py-20 lg:py-28 bg-[#2A2623] text-white">
-        <div className="max-w-[900px] mx-auto px-6 lg:px-12">
+      <section id="hero" className="relative overflow-hidden py-20 lg:py-28 bg-[#361716] text-white">
+        <Candles />
+        <div className="relative max-w-[900px] mx-auto px-6 lg:px-12">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <p className="text-sm uppercase tracking-wider text-[#F06A6E] mb-8">{s.legal}</p>
             <h1 className="serif text-5xl lg:text-6xl mb-6 leading-tight">{d.title}</h1>

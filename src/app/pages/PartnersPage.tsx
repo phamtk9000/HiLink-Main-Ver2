@@ -1,10 +1,11 @@
 import { Link } from 'react-router';
-import { Handshake, Building, Globe, TrendingUp, ArrowRight, ShieldCheck, Layers, HeartHandshake, ClipboardList, Search, FileSignature, Rocket } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { Handshake, Building, Globe, TrendingUp, ShieldCheck, Layers, HeartHandshake, ClipboardList, Search, FileSignature, Rocket } from '../components/Glyph';
 import { motion } from 'motion/react';
 import { HeroBg } from '../components/HeroBg';
-import { PARTNERS } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
+import { PartnerMarquee } from '../components/PartnerMarquee';
 
 const TYPE_META = [
   { icon: <Building size={28} />, image: '/photos/f19-window.webp' },
@@ -89,7 +90,7 @@ export function PartnersPage() {
   return (
     <>
       {/* Hero */}
-      <section id="hero" className="relative overflow-hidden min-h-[72vh] flex items-end bg-[#2A2623] text-white">
+      <section id="hero" className="relative overflow-hidden min-h-[72vh] flex items-end bg-[#361716] text-white">
         <HeroBg image="/photos/hbc-meeting.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28 w-full">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-4xl">
@@ -131,7 +132,7 @@ export function PartnersPage() {
               <motion.div key={title} className="group bg-white overflow-hidden border border-[#2A2623]/10" whileHover={{ y: -6 }}>
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img src={TYPE_META[i].image} alt={title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623]/70 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#361716]/70 to-transparent" />
                   <div className="absolute bottom-4 left-4 w-11 h-11 bg-[#D12126] text-white flex items-center justify-center">{TYPE_META[i].icon}</div>
                 </div>
                 <div className="p-8">
@@ -169,12 +170,8 @@ export function PartnersPage() {
       {/* Partners strip */}
       <section className="py-20 bg-white border-y border-[#2A2623]/10">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-8 flex items-center gap-2.5"><Flag /> {t.stripLbl}</p>
-          <div className="flex flex-wrap justify-center items-center gap-x-10 gap-y-4">
-            {PARTNERS.map((p) => (
-              <span key={p.id} className="serif text-2xl text-[#2A2623]/35 hover:text-[#D12126] transition-colors">{p.name}</span>
-            ))}
-          </div>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center justify-center gap-2.5"><Flag /> {t.stripLbl}</p>
+          <PartnerMarquee />
         </div>
       </section>
 

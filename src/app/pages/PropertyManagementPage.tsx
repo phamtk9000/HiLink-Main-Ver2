@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
-import { TrendingUp, Users, Shield, BarChart, MapPin, Building2, Calendar, ArrowRight, Home, Briefcase, Globe, ClipboardList, FileSignature, Settings, LineChart, LayoutDashboard, Bell } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { TrendingUp, Users, Shield, BarChart, MapPin, Building2, Calendar, Home, Briefcase, Globe, ClipboardList, FileSignature, Settings, LineChart, LayoutDashboard, Bell } from '../components/Glyph';
 import { motion } from 'motion/react';
 import { PropertyRentalForm } from '../components/PropertyRentalForm';
 import { FAQ } from '../components/FAQ';
@@ -9,6 +10,7 @@ import { LOCATIONS } from '../data/locations';
 import { PARTNERS, ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
+import { Candles } from '../components/Candles';
 
 const SERVICE_ICONS = [<Users size={28} />, <TrendingUp size={28} />, <Shield size={28} />, <BarChart size={28} />];
 const TYPE_ICONS = [<Home size={26} />, <Building2 size={26} />, <Calendar size={26} />, <Briefcase size={26} />];
@@ -145,7 +147,7 @@ export function PropertyManagementPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#2A2623] text-white">
+      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#361716] text-white">
         <HeroBg image="/photos/f19-room.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
@@ -238,7 +240,7 @@ export function PropertyManagementPage() {
                 ))}
               </ul>
             </div>
-            <div className="bg-[#2A2623] text-white p-10 lg:p-12">
+            <div className="bg-[#361716] text-white p-10 lg:p-12">
               <div className="text-[#D12126] mb-6"><Globe size={28} /></div>
               <h3 className="serif text-2xl lg:text-3xl mb-6">{t.tenants}</h3>
               <ul className="space-y-4">
@@ -381,14 +383,15 @@ export function PropertyManagementPage() {
       />
 
       {/* CTA Section */}
-      <section className="py-24 lg:py-32 bg-[#FBECEC] text-[#2A2623]">
+      <section className="relative py-24 lg:py-32 bg-[#361716] text-white overflow-hidden">
+        <Candles />
         <motion.div
           className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center"
         >
           <h2 className="serif text-4xl lg:text-5xl mb-8">
             {t.ctaTitle}
           </h2>
-          <p className="text-xl text-[#6B645D] mb-12 max-w-2xl mx-auto">
+          <p className="text-xl text-white/70 mb-12 max-w-2xl mx-auto">
             {t.ctaLead}
           </p>
           <Link

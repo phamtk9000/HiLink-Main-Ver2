@@ -7,7 +7,7 @@
 //   Connect      partner companies   tips join their neighbours into a mesh
 //   Opportunity  one point of contact light runs out along the lines
 //   Grow         founded 2020        the burst breathes and growth rings spread
-//   Destination  locations           lines gather into one bundle per location
+//   Destination  locations           the field dims; one route lights up per location
 //
 // As on Stripe, a menu in the corner sets the time of day (pre-dawn → night):
 // the background gradient and the line colours crossfade over 1.2s. It starts
@@ -68,7 +68,7 @@ const T = {
 // the text to white. Line colours run from `bottom` to `top` up the canvas.
 const SKIES: Record<Tod, { bg: string; dark: boolean; lines: Palette; Icon: typeof Sun }> = {
   predawn: {
-    bg: 'radial-gradient(102.8% 104% at 50% 104%, rgb(255,186,176) 0%, rgb(196,58,84) 16%, rgb(112,30,58) 34%, rgb(58,26,40) 56%, rgb(34,24,30) 78%, rgb(28,22,26) 100%)',
+    bg: 'radial-gradient(102.8% 104% at 50% 104%, rgb(255,190,178) 0%, rgb(200,64,72) 16%, rgb(120,34,38) 34%, rgb(74,28,27) 56%, rgb(58,24,23) 78%, rgb(54,23,22) 100%)',
     dark: true, Icon: MoonStar,
     lines: { top: rgb('#F7A8B4'), bottom: rgb('#FFE9E4'), stop: [0.2, 0.75], opacity: 0.9 },
   },
@@ -93,7 +93,7 @@ const SKIES: Record<Tod, { bg: string; dark: boolean; lines: Palette; Icon: type
     lines: { top: rgb('#C22A22'), bottom: rgb('#FFE8D8'), stop: [0.22, 0.62], over: true },
   },
   night: {
-    bg: 'radial-gradient(102.8% 106.4% at 50% 106.4%, rgb(255,236,236) 1%, rgb(229,72,77) 20%, rgb(150,24,40) 38%, rgb(84,20,34) 56%, rgb(46,24,30) 76%, rgb(28,22,22) 100%)',
+    bg: 'radial-gradient(102.8% 106.4% at 50% 106.4%, rgb(255,236,236) 1%, rgb(229,72,77) 20%, rgb(160,34,38) 38%, rgb(96,30,28) 56%, rgb(64,25,24) 76%, rgb(54,23,22) 100%)',
     dark: true, Icon: Moon,
     lines: { top: rgb('#FF9EA2'), bottom: rgb('#FFFFFF'), stop: [0.2, 0.7], opacity: 0.9 },
   },
@@ -118,7 +118,6 @@ export function LinkPhilosophy() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fieldRef = useRef<LinkField | null>(null);
-  const labelsRef = useRef<(HTMLSpanElement | null)[]>([]);
   const menuRef = useRef<HTMLDivElement>(null);
   const [scene, setScene] = useState<Scene>(0);
   const [tod, setTod] = useState<Tod>('daytime');
@@ -156,32 +155,6 @@ export function LinkPhilosophy() {
       return undefined;
     }
     fieldRef.current = field;
-
-    let labelsOn = false;
-    field.onLabels = (pts) => {
-      const on = !!pts;
-      if (on !== labelsOn) {
-        labelsOn = on;
-        labelsRef.current.forEach((el) => { if (el) el.style.opacity = on ? '1' : '0'; });
-      }
-      if (!pts) return;
-      const w = wrap.clientWidth;
-      // Each label sits just above its bundle; where two would touch (narrow
-      // screens), the later one steps up above the other.
-      const placed: { l: number; r: number; t: number; b: number }[] = [];
-      pts.forEach((p, k) => {
-        const el = labelsRef.current[k];
-        if (!el) return;
-        const lw = el.offsetWidth, lh = el.offsetHeight;
-        const x = Math.min(w - lw - 8, Math.max(8, p.x - lw / 2));
-        let y = p.y - lh * 1.5;
-        for (const o of placed) {
-          if (x < o.r + 4 && x + lw > o.l - 4 && y < o.b + 3 && y + lh > o.t - 3) y = o.t - lh - 3;
-        }
-        placed.push({ l: x, r: x + lw, t: y, b: y + lh });
-        el.style.transform = `translate(${x}px, ${y}px)`;
-      });
-    };
 
     let raf = 0;
     let visible = false;
@@ -331,17 +304,6 @@ export function LinkPhilosophy() {
           {/* The field. Purely visual: the same ideas are in the stats and caption. */}
           <div ref={wrapRef} className="relative mt-4 sm:mt-0 h-[340px] sm:h-[440px] lg:h-[540px] select-none" aria-hidden="true">
             <canvas ref={canvasRef} className="absolute inset-0 cursor-crosshair touch-pan-y" />
-            {LOCATIONS.map((loc, i) => (
-              <span
-                key={loc.id}
-                ref={(el) => { labelsRef.current[i] = el; }}
-                className="pointer-events-none absolute left-0 top-0 whitespace-nowrap rounded-full bg-white/90 px-2 sm:px-3 py-1 text-[9px] sm:text-[11px] font-medium text-[#2A2623] shadow-[0_1px_8px_rgba(42,38,35,0.12)] transition-opacity duration-700"
-                style={{ opacity: 0 }}
-              >
-                <span className="hidden sm:inline">{loc.name}</span>
-                <span className="sm:hidden">{loc.name.replace('4 Ton That Tung · Floor ', 'TTT · F').replace(/^\d+ /, '')}</span>
-              </span>
-            ))}
             {webgl && !reduced && (
               <p className={`pointer-events-none absolute top-0 left-5 right-5 lg:left-8 text-center sm:text-left text-[10px] sm:text-[11px] uppercase tracking-[0.2em] transition-colors duration-[1200ms] ${muted}`}>
                 {touch ? t.hintTouch : t.hint}
@@ -350,7 +312,7 @@ export function LinkPhilosophy() {
           </div>
 
           {/* Stats and caption sit on frosted glass over the glow. */}
-          <div className={`relative backdrop-blur-xl transition-colors duration-[1200ms] ${sky.dark ? 'bg-[#1C1616]/25' : 'bg-white/60'}`}>
+          <div className={`relative backdrop-blur-xl transition-colors duration-[1200ms] ${sky.dark ? 'bg-[#361716]/30' : 'bg-white/60'}`}>
           {/* Stats: Stripe's framed row with a sliding indicator on both rules. */}
           <div role="tablist" aria-label={t.eyebrow} className={`relative grid grid-cols-2 lg:grid-cols-4 border-y ${hair} transition-colors duration-[1200ms]`}>
             {[-1, 'auto'].map((pos) => (

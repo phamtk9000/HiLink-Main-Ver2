@@ -18,7 +18,8 @@
 //   0 Connect      the burst, plus links between neighbouring tips
 //   1 Opportunity  sparks of light run out along the lines
 //   2 Grow         the burst breathes outwards and growth rings spread
-//   3 Destination  tips gather into seven bundles — the HiLink locations
+//   3 Destination  the field dims and seven routes light up — one per
+//                  HiLink location — with light running out to each
 
 export type Palette = { top: [number, number, number]; bottom: [number, number, number]; stop: [number, number]; opacity?: number; over?: boolean };
 
@@ -97,10 +98,9 @@ export class LinkField {
   private cur: V3[] = [];
   private vel: V3[] = [];
   private len: number[] = [];
-  private dest: number[] = [];      // destination bundle for scene 3
   private pairs: [number, number][] = [];
   private sparks: { line: number; t: number; speed: number }[] = [];
-  private destPts: V3[] = [];
+  private routes: number[] = [];   // the lines lit in scene 3
   private vis: number[] = [];
   private loc = new Map<string, number>();
   private uni = new Map<string, WebGLUniformLocation | null>();
@@ -109,7 +109,7 @@ export class LinkField {
   private mouse = { x: 9, y: 9 };
   private start = performance.now();
   private intro = 0;
-  private sceneAlpha = 1;
+  private dim = 1;                 // eased brightness of the unlit lines
   private lastSpark = 0;
   private palette: Palette;
   private target: Palette;
@@ -118,9 +118,8 @@ export class LinkField {
   private paletteStart = 0;
 
   scene = 0;
-  onLabels?: (pts: { x: number; y: number }[] | null) => void;
 
-  constructor(private canvas: HTMLCanvasElement, palette: Palette, destCount: number) {
+  constructor(private canvas: HTMLCanvasElement, palette: Palette, private routeCount: number) {
     const gl = canvas.getContext('webgl', { alpha: true, antialias: true, premultipliedAlpha: true });
     if (!gl) throw new Error('webgl');
     this.gl = gl;
@@ -129,7 +128,7 @@ export class LinkField {
     this.lineBuf = gl.createBuffer()!;
     this.dotBuf = gl.createBuffer()!;
     this.palette = palette; this.target = palette; this.fromPalette = palette;
-    this.build(destCount);
+    this.build();
   }
 
   // ---- geometry -----------------------------------------------------------
@@ -139,7 +138,7 @@ export class LinkField {
     return [(p[0] * f) / (z * Math.max(this.aspect, 1.5)), (p[1] * f) / z, z];
   }
 
-  private build(destCount: number) {
+  private build() {
     const rand = rng(20200);
     const total = 1600;
     const golden = (1 + Math.sqrt(5)) / 2;
@@ -161,20 +160,6 @@ export class LinkField {
         this.len.push(Math.hypot(c[0] - ORIGIN[0], c[1] - ORIGIN[1], c[2] - ORIGIN[2]));
       }
     }
-    // Destinations: an arc of points above the hub, left to right.
-    for (let k = 0; k < destCount; k++) {
-      const a = Math.PI * (0.84 - (0.68 * (k + 0.5)) / destCount);
-      this.destPts.push([ORIGIN[0] + Math.cos(a) * 3.0, ORIGIN[1] + Math.sin(a) * 2.5, ORIGIN[2] + 0.4]);
-    }
-    this.base.forEach((b, i) => {
-      let best = 0;
-      let bd = Infinity;
-      this.destPts.forEach((d, k) => {
-        const dd = Math.atan2(b[1] - ORIGIN[1], b[0] - ORIGIN[0]) - Math.atan2(d[1] - ORIGIN[1], d[0] - ORIGIN[0]);
-        if (Math.abs(dd) < bd) { bd = Math.abs(dd); best = k; }
-      });
-      this.dest[i] = best;
-    });
     // Neighbouring tips for the "connect" mesh.
     const n = this.base.length;
     for (let i = 0; i < n; i++) {
@@ -184,7 +169,7 @@ export class LinkField {
       }
     }
     this.lineData = new Float32Array((n + this.pairs.length + 220) * 2 * 5);
-    this.dotData = new Float32Array((n + 200) * 5);
+    this.dotData = new Float32Array((n + 240) * 5);
   }
 
   // ---- input ----------------------------------------------------------------
@@ -204,6 +189,22 @@ export class LinkField {
       const [x, y] = this.project(b);
       return Math.abs(x) <= 1.04 && y <= 1.04 ? 1 : 0;
     });
+    // Routes: for evenly spread directions across the fan, the longest
+    // visible line close to that direction.
+    const [ox, oy] = this.project(ORIGIN);
+    this.routes = [];
+    for (let k = 0; k < this.routeCount; k++) {
+      const want = Math.PI * (0.86 - (0.72 * (k + 0.5)) / this.routeCount);
+      let best = -1, score = -Infinity;
+      this.base.forEach((b, i) => {
+        if (!this.vis[i] || this.routes.includes(i)) return;
+        const [x, y] = this.project(b);
+        const off = Math.abs(Math.atan2((y - oy), (x - ox) * this.aspect) - want);
+        const sc = Math.hypot(x - ox, y - oy) - off * 6;
+        if (sc > score) { score = sc; best = i; }
+      });
+      if (best >= 0) this.routes.push(best);
+    }
   }
   pointer(clientX: number, clientY: number) {
     const r = this.canvas.getBoundingClientRect();
@@ -249,8 +250,9 @@ export class LinkField {
       };
     }
 
-    // Bundled lines (scene 3) overlap heavily, so they are drawn lighter.
-    this.sceneAlpha += ((this.scene === 3 ? 0.4 : 1) - this.sceneAlpha) * (still ? 1 : 0.06);
+    // Scene 3 dims the field so the seven routes stand out.
+    this.dim += ((this.scene === 3 ? 0.22 : 1) - this.dim) * (still ? 1 : 0.06);
+    const lit = this.dim < 0.98;
     const breathe = this.scene === 2 ? 0.9 + 0.12 * Math.sin(t * 0.9) : 1;
     const n = this.base.length;
 
@@ -258,13 +260,9 @@ export class LinkField {
     for (let i = 0; i < n; i++) {
       if (!this.vis[i]) continue;
       const b = this.base[i];
-      let tx = ORIGIN[0] + (b[0] - ORIGIN[0]) * introScale * breathe;
-      let ty = ORIGIN[1] + (b[1] - ORIGIN[1]) * introScale * breathe;
-      let tz = ORIGIN[2] + (b[2] - ORIGIN[2]) * introScale * breathe;
-      if (this.scene === 3) {
-        const d = this.destPts[this.dest[i]];
-        tx = d[0] + (b[0] - ORIGIN[0]) * 0.07; ty = d[1] + (b[1] - ORIGIN[1]) * 0.05; tz = d[2] + (b[2] - ORIGIN[2]) * 0.1;
-      }
+      const tx = ORIGIN[0] + (b[0] - ORIGIN[0]) * introScale * breathe;
+      const ty = ORIGIN[1] + (b[1] - ORIGIN[1]) * introScale * breathe;
+      const tz = ORIGIN[2] + (b[2] - ORIGIN[2]) * introScale * breathe;
       const c = this.cur[i], v = this.vel[i];
       if (still) { c[0] = tx; c[1] = ty; c[2] = tz; continue; }
       const [px, py] = this.project(c);
@@ -299,8 +297,19 @@ export class LinkField {
       if (!this.vis[i]) continue;
       const c = this.cur[i];
       const l = Math.hypot(c[0] - ORIGIN[0], c[1] - ORIGIN[1], c[2] - ORIGIN[2]);
-      push(ox, oy, 0, i, 1);
-      push(proj[i][0], proj[i][1], l, i, 1);
+      const a = lit && !this.routes.includes(i) ? this.dim : 1;
+      push(ox, oy, 0, i, a);
+      push(proj[i][0], proj[i][1], l, i, a);
+    }
+    // The routes are drawn a second time so they read brighter than the rest.
+    if (lit) {
+      for (const i of this.routes) {
+        const c = this.cur[i];
+        const l = Math.hypot(c[0] - ORIGIN[0], c[1] - ORIGIN[1], c[2] - ORIGIN[2]);
+        const a = 1 - this.dim;
+        push(ox, oy, 0, i, a);
+        push(proj[i][0], proj[i][1], l, i, a);
+      }
     }
     if (this.scene === 0) {
       for (const [a, b] of this.pairs) {
@@ -337,7 +346,21 @@ export class LinkField {
     for (let i = 0; i < n; i++) {
       if (!this.vis[i]) continue;
       const depth = 1 - Math.min(1, Math.max(0, (proj[i][2] - 3) / 5));
-      pushDot(proj[i][0], proj[i][1], 3.2 + depth * 4.5, 0.65 + 0.35 * depth, i);
+      const a = lit && !this.routes.includes(i) ? this.dim : 1;
+      pushDot(proj[i][0], proj[i][1], 3.2 + depth * 4.5, (0.65 + 0.35 * depth) * a, i);
+    }
+    // Each route ends in a bright point with a slow ring around it.
+    if (lit) {
+      this.routes.forEach((i, k) => {
+        const p = (t * 0.45 + k / this.routes.length) % 1;
+        pushDot(proj[i][0], proj[i][1], 10, 1 - this.dim, i);
+        pushDot(proj[i][0], proj[i][1], 12 + p * 26, (1 - p) * 0.35 * (1 - this.dim), i);
+      });
+    }
+    if (!still && this.scene === 3 && now - this.lastSpark > 320 && this.routes.length) {
+      this.lastSpark = now;
+      const pick = this.routes[Math.floor(Math.random() * this.routes.length)];
+      this.sparks.push({ line: pick, t: now, speed: 0.0005 + Math.random() * 0.0003 });
     }
     if (!still && (this.scene === 1) && now - this.lastSpark > 45) {
       this.lastSpark = now;
@@ -385,22 +408,10 @@ export class LinkField {
       gl.uniform1f(this.u(prog, 'uTime'), still ? 0 : t);
     };
     use(this.lineProg, this.lineBuf, L, lineVerts, [['aPos', 2], ['aProg', 1], ['aId', 1], ['aA', 1]]);
-    gl.uniform1f(this.u(this.lineProg, 'uOpacity'), (this.palette.opacity ?? 1) * this.sceneAlpha);
+    gl.uniform1f(this.u(this.lineProg, 'uOpacity'), this.palette.opacity ?? 1);
     gl.drawArrays(gl.LINES, 0, lineVerts);
     use(this.dotProg, this.dotBuf, D, dotCount, [['aPos', 2], ['aSize', 1], ['aA', 1], ['aId', 1]]);
     gl.drawArrays(gl.POINTS, 0, dotCount);
-
-    // Destination labels follow scene 3.
-    if (this.onLabels) {
-      this.onLabels(
-        this.scene === 3
-          ? this.destPts.map((d) => {
-              const [x, y] = this.project(d);
-              return { x: ((x + 1) / 2) * this.w, y: ((1 - y) / 2) * this.h };
-            })
-          : null,
-      );
-    }
   }
 
   private u(prog: WebGLProgram, name: string) {

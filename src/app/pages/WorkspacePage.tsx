@@ -1,13 +1,16 @@
 // Workspace Leasing — original layout. Locations, spaces and starting prices
 // come from HiLink Workspaces (hilink.vn); live prices and booking stay there.
-import { Building2, Users, Wifi, Coffee, Mail, Calendar, MapPin, ArrowRight, Check, ExternalLink } from 'lucide-react';
+import { ArrowRight, Check, ExternalLink } from 'lucide-react';
+import { Building2, Users, Wifi, Coffee, Mail, Calendar, MapPin } from '../components/Glyph';
 import { motion } from 'motion/react';
 import { useState, useEffect } from 'react';
 import { FAQ } from '../components/FAQ';
 import { LOCATIONS, WORKSPACE_LINES } from '../data/locations';
-import { PARTNERS, ws } from '../data/site';
+import { ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
+import { Candles } from '../components/Candles';
+import { PartnerMarquee } from '../components/PartnerMarquee';
 
 const AMENITY_ICONS = [<Wifi size={24} />, <Coffee size={24} />, <Users size={24} />, <Building2 size={24} />, <Calendar size={24} />, <Mail size={24} />];
 const SPACE_PHOTOS = ['/photos/f15-office-hi08.webp', '/photos/f15-office-hi11.webp', '/photos/f15-meeting-pod.webp', '/photos/f15-boardroom.webp', '/photos/f15-lounge.webp', '/photos/hbc-meeting.webp'];
@@ -128,14 +131,14 @@ export function WorkspacePage() {
       </motion.div>
 
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center bg-[#2A2623] text-white overflow-hidden">
+      <section className="relative min-h-[80vh] flex items-center bg-[#361716] text-white overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="/photos/f15-lounge-wide-xl.webp"
             alt=""
             className="w-full h-full object-cover opacity-85"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#2A2623]/80 via-[#2A2623]/45 to-[#2A2623]/15" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#361716]/80 via-[#361716]/45 to-[#361716]/15" />
         </div>
 
         <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 py-24 w-full">
@@ -303,16 +306,10 @@ export function WorkspacePage() {
       {/* Client Logos */}
       <section className="py-16 bg-[#F4F0EA] border-y border-[#2A2623]/10">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <p className="text-center text-sm uppercase tracking-wider text-[#6B645D] mb-12">
+          <p className="text-center text-sm uppercase tracking-wider text-[#6B645D] mb-4">
             {t.trusted}
           </p>
-          <div className="flex flex-wrap justify-center items-center gap-12">
-            {PARTNERS.map((p) => (
-              <div key={p.id} className="text-[#2A2623]/40 text-lg uppercase tracking-wider">
-                {p.name}
-              </div>
-            ))}
-          </div>
+          <PartnerMarquee />
         </div>
       </section>
 
@@ -326,12 +323,13 @@ export function WorkspacePage() {
       />
 
       {/* CTA Section */}
-      <section className="py-24 lg:py-32 bg-[#FBECEC] text-[#2A2623]">
+      <section className="relative py-24 lg:py-32 bg-[#361716] text-white overflow-hidden">
+        <Candles />
         <motion.div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
           <h2 className="serif text-4xl lg:text-5xl mb-8">
             {t.ctaTitle}
           </h2>
-          <p className="text-xl text-[#6B645D] mb-12 max-w-2xl mx-auto">
+          <p className="text-xl text-white/70 mb-12 max-w-2xl mx-auto">
             {t.ctaLead}
           </p>
           <a
@@ -388,7 +386,7 @@ function PlanCard({ name, price, period, description, features, popular, href, p
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="block w-full text-center px-6 py-3 bg-[#2A2623] text-white text-sm uppercase tracking-wider hover:bg-[#D12126] transition-colors"
+        className="block w-full text-center px-6 py-3 bg-[#361716] text-white text-sm uppercase tracking-wider hover:bg-[#D12126] transition-colors"
       >
         {cta}
       </a>
