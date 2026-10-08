@@ -8,6 +8,7 @@ import { LOCATIONS } from '../data/locations';
 import { BUSINESS_CLUB_SITE, PARTNERS, ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { LinkPhilosophy } from '../components/LinkPhilosophy';
+import { Flag } from '../components/Flag';
 
 const T = {
   en: {
@@ -130,7 +131,7 @@ export function AboutPage() {
           <div className="grid md:grid-cols-2 gap-px bg-[#2A2623]/10">
             <div className="bg-white p-10 lg:p-14">
               <div className="text-[#D12126] mb-8"><Compass size={32} /></div>
-              <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-5">{a.visionLbl}</p>
+              <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {a.visionLbl}</p>
               <h2 className="serif text-3xl lg:text-4xl mb-6 leading-snug">
                 {a.vision}
               </h2>
@@ -140,7 +141,7 @@ export function AboutPage() {
             </div>
             <div className="bg-white p-10 lg:p-14">
               <div className="text-[#D12126] mb-8"><Target size={32} /></div>
-              <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-5">{a.missionLbl}</p>
+              <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {a.missionLbl}</p>
               <h2 className="serif text-3xl lg:text-4xl mb-6 leading-snug">
                 {a.whoTitle}
               </h2>
@@ -155,7 +156,7 @@ export function AboutPage() {
       {/* Values */}
       <section className="bg-white py-32">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-16">{t.standFor}</p>
+          <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-16 flex items-center gap-2.5"><Flag /> {t.standFor}</p>
           <div className="divide-y divide-[#2A2623]/10">
             {a.diffs.map(({ t: title, d: desc }, i) => (
               <div key={title} className="flex items-start gap-8 py-10">
@@ -176,7 +177,7 @@ export function AboutPage() {
       <section className="bg-[#F4F0EA] py-32">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.journeyEyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.journeyEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{a.howTitle}</h2>
             <p className="text-[#6B645D] text-[15px] leading-relaxed max-w-2xl mt-6">{a.howBody}</p>
           </div>
@@ -197,7 +198,7 @@ export function AboutPage() {
       <section className="bg-white py-32">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.workEyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.workEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{t.workTitle}</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -238,7 +239,7 @@ export function AboutPage() {
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16">
             <div>
-              <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{a.ecoEyebrow}</p>
+              <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {a.ecoEyebrow}</p>
               <h2 className="serif text-4xl lg:text-5xl">{a.oneRel}</h2>
             </div>
             <p className="text-[15px] text-[#6B645D] max-w-sm">

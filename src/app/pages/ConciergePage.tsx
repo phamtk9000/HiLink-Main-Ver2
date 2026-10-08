@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { useState } from 'react';
 import { CONTACT } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
+import { Flag } from '../components/Flag';
 
 const SERVICE_META = [
   { icon: <Plane size={26} />, image: '/photos/hbc-host.webp' },
@@ -150,7 +151,7 @@ export function ConciergePage() {
       <section className="py-28 lg:py-40 bg-white">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="text-center mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.arrEyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.arrEyebrow}</p>
             <h2 className="serif font-light text-4xl lg:text-5xl mb-6 text-[#2A2623]">{t.arrTitle}</h2>
             <p className="text-lg text-[#6B645D]">
               {t.arrLead}

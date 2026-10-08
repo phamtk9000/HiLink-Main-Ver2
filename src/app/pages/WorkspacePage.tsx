@@ -7,6 +7,7 @@ import { FAQ } from '../components/FAQ';
 import { LOCATIONS, WORKSPACE_LINES } from '../data/locations';
 import { PARTNERS, ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
+import { Flag } from '../components/Flag';
 
 const AMENITY_ICONS = [<Wifi size={24} />, <Coffee size={24} />, <Users size={24} />, <Building2 size={24} />, <Calendar size={24} />, <Mail size={24} />];
 const SPACE_PHOTOS = ['/photos/f15-office-hi08.webp', '/photos/f15-office-hi11.webp', '/photos/f15-meeting-pod.webp', '/photos/f15-boardroom.webp', '/photos/f15-lounge.webp', '/photos/hbc-meeting.webp'];
@@ -230,7 +231,7 @@ export function WorkspacePage() {
           <div className="flex flex-wrap items-end justify-between gap-6 mb-14">
             <div>
               <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-3">
-                <span className="w-8 h-px bg-[#D12126]" /> {t.spacesEyebrow}
+                <Flag className="text-[#D12126]" /> {t.spacesEyebrow}
               </p>
               <h2 className="serif text-4xl lg:text-5xl">{t.spacesTitle}</h2>
             </div>

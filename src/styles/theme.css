@@ -311,3 +311,24 @@ footer::after {
 
 /* Progress line under the active philosophy pillar (LinkPhilosophy). */
 @keyframes hl-progress { from { width: 0; } to { width: 100%; } }
+
+/* Eyebrow flag (components/Flag.tsx), after the Stripe Treasury glyph: it
+   unfurls from the left once, then a slow ripple runs across its four strips. */
+.hl-flag { transform-origin: 0 50%; animation: hl-flag-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; overflow: visible; }
+.hl-flag polygon { transform-box: fill-box; transform-origin: 50% 50%; animation: hl-flag-wave 3.6s ease-in-out infinite; }
+@keyframes hl-flag-in { from { transform: scaleX(0) skewY(8deg); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes hl-flag-wave {
+  0%, 52%, 100% { transform: none; }
+  14% { transform: translateY(-1.1px) scaleY(1.06); }
+  30% { transform: translateY(0.5px) scaleY(0.97); }
+}
+
+/* Squeezy forum carousel (components/ForumCarousel.tsx): the active slide is
+   wide, the rest narrow by distance; flex-grow animates the squeeze. */
+.hl-squeeze > * { transition: flex-grow 0.7s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.5s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hl-flag, .hl-flag polygon { animation: none; }
+  .hl-squeeze > * { transition: none; }
+}
+@keyframes hl-fade-up { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }

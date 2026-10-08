@@ -8,6 +8,7 @@ import { HeroBg } from '../components/HeroBg';
 import { LOCATIONS } from '../data/locations';
 import { PARTNERS, ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
+import { Flag } from '../components/Flag';
 
 const SERVICE_ICONS = [<Users size={28} />, <TrendingUp size={28} />, <Shield size={28} />, <BarChart size={28} />];
 const TYPE_ICONS = [<Home size={26} />, <Building2 size={26} />, <Calendar size={26} />, <Briefcase size={26} />];
@@ -194,7 +195,7 @@ export function PropertyManagementPage() {
       <section className="py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div className="text-center mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.manageEyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.manageEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.manageTitle}</h2>
             <p className="text-xl text-[#6B645D] max-w-3xl mx-auto">
               {t.manageLead}
@@ -217,7 +218,7 @@ export function PropertyManagementPage() {
       <section className="py-24 lg:py-32 bg-[#F4F0EA]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div className="text-center mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.serveEyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.serveEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.serveTitle}</h2>
             <p className="text-xl text-[#6B645D] max-w-3xl mx-auto">
               {t.serveLead}
@@ -257,7 +258,7 @@ export function PropertyManagementPage() {
       <section className="py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div className="text-center mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.howEyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.howEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.howTitle}</h2>
             <p className="text-xl text-[#6B645D] max-w-3xl mx-auto">
               {t.howLead}
@@ -311,7 +312,7 @@ export function PropertyManagementPage() {
       <section className="py-24 lg:py-32 bg-white text-[#2A2623]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div className="text-center mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.resEyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.resEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.resTitle}</h2>
             <p className="text-xl text-[#6B645D] max-w-3xl mx-auto">
               {t.resLead}

@@ -1,434 +1,404 @@
-// "Every link creates value" — HiLink's philosophy as an interactive field.
+// "Every link creates value" — HiLink's philosophy, laid out like the Stripe
+// homepage section "The backbone of global commerce".
 //
-// A burst of lines rises from a single hub (HiLink) like a sunrise; every tip
-// is a business or a person. Four pillars re-shape the field:
+// A WebGL burst of lines rises from one hub (lib/linkField.ts). Four stats sit
+// under it in a framed row; choosing one re-shapes the field:
 //
-//   01 Connect      tips join their neighbours into a mesh — a community
-//   02 Opportunity  light runs out along the lines and tips sprout branches
-//   03 Grow         the burst breathes outwards and growth rings spread
-//   04 Destination  lines gather into seven bundles — the HiLink locations
+//   Connect      partner companies   tips join their neighbours into a mesh
+//   Opportunity  one point of contact light runs out along the lines
+//   Grow         founded 2020        the burst breathes and growth rings spread
+//   Destination  locations           lines gather into one bundle per location
 //
-// The pointer is part of it: lines lean towards it and nearby tips link to it.
-// A click or tap sends a pulse out and adds new connections near that spot.
+// As on Stripe, a menu in the corner sets the time of day (pre-dawn → night):
+// the background gradient and the line colours crossfade over 1.2s. It starts
+// at the visitor's local time. The pointer pushes lines aside; a click sends
+// light out from that spot.
 //
-// Canvas 2D, ~170 lines, paused when off-screen or in a background tab, and
-// drawn once (no loop, no auto-advance) for visitors who ask for reduced motion.
+// The loop runs only while the section is on screen and the tab is visible.
+// Reduced motion: one still frame, no auto-advance. No WebGL: the gradient,
+// stats and captions still work, without the lines.
 import { useEffect, useRef, useState } from 'react';
+import { Moon, MoonStar, Pause, Play, Sun, SunDim, Sunrise, Sunset } from 'lucide-react';
 import { LOCATIONS } from '../data/locations';
 import { PARTNERS } from '../data/site';
 import { useLang } from '../lib/i18n';
+import { LinkField, rgb, type Palette } from '../lib/linkField';
+import { Flag } from './Flag';
 
-type Mode = 0 | 1 | 2 | 3;
+type Scene = 0 | 1 | 2 | 3;
+type Tod = 'predawn' | 'sunrise' | 'daytime' | 'dusk' | 'sunset' | 'night';
 
 const T = {
   en: {
     eyebrow: 'The HiLink philosophy',
     title: 'Every link creates value.',
     lead: 'Link is in our name and at the heart of what we do: connecting business people with each other, turning those connections into opportunities, growing together — and bringing every client to the place they need to be.',
-    hint: 'Move to explore · Click to spark a connection',
-    hintTouch: 'Tap to spark a connection',
-    pillars: [
-      { t: 'Connect', d: 'We bring business people together — in our lounges, at the HiLink Business Club and through the companies we work with.', f: `${PARTNERS.length} partner companies` },
-      { t: 'Create opportunity', d: 'A good introduction opens doors: a client, a partner, a new hire. We make those introductions part of everyday work.', f: 'One relationship, one point of accountability' },
-      { t: 'Grow together', d: 'As a business grows, its space and support grow with it — from a business address to a desk, an office, a whole floor.', f: 'From E-office to whole floors' },
-      { t: 'Lead to the right place', d: 'We guide every client to the right address and the right solution, across our locations in central Hanoi.', f: `${LOCATIONS.length} locations in Hoan Kiem & Dong Da` },
+    stats: [
+      { n: String(PARTNERS.length), l: 'partner companies', t: 'Connect', d: 'We bring business people together — in our lounges, at the HiLink Business Club and through the companies we work with.' },
+      { n: '1', l: 'point of contact for every client', t: 'Create opportunity', d: 'A good introduction opens doors: a client, a partner, a new hire. We make those introductions part of everyday work.' },
+      { n: '2020', l: 'growing with our clients since', t: 'Grow together', d: 'As a business grows, its space and support grow with it — from a business address to a desk, an office, a whole floor.' },
+      { n: String(LOCATIONS.length), l: 'locations in central Hanoi', t: 'Lead to the right place', d: 'We guide every client to the right address and the right solution, across our locations in Hoan Kiem and Dong Da.' },
     ],
-    pause: 'Pause', play: 'Play',
+    tod: { predawn: 'Pre-dawn', sunrise: 'Sunrise', daytime: 'Daytime', dusk: 'Dusk', sunset: 'Sunset', night: 'Night' },
+    todLabel: 'Time of day',
+    hint: 'Move to explore · Click to send a spark',
+    hintTouch: 'Tap to send a spark',
+    pause: 'Pause animation', play: 'Play animation',
   },
   vi: {
     eyebrow: 'Triết lý HiLink',
     title: 'Mỗi kết nối tạo nên giá trị.',
     lead: 'Link nằm trong tên gọi và là cốt lõi của những gì chúng tôi làm: kết nối doanh nhân với nhau, biến kết nối thành cơ hội, cùng nhau phát triển — và đưa mỗi khách hàng tới đúng nơi họ cần đến.',
-    hint: 'Di chuột để khám phá · Nhấp để tạo kết nối',
-    hintTouch: 'Chạm để tạo kết nối',
-    pillars: [
-      { t: 'Kết nối', d: 'Chúng tôi đưa doanh nhân đến gần nhau — tại các lounge, tại HiLink Business Club và qua những doanh nghiệp đồng hành.', f: `${PARTNERS.length} doanh nghiệp đối tác` },
-      { t: 'Tạo cơ hội', d: 'Một lời giới thiệu đúng mở ra cánh cửa: một khách hàng, một đối tác, một nhân sự mới. Chúng tôi biến điều đó thành việc hằng ngày.', f: 'Một mối quan hệ, một đầu mối chịu trách nhiệm' },
-      { t: 'Cùng phát triển', d: 'Khi doanh nghiệp lớn lên, không gian và hỗ trợ lớn theo — từ địa chỉ doanh nghiệp đến chỗ ngồi, văn phòng, nguyên sàn.', f: 'Từ E-office đến nguyên sàn' },
-      { t: 'Đưa tới đúng nơi', d: 'Chúng tôi dẫn mỗi khách hàng tới đúng địa chỉ và đúng giải pháp, tại các địa điểm giữa trung tâm Hà Nội.', f: `${LOCATIONS.length} địa điểm tại Hoàn Kiếm & Đống Đa` },
+    stats: [
+      { n: String(PARTNERS.length), l: 'doanh nghiệp đối tác', t: 'Kết nối', d: 'Chúng tôi đưa doanh nhân đến gần nhau — tại các lounge, tại HiLink Business Club và qua những doanh nghiệp đồng hành.' },
+      { n: '1', l: 'đầu mối cho mỗi khách hàng', t: 'Tạo cơ hội', d: 'Một lời giới thiệu đúng mở ra cánh cửa: một khách hàng, một đối tác, một nhân sự mới. Chúng tôi biến điều đó thành việc hằng ngày.' },
+      { n: '2020', l: 'cùng khách hàng phát triển từ năm', t: 'Cùng phát triển', d: 'Khi doanh nghiệp lớn lên, không gian và hỗ trợ lớn theo — từ địa chỉ doanh nghiệp đến chỗ ngồi, văn phòng, nguyên sàn.' },
+      { n: String(LOCATIONS.length), l: 'địa điểm giữa trung tâm Hà Nội', t: 'Đưa tới đúng nơi', d: 'Chúng tôi dẫn mỗi khách hàng tới đúng địa chỉ và đúng giải pháp, tại các địa điểm ở Hoàn Kiếm và Đống Đa.' },
     ],
-    pause: 'Tạm dừng', play: 'Phát',
+    tod: { predawn: 'Rạng sáng', sunrise: 'Bình minh', daytime: 'Ban ngày', dusk: 'Chiều muộn', sunset: 'Hoàng hôn', night: 'Ban đêm' },
+    todLabel: 'Thời điểm trong ngày',
+    hint: 'Di chuột để khám phá · Nhấp để tạo tia sáng',
+    hintTouch: 'Chạm để tạo tia sáng',
+    pause: 'Tạm dừng chuyển động', play: 'Phát chuyển động',
   },
 };
 
-const MODE_MS = 7000;
-const RED = [209, 33, 38];
-const INK = [42, 38, 35];
-const rgba = (c: number[], a: number) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+// Six skies in HiLink's palette (red #D12126, wine, warm stone), built like
+// Stripe's: a radial glow rising from the bottom centre. `dark` skies switch
+// the text to white. Line colours run from `bottom` to `top` up the canvas.
+const SKIES: Record<Tod, { bg: string; dark: boolean; lines: Palette; Icon: typeof Sun }> = {
+  predawn: {
+    bg: 'radial-gradient(102.8% 104% at 50% 104%, rgb(255,186,176) 0%, rgb(196,58,84) 16%, rgb(112,30,58) 34%, rgb(58,26,40) 56%, rgb(34,24,30) 78%, rgb(28,22,26) 100%)',
+    dark: true, Icon: MoonStar,
+    lines: { top: rgb('#F7A8B4'), bottom: rgb('#FFE9E4'), stop: [0.2, 0.75], opacity: 0.9 },
+  },
+  sunrise: {
+    bg: 'radial-gradient(102.7% 99% at 50% 104.6%, rgb(209,33,38) 0%, rgb(240,104,84) 14%, rgb(255,176,128) 28%, rgb(255,214,178) 38%, rgb(255,239,226) 50%, #fff 63%)',
+    dark: false, Icon: Sunrise,
+    lines: { top: rgb('#C8361F'), bottom: rgb('#FFFFFF'), stop: [0.22, 0.6], over: true },
+  },
+  daytime: {
+    bg: 'radial-gradient(102.8% 105% at 50% 105%, rgb(150,20,28) 1.3%, rgb(209,33,38) 14%, rgb(232,104,104) 27%, rgb(245,180,178) 38%, rgb(251,232,231) 48%, rgb(255,255,255) 62%)',
+    dark: false, Icon: Sun,
+    lines: { top: rgb('#D12126'), bottom: rgb('#FFFFFF'), stop: [0.22, 0.6], over: true },
+  },
+  dusk: {
+    bg: 'radial-gradient(102.8% 104% at 50% 104%, rgb(122,52,36) 0%, rgb(184,98,62) 15%, rgb(226,162,118) 29%, rgb(242,210,180) 42%, rgb(247,238,228) 55%, #F4F0EA 70%)',
+    dark: false, Icon: SunDim,
+    lines: { top: rgb('#9A4A2C'), bottom: rgb('#FFF4EA'), stop: [0.2, 0.62], over: true },
+  },
+  sunset: {
+    bg: 'radial-gradient(102.8% 104% at 50% 104%, rgb(110,18,52) 0%, rgb(209,33,38) 14%, rgb(242,112,66) 28%, rgb(255,180,122) 40%, rgb(255,226,200) 52%, #FFF7F0 66%)',
+    dark: false, Icon: Sunset,
+    lines: { top: rgb('#C22A22'), bottom: rgb('#FFE8D8'), stop: [0.22, 0.62], over: true },
+  },
+  night: {
+    bg: 'radial-gradient(102.8% 106.4% at 50% 106.4%, rgb(255,236,236) 1%, rgb(229,72,77) 20%, rgb(150,24,40) 38%, rgb(84,20,34) 56%, rgb(46,24,30) 76%, rgb(28,22,22) 100%)',
+    dark: true, Icon: Moon,
+    lines: { top: rgb('#FF9EA2'), bottom: rgb('#FFFFFF'), stop: [0.2, 0.7], opacity: 0.9 },
+  },
+};
+const TODS = Object.keys(SKIES) as Tod[];
 
-// Deterministic randomness so the field looks the same on every visit.
-function rng(seed: number) {
-  let s = seed;
-  return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646;
+function todNow(): Tod {
+  const h = new Date().getHours() + new Date().getMinutes() / 60;
+  if (h >= 4.5 && h < 6) return 'predawn';
+  if (h >= 6 && h < 8) return 'sunrise';
+  if (h >= 8 && h < 16) return 'daytime';
+  if (h >= 16 && h < 17.5) return 'dusk';
+  if (h >= 17.5 && h < 19) return 'sunset';
+  return 'night';
 }
 
-interface Line {
-  a: number; len: number; r: number; big: boolean;   // base angle (rad), length 0–1, tip radius
-  ca: number; cl: number;                           // current angle / length (animated)
-  dest: number;                                     // destination index for mode 04
-  born: number;                                     // spawn time (for lines added by clicks)
-}
-interface Pulse { line: number; t: number; speed: number }
-interface Branch { x: number; y: number; a: number; len: number; t: number }
-interface Ring { t: number }
+const SCENE_MS = 7000;
 
 export function LinkPhilosophy() {
   const { lang } = useLang();
   const t = T[lang];
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const fieldRef = useRef<LinkField | null>(null);
   const labelsRef = useRef<(HTMLSpanElement | null)[]>([]);
-  const [mode, setMode] = useState<Mode>(0);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [scene, setScene] = useState<Scene>(0);
+  const [tod, setTod] = useState<Tod>('daytime');
+  const [menu, setMenu] = useState(false);
   const [playing, setPlaying] = useState(true);
-  const [progressKey, setProgressKey] = useState(0);
-  const modeRef = useRef<Mode>(0);
+  const [inView, setInView] = useState(false);
+  const [webgl, setWebgl] = useState(true);
   const [touch, setTouch] = useState(false);
+  const [cycle, setCycle] = useState(0); // restarts the auto-advance timer
   const reduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const sky = SKIES[tod];
 
-  // Auto-advance through the pillars while playing.
   useEffect(() => {
-    modeRef.current = mode;
-    if (!playing || reduced) return undefined;
-    const id = window.setTimeout(() => setMode(((mode + 1) % 4) as Mode), MODE_MS);
+    setTod(todNow());
+    setTouch(window.matchMedia('(pointer: coarse)').matches);
+  }, []);
+
+  // Auto-advance through the four stats while playing and on screen.
+  useEffect(() => {
+    if (!playing || reduced || !inView) return undefined;
+    const id = window.setTimeout(() => setScene((s) => ((s + 1) % 4) as Scene), SCENE_MS);
     return () => window.clearTimeout(id);
-  }, [mode, playing, progressKey, reduced]);
+  }, [scene, playing, inView, reduced, cycle]);
 
-  useEffect(() => { setTouch(window.matchMedia('(pointer: coarse)').matches); }, []);
-
+  // The field: created once, driven by refs so React renders stay cheap.
   useEffect(() => {
     const canvas = canvasRef.current;
     const wrap = wrapRef.current;
     if (!canvas || !wrap) return undefined;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return undefined;
-
-    const rand = rng(20200);
-    const N = 170;
-    const lines: Line[] = [];
-    const A0 = Math.PI * 1.04;   // just below the left horizon
-    const A1 = Math.PI * 1.96;   // just below the right horizon
-    for (let i = 0; i < N; i++) {
-      const a = A0 + (A1 - A0) * (i + rand() * 0.9) / N;
-      const centre = 1 - Math.abs((a - Math.PI * 1.5) / (Math.PI * 0.46)); // longer in the middle
-      const len = 0.58 + 0.34 * centre * (0.55 + rand() * 0.45) + rand() * 0.08;
-      const big = rand() < 0.14;
-      lines.push({ a, len, r: big ? 2.6 + rand() * 1.4 : 0.9 + rand() * 1.3, big, ca: a, cl: 0, dest: 0, born: -1e9 });
+    let field: LinkField;
+    try {
+      field = new LinkField(canvas, SKIES[todNow()].lines, LOCATIONS.length);
+    } catch {
+      setWebgl(false);
+      return undefined;
     }
-    // Seven destinations on an arc; each line is routed to the nearest one.
-    const DEST = LOCATIONS.map((_, i) => A0 + 0.12 + (A1 - A0 - 0.24) * (i + 0.5) / LOCATIONS.length);
-    lines.forEach((l) => {
-      let best = 0;
-      DEST.forEach((d, k) => { if (Math.abs(d - l.a) < Math.abs(DEST[best] - l.a)) best = k; });
-      l.dest = best;
-    });
-    // Neighbour pairs for the mesh (mode 01): tips close in angle and length.
-    const pairs: [number, number][] = [];
-    for (let i = 0; i < N; i++) {
-      for (let j = i + 1; j < Math.min(N, i + 9); j++) {
-        if (Math.abs(lines[i].len - lines[j].len) < 0.09 && rand() < 0.55) pairs.push([i, j]);
+    fieldRef.current = field;
+
+    let labelsOn = false;
+    field.onLabels = (pts) => {
+      const on = !!pts;
+      if (on !== labelsOn) {
+        labelsOn = on;
+        labelsRef.current.forEach((el) => { if (el) el.style.opacity = on ? '1' : '0'; });
       }
-    }
-
-    let w = 0, h = 0, R = 0, hx = 0, hy = 0, dpr = 1, destR = 0.98;
-    const resize = () => {
-      const rect = wrap.getBoundingClientRect();
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      w = rect.width; h = rect.height;
-      canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
-      canvas.style.width = `${w}px`; canvas.style.height = `${h}px`;
-      hx = w / 2; hy = h - 6;
-      // Narrow screens: the side lines are short, so the burst can run past half
-      // the width without the tips leaving the canvas.
-      R = Math.min(h - 36, w < 640 ? w * 0.62 : w * 0.48);
-      // Destination tips sit on an arc that must stay inside the canvas.
-      destR = Math.min(0.98, (w / 2 - 24) / R);
-      placeLabels();
-      if (reduced) draw(performance.now(), true);
-    };
-    const tip = (l: Line, len = l.cl, a = l.ca) => [hx + Math.cos(a) * R * len, hy + Math.sin(a) * R * len];
-
-    const placeLabels = () => {
-      DEST.forEach((d, k) => {
+      if (!pts) return;
+      const w = wrap.clientWidth;
+      // Each label sits just above its bundle; where two would touch (narrow
+      // screens), the later one steps up above the other.
+      const placed: { l: number; r: number; t: number; b: number }[] = [];
+      pts.forEach((p, k) => {
         const el = labelsRef.current[k];
         if (!el) return;
-        const half = el.offsetWidth / 2;
-        const x = Math.min(w - half - 8, Math.max(half + 8, hx + Math.cos(d) * R * destR));
-        const y = hy + Math.sin(d) * R * destR;
-        // On narrow screens alternate labels sit higher so neighbours don't touch.
-        const lift = w < 640 && k % 2 === 1 ? 210 : 140;
-        el.style.transform = `translate(${x - half}px, ${y}px) translate(0, -${lift}%)`;
+        const lw = el.offsetWidth, lh = el.offsetHeight;
+        const x = Math.min(w - lw - 8, Math.max(8, p.x - lw / 2));
+        let y = p.y - lh * 1.5;
+        for (const o of placed) {
+          if (x < o.r + 4 && x + lw > o.l - 4 && y < o.b + 3 && y + lh > o.t - 3) y = o.t - lh - 3;
+        }
+        placed.push({ l: x, r: x + lw, t: y, b: y + lh });
+        el.style.transform = `translate(${x}px, ${y}px)`;
       });
-    };
-
-    const pointer = { x: -9999, y: -9999, on: false };
-    const pulses: Pulse[] = [];
-    const branches: Branch[] = [];
-    const rings: Ring[] = [];
-    let lastPulse = 0;
-
-    const onMove = (e: PointerEvent) => {
-      const r = canvas.getBoundingClientRect();
-      pointer.x = e.clientX - r.left; pointer.y = e.clientY - r.top; pointer.on = true;
-    };
-    const onLeave = () => { pointer.on = false; };
-    const onDown = (e: PointerEvent) => {
-      onMove(e);
-      const now = performance.now();
-      rings.push({ t: now });
-      // Light out along the lines nearest the click, and a few new links.
-      const ang = Math.atan2(pointer.y - hy, pointer.x - hx);
-      lines.forEach((l, i) => { if (Math.abs(l.ca - ang) < 0.22 && Math.random() < 0.6) pulses.push({ line: i, t: now, speed: 0.0011 + Math.random() * 0.0007 }); });
-      for (let k = 0; k < 4; k++) {
-        const a = Math.min(A1, Math.max(A0, ang + (Math.random() - 0.5) * 0.3));
-        let dest = 0;
-        DEST.forEach((d, n) => { if (Math.abs(d - a) < Math.abs(DEST[dest] - a)) dest = n; });
-        lines.push({ a, len: 0.5 + Math.random() * 0.45, r: 1 + Math.random() * 2, big: Math.random() < 0.3, ca: a, cl: 0, dest, born: now });
-      }
-      if (lines.length > N + 60) lines.splice(N, lines.length - N - 60);
-      if (reduced) draw(now, true);
     };
 
     let raf = 0;
-    let visible = true;
-    let last = performance.now();
-
-    function draw(now: number, still = false) {
-      const dt = Math.min(64, now - last); last = now;
-      const m = modeRef.current;
-      const k = still ? 1 : 1 - Math.pow(0.0025, dt / 1000); // smoothing factor per frame
-      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx!.clearRect(0, 0, w, h);
-
-      const pAng = Math.atan2(pointer.y - hy, pointer.x - hx);
-      const pDist = Math.hypot(pointer.x - hx, pointer.y - hy) / R;
-      const breathe = m === 2 ? 0.86 + 0.14 * Math.sin(now / 1400) : 1;
-
-      // Ease every line towards its target for the current mode.
-      lines.forEach((l) => {
-        let ta = l.a;
-        let tl = l.len * breathe;
-        if (m === 3) { ta = DEST[l.dest] + (l.a - DEST[l.dest]) * 0.12; tl = destR; }
-        if (pointer.on && !still) {
-          const da = pAng - ta;
-          if (Math.abs(da) < 0.35 && pDist < 1.25) ta += da * 0.18 * (1 - Math.abs(da) / 0.35);
-        }
-        const grow = l.born > 0 ? Math.min(1, (now - l.born) / 900) : 1;
-        l.ca += (ta - l.ca) * k;
-        l.cl += (tl * grow - l.cl) * k;
-      });
-
-      // Growth rings (mode 03) and click rings.
-      if (m === 2 && !still && now - lastPulse > 1600) { rings.push({ t: now }); lastPulse = now; }
-      for (let i = rings.length - 1; i >= 0; i--) {
-        const p = (now - rings[i].t) / 2400;
-        if (p >= 1) { rings.splice(i, 1); continue; }
-        ctx!.beginPath();
-        ctx!.arc(hx, hy, R * (0.08 + p), Math.PI, Math.PI * 2);
-        ctx!.strokeStyle = rgba(RED, 0.28 * (1 - p));
-        ctx!.lineWidth = 1;
-        ctx!.stroke();
-      }
-
-      // Lines: ink near the hub fading out; red where the pointer leans them.
-      lines.forEach((l) => {
-        const [x, y] = tip(l);
-        const lean = pointer.on ? Math.max(0, 1 - Math.abs(pAng - l.ca) / 0.2) * (pDist < 1.25 ? 1 : 0) : 0;
-        const g = ctx!.createLinearGradient(hx, hy, x, y);
-        g.addColorStop(0, rgba(INK, 0.05));
-        g.addColorStop(1, lean > 0 ? rgba(RED, 0.25 + 0.5 * lean) : rgba(m === 3 ? RED : INK, m === 3 ? 0.28 : 0.2 + (l.big ? 0.12 : 0)));
-        ctx!.beginPath(); ctx!.moveTo(hx, hy); ctx!.lineTo(x, y);
-        ctx!.strokeStyle = g; ctx!.lineWidth = l.big ? 1 : 0.7; ctx!.stroke();
-      });
-
-      // Mesh between neighbouring tips (mode 01).
-      if (m === 0) {
-        const fade = 0.5 + 0.5 * Math.sin(now / 900);
-        ctx!.lineWidth = 0.6;
-        pairs.forEach(([i, j], n) => {
-          const [x1, y1] = tip(lines[i]); const [x2, y2] = tip(lines[j]);
-          ctx!.beginPath(); ctx!.moveTo(x1, y1); ctx!.lineTo(x2, y2);
-          ctx!.strokeStyle = rgba(RED, 0.1 + 0.18 * (n % 3 === 0 ? fade : 1 - fade));
-          ctx!.stroke();
-        });
-      }
-
-      // Opportunity (mode 02): pulses run out continuously; tips sprout branches.
-      if (m === 1 && !still && Math.random() < dt / 70) {
-        pulses.push({ line: Math.floor(Math.random() * lines.length), t: now, speed: 0.0008 + Math.random() * 0.0006 });
-      }
-      for (let i = pulses.length - 1; i >= 0; i--) {
-        const p = pulses[i]; const l = lines[p.line];
-        if (!l) { pulses.splice(i, 1); continue; }
-        const s = (now - p.t) * p.speed;
-        if (s >= 1) {
-          pulses.splice(i, 1);
-          if (m === 1 || Math.random() < 0.5) { const [x, y] = tip(l); branches.push({ x, y, a: l.ca + (Math.random() < 0.5 ? -1 : 1) * (0.3 + Math.random() * 0.4), len: 14 + Math.random() * 22, t: now }); }
-          continue;
-        }
-        const [x, y] = tip(l, l.cl * s);
-        ctx!.beginPath(); ctx!.arc(x, y, 2.2, 0, Math.PI * 2);
-        ctx!.fillStyle = rgba(RED, 0.9 * (1 - s * 0.4)); ctx!.fill();
-      }
-      for (let i = branches.length - 1; i >= 0; i--) {
-        const b = branches[i]; const p = (now - b.t) / 2600;
-        if (p >= 1) { branches.splice(i, 1); continue; }
-        const grow = Math.min(1, p * 4);
-        const x2 = b.x + Math.cos(b.a) * b.len * grow; const y2 = b.y + Math.sin(b.a) * b.len * grow;
-        ctx!.beginPath(); ctx!.moveTo(b.x, b.y); ctx!.lineTo(x2, y2);
-        ctx!.strokeStyle = rgba(RED, 0.55 * (1 - p)); ctx!.lineWidth = 0.8; ctx!.stroke();
-        ctx!.beginPath(); ctx!.arc(x2, y2, 1.6, 0, Math.PI * 2); ctx!.fillStyle = rgba(RED, 0.7 * (1 - p)); ctx!.fill();
-      }
-
-      // Tips.
-      lines.forEach((l) => {
-        const [x, y] = tip(l);
-        const near = pointer.on ? Math.max(0, 1 - Math.hypot(pointer.x - x, pointer.y - y) / 120) : 0;
-        ctx!.beginPath(); ctx!.arc(x, y, l.r * (1 + near * 0.8), 0, Math.PI * 2);
-        ctx!.fillStyle = l.big || near > 0 ? rgba(RED, 0.75 + 0.25 * near) : rgba(INK, 0.45);
-        ctx!.fill();
-      });
-
-      // The pointer joins the network: links to the tips around it.
-      if (pointer.on && !still) {
-        ctx!.lineWidth = 0.7;
-        lines.forEach((l) => {
-          const [x, y] = tip(l);
-          const d = Math.hypot(pointer.x - x, pointer.y - y);
-          if (d < 110) {
-            ctx!.beginPath(); ctx!.moveTo(pointer.x, pointer.y); ctx!.lineTo(x, y);
-            ctx!.strokeStyle = rgba(RED, 0.5 * (1 - d / 110)); ctx!.stroke();
-          }
-        });
-        ctx!.beginPath(); ctx!.arc(pointer.x, pointer.y, 3.2, 0, Math.PI * 2); ctx!.fillStyle = rgba(RED, 0.9); ctx!.fill();
-      }
-
-      // The hub.
-      ctx!.beginPath(); ctx!.arc(hx, hy, 7, 0, Math.PI * 2); ctx!.fillStyle = rgba(RED, 1); ctx!.fill();
-      ctx!.beginPath(); ctx!.arc(hx, hy, 14 + 3 * Math.sin(now / 600), 0, Math.PI * 2); ctx!.strokeStyle = rgba(RED, 0.25); ctx!.lineWidth = 1; ctx!.stroke();
-
-      // Destination labels follow mode 04.
-      labelsRef.current.forEach((el) => { if (el) el.style.opacity = m === 3 ? '1' : '0'; });
-    }
-
+    let visible = false;
     const loop = (now: number) => {
       raf = 0;
       if (!visible || document.hidden) return;
-      draw(now);
+      field.frame(now);
       raf = requestAnimationFrame(loop);
     };
-    const start = () => { if (!raf && !reduced) { last = performance.now(); raf = requestAnimationFrame(loop); } };
+    const start = () => { if (!raf && !reduced) raf = requestAnimationFrame(loop); };
+    const still = () => field.frame(performance.now(), true);
 
-    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) start(); }, { threshold: 0.05 });
-    io.observe(wrap);
+    const resize = () => {
+      field.resize(wrap.clientWidth, wrap.clientHeight);
+      if (reduced) still();
+    };
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      setInView(visible);
+      if (visible) start();
+    }, { threshold: 0.05 });
     const ro = new ResizeObserver(resize);
-    ro.observe(wrap);
     const onVis = () => { if (!document.hidden) start(); };
+    const onMove = (e: PointerEvent) => field.pointer(e.clientX, e.clientY);
+    const onLeave = () => field.leave();
+    const onDown = (e: PointerEvent) => field.spark(e.clientX, e.clientY);
+    io.observe(wrap);
+    ro.observe(wrap);
     document.addEventListener('visibilitychange', onVis);
     canvas.addEventListener('pointermove', onMove);
     canvas.addEventListener('pointerleave', onLeave);
     canvas.addEventListener('pointerdown', onDown);
     resize();
-    if (reduced) {
-      lines.forEach((l) => { l.cl = l.len; });
-      draw(performance.now(), true);
-    } else start();
-
-    // Re-draw once when the mode changes under reduced motion.
-    const redraw = () => { if (reduced) draw(performance.now(), true); };
-    window.addEventListener('hilink-link-mode', redraw);
+    if (reduced) still();
 
     return () => {
       cancelAnimationFrame(raf);
-      io.disconnect(); ro.disconnect();
+      io.disconnect();
+      ro.disconnect();
       document.removeEventListener('visibilitychange', onVis);
       canvas.removeEventListener('pointermove', onMove);
       canvas.removeEventListener('pointerleave', onLeave);
       canvas.removeEventListener('pointerdown', onDown);
-      window.removeEventListener('hilink-link-mode', redraw);
+      field.dispose();
+      fieldRef.current = null;
     };
   }, [reduced]);
 
-  const choose = (i: Mode) => {
-    setMode(i);
-    setProgressKey((k) => k + 1);
-    modeRef.current = i;
-    window.dispatchEvent(new Event('hilink-link-mode'));
-  };
+  useEffect(() => {
+    const f = fieldRef.current;
+    if (!f) return;
+    f.scene = scene;
+    if (reduced) f.frame(performance.now(), true);
+  }, [scene, reduced]);
+
+  useEffect(() => {
+    const f = fieldRef.current;
+    if (!f) return;
+    f.setPalette(sky.lines, reduced);
+    if (reduced) f.frame(performance.now(), true);
+  }, [sky, reduced]);
+
+  // Close the menu on outside click or Escape.
+  useEffect(() => {
+    if (!menu) return undefined;
+    const onDown = (e: PointerEvent) => { if (!menuRef.current?.contains(e.target as Node)) setMenu(false); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenu(false); };
+    document.addEventListener('pointerdown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => { document.removeEventListener('pointerdown', onDown); document.removeEventListener('keydown', onKey); };
+  }, [menu]);
+
+  const choose = (i: Scene) => { setScene(i); setCycle((c) => c + 1); };
+
+  const ink = sky.dark ? 'text-white' : 'text-[#2A2623]';
+  const muted = sky.dark ? 'text-white/60' : 'text-[#6B645D]';
+  const hair = sky.dark ? 'border-white/15' : 'border-[#2A2623]/12';
+  const chip = sky.dark ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-white/70 hover:bg-white text-[#2A2623] shadow-[0_1px_6px_rgba(42,38,35,0.1)]';
+  const active = t.stats[scene];
 
   return (
-    <section
-      className="relative overflow-hidden bg-white py-20 lg:py-28"
-      style={{ backgroundImage: 'radial-gradient(ellipse 60% 55% at 50% 100%, rgba(209,33,38,0.2), rgba(251,236,236,0.7) 38%, rgba(244,240,234,0.55) 58%, rgba(255,255,255,0) 80%)' }}
-    >
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-end">
-          <div className="lg:col-span-7">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-6 flex items-center gap-3">
-              <span className="w-8 h-px bg-[#D12126]" /> {t.eyebrow}
-            </p>
-            <h2 className="serif leading-[1.05]">{t.title}</h2>
-          </div>
-          <p className="lg:col-span-5 text-[#6B645D] text-[1.0625rem] leading-relaxed">{t.lead}</p>
-        </div>
-      </div>
+    <section className={`relative overflow-hidden bg-white transition-colors duration-[1200ms] ${ink}`} aria-labelledby="hl-link-title">
+      {/* Skies, crossfading like Stripe's backgrounds. */}
+      {TODS.map((k) => (
+        <div
+          key={k}
+          aria-hidden="true"
+          className="absolute inset-0 transition-opacity duration-[1200ms] ease-in-out"
+          style={{ backgroundImage: SKIES[k].bg, opacity: k === tod ? 1 : 0 }}
+        />
+      ))}
 
-      {/* The field. Purely visual: the same ideas are in the pillars below. */}
-      <div ref={wrapRef} className="relative mt-8 h-[360px] sm:h-[440px] lg:h-[520px] w-full select-none" aria-hidden="true">
-        <canvas ref={canvasRef} className="absolute inset-0 cursor-crosshair touch-pan-y" />
-        {LOCATIONS.map((loc, i) => (
-          <span
-            key={loc.id}
-            ref={(el) => { labelsRef.current[i] = el; }}
-            className="pointer-events-none absolute left-0 top-0 whitespace-nowrap rounded-full bg-white/90 px-2.5 sm:px-3 py-1 text-[10px] sm:text-[11px] font-medium text-[#2A2623] shadow-[0_1px_8px_rgba(42,38,35,0.12)] transition-opacity duration-700"
-            style={{ opacity: 0 }}
-          >
-            <span className="hidden sm:inline">{loc.name}</span>
-            <span className="sm:hidden">{loc.name.replace('4 Ton That Tung · Floor ', 'TTT · F')}</span>
-          </span>
-        ))}
-        <p className="pointer-events-none absolute top-3 left-6 sm:left-auto sm:right-6 lg:right-12 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-[#6B645D]">
-          {touch ? t.hintTouch : t.hint}
-        </p>
-      </div>
-
-      {/* Pillars: numbered tabs with a progress line, Brookfield/McKinsey style. */}
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-        <div role="tablist" aria-label={t.eyebrow} className="grid sm:grid-cols-2 lg:grid-cols-4 border-t border-[#2A2623]/15">
-          {t.pillars.map((p, i) => {
-            const active = mode === i;
-            return (
+      <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12">
+        <div className={`relative border-x ${hair} transition-colors duration-[1200ms]`}>
+          {/* Controls, top right. */}
+          <div className="absolute right-3 top-4 lg:right-5 lg:top-6 z-20 flex items-center gap-2" ref={menuRef}>
+            {!reduced && webgl && (
               <button
-                key={p.t}
-                role="tab"
-                aria-selected={active}
-                onClick={() => choose(i as Mode)}
-                className={`group relative text-left pt-7 pb-8 pr-8 transition-colors ${active ? '' : 'opacity-60 hover:opacity-100'}`}
+                type="button"
+                onClick={() => setPlaying((v) => !v)}
+                aria-label={playing ? t.pause : t.play}
+                className={`grid h-9 w-9 place-items-center rounded-full backdrop-blur transition-colors ${chip}`}
               >
-                <span className="absolute left-0 top-[-1px] h-[2px] w-full bg-transparent">
-                  {active && (
-                    <span
-                      key={`${progressKey}-${i}`}
-                      className="block h-full bg-[#D12126]"
-                      style={{ animation: playing && !reduced ? `hl-progress ${MODE_MS}ms linear forwards` : 'none', width: playing && !reduced ? undefined : '100%' }}
-                    />
-                  )}
-                </span>
-                <span className="block text-[11px] font-semibold tracking-[0.16em] text-[#D12126] mb-3">{String(i + 1).padStart(2, '0')}</span>
-                <span className="block serif text-[1.45rem] leading-snug text-[#2A2623] mb-3">{p.t}</span>
-                <span className="block text-[14px] leading-relaxed text-[#6B645D] mb-4">{p.d}</span>
-                <span className={`inline-block text-[11px] uppercase tracking-[0.14em] ${active ? 'text-[#2A2623]' : 'text-[#6B645D]'}`}>{p.f}</span>
+                {playing ? <Pause size={14} /> : <Play size={14} />}
               </button>
-            );
-          })}
+            )}
+            <button
+              type="button"
+              onClick={() => setMenu((v) => !v)}
+              aria-haspopup="menu"
+              aria-expanded={menu}
+              aria-label={`${t.todLabel}: ${t.tod[tod]}`}
+              className={`grid h-9 w-9 place-items-center rounded-full backdrop-blur transition-colors ${chip}`}
+            >
+              <sky.Icon size={16} />
+            </button>
+            {menu && (
+              <div role="menu" aria-label={t.todLabel} className="absolute right-0 top-11 w-44 rounded-xl bg-white p-1.5 text-[#2A2623] shadow-[0_12px_40px_rgba(42,38,35,0.18)]">
+                {TODS.map((k) => {
+                  const Icon = SKIES[k].Icon;
+                  return (
+                    <button
+                      key={k}
+                      type="button"
+                      role="menuitemradio"
+                      aria-checked={k === tod}
+                      onClick={() => { setTod(k); setMenu(false); }}
+                      className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-[13px] transition-colors ${k === tod ? 'bg-[#FBECEC] text-[#B01B20]' : 'hover:bg-[#F4F0EA]'}`}
+                    >
+                      <Icon size={15} /> {t.tod[k]}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Heading. */}
+          <div className="relative z-10 mx-auto max-w-3xl px-6 pt-20 lg:pt-28 text-center">
+            <p className={`mb-6 inline-flex items-center gap-2.5 text-[11px] uppercase tracking-[0.3em] ${sky.dark ? 'text-[#F06A6E]' : 'text-[#D12126]'}`}>
+              <Flag /> {t.eyebrow}
+            </p>
+            <h2 id="hl-link-title" className="serif leading-[1.05]">{t.title}</h2>
+            <p className={`mx-auto mt-6 max-w-2xl text-[1.0625rem] leading-relaxed transition-colors duration-[1200ms] ${muted}`}>{t.lead}</p>
+          </div>
+
+          {/* The field. Purely visual: the same ideas are in the stats and caption. */}
+          <div ref={wrapRef} className="relative mt-4 sm:mt-0 h-[340px] sm:h-[440px] lg:h-[540px] select-none" aria-hidden="true">
+            <canvas ref={canvasRef} className="absolute inset-0 cursor-crosshair touch-pan-y" />
+            {LOCATIONS.map((loc, i) => (
+              <span
+                key={loc.id}
+                ref={(el) => { labelsRef.current[i] = el; }}
+                className="pointer-events-none absolute left-0 top-0 whitespace-nowrap rounded-full bg-white/90 px-2 sm:px-3 py-1 text-[9px] sm:text-[11px] font-medium text-[#2A2623] shadow-[0_1px_8px_rgba(42,38,35,0.12)] transition-opacity duration-700"
+                style={{ opacity: 0 }}
+              >
+                <span className="hidden sm:inline">{loc.name}</span>
+                <span className="sm:hidden">{loc.name.replace('4 Ton That Tung · Floor ', 'TTT · F').replace(/^\d+ /, '')}</span>
+              </span>
+            ))}
+            {webgl && !reduced && (
+              <p className={`pointer-events-none absolute top-0 left-5 right-5 lg:left-8 text-center sm:text-left text-[10px] sm:text-[11px] uppercase tracking-[0.2em] transition-colors duration-[1200ms] ${muted}`}>
+                {touch ? t.hintTouch : t.hint}
+              </p>
+            )}
+          </div>
+
+          {/* Stats and caption sit on frosted glass over the glow. */}
+          <div className={`relative backdrop-blur-xl transition-colors duration-[1200ms] ${sky.dark ? 'bg-[#1C1616]/25' : 'bg-white/60'}`}>
+          {/* Stats: Stripe's framed row with a sliding indicator on both rules. */}
+          <div role="tablist" aria-label={t.eyebrow} className={`relative grid grid-cols-2 lg:grid-cols-4 border-y ${hair} transition-colors duration-[1200ms]`}>
+            {[-1, 'auto'].map((pos) => (
+              <span
+                key={String(pos)}
+                aria-hidden="true"
+                className="pointer-events-none absolute hidden lg:block h-px w-1/4 transition-[left] duration-[400ms] ease-[cubic-bezier(0.65,0,0.35,1)]"
+                style={{
+                  left: `${scene * 25}%`,
+                  ...(pos === -1 ? { top: -1 } : { bottom: -1 }),
+                  background: `linear-gradient(90deg, transparent, ${sky.dark ? '#F06A6E' : '#D12126'} 30%, ${sky.dark ? '#F06A6E' : '#D12126'} 70%, transparent)`,
+                }}
+              />
+            ))}
+            {t.stats.map((s, i) => {
+              const on = scene === i;
+              return (
+                <button
+                  key={s.t}
+                  type="button"
+                  role="tab"
+                  aria-selected={on}
+                  aria-controls="hl-link-caption"
+                  onClick={() => choose(i as Scene)}
+                  className={`relative px-5 py-6 lg:px-8 lg:py-9 text-left transition-colors duration-300 ${i % 2 ? `border-l ${hair}` : ''} ${i > 1 ? `border-t lg:border-t-0 ${hair}` : ''} ${i === 2 ? 'lg:border-l' : ''}`}
+                >
+                  {/* Mobile: each cell carries its own line. */}
+                  <span
+                    aria-hidden="true"
+                    className={`lg:hidden absolute left-0 right-0 top-[-1px] h-px origin-left transition-transform duration-[400ms] ${on ? 'scale-x-100' : 'scale-x-0'}`}
+                    style={{ background: sky.dark ? '#F06A6E' : '#D12126' }}
+                  />
+                  <span className={`block serif text-[2.25rem] lg:text-[3.25rem] leading-none tracking-tight transition-opacity duration-300 ${on ? 'opacity-100' : 'opacity-35'}`}>{s.n}</span>
+                  <span className={`mt-3 block text-[13px] lg:text-[14px] leading-snug transition-opacity duration-300 ${on ? 'opacity-100' : 'opacity-50'}`}>{s.l}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Caption for the chosen stat. */}
+          <div id="hl-link-caption" role="tabpanel" aria-live="polite" className="mx-auto max-w-2xl px-6 py-12 lg:py-16 text-center">
+            <p key={scene} className="text-[1.0625rem] leading-relaxed animate-[hl-fade-up_0.6s_ease_both]">
+              <span className="font-semibold">{active.t}.</span>{' '}
+              <span className={`transition-colors duration-[1200ms] ${muted}`}>{active.d}</span>
+            </p>
+          </div>
+          </div>
         </div>
-        {!reduced && (
-          <button
-            onClick={() => { setPlaying((v) => !v); setProgressKey((k) => k + 1); }}
-            className="mt-2 text-[11px] uppercase tracking-[0.18em] text-[#6B645D] hover:text-[#D12126] transition-colors"
-          >
-            {playing ? t.pause : t.play}
-          </button>
-        )}
       </div>
     </section>
   );

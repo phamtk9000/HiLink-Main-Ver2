@@ -5,6 +5,7 @@ import { FAQ } from '../components/FAQ';
 import { LOCATIONS } from '../data/locations';
 import { PARTNERS } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
+import { Flag } from '../components/Flag';
 
 const SERVICE_META = [
   { icon: <Globe size={28} />, image: '/photos/hbc-client-meeting.webp' },
@@ -113,7 +114,7 @@ export function BusinessConsultingPage() {
 
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 pb-20 w-full">
           <div className="max-w-3xl">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#F06A6E] mb-8">{t.eyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#F06A6E] mb-8 flex items-center gap-2.5"><Flag /> {t.eyebrow}</p>
             <h1
               className="serif text-white mb-8 leading-[1.05]"
               style={{ fontSize: 'clamp(3rem, 6vw, 6rem)', fontWeight: 300 }}
@@ -156,7 +157,7 @@ export function BusinessConsultingPage() {
       <section id="services" className="bg-[#F4F0EA] py-28">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.svcEyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.svcEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{t.svcTitle}</h2>
           </div>
 
@@ -219,7 +220,7 @@ export function BusinessConsultingPage() {
       <section className="bg-white py-28">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-20">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.howEyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.howEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl max-w-lg">{t.howTitle}</h2>
           </div>
 
@@ -240,7 +241,7 @@ export function BusinessConsultingPage() {
       <section className="bg-[#F4F0EA] py-28 text-[#2A2623]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.secEyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.secEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{t.secTitle}</h2>
           </div>
 
@@ -261,7 +262,7 @@ export function BusinessConsultingPage() {
       <section className="bg-white py-28">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-16 text-center">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4">{t.prtEyebrow}</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.prtEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.prtTitle}</h2>
             <p className="text-lg text-[#6B645D] max-w-2xl mx-auto">
               {t.prtLead}

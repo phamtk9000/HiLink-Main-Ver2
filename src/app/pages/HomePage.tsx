@@ -4,9 +4,11 @@ import { motion } from 'motion/react';
 import { useRef } from 'react';
 import { AnimatedCounter } from '../components/AnimatedCounter';
 import { LinkPhilosophy } from '../components/LinkPhilosophy';
+import { ForumCarousel } from '../components/ForumCarousel';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { LOCATIONS, WORKSPACE_LINES } from '../data/locations';
 import { ws } from '../data/site';
+import { Flag } from '../components/Flag';
 
 const IMG = {
   hero: '/photos/f15-lounge-wide-xl.webp',
@@ -109,7 +111,7 @@ export function HomePage() {
             className="text-[11px] uppercase tracking-[0.32em] text-[#F06A6E] mb-7 flex items-center gap-3"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7 }}
           >
-            <span className="w-8 h-px bg-[#F06A6E]" /> {t.eyebrow}
+            <Flag className="text-[#F06A6E]" /> {t.eyebrow}
           </motion.p>
           <motion.h1
             className="serif text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[0.98] mb-8 max-w-5xl"
@@ -148,7 +150,7 @@ export function HomePage() {
           </div>
 
           <div className="px-10 lg:px-16 py-16 lg:py-20 flex flex-col justify-center">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-10">{t.aboutEyebrow}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-10 flex items-center gap-2.5"><Flag /> {t.aboutEyebrow}</p>
             <h2 className="serif text-[#D12126] mb-6 leading-none" style={{ fontSize: 'clamp(3rem, 5vw, 5rem)', fontWeight: 400, letterSpacing: '0.06em' }}>HILINK</h2>
             <p className="text-[18px] uppercase tracking-[0.08em] text-[#2A2623] mb-6">{t.aboutSub}</p>
             <div className="w-full h-px mb-6" style={{ backgroundColor: 'rgba(209,33,38,0.3)' }} />
@@ -192,7 +194,7 @@ export function HomePage() {
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 mb-20">
             <div className="lg:col-span-4">
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5">{t.svcEyebrow}</p>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.svcEyebrow}</p>
               <h2 className="serif text-5xl lg:text-6xl">{t.svcTitle}</h2>
             </div>
             <div className="lg:col-span-8 flex items-end">
@@ -225,7 +227,7 @@ export function HomePage() {
           <div className="flex flex-wrap items-end justify-between gap-8 mb-14">
             <div>
               <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-3">
-                <span className="w-8 h-px bg-[#D12126]" /> {t.prjEyebrow}
+                <Flag className="text-[#D12126]" /> {t.prjEyebrow}
               </p>
               <h2 className="serif text-4xl lg:text-6xl leading-none">{t.prjTitle}</h2>
             </div>
@@ -256,7 +258,7 @@ export function HomePage() {
                   <span className="absolute top-4 left-4 text-[9px] uppercase tracking-[0.18em] bg-[#D12126] text-white px-3 py-1.5">
                     {loc.comingSoon ? t.soon : loc.line ? WORKSPACE_LINES[loc.line].label : 'HiLink'}
                   </span>
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                     <h3 className="serif text-2xl mb-1.5 leading-tight">{loc.name}</h3>
                     <p className="text-[12px] text-[#E9E3DA]/70 flex items-start gap-1.5">
                       <span className="text-[#F06A6E] mt-0.5">◦</span> {loc.address}
@@ -274,7 +276,7 @@ export function HomePage() {
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-6">{t.whyEyebrow}</p>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-6 flex items-center gap-2.5"><Flag /> {t.whyEyebrow}</p>
               <h2 className="serif text-4xl lg:text-5xl mb-8 leading-tight">{t.whyTitle}</h2>
               <p className="text-lg text-[#6B645D] mb-8 leading-relaxed">
                 {t.whyBody}
@@ -289,6 +291,9 @@ export function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ── Forum ── */}
+      <ForumCarousel />
 
       {/* ── CTA ── */}
       <section className="relative py-28 lg:py-36 bg-[#FBECEC] text-[#2A2623] overflow-hidden">

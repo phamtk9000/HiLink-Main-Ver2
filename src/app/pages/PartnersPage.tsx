@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { HeroBg } from '../components/HeroBg';
 import { PARTNERS } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
+import { Flag } from '../components/Flag';
 
 const TYPE_META = [
   { icon: <Building size={28} />, image: '/photos/f19-window.webp' },
@@ -93,7 +94,7 @@ export function PartnersPage() {
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28 w-full">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-4xl">
             <p className="text-[11px] uppercase tracking-[0.3em] text-[#F06A6E] mb-7 flex items-center gap-3">
-              <span className="w-8 h-px bg-[#F06A6E]" /> {t.eyebrow}
+              <Flag className="text-[#F06A6E]" /> {t.eyebrow}
             </p>
             <h1 className="serif text-5xl lg:text-[5rem] mb-8 leading-[0.98]">{t.h1a}<br />{t.h1b}</h1>
             <p className="text-lg md:text-xl text-[#E9E3DA]/90 leading-relaxed max-w-2xl">
@@ -107,7 +108,7 @@ export function PartnersPage() {
       <section className="py-24 lg:py-32 bg-[#F4F0EA]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-12 lg:gap-24">
           <div className="lg:col-span-5">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5">{t.introEyebrow}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.introEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl leading-tight">{t.introTitle}</h2>
           </div>
           <div className="lg:col-span-7 flex items-center">
@@ -122,7 +123,7 @@ export function PartnersPage() {
       <section id="our-partners" className="py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="text-center mb-16">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5">{t.typesEyebrow}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.typesEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{t.typesTitle}</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -147,7 +148,7 @@ export function PartnersPage() {
       <section className="py-24 lg:py-32 bg-[#F4F0EA] text-[#2A2623]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5">{t.whyEyebrow}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.whyEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl mb-12 leading-tight">{t.whyTitle}</h2>
             <div className="grid sm:grid-cols-2 gap-px bg-[#2A2623]/10">
               {t.benefits.map(([title, desc], i) => (
@@ -168,7 +169,7 @@ export function PartnersPage() {
       {/* Partners strip */}
       <section className="py-20 bg-white border-y border-[#2A2623]/10">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-8">{t.stripLbl}</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-8 flex items-center gap-2.5"><Flag /> {t.stripLbl}</p>
           <div className="flex flex-wrap justify-center items-center gap-x-10 gap-y-4">
             {PARTNERS.map((p) => (
               <span key={p.id} className="serif text-2xl text-[#2A2623]/35 hover:text-[#D12126] transition-colors">{p.name}</span>
@@ -181,7 +182,7 @@ export function PartnersPage() {
       <section className="py-24 lg:py-32 bg-[#F4F0EA]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="mb-14 max-w-2xl">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5">{t.howEyebrow}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.howEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl leading-tight">{t.howTitle}</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#2A2623]/10">
