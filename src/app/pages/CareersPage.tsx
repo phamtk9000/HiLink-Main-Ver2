@@ -168,7 +168,7 @@ export function CareersPage() {
       <section className="py-24 lg:py-32 bg-[#F4F0EA] text-[#2A2623]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className="relative aspect-[4/3] overflow-hidden">
-            <img src="/photos/hbc-team.webp" alt={t.teamAlt} className="w-full h-full object-cover" />
+            <img loading="lazy" decoding="async" src="/photos/hbc-team.webp" alt={t.teamAlt} className="w-full h-full object-cover" />
           </div>
           <div>
             <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5">{c.benefitsE}</p>

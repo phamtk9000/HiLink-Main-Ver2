@@ -183,7 +183,7 @@ export function ConciergePage() {
               </div>
             </div>
             <div className="relative aspect-[3/4] overflow-hidden">
-              <img
+              <img loading="lazy" decoding="async"
                 src="/photos/hbc-reception.webp"
                 alt={t.diffAlt}
                 className="w-full h-full object-cover"
@@ -288,7 +288,7 @@ function ServiceCard({ icon, title, description, image }: {
       transition={{ duration: 0.3 }}
     >
       <div className="relative aspect-[4/3] overflow-hidden">
-        <img
+        <img loading="lazy" decoding="async"
           src={image}
           alt={title}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"

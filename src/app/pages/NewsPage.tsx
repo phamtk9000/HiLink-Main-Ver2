@@ -192,7 +192,7 @@ function ArticleCard({ category, title, excerpt, date, image, href }: {
     >
       <a href={href} target="_blank" rel="noopener noreferrer" className="block">
         <div className="relative aspect-[4/3] overflow-hidden mb-6">
-          <motion.img
+          <motion.img loading="lazy" decoding="async"
             src={image}
             alt={title}
             className="w-full h-full object-cover"

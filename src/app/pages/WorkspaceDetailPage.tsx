@@ -146,7 +146,7 @@ function Lightbox({ images, startIndex, onClose }: {
                 i === current ? 'ring-2 ring-[#D12126]' : 'opacity-50 hover:opacity-80'
               }`}
             >
-              <img
+              <img loading="lazy" decoding="async"
                 src={img.file}
                 alt={img.label[lang]}
                 className="w-full h-full object-cover"
@@ -177,7 +177,7 @@ function PhotoGrid({ images, onOpen }: {
         onClick={() => onOpen(0)}
         aria-label={t.open(1)}
       >
-        <img
+        <img loading="lazy" decoding="async"
           src={shown[0].file}
           alt={shown[0].label[lang]}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -193,7 +193,7 @@ function PhotoGrid({ images, onOpen }: {
           onClick={() => onOpen(i + 1)}
           aria-label={t.open(i + 2)}
         >
-          <img
+          <img loading="lazy" decoding="async"
             src={img.file}
             alt={img.label[lang]}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -359,7 +359,7 @@ export function WorkspaceDetailPage() {
                         setLightboxIndex(globalIndex >= 0 ? globalIndex : i);
                       }}
                     >
-                      <img
+                      <img loading="lazy" decoding="async"
                         src={img.file}
                         alt={img.label[lang]}
                         className="w-full object-cover transition-transform duration-500 group-hover:scale-105"

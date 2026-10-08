@@ -1,1 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+/* Self-hosted variable fonts (no third-party request, no render-blocking
+   @import chain). Only the subsets a page actually uses are downloaded —
+   each @font-face carries a unicode-range, Vietnamese included. */
+@import '@fontsource-variable/inter/wght.css';
+@import '@fontsource-variable/playfair-display/wght.css';
+@import '@fontsource-variable/playfair-display/wght-italic.css';

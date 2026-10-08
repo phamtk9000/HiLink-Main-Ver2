@@ -82,7 +82,7 @@ export function AboutPage() {
             <div className="lg:w-[35%]">
               <div className="lg:sticky lg:top-32 space-y-8">
                 <div className="relative aspect-[3/4] overflow-hidden">
-                  <img
+                  <img loading="lazy" decoding="async"
                     src="/photos/hbc-desk.webp"
                     alt={t.storyAlt}
                     className="w-full h-full object-cover"
@@ -201,7 +201,7 @@ export function AboutPage() {
               const card = (
                 <>
                   <div className="relative aspect-[4/3] overflow-hidden">
-                    <img
+                    <img loading="lazy" decoding="async"
                       src={image}
                       alt={name}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"

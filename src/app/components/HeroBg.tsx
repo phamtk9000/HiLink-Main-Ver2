@@ -30,7 +30,7 @@ export function HeroBg({
           <source src={video} type="video/mp4" />
         </video>
       ) : (
-        <img src={image} alt="" className="w-full h-full object-cover" style={{ opacity }} />
+        <img src={image} alt="" fetchPriority="high" decoding="async" className="w-full h-full object-cover" style={{ opacity }} />
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623]/85 via-[#2A2623]/35 to-[#2A2623]/15" />
       <div className="absolute inset-0 bg-gradient-to-r from-[#2A2623]/65 via-[#2A2623]/20 to-transparent" />

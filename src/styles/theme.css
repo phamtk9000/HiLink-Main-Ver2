@@ -3,8 +3,8 @@
 :root {
   /* Typography Scale */
   --font-size: 16px;
-  --font-serif: 'Playfair Display', serif;
-  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Playfair Display Variable', Georgia, serif;
+  --font-sans: 'Inter Variable', system-ui, sans-serif;
 
   --step-h1: clamp(2rem, 5vw, 4.2rem);
   --step-h2: clamp(1.6rem, 3vw, 2.6rem);
@@ -265,7 +265,7 @@ footer {
   --pat-corner: 100% 0%;
 }
 main section[class*="bg-[#FBECEC]"] { --pat-ink: #D12126; --pat-base: 0.1; --pat-glow: 0.28; --pat-corner: 50% 100%; }
-footer { --pat-ink: #FFFFFF; --pat-base: 0.045; --pat-glow: 0.12; --pat-corner: 0% 0%; }
+footer { --pat-ink: #2A2623; --pat-base: 0.07; --pat-glow: 0.2; --pat-corner: 0% 0%; }
 main section[class*="bg-[#F4F0EA]"]:nth-of-type(even) { --pat-corner: 0% 100%; }
 
 main section[class*="bg-[#F4F0EA]"]::before,

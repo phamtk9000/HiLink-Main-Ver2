@@ -133,7 +133,7 @@ export function SolutionsPage() {
                   initial={{ opacity: 0, scale: 0.98 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.7 }}
                 >
                   {s.image ? (
-                    <img src={s.image} alt={s.title} className="w-full h-full object-cover" />
+                    <img src={s.image} alt={s.title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full bg-[#EDE7DF] flex flex-col items-start justify-end p-10 text-[#D12126]">
                       <Factory size={56} strokeWidth={1} className="mb-6" />

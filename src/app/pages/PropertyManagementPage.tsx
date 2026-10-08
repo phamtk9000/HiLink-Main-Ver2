@@ -437,7 +437,7 @@ function PropertyCard({ name, location, type, stats, image, to, href, viewLabel 
       transition={{ type: "spring", stiffness: 300 }}
     >
       <div className="relative aspect-[16/10] overflow-hidden">
-        <motion.img
+        <motion.img loading="lazy" decoding="async"
           src={image}
           alt={name}
           className="w-full h-full object-cover"

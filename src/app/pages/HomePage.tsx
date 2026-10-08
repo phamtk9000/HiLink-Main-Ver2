@@ -140,7 +140,7 @@ export function HomePage() {
       <section className="w-full bg-[#F4F0EA]">
         <div className="grid lg:grid-cols-[30%_1fr_28%] min-h-[680px]">
           <div className="relative overflow-hidden min-h-[400px] lg:min-h-0 group">
-            <img src={IMG.reception} alt={t.receptionAlt} className="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-105" />
+            <img loading="lazy" decoding="async" src={IMG.reception} alt={t.receptionAlt} className="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-105" />
           </div>
 
           <div className="px-10 lg:px-16 py-16 lg:py-20 flex flex-col justify-center">
@@ -173,7 +173,7 @@ export function HomePage() {
               ))}
             </div>
             <div className="relative overflow-hidden min-h-[200px] lg:min-h-[260px]">
-              <img src={IMG.panel} alt={t.panelAlt} className="w-full h-full object-cover" />
+              <img loading="lazy" decoding="async" src={IMG.panel} alt={t.panelAlt} className="w-full h-full object-cover" />
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center" style={{ backgroundColor: 'rgba(42,38,35,0.5)' }}>
                 <div className="serif text-white text-[72px] font-light leading-none">2020</div>
                 <div className="text-white uppercase tracking-[0.2em] text-[11px] mt-3">{t.est}</div>
@@ -247,7 +247,7 @@ export function HomePage() {
                 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ delay: (i % 4) * 0.08, duration: 0.6 }}
               >
                 <div className="relative aspect-[3/4] overflow-hidden bg-[#2A2623]">
-                  <img src={loc.photo} alt={loc.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-[0.9s] group-hover:scale-[1.07]" />
+                  <img loading="lazy" decoding="async" src={loc.photo} alt={loc.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-[0.9s] group-hover:scale-[1.07]" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623]/85 via-[#2A2623]/10 to-transparent" />
                   <span className="absolute top-4 left-4 text-[9px] uppercase tracking-[0.18em] bg-[#D12126] text-white px-3 py-1.5">
                     {loc.comingSoon ? t.soon : loc.line ? WORKSPACE_LINES[loc.line].label : 'HiLink'}
@@ -280,7 +280,7 @@ export function HomePage() {
               </Link>
             </div>
             <motion.div className="relative aspect-[4/3] overflow-hidden" whileHover={{ scale: 1.02 }} transition={{ duration: 0.4 }}>
-              <img src={IMG.lounge} alt={t.loungeAlt} className="w-full h-full object-cover" />
+              <img loading="lazy" decoding="async" src={IMG.lounge} alt={t.loungeAlt} className="w-full h-full object-cover" />
             </motion.div>
           </div>
         </div>

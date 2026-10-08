@@ -72,7 +72,7 @@ export function Header() {
               aria-label="HiLink — Your Solution"
             >
               <img
-                src={onDark ? '/brand/hilink-logo-light.png' : '/brand/hilink-logo.png'}
+                src="/brand/hilink-logo.png"
                 alt="HiLink — Your Solution"
                 className="h-10 lg:h-12 w-auto"
               />
@@ -81,10 +81,10 @@ export function Header() {
             {/* Right cluster */}
             <div className="flex items-center gap-5 sm:gap-7">
               {/* Language */}
-              <div className={`flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.14em] ${onDark ? 'text-[#F4F0EA]' : 'text-[#2A2623]'}`}>
-                <Link to={switchTo('en')} className={`transition-colors ${lang === 'en' ? 'text-[#F06A6E]' : 'opacity-45 hover:opacity-100'}`}>EN</Link>
+              <div className={`flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.14em] text-[#2A2623]`}>
+                <Link to={switchTo('en')} className={`transition-colors ${lang === 'en' ? 'text-[#D12126]' : 'opacity-45 hover:opacity-100'}`}>EN</Link>
                 <span className="opacity-30">/</span>
-                <Link to={switchTo('vi')} className={`transition-colors ${lang === 'vi' ? 'text-[#F06A6E]' : 'opacity-45 hover:opacity-100'}`}>VI</Link>
+                <Link to={switchTo('vi')} className={`transition-colors ${lang === 'vi' ? 'text-[#D12126]' : 'opacity-45 hover:opacity-100'}`}>VI</Link>
               </div>
 
               {/* Consultation — desktop only, hidden when overlay open */}
@@ -100,7 +100,7 @@ export function Header() {
               {/* Menu toggle */}
               <button
                 onClick={() => setIsOpen((o) => !o)}
-                className={`flex items-center gap-3 group ${onDark ? 'text-[#F4F0EA]' : 'text-[#2A2623]'}`}
+                className={`flex items-center gap-3 group text-[#2A2623]`}
                 aria-label={t.toggle}
               >
                 <span className="text-[11px] font-medium uppercase tracking-[0.18em] hidden sm:inline">
@@ -126,7 +126,7 @@ export function Header() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed inset-0 z-50 bg-[#2A2623] text-[#F4F0EA] overflow-y-auto"
+            className="fixed inset-0 z-50 bg-[#F4F0EA] text-[#2A2623] overflow-y-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -149,11 +149,11 @@ export function Header() {
                     >
                       <Link
                         to={l(item.path)}
-                        className="group flex items-center gap-4 py-2 lg:py-3 serif text-[2.4rem] lg:text-[4rem] leading-[1.05] text-[#F4F0EA] hover:text-[#F06A6E] transition-colors"
+                        className="group flex items-center gap-4 py-2 lg:py-3 serif text-[2.4rem] lg:text-[4rem] leading-[1.05] text-[#2A2623] hover:text-[#D12126] transition-colors"
                       >
-                        <span className="text-[11px] sans tracking-[0.2em] text-[#F06A6E] opacity-60 w-8 pt-4">0{i + 1}</span>
+                        <span className="text-[11px] sans tracking-[0.2em] text-[#D12126] opacity-60 w-8 pt-4">0{i + 1}</span>
                         {item[lang]}
-                        <ArrowUpRight className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-[#F06A6E]" size={28} />
+                        <ArrowUpRight className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-[#D12126]" size={28} />
                       </Link>
                     </motion.div>
                   ))}
@@ -161,16 +161,16 @@ export function Header() {
 
                 {/* Secondary: services + contact */}
                 <motion.div
-                  className="flex flex-col justify-center gap-12 border-l border-white/10 lg:pl-16"
+                  className="flex flex-col justify-center gap-12 border-l border-[#2A2623]/10 lg:pl-16"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.4, duration: 0.5 }}
                 >
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#F06A6E] mb-6">{t.ours}</p>
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-6">{t.ours}</p>
                     <div className="flex flex-col gap-3">
                       {SERVICE_LINKS.map((s) => (
-                        <Link key={s.path} to={l(s.path)} className="text-[15px] text-[#F4F0EA]/80 hover:text-[#F06A6E] hover:translate-x-1 transition-all w-fit">
+                        <Link key={s.path} to={l(s.path)} className="text-[15px] text-[#6B645D] hover:text-[#D12126] hover:translate-x-1 transition-all w-fit">
                           {s[lang]}
                         </Link>
                       ))}
@@ -178,9 +178,9 @@ export function Header() {
                   </div>
 
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#F06A6E] mb-6">{t.touch}</p>
-                    <a href={CONTACT.emailHref} className="block serif text-2xl text-[#F4F0EA] hover:text-[#F06A6E] transition-colors">{CONTACT.email}</a>
-                    <a href={CONTACT.phoneHref} className="block text-[#F4F0EA]/70 mt-2 hover:text-[#F06A6E] transition-colors">{CONTACT.phone}</a>
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-6">{t.touch}</p>
+                    <a href={CONTACT.emailHref} className="block serif text-2xl text-[#2A2623] hover:text-[#D12126] transition-colors">{CONTACT.email}</a>
+                    <a href={CONTACT.phoneHref} className="block text-[#6B645D] mt-2 hover:text-[#D12126] transition-colors">{CONTACT.phone}</a>
                     <Link
                       to={l('/book-consultation')}
                       className="mt-8 inline-flex items-center gap-2 px-8 py-4 bg-[#D12126] text-white text-[11px] uppercase tracking-[0.18em] hover:bg-[#A3181C] transition-colors"
@@ -192,7 +192,7 @@ export function Header() {
               </div>
 
               {/* Footer row */}
-              <div className="flex flex-wrap items-center justify-between gap-4 pt-10 border-t border-white/10 text-[11px] uppercase tracking-[0.18em] text-[#F4F0EA]/45">
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-10 border-t border-[#2A2623]/10 text-[11px] uppercase tracking-[0.18em] text-[#6B645D]">
                 <span>{t.addr}</span>
                 <span>© {new Date().getFullYear()} HiLink Vietnam</span>
               </div>

@@ -31,6 +31,20 @@ export default defineConfig({
     },
   },
 
+  // Long-lived vendor chunks: they change far less often than the pages, so
+  // returning visitors keep them cached across deploys.
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom', 'react-router'],
+          motion: ['motion/react'],
+          gsap: ['gsap', 'gsap/ScrollTrigger', 'gsap/SplitText', 'lenis'],
+        },
+      },
+    },
+  },
+
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ['**/*.svg', '**/*.csv', '**/*.avif', '**/*.webp'],
 })

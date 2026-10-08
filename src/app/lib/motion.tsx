@@ -14,17 +14,30 @@
 // All of it is off for visitors who ask for reduced motion.
 import { useEffect } from 'react';
 import { useLocation } from 'react-router';
-import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { SplitText } from 'gsap/SplitText';
-
-gsap.registerPlugin(ScrollTrigger, SplitText);
+import type Lenis from 'lenis';
+import type { SplitText as SplitTextType } from 'gsap/SplitText';
 
 declare global {
   interface Window { __lenis?: Lenis }
 }
+
+// GSAP and Lenis are not needed for the first paint, so they load as their
+// own chunk once the page is up. Cached: every caller shares one import.
+type MotionLibs = {
+  gsap: typeof import('gsap').gsap;
+  ScrollTrigger: typeof import('gsap/ScrollTrigger').ScrollTrigger;
+  SplitText: typeof import('gsap/SplitText').SplitText;
+  Lenis: typeof import('lenis').default;
+};
+let libs: Promise<MotionLibs> | null = null;
+const loadMotion = () =>
+  (libs ??= Promise.all([import('gsap'), import('gsap/ScrollTrigger'), import('gsap/SplitText'), import('lenis')]).then(
+    ([g, st, sp, l]) => {
+      g.gsap.registerPlugin(st.ScrollTrigger, sp.SplitText);
+      return { gsap: g.gsap, ScrollTrigger: st.ScrollTrigger, SplitText: sp.SplitText, Lenis: l.default };
+    },
+  ));
 
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -38,6 +51,10 @@ export function scrollTopNow() {
 export function SmoothScroll() {
   useEffect(() => {
     if (reducedMotion()) return undefined;
+    let cancelled = false;
+    let cleanup = () => {};
+    loadMotion().then(({ gsap, ScrollTrigger, Lenis }) => {
+    if (cancelled) return;
     const lenis = new Lenis({ lerp: 0.09, smoothWheel: true, anchors: true });
     window.__lenis = lenis;
     lenis.on('scroll', ScrollTrigger.update);
@@ -89,12 +106,14 @@ export function SmoothScroll() {
       });
     }
 
-    return () => {
+    cleanup = () => {
       window.clearTimeout(idle);
       gsap.ticker.remove(tick);
       lenis.destroy();
       delete window.__lenis;
     };
+    });
+    return () => { cancelled = true; cleanup(); };
   }, []);
   return null;
 }
@@ -115,11 +134,20 @@ export function ScrollMotion() {
   useEffect(() => {
     const main = document.querySelector('main');
     if (!main || reducedMotion()) return undefined;
-    const splits: SplitText[] = [];
-    let ctx: gsap.Context | undefined;
+    const splits: SplitTextType[] = [];
+    let ctx: { revert: () => void } | undefined;
+    let raf = 0;
+    let cancelled = false;
+    let refresh = () => {};
+    let timer = 0;
 
+    loadMotion().then(({ gsap, ScrollTrigger, SplitText }) => {
+    if (cancelled) return;
+    refresh = () => { window.clearTimeout(timer); timer = window.setTimeout(() => ScrollTrigger.refresh(), 120); };
+    document.addEventListener('load', refresh, true);
+    document.fonts?.ready.then(refresh).catch(() => {});
     // Wait one frame so the new page has laid out.
-    const raf = requestAnimationFrame(() => {
+    raf = requestAnimationFrame(() => {
       ctx = gsap.context(() => {
         // 1. Headings: h2 everywhere in main, h1 unless framer already animates it.
         main.querySelectorAll<HTMLElement>('h1, h2').forEach((el) => {
@@ -186,13 +214,10 @@ export function ScrollMotion() {
       // trigger positions in step with them.
       ScrollTrigger.refresh();
     });
-
-    let timer = 0;
-    const refresh = () => { window.clearTimeout(timer); timer = window.setTimeout(() => ScrollTrigger.refresh(), 120); };
-    document.addEventListener('load', refresh, true);
-    document.fonts?.ready.then(refresh).catch(() => {});
+    });
 
     return () => {
+      cancelled = true;
       cancelAnimationFrame(raf);
       window.clearTimeout(timer);
       document.removeEventListener('load', refresh, true);

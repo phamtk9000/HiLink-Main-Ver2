@@ -1,22 +1,6 @@
 import { createBrowserRouter, redirect, type LoaderFunctionArgs } from 'react-router';
 import { RootLayout } from './components/RootLayout';
 import { HomePage } from './pages/HomePage';
-import { AboutPage } from './pages/AboutPage';
-import { SolutionsPage } from './pages/SolutionsPage';
-import { WorkspacePage } from './pages/WorkspacePage';
-import { WorkspaceDetailPage } from './pages/WorkspaceDetailPage';
-import { PropertyManagementPage } from './pages/PropertyManagementPage';
-import { ConciergePage } from './pages/ConciergePage';
-import { ContactPage } from './pages/ContactPage';
-import { NewsPage } from './pages/NewsPage';
-import { BusinessConsultingPage } from './pages/BusinessConsultingPage';
-import { IndustrialPage } from './pages/IndustrialPage';
-import { PartnersPage } from './pages/PartnersPage';
-import { CareersPage } from './pages/CareersPage';
-import { BookConsultationPage } from './pages/BookConsultationPage';
-import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
-import { TermsPage } from './pages/TermsPage';
-import { NotFoundPage } from './pages/NotFoundPage';
 import { isLang } from './lib/i18n';
 
 // /:lang must be en or vi. Anything else is a path without a language —
@@ -30,6 +14,8 @@ function langGuard({ params, request }: LoaderFunctionArgs) {
 // Old slugs keep working.
 const moved = (to: string) => ({ params }: LoaderFunctionArgs) => redirect(`/${params.lang}${to}`);
 
+// The home page ships in the first bundle; every other page is its own chunk,
+// fetched when it is first visited.
 export const router = createBrowserRouter([
   { path: '/', loader: () => redirect('/en') },
   {
@@ -38,27 +24,27 @@ export const router = createBrowserRouter([
     Component: RootLayout,
     children: [
       { index: true, Component: HomePage },
-      { path: 'about', Component: AboutPage },
-      { path: 'solutions', Component: SolutionsPage },
-      { path: 'workspace-leasing', Component: WorkspacePage },
-      { path: 'workspace/:locationId', Component: WorkspaceDetailPage },
-      { path: 'property-management', Component: PropertyManagementPage },
-      { path: 'concierge-services', Component: ConciergePage },
-      { path: 'business-services', Component: BusinessConsultingPage },
-      { path: 'industrial-logistics', Component: IndustrialPage },
-      { path: 'partners', Component: PartnersPage },
-      { path: 'careers', Component: CareersPage },
-      { path: 'news', Component: NewsPage },
-      { path: 'contact', Component: ContactPage },
-      { path: 'book-consultation', Component: BookConsultationPage },
-      { path: 'privacy-policy', Component: PrivacyPolicyPage },
-      { path: 'terms', Component: TermsPage },
+      { path: 'about', lazy: () => import('./pages/AboutPage').then((m) => ({ Component: m.AboutPage })) },
+      { path: 'solutions', lazy: () => import('./pages/SolutionsPage').then((m) => ({ Component: m.SolutionsPage })) },
+      { path: 'workspace-leasing', lazy: () => import('./pages/WorkspacePage').then((m) => ({ Component: m.WorkspacePage })) },
+      { path: 'workspace/:locationId', lazy: () => import('./pages/WorkspaceDetailPage').then((m) => ({ Component: m.WorkspaceDetailPage })) },
+      { path: 'property-management', lazy: () => import('./pages/PropertyManagementPage').then((m) => ({ Component: m.PropertyManagementPage })) },
+      { path: 'concierge-services', lazy: () => import('./pages/ConciergePage').then((m) => ({ Component: m.ConciergePage })) },
+      { path: 'business-services', lazy: () => import('./pages/BusinessConsultingPage').then((m) => ({ Component: m.BusinessConsultingPage })) },
+      { path: 'industrial-logistics', lazy: () => import('./pages/IndustrialPage').then((m) => ({ Component: m.IndustrialPage })) },
+      { path: 'partners', lazy: () => import('./pages/PartnersPage').then((m) => ({ Component: m.PartnersPage })) },
+      { path: 'careers', lazy: () => import('./pages/CareersPage').then((m) => ({ Component: m.CareersPage })) },
+      { path: 'news', lazy: () => import('./pages/NewsPage').then((m) => ({ Component: m.NewsPage })) },
+      { path: 'contact', lazy: () => import('./pages/ContactPage').then((m) => ({ Component: m.ContactPage })) },
+      { path: 'book-consultation', lazy: () => import('./pages/BookConsultationPage').then((m) => ({ Component: m.BookConsultationPage })) },
+      { path: 'privacy-policy', lazy: () => import('./pages/PrivacyPolicyPage').then((m) => ({ Component: m.PrivacyPolicyPage })) },
+      { path: 'terms', lazy: () => import('./pages/TermsPage').then((m) => ({ Component: m.TermsPage })) },
 
       { path: 'services', loader: moved('/solutions') },
       { path: 'concierge', loader: moved('/concierge-services') },
       { path: 'business-consulting', loader: moved('/business-services') },
 
-      { path: '*', Component: NotFoundPage },
+      { path: '*', lazy: () => import('./pages/NotFoundPage').then((m) => ({ Component: m.NotFoundPage })) },
     ],
   },
 ]);

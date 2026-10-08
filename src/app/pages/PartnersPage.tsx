@@ -160,7 +160,7 @@ export function PartnersPage() {
             </div>
           </div>
           <div className="relative aspect-[3/4] overflow-hidden">
-            <img src="/photos/hbc-lounge-2.webp" alt={t.whyAlt} className="w-full h-full object-cover" />
+            <img loading="lazy" decoding="async" src="/photos/hbc-lounge-2.webp" alt={t.whyAlt} className="w-full h-full object-cover" />
           </div>
         </div>
       </section>
@@ -203,7 +203,7 @@ export function PartnersPage() {
       <section id="partner-with-us" className="relative overflow-hidden bg-white text-[#2A2623]">
         <div className="grid lg:grid-cols-2">
           <div className="relative min-h-[360px] lg:min-h-0 overflow-hidden">
-            <img src="/photos/hbc-boardroom.webp" alt={t.withAlt} className="absolute inset-0 w-full h-full object-cover" />
+            <img loading="lazy" decoding="async" src="/photos/hbc-boardroom.webp" alt={t.withAlt} className="absolute inset-0 w-full h-full object-cover" />
           </div>
           <div className="px-8 lg:px-16 py-20 lg:py-28">
             <div className="text-[#D12126] mb-6"><Handshake size={40} /></div>
