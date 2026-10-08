@@ -22,6 +22,7 @@ export const router = createBrowserRouter([
     path: '/:lang',
     loader: langGuard,
     Component: RootLayout,
+    HydrateFallback: () => null,
     children: [
       { index: true, Component: HomePage },
       { path: 'about', lazy: () => import('./pages/AboutPage').then((m) => ({ Component: m.AboutPage })) },

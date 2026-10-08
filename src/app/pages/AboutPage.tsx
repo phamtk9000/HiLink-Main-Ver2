@@ -7,6 +7,7 @@ import { ABOUT } from '../data/aboutCopy';
 import { LOCATIONS } from '../data/locations';
 import { BUSINESS_CLUB_SITE, PARTNERS, ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
+import { LinkPhilosophy } from '../components/LinkPhilosophy';
 
 const T = {
   en: {
@@ -119,6 +120,9 @@ export function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* Philosophy — interactive */}
+      <LinkPhilosophy />
 
       {/* Vision & Mission */}
       <section className="bg-[#F4F0EA] py-32 text-[#2A2623]">

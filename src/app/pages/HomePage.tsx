@@ -3,6 +3,7 @@ import { ArrowRight, ArrowUpRight, Building2, Briefcase, Bell, TrendingUp, Wareh
 import { motion } from 'motion/react';
 import { useRef } from 'react';
 import { AnimatedCounter } from '../components/AnimatedCounter';
+import { LinkPhilosophy } from '../components/LinkPhilosophy';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { LOCATIONS, WORKSPACE_LINES } from '../data/locations';
 import { ws } from '../data/site';
@@ -135,6 +136,9 @@ export function HomePage() {
           </motion.div>
         </div>
       </section>
+
+      {/* ── Philosophy — interactive ── */}
+      <LinkPhilosophy />
 
       {/* ── About — editorial three-column ── */}
       <section className="w-full bg-[#F4F0EA]">

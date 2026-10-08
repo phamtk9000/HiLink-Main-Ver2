@@ -308,3 +308,6 @@ footer::after {
   main section[class*="bg-[#FBECEC]"]::after,
   footer::after { display: none; }
 }
+
+/* Progress line under the active philosophy pillar (LinkPhilosophy). */
+@keyframes hl-progress { from { width: 0; } to { width: 100%; } }
