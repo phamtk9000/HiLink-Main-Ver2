@@ -14,6 +14,7 @@ import { LOCATIONS } from '../data/locations';
 import { PARTNERS, SERVICES } from '../data/site';
 import { useLang } from '../lib/i18n';
 import { Flag } from './Flag';
+import { createSilk } from '../lib/silk';
 
 const T = {
   en: {
@@ -100,8 +101,11 @@ export function ScaleWave() {
   useEffect(() => {
     const section = sectionRef.current;
     const canvas = canvasRef.current;
-    const ctx = canvas?.getContext('2d');
-    if (!section || !canvas || !ctx) return undefined;
+    if (!section || !canvas) return undefined;
+    // WebGL2 silk when the browser has it; fine lines on a 2D canvas if not.
+    const silk = createSilk(canvas);
+    const ctx = silk ? null : canvas.getContext('2d');
+    if (!silk && !ctx) return undefined;
     let w = 0, h = 0, dpr = 1, raf = 0, visible = false;
     const pointer = { x: -1e4, on: 0, target: 0 };
     const t0 = performance.now();
@@ -110,8 +114,11 @@ export function ScaleWave() {
       const r = canvas.parentElement!.getBoundingClientRect();
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       w = r.width; h = r.height;
-      canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
-      canvas.style.width = `${w}px`; canvas.style.height = `${h}px`;
+      if (silk) silk.resize(w, h, dpr);
+      else {
+        canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+        canvas.style.width = `${w}px`; canvas.style.height = `${h}px`;
+      }
       draw(t0);
     };
 
@@ -123,6 +130,7 @@ export function ScaleWave() {
     function draw(now: number) {
       const time = still ? 0 : (now - t0) / 1000;
       pointer.on += (pointer.target - pointer.on) * 0.06;
+      if (silk) { silk.draw(time, pointer.x, pointer.on); return; }
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx!.clearRect(0, 0, w, h);
       ctx!.globalCompositeOperation = 'lighter';
@@ -203,6 +211,7 @@ export function ScaleWave() {
       document.removeEventListener('visibilitychange', onVis);
       section.removeEventListener('pointermove', onMove);
       section.removeEventListener('pointerleave', onLeave);
+      silk?.dispose();
     };
   }, [still]);
 

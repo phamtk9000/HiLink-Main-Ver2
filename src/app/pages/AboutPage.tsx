@@ -12,7 +12,7 @@ import { ABOUT } from '../data/aboutCopy';
 import { CAREERS } from '../data/careersCopy';
 import { COMPANY, CONTACT, PARTNERS, SERVICES, ws } from '../data/site';
 import { LOCATIONS } from '../data/locations';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { PartnerMarquee } from '../components/PartnerMarquee';
@@ -26,12 +26,7 @@ const T = {
     facts: [['2020', 'Year Founded'], ['Ha Noi', 'Headquarters'], [`${LOCATIONS.length} Locations`, 'HiLink Workspaces'], [`${PARTNERS.length} Partners`, 'Companies we work with']],
     storyAlt: 'A client at work in a private office at the HiLink Business Club',
     fig: 'Figure 1 · One relationship',
-    workEyebrow: 'Selected work', workTitle: 'Properties we run', view: 'View',
-    work: [
-      { name: 'The Quarter House', location: 'Hoan Kiem, Hanoi', tag: 'Boutique townhouse', image: '/properties/quarter-house/qh-07.webp', to: '/workspace/quarter-house' },
-      { name: 'Floor 19 · 4 Ton That Tung', location: 'Dong Da, Hanoi', tag: 'Private floor', image: '/photos/f19-window.webp', href: '/locations/ttt-f19' },
-      { name: 'HiLink Business Club', location: 'Hoan Kiem, Hanoi', tag: "Members' club", image: '/photos/hbc-lounge.webp', href: '/locations/obc' },
-    ],
+    workEyebrow: 'Selected work', workTitle: 'Properties we run',
     groupEyebrow: 'Our group', groupTitle: 'Part of HiCorp Group',
     groupBody: `${COMPANY.name.en} is a member company of HiCorp Group Joint Stock Company (Vietnam).`,
     groupLegal: 'Công ty Cổ phần Tập đoàn HiCorp (Việt Nam)',
@@ -44,19 +39,14 @@ const T = {
       { t: 'Visit us', d: '' , cta: 'Get directions' },
       { t: 'Book a consultation', d: 'Tell us what you need and an advisor will be in touch.', cta: 'Book now' },
     ],
-    steps: 'Step', ecoList: 'What sits inside it',
+    steps: 'Step', ecoList: 'What sits inside it', next: 'Next properties', prev: 'Previous properties',
   },
   vi: {
     est: 'Thành lập 2020 · Hà Nội, Việt Nam', scroll: 'Cuộn để khám phá',
     facts: [['2020', 'Năm thành lập'], ['Hà Nội', 'Trụ sở'], [`${LOCATIONS.length} địa điểm`, 'HiLink Workspaces'], [`${PARTNERS.length} đối tác`, 'Doanh nghiệp đồng hành']],
     storyAlt: 'Khách hàng làm việc trong văn phòng riêng tại HiLink Business Club',
     fig: 'Hình 1 · Một mối quan hệ',
-    workEyebrow: 'Dự án tiêu biểu', workTitle: 'Bất động sản chúng tôi vận hành', view: 'Xem',
-    work: [
-      { name: 'The Quarter House', location: 'Hoàn Kiếm, Hà Nội', tag: 'Nhà phố boutique', image: '/properties/quarter-house/qh-07.webp', to: '/workspace/quarter-house' },
-      { name: 'Tầng 19 · 4 Tôn Thất Tùng', location: 'Đống Đa, Hà Nội', tag: 'Sàn riêng', image: '/photos/f19-window.webp', href: '/locations/ttt-f19' },
-      { name: 'HiLink Business Club', location: 'Hoàn Kiếm, Hà Nội', tag: 'Câu lạc bộ thành viên', image: '/photos/hbc-lounge.webp', href: '/locations/obc' },
-    ],
+    workEyebrow: 'Dự án tiêu biểu', workTitle: 'Bất động sản chúng tôi vận hành',
     groupEyebrow: 'Tập đoàn', groupTitle: 'Thành viên Tập đoàn HiCorp',
     groupBody: `${COMPANY.name.vi} là công ty thành viên của Công ty Cổ phần Tập đoàn HiCorp (Việt Nam).`,
     groupLegal: 'HiCorp Group Joint Stock Company (Vietnam)',
@@ -69,7 +59,7 @@ const T = {
       { t: 'Ghé thăm', d: '', cta: 'Chỉ đường' },
       { t: 'Đặt lịch tư vấn', d: 'Cho chúng tôi biết nhu cầu, một chuyên viên sẽ liên hệ với bạn.', cta: 'Đặt lịch' },
     ],
-    steps: 'Bước', ecoList: 'Bên trong hệ sinh thái',
+    steps: 'Bước', ecoList: 'Bên trong hệ sinh thái', next: 'Bất động sản tiếp theo', prev: 'Bất động sản trước',
   },
 };
 
@@ -140,6 +130,72 @@ function LinkLoop({ label }: { label: string }) {
   );
 }
 
+type RailItem = { key: string; name: string; address: string; photo: string; to?: string; href?: string; crop?: string };
+
+/** Properties we run: tall cards in a sideways rail with a progress bar. */
+function PropertyRail({ eyebrow, title, next, prev }: { eyebrow: ReactNode; title: string; next: string; prev: string }) {
+  const { lang, l } = useLang();
+  const rail = useRef<HTMLDivElement>(null);
+  const [bar, setBar] = useState({ size: 0.3, at: 0, start: true, end: false });
+  const items: RailItem[] = [
+    { key: 'qh', name: 'The Quarter House', address: lang === 'vi' ? 'Hoàn Kiếm, Hà Nội' : 'Hoan Kiem, Ha Noi', photo: '/properties/quarter-house/qh-07.webp', to: '/workspace/quarter-house', crop: 'object-[70%_50%]' },
+    ...LOCATIONS.map((loc) => ({ key: loc.id, name: loc.name, address: loc.address, photo: loc.photo, href: `/locations/${loc.id}` })),
+  ];
+
+  useEffect(() => {
+    const el = rail.current;
+    if (!el) return undefined;
+    const update = () => {
+      const max = el.scrollWidth - el.clientWidth;
+      setBar({ size: Math.min(1, el.clientWidth / el.scrollWidth), at: max > 0 ? el.scrollLeft / max : 0, start: el.scrollLeft < 8, end: el.scrollLeft > max - 8 });
+    };
+    update();
+    el.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    return () => { el.removeEventListener('scroll', update); window.removeEventListener('resize', update); };
+  }, []);
+  const go = (dir: 1 | -1) => {
+    const el = rail.current;
+    const card = el?.querySelector('a');
+    if (el && card) el.scrollBy({ left: dir * (card.getBoundingClientRect().width + 24), behavior: 'smooth' });
+  };
+  const button = 'absolute top-1/2 z-10 -translate-y-1/2 grid h-14 w-14 place-items-center rounded-full bg-[#D12126] text-white shadow-[0_6px_20px_rgba(209,33,38,0.3)] transition-all hover:bg-[#A3181C] disabled:pointer-events-none disabled:opacity-0';
+
+  return (
+    <section className="bg-[#F4F0EA] py-20 lg:py-28 overflow-hidden">
+      <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+        {eyebrow}
+        <h2 className="serif leading-[1.1]">{title}</h2>
+        <div className="relative mt-10 lg:mt-12">
+          <div ref={rail} className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {items.map((it) => {
+              const inner = (
+                <>
+                  <img loading="lazy" decoding="async" {...photo(it.photo, '(min-width: 1024px) 26vw, 78vw')} alt={it.name} className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-[1.05] ${it.crop ?? ''}`} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-6 lg:p-8 text-white">
+                    <p className="text-[1.6rem] lg:text-[1.85rem] font-light leading-tight tracking-[-0.01em]">{it.name}</p>
+                    <p className="mt-3 font-mono text-[12px] uppercase leading-relaxed tracking-[0.06em] text-white/85">{it.address}</p>
+                  </div>
+                </>
+              );
+              const cls = 'group relative block shrink-0 snap-start overflow-hidden rounded-[6px] bg-[#2A2623] w-[78vw] sm:w-[340px] lg:w-[min(26vw,440px)] aspect-[11/16]';
+              return it.to
+                ? <Link key={it.key} to={l(it.to)} className={cls}>{inner}</Link>
+                : <a key={it.key} href={ws(lang, it.href)} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>;
+            })}
+          </div>
+          <button type="button" onClick={() => go(-1)} disabled={bar.start} aria-label={prev} className={`${button} -left-3 lg:-left-6`}><ArrowRight size={20} className="rotate-180" /></button>
+          <button type="button" onClick={() => go(1)} disabled={bar.end} aria-label={next} className={`${button} -right-3 lg:-right-6`}><ArrowRight size={20} /></button>
+        </div>
+        <div className="relative mt-8 h-[3px] rounded-full bg-[#2A2623]/12" aria-hidden="true">
+          <div className="absolute inset-y-0 rounded-full bg-[#2A2623] transition-[left] duration-150" style={{ width: `${bar.size * 100}%`, left: `${bar.at * (1 - bar.size) * 100}%` }} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function AboutPage() {
   const { lang, l } = useLang();
   const t = T[lang];
@@ -183,9 +239,9 @@ export function AboutPage() {
       <section className="bg-white py-32">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
-            {/* Left — image + pull-quote */}
+            {/* Left — image */}
             <div className="lg:w-[35%]">
-              <div className="lg:sticky lg:top-32 space-y-8">
+              <div className="lg:sticky lg:top-32">
                 <div className="relative aspect-[3/4] overflow-hidden">
                   <img loading="lazy" decoding="async"
                     {...photo('/photos/hbc-desk.webp')}
@@ -193,15 +249,6 @@ export function AboutPage() {
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#D12126]" />
-                </div>
-                <div>
-                  <blockquote
-                    className="serif italic text-[#D12126] leading-snug"
-                    style={{ fontSize: 'clamp(1.3rem, 2vw, 1.7rem)' }}
-                  >
-                    "{a.solveTitle}"
-                  </blockquote>
-                  <div className="mt-6 w-8 h-px bg-[#D12126]/40" />
                 </div>
               </div>
             </div>
@@ -219,6 +266,16 @@ export function AboutPage() {
                     <div className="text-[12px] uppercase tracking-wider text-[#6B645D]">{label}</div>
                   </div>
                 ))}
+              </div>
+              {/* The pull-quote closes the story, under the figures. */}
+              <div className="mt-16">
+                <blockquote
+                  className="serif italic text-[#D12126] leading-snug"
+                  style={{ fontSize: 'clamp(1.3rem, 2vw, 1.7rem)' }}
+                >
+                  "{a.solveTitle}"
+                </blockquote>
+                <div className="mt-6 w-8 h-px bg-[#D12126]/40" />
               </div>
             </div>
           </div>
@@ -340,34 +397,8 @@ export function AboutPage() {
         </div>
       </section>
 
-      {/* Properties we run: a mosaic, one large and two stacked. */}
-      <section className="bg-white py-20 lg:py-28">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          {eyebrow(t.workEyebrow)}
-          <h2 className="serif leading-[1.1]">{t.workTitle}</h2>
-          <div className="mt-12 grid lg:grid-cols-12 gap-4">
-            {t.work.map(({ name, location, tag, image, to, href }, i) => {
-              const inner = (
-                <>
-                  <img loading="lazy" decoding="async" {...photo(image, i ? '(min-width: 1024px) 40vw, 100vw' : '(min-width: 1024px) 58vw, 100vw')} alt={name} className={`absolute inset-0 h-full w-full object-cover ${i === 0 ? 'lg:object-[100%_50%]' : ''} transition-transform duration-[1.2s] group-hover:scale-[1.04]`} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623]/80 via-[#2A2623]/10 to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6 lg:p-8 text-white">
-                    <div>
-                      <p className="text-[12px] uppercase tracking-[0.2em] text-white/70">{tag} · {location}</p>
-                      <p className={`serif mt-2 ${i ? 'text-[1.5rem]' : 'text-[1.9rem] lg:text-[2.4rem]'} leading-tight`}>{name}</p>
-                    </div>
-                    <span className="grid h-11 w-11 shrink-0 place-items-center border border-white/40 transition-colors group-hover:bg-white group-hover:text-[#2A2623]"><ArrowUpRight size={16} /></span>
-                  </div>
-                </>
-              );
-              const cls = `group relative block overflow-hidden bg-[#2A2623] ${i === 0 ? 'lg:col-span-7 lg:row-span-2 aspect-[3/2] lg:aspect-auto lg:min-h-[640px]' : 'lg:col-span-5 aspect-[16/10]'}`;
-              return to
-                ? <Link key={name} to={l(to)} className={cls}>{inner}</Link>
-                : <a key={name} href={ws(lang, href)} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>;
-            })}
-          </div>
-        </div>
-      </section>
+      {/* Properties we run: a row of tall cards that scrolls sideways, after foraspace.com. */}
+      <PropertyRail eyebrow={eyebrow(t.workEyebrow)} title={t.workTitle} next={t.next} prev={t.prev} />
 
       {/* The group: statement on the left, the line from parent to member on the right. */}
       <section id="group" className="bg-white border-t border-[#2A2623]/10 py-20 lg:py-28 scroll-mt-24">
