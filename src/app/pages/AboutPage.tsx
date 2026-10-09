@@ -1,25 +1,25 @@
-// About — HiLink's story told as a sequence of editorial sections rather than
-// a stack of cards: the original full-screen hero and story; the ecosystem as
-// one continuous "link" line looping through the five services (the loop in
-// the HiLink logo); vision and mission as a split statement; the numbers band;
-// values under drawn rules; the way we work along one line that fills as you
-// read; a property mosaic; the group HiLink belongs to; partners; the team;
-// and a compact contact band. Copy is the approved hilink.vn/about text.
+// About — HiLink's story as a sequence of editorial sections: the original
+// full-screen hero; the story and the ecosystem laid out after
+// foraspace.com/about-fora (text beside a photograph rising over a pale band,
+// then staggered photo cards); a word from the leadership in Club green; the
+// vision; the numbers band; values under drawn rules; the way we work along
+// one line; the shared place rail; the group HiLink belongs to; partners; the
+// team; and a compact contact band. Copy is the approved hilink.vn/about text.
 import { Link } from 'react-router';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import { Shield, Layers, Target, Mail, MapPin, Calendar, ServiceIcon } from '../components/Glyph';
+import { Shield, Layers, Target, Mail, MapPin, Calendar } from '../components/Glyph';
 import { ABOUT } from '../data/aboutCopy';
 import { CAREERS } from '../data/careersCopy';
-import { COMPANY, CONTACT, PARTNERS, SERVICES, ws } from '../data/site';
+import { BUSINESS_CLUB_SITE, COMPANY, CONTACT, PARTNERS } from '../data/site';
 import { LOCATIONS } from '../data/locations';
-import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { PartnerMarquee } from '../components/PartnerMarquee';
 import { ScaleWave } from '../components/ScaleWave';
 import { Contours } from '../components/Contours';
 import { photo } from '../lib/photo';
-import { LOOP_PATH, LOOP_TIP } from '../lib/loop';
+import { LOOP_PATH } from '../lib/loop';
+import { PlaceRail, type Place } from '../components/PlaceRail';
 
 const T = {
   en: {
@@ -40,7 +40,7 @@ const T = {
       { t: 'Visit us', d: '' , cta: 'Get directions' },
       { t: 'Book a consultation', d: 'Tell us what you need and an advisor will be in touch.', cta: 'Book now' },
     ],
-    steps: 'Step', ecoList: 'What sits inside it', next: 'Next properties', prev: 'Previous properties',
+    steps: 'Step', leaders: 'HiLink leadership', leadersRole: 'Our mission', quoteAlt: 'The lounge at the HiLink Business Club', next: 'Next properties', prev: 'Previous properties',
   },
   vi: {
     est: 'Thành lập 2020 · Hà Nội, Việt Nam', scroll: 'Cuộn để khám phá',
@@ -60,142 +60,18 @@ const T = {
       { t: 'Ghé thăm', d: '', cta: 'Chỉ đường' },
       { t: 'Đặt lịch tư vấn', d: 'Cho chúng tôi biết nhu cầu, một chuyên viên sẽ liên hệ với bạn.', cta: 'Đặt lịch' },
     ],
-    steps: 'Bước', ecoList: 'Bên trong hệ sinh thái', next: 'Bất động sản tiếp theo', prev: 'Bất động sản trước',
+    steps: 'Bước', leaders: 'Ban lãnh đạo HiLink', leadersRole: 'Sứ mệnh', quoteAlt: 'Lounge tại HiLink Business Club', next: 'Bất động sản tiếp theo', prev: 'Bất động sản trước',
   },
 };
 
 const TEAM_PHOTOS = ['/photos/hbc-team.webp', '/photos/hbc-host.webp', '/photos/f15-meeting-pod.webp', '/photos/hbc-client-meeting.webp', '/photos/hbc-reception.webp', '/photos/f15-boardroom.webp', '/photos/hbc-meeting.webp', '/photos/hbc-bar.webp', '/photos/f15-lounge-cabin.webp'];
 const VALUE_ICONS = [Shield, Layers, Target];
 const MAPS = 'https://maps.google.com/?q=60+Ly+Thai+To,+Hoan+Kiem,+Ha+Noi';
-
-// One continuous line with five petals; between each pair of petals it curls
-// into a small loop — a link — like the loop in the HiLink logo. Generated as
-// x = R·cos t + ρ·cos 6t, y = R·sin t + ρ·sin 6t (R 160, ρ 48), turned so the
-// first petal points up. Petal tips sit at t = 2πk/5, radius R + ρ.
-const LOOP = LOOP_PATH;
-const TIP = LOOP_TIP;
-
-/** Figure: the five services on one linked line around HiLink. */
-function LinkLoop({ label }: { label: string }) {
-  const { lang, l } = useLang();
-  const ref = useRef<HTMLDivElement>(null);
-  const [on, setOn] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return undefined;
-    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setOn(true); io.disconnect(); } }, { threshold: 0.35 });
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  return (
-    <figure ref={ref} className={`hl-loop relative mx-auto aspect-square w-full max-w-[680px] ${on ? 'is-in' : ''}`}>
-      <div className="absolute inset-[12%] rounded-full bg-[radial-gradient(closest-side,rgba(209,33,38,0.09),rgba(209,33,38,0))]" aria-hidden="true" />
-      <svg viewBox="0 0 600 600" className="absolute inset-0 h-full w-full overflow-visible" aria-hidden="true">
-        <defs>
-          <filter id="hl-loop-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" /></filter>
-        </defs>
-        <circle cx="300" cy="300" r="96" fill="none" stroke="#D12126" strokeOpacity="0.18" strokeDasharray="1 7" className="hl-loop-ring" />
-        <path d={LOOP} fill="none" stroke="#D12126" strokeOpacity="0.07" strokeWidth="12" />
-        <path d={LOOP} pathLength={1} fill="none" stroke="#D12126" strokeWidth="1.6" className="hl-loop-draw" />
-        <path d={LOOP} pathLength={1} fill="none" stroke="#FF6A6E" strokeWidth="5" strokeLinecap="round" filter="url(#hl-loop-glow)" className="hl-loop-run" />
-        <path d={LOOP} pathLength={1} fill="none" stroke="#FF6A6E" strokeWidth="5" strokeLinecap="round" filter="url(#hl-loop-glow)" className="hl-loop-run" style={{ animationDelay: '-4.5s' }} />
-      </svg>
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[24%]">
-        <img src="/brand/logo-hilink-lockup.svg" alt="HiLink" className="w-full" />
-      </div>
-      {SERVICES.map((s, k) => {
-        const a = -Math.PI / 2 + (k * 2 * Math.PI) / SERVICES.length;
-        const x = 50 + (Math.cos(a) * TIP * 100) / 600;
-        const y = 50 + (Math.sin(a) * TIP * 100) / 600;
-        const below = Math.sin(a) > 0.2;
-        return (
-          <Link
-            key={s.path}
-            to={l(s.path)}
-            className="group absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center"
-            style={{ left: `${x}%`, top: `${y}%` }}
-          >
-            {below && <span className="hidden sm:block order-2 mt-2 text-[12px] tabular-nums text-[#D12126]">{String(k + 1).padStart(2, '0')}</span>}
-            <span className="relative grid h-14 w-14 place-items-center rounded-full border border-[#D12126]/25 bg-white text-[#D12126] transition-all duration-300 group-hover:scale-110 group-hover:border-[#D12126]">
-              <ServiceIcon path={s.path} size={26} />
-            </span>
-            <span className={`hidden sm:block ${below ? 'order-3 mt-1' : 'order-first mb-2'} max-w-[9rem] text-[13px] leading-tight text-[#2A2623] transition-colors group-hover:text-[#D12126]`}>
-              {!below && <span className="block text-[12px] tabular-nums text-[#D12126]">{String(k + 1).padStart(2, '0')}</span>}
-              {s.t[lang]}
-            </span>
-          </Link>
-        );
-      })}
-      <figcaption className="absolute bottom-0 right-0 hidden sm:block text-[12px] text-[#6B645D]">{label}</figcaption>
-    </figure>
-  );
-}
-
-type RailItem = { key: string; name: string; address: string; photo: string; to?: string; href?: string; crop?: string };
-
-/** Properties we run: tall cards in a sideways rail with a progress bar. */
-function PropertyRail({ eyebrow, title, next, prev }: { eyebrow: ReactNode; title: string; next: string; prev: string }) {
-  const { lang, l } = useLang();
-  const rail = useRef<HTMLDivElement>(null);
-  const [bar, setBar] = useState({ size: 0.3, at: 0, start: true, end: false });
-  const items: RailItem[] = [
-    { key: 'qh', name: 'The Quarter House', address: lang === 'vi' ? 'Hoàn Kiếm, Hà Nội' : 'Hoan Kiem, Ha Noi', photo: '/properties/quarter-house/qh-07.webp', to: '/workspace/quarter-house', crop: 'object-[70%_50%]' },
-    ...LOCATIONS.map((loc) => ({ key: loc.id, name: loc.name, address: loc.address, photo: loc.photo, href: `/locations/${loc.id}` })),
-  ];
-
-  useEffect(() => {
-    const el = rail.current;
-    if (!el) return undefined;
-    const update = () => {
-      const max = el.scrollWidth - el.clientWidth;
-      setBar({ size: Math.min(1, el.clientWidth / el.scrollWidth), at: max > 0 ? el.scrollLeft / max : 0, start: el.scrollLeft < 8, end: el.scrollLeft > max - 8 });
-    };
-    update();
-    el.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    return () => { el.removeEventListener('scroll', update); window.removeEventListener('resize', update); };
-  }, []);
-  const go = (dir: 1 | -1) => {
-    const el = rail.current;
-    const card = el?.querySelector('a');
-    if (el && card) el.scrollBy({ left: dir * (card.getBoundingClientRect().width + 24), behavior: 'smooth' });
-  };
-  const button = 'absolute top-1/2 z-10 -translate-y-1/2 grid h-14 w-14 place-items-center rounded-full bg-[#D12126] text-white shadow-[0_6px_20px_rgba(209,33,38,0.3)] transition-all hover:bg-[#A3181C] disabled:pointer-events-none disabled:opacity-0';
-
-  return (
-    <section className="bg-[#F4F0EA] py-20 lg:py-28 overflow-hidden">
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-        {eyebrow}
-        <h2 className="serif leading-[1.1]">{title}</h2>
-        <div className="relative mt-10 lg:mt-12">
-          <div ref={rail} className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {items.map((it) => {
-              const inner = (
-                <>
-                  <img loading="lazy" decoding="async" {...photo(it.photo, '(min-width: 1024px) 26vw, 78vw')} alt={it.name} className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-[1.05] ${it.crop ?? ''}`} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 p-6 lg:p-8 text-white">
-                    <p className="text-[1.6rem] lg:text-[1.85rem] font-light leading-tight tracking-[-0.01em]">{it.name}</p>
-                    <p className="mt-3 font-mono text-[12px] uppercase leading-relaxed tracking-[0.06em] text-white/85">{it.address}</p>
-                  </div>
-                </>
-              );
-              const cls = 'group relative block shrink-0 snap-start overflow-hidden rounded-[6px] bg-[#2A2623] w-[78vw] sm:w-[340px] lg:w-[min(26vw,440px)] aspect-[11/16]';
-              return it.to
-                ? <Link key={it.key} to={l(it.to)} className={cls}>{inner}</Link>
-                : <a key={it.key} href={ws(lang, it.href)} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>;
-            })}
-          </div>
-          <button type="button" onClick={() => go(-1)} disabled={bar.start} aria-label={prev} className={`${button} -left-3 lg:-left-6`}><ArrowRight size={20} className="rotate-180" /></button>
-          <button type="button" onClick={() => go(1)} disabled={bar.end} aria-label={next} className={`${button} -right-3 lg:-right-6`}><ArrowRight size={20} /></button>
-        </div>
-        <div className="relative mt-8 h-[3px] rounded-full bg-[#2A2623]/12" aria-hidden="true">
-          <div className="absolute inset-y-0 rounded-full bg-[#2A2623] transition-[left] duration-150" style={{ width: `${bar.size * 100}%`, left: `${bar.at * (1 - bar.size) * 100}%` }} />
-        </div>
-      </div>
-    </section>
-  );
-}
+// The ecosystem cards (approved copy, data/aboutCopy.ts "eco"): photo, link,
+// and the stagger of each column on wide screens.
+const ECO_PHOTOS = ['/photos/f19-window.webp', '/photos/f15-lounge.webp', '/photos/hbc-client-meeting.webp', '/photos/hbc-lounge.webp'];
+const ECO_LINKS = ['/property-management', '/workspace-leasing', '/business-services', ''];
+const ECO_OFFSETS = ['lg:mt-16', 'lg:mt-36', '', 'lg:mt-24'];
 
 export function AboutPage() {
   const { lang, l } = useLang();
@@ -207,6 +83,10 @@ export function AboutPage() {
     <p className={`mb-5 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] ${dark ? 'text-[#FF9A8B]' : 'text-[#D12126]'}`}><Flag /> {text}</p>
   );
   const cols = [TEAM_PHOTOS.slice(0, 3), TEAM_PHOTOS.slice(3, 6), TEAM_PHOTOS.slice(6, 9)];
+  const places: Place[] = [
+    { key: 'qh', name: 'The Quarter House', address: lang === 'vi' ? 'Hoàn Kiếm, Hà Nội' : 'Hoan Kiem, Ha Noi', photo: '/properties/quarter-house/qh-07.webp', to: '/workspace/quarter-house', crop: 'object-[70%_50%]' },
+    ...LOCATIONS.map((loc) => ({ key: loc.id, name: loc.name, address: loc.address, photo: loc.photo, href: `/locations/${loc.id}` })),
+  ];
 
   return (
     <>
@@ -236,100 +116,107 @@ export function AboutPage() {
         </div>
       </section>
 
-      {/* Story */}
-      <section className="bg-white py-32">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
-            {/* Left — image */}
-            <div className="lg:w-[35%]">
-              <div className="lg:sticky lg:top-32">
-                <div className="relative aspect-[3/4] overflow-hidden">
-                  <img loading="lazy" decoding="async"
-                    {...photo('/photos/hbc-desk.webp')}
-                    alt={t.storyAlt}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#D12126]" />
+      {/* Story, after foraspace.com/about-fora ("A new world of work"): the
+          text on the left, the photograph on the right rising over the top
+          edge of a pale band. */}
+      <section className="relative bg-white pt-16 lg:pt-24">
+        <div className="absolute inset-x-0 bottom-0 top-[180px] lg:top-[260px] bg-[#FBECEC]" aria-hidden="true" />
+        <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 pb-20 lg:pb-28 grid lg:grid-cols-12 gap-12 lg:gap-16">
+          <div className="lg:col-span-5 lg:col-start-1 order-2 lg:order-1 lg:pt-[300px]">
+            <h2 className="serif hl-display text-[#2A2623]">{a.whoTitle}</h2>
+            <div className="mt-8 space-y-5 text-[15px] leading-[1.75] text-[#4A443F]">
+              <p>{a.heroLead}</p>
+              <p>{a.heroBody}</p>
+              <p>{a.solveBody}</p>
+            </div>
+            <div className="mt-10 grid grid-cols-2 gap-x-8 gap-y-6">
+              {t.facts.map(([value, label]) => (
+                <div key={label} className="border-t border-[#D12126]/25 pt-4">
+                  <div className="serif text-[1.45rem] text-[#D12126]">{value}</div>
+                  <div className="mt-1 text-[12px] uppercase tracking-[0.14em] text-[#6B645D]">{label}</div>
                 </div>
-              </div>
+              ))}
             </div>
+            <blockquote className="serif mt-12 italic leading-snug text-[#D12126]" style={{ fontSize: 'clamp(1.3rem, 2vw, 1.7rem)' }}>
+              "{a.solveTitle}"
+            </blockquote>
+          </div>
+          <div className="lg:col-span-6 lg:col-start-7 order-1 lg:order-2">
+            <div className="relative aspect-square overflow-hidden rounded-[8px] bg-[#2A2623]">
+              <img loading="lazy" decoding="async" {...photo('/photos/hbc-desk.webp', '(min-width: 1024px) 46vw, 100vw')} alt={t.storyAlt} className="absolute inset-0 h-full w-full object-cover" />
+            </div>
+          </div>
+        </div>
+      </section>
 
-            <div className="lg:w-[65%]">
-              <div className="space-y-7 text-[17px] text-[#444] leading-[1.85] mb-16">
-                <p>{a.heroLead}</p>
-                <p>{a.heroBody}</p>
-                <p>{a.solveBody}</p>
-              </div>
-              <div className="grid grid-cols-2 gap-x-10 gap-y-8">
-                {t.facts.map(([value, label]) => (
-                  <div key={label} className="border-t pt-5" style={{ borderColor: 'rgba(209,33,38,0.3)' }}>
-                    <div className="serif text-2xl text-[#D12126] mb-2">{value}</div>
-                    <div className="text-[12px] uppercase tracking-wider text-[#6B645D]">{label}</div>
+      {/* Ecosystem, after the staggered cards on foraspace.com/about-fora. */}
+      <section className="bg-white py-20 lg:py-28">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+          <div className="grid lg:grid-cols-12 gap-8 items-end">
+            <div className="lg:col-span-6">
+              {eyebrow(a.ecoEyebrow)}
+              <h2 className="serif hl-display text-[#2A2623]">{a.oneRel}</h2>
+            </div>
+            <div className="lg:col-span-5 lg:col-start-8 text-[15px] leading-[1.75] text-[#4A443F] space-y-4">
+              <p>{a.ecoTitle}</p>
+              <p>{a.ecoClose}</p>
+            </div>
+          </div>
+          <div className="mt-16 lg:mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-14">
+            {a.eco.map((e, k) => {
+              const inner = (
+                <>
+                  <div className="relative aspect-[363/460] overflow-hidden rounded-[8px] bg-[#2A2623]">
+                    <img loading="lazy" decoding="async" {...photo(ECO_PHOTOS[k], '(min-width: 1024px) 23vw, (min-width: 640px) 45vw, 100vw')} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04]" />
                   </div>
-                ))}
-              </div>
-              {/* The pull-quote closes the story, under the figures. */}
-              <div className="mt-16">
-                <blockquote
-                  className="serif italic text-[#D12126] leading-snug"
-                  style={{ fontSize: 'clamp(1.3rem, 2vw, 1.7rem)' }}
-                >
-                  "{a.solveTitle}"
-                </blockquote>
-                <div className="mt-6 w-8 h-px bg-[#D12126]/40" />
-              </div>
+                  <h3 className="serif hl-card-title mt-6 text-[#2A2623] group-hover:text-[#D12126] transition-colors">{e.t}</h3>
+                  <p className="mt-3 text-[15px] leading-[1.7] text-[#6B645D]">{e.d}</p>
+                </>
+              );
+              const cls = `group block ${ECO_OFFSETS[k]}`;
+              const to = ECO_LINKS[k];
+              return to
+                ? <Link key={e.t} to={l(to)} className={cls}>{inner}</Link>
+                : <a key={e.t} href={BUSINESS_CLUB_SITE} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>;
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* A word from the leadership, after foraspace.com/about-fora: the
+          HiLink link mark, the mission as a quote, and a photograph that
+          steps over into the next section. In Club green, from the shutters
+          of the HiLink Business Club. */}
+      <section className="bg-[#2B3A32] text-[#F6EFE6] pt-20 lg:pt-28">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
+          <svg viewBox="0 0 600 600" className="mx-auto h-20 w-20" aria-hidden="true">
+            <path d={LOOP_PATH} fill="none" stroke="currentColor" strokeWidth="26" strokeLinejoin="round" />
+          </svg>
+          <blockquote className="mx-auto mt-14 max-w-[1000px]">
+            <p className="serif text-[1.55rem] sm:text-[1.9rem] lg:text-[2.125rem] leading-[1.22] text-[#F6EFE6]">{a.mission}</p>
+            <footer className="mt-10">
+              <p className="text-[13px] uppercase tracking-[0.12em] text-[#F6EFE6]">{t.leaders}</p>
+              <p className="mt-1 font-mono text-[13px] text-[#F6EFE6]/75">{t.leadersRole}</p>
+            </footer>
+          </blockquote>
+        </div>
+        <div className="mt-20 lg:mt-24 bg-[linear-gradient(to_bottom,#2B3A32_50%,#F4F0EA_50%)]">
+          <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+            <div className="relative mx-auto max-w-[1232px] aspect-[16/9] overflow-hidden rounded-[8px] bg-[#2A2623]">
+              <img loading="lazy" decoding="async" {...photo('/photos/hbc-lounge-xl.webp', '(min-width: 1280px) 1232px, 100vw')} alt={t.quoteAlt} className="absolute inset-0 h-full w-full object-cover" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Ecosystem: one linked line through the five services. */}
-      <section className="bg-white py-20 lg:py-28 overflow-hidden">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          <div className="lg:col-span-4">
-            {eyebrow(a.ecoEyebrow)}
-            <h2 className="serif leading-[1.1]">{a.oneRel}</h2>
-            <p className="mt-5 text-[17px] leading-[1.75] text-[#6B645D]">{a.ecoTitle}</p>
-            <p className="mt-10 text-[12px] uppercase tracking-[0.2em] text-[#6B645D]">{t.ecoList}</p>
-            <ul className="mt-3 border-t border-[#2A2623]/10">
-              {a.eco.map((e) => (
-                <li key={e.t} className="border-b border-[#2A2623]/10 py-4">
-                  <p className="text-[15px] font-medium text-[#2A2623]">{e.t}</p>
-                  <p className="mt-1 text-[14px] leading-relaxed text-[#6B645D]">{e.d}</p>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-6 text-[15px] leading-relaxed text-[#6B645D]">{a.ecoClose}</p>
-          </div>
-          <div className="lg:col-span-8">
-            <LinkLoop label={t.fig} />
-            <ol className="mt-6 grid grid-cols-1 gap-2 sm:hidden">
-              {SERVICES.map((sv, k) => (
-                <li key={sv.path}>
-                  <Link to={l(sv.path)} className="flex items-center gap-3 border-b border-[#2A2623]/10 py-2.5 text-[15px] text-[#2A2623]">
-                    <span className="text-[12px] tabular-nums text-[#D12126]">{String(k + 1).padStart(2, '0')}</span>
-                    <span className="text-[#D12126]"><ServiceIcon path={sv.path} size={22} /></span>
-                    {sv.t[lang]}
-                  </Link>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
-      </section>
-
-      {/* Vision and mission: one split statement. */}
-      <section className="bg-[#F4F0EA] py-20 lg:py-28">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid md:grid-cols-2 md:divide-x divide-[#2A2623]/12">
-          {[[a.visionLbl, a.vision], [a.missionLbl, a.mission]].map(([lbl, text], i) => (
-            <div key={lbl} className={`${i ? 'md:pl-14 lg:pl-20 mt-14 md:mt-0' : 'md:pr-14 lg:pr-20'}`}>
-              <p className="flex items-baseline gap-4 text-[12px] uppercase tracking-[0.2em] text-[#D12126]">
-                <span className="serif text-[2.5rem] leading-none tracking-normal text-[#D12126]/25">{String(i + 1).padStart(2, '0')}</span>
-                {lbl}
-              </p>
-              <p className="serif mt-8 text-[1.55rem] lg:text-[2.05rem] leading-[1.3] text-[#2A2623]">{text}</p>
-            </div>
-          ))}
+      {/* Vision: the mission is the quote above, so the vision stands alone. */}
+      <section className="bg-[#F4F0EA] pt-16 pb-20 lg:pt-20 lg:pb-28">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-8">
+          <p className="lg:col-span-3 flex items-baseline gap-4 text-[12px] uppercase tracking-[0.2em] text-[#D12126]">
+            <span className="serif text-[2.5rem] leading-none tracking-normal text-[#D12126]/25">01</span>
+            {a.visionLbl}
+          </p>
+          <p className="serif lg:col-span-8 lg:col-start-5 text-[1.55rem] lg:text-[2.2rem] leading-[1.28] text-[#2A2623]">{a.vision}</p>
         </div>
       </section>
 
@@ -398,8 +285,14 @@ export function AboutPage() {
         </div>
       </section>
 
-      {/* Properties we run: a row of tall cards that scrolls sideways, after foraspace.com. */}
-      <PropertyRail eyebrow={eyebrow(t.workEyebrow)} title={t.workTitle} next={t.next} prev={t.prev} />
+      {/* Properties we run: the shared place rail (after foraspace.com). */}
+      <section className="bg-[#F4F0EA] py-20 lg:py-28 overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 mb-10 lg:mb-12">
+          {eyebrow(t.workEyebrow)}
+          <h2 className="serif leading-[1.1]">{t.workTitle}</h2>
+        </div>
+        <PlaceRail items={places} next={t.next} prev={t.prev} />
+      </section>
 
       {/* The group: statement on the left, the line from parent to member on the right. */}
       <section id="group" className="bg-white border-t border-[#2A2623]/10 py-20 lg:py-28 scroll-mt-24">
@@ -457,7 +350,7 @@ export function AboutPage() {
                 <div key={k} className="relative overflow-hidden">
                   <div className={`hl-photo-column ${k === 1 ? 'hl-photo-column--down' : ''} flex flex-col gap-3`} style={{ animationDuration: `${36 + k * 8}s` }}>
                     {[...col, ...col].map((src, i) => (
-                      <img key={i} loading="lazy" decoding="async" {...photo(src, '260px')} alt="" className={`w-full object-cover ${(i + k) % 2 ? 'aspect-[3/4]' : 'aspect-[4/5]'}`} />
+                      <img key={i} loading="lazy" decoding="async" {...photo(src, '260px')} alt="" className={`w-full rounded-[8px] object-cover ${(i + k) % 2 ? 'aspect-[3/4]' : 'aspect-[4/5]'}`} />
                     ))}
                   </div>
                 </div>

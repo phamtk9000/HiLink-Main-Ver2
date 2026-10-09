@@ -133,7 +133,7 @@ export function SolutionsPage() {
             <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28">
               <div className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${i % 2 === 1 ? 'lg:[direction:rtl]' : ''}`}>
                 <motion.div
-                  className="relative aspect-[4/3] overflow-hidden lg:[direction:ltr]"
+                  className="relative aspect-[4/3] overflow-hidden rounded-[8px] lg:[direction:ltr]"
                   initial={{ opacity: 0, scale: 0.98 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.7 }}
                 >
                   {s.image ? (

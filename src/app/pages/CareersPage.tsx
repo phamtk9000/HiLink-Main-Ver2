@@ -138,7 +138,7 @@ export function CareersPage() {
             {gallery.map((src, i) => (
               <div
                 key={src}
-                className={`relative overflow-hidden ${i === 0 ? 'col-span-2 lg:col-span-2 aspect-[16/10]' : 'aspect-[4/3]'}`}
+                className={`relative overflow-hidden rounded-[8px] ${i === 0 ? 'col-span-2 lg:col-span-2 aspect-[16/10]' : 'aspect-[4/3]'}`}
               >
                 <img {...photo(src)} alt={t.lifeAlt} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
               </div>
@@ -169,7 +169,7 @@ export function CareersPage() {
       {/* Benefits + feature image */}
       <section className="py-24 lg:py-32 bg-[#F4F0EA] text-[#2A2623]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <div className="relative aspect-[4/3] overflow-hidden">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-[8px]">
             <img loading="lazy" decoding="async" {...photo('/photos/hbc-team.webp')} alt={t.teamAlt} className="w-full h-full object-cover" />
           </div>
           <div>

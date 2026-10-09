@@ -190,7 +190,7 @@ export function BusinessConsultingPage() {
 
             {/* Panel */}
             <div className="bg-white">
-              <div className="relative aspect-[16/9] overflow-hidden">
+              <div className="relative aspect-[16/9] overflow-hidden rounded-[8px]">
                 <img loading="lazy" decoding="async"
                   key={activeService}
                   {...photo(services[activeService].image)}

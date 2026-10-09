@@ -80,7 +80,7 @@ export function NewsPage() {
               className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center"
             >
               <motion.div
-                className="relative aspect-[4/3] overflow-hidden"
+                className="relative aspect-[4/3] overflow-hidden rounded-[8px]"
               >
                 <img
                   {...photo(featuredArticle.image)}
@@ -195,7 +195,7 @@ function ArticleCard({ category, title, excerpt, date, image, href }: {
       transition={{ type: "spring", stiffness: 300 }}
     >
       <a href={href} target="_blank" rel="noopener noreferrer" className="block">
-        <div className="relative aspect-[4/3] overflow-hidden mb-6">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-[8px] mb-6">
           <motion.img loading="lazy" decoding="async"
             {...photo(image)}
             alt={title}

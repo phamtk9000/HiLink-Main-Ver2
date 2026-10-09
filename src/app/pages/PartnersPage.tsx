@@ -131,7 +131,7 @@ export function PartnersPage() {
           <div className="grid md:grid-cols-3 gap-8">
             {t.types.map(([title, description], i) => (
               <motion.div key={title} className="group bg-white overflow-hidden border border-[#2A2623]/10" whileHover={{ y: -6 }}>
-                <div className="relative aspect-[4/3] overflow-hidden">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-[8px]">
                   <img {...photo(TYPE_META[i].image)} alt={title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623]/70 to-transparent" />
                   <div className="absolute bottom-4 left-4 w-11 h-11 bg-[#D12126] text-white flex items-center justify-center">{TYPE_META[i].icon}</div>
@@ -162,7 +162,7 @@ export function PartnersPage() {
               ))}
             </div>
           </div>
-          <div className="relative aspect-[3/4] overflow-hidden">
+          <div className="relative aspect-[3/4] overflow-hidden rounded-[8px]">
             <img loading="lazy" decoding="async" {...photo('/photos/hbc-lounge-2.webp')} alt={t.whyAlt} className="w-full h-full object-cover" />
           </div>
         </div>

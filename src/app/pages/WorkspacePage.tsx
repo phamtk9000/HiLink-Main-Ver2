@@ -258,7 +258,7 @@ export function WorkspacePage() {
                 rel="noopener noreferrer"
                 className="group relative block overflow-hidden bg-white"
               >
-                <div className="relative aspect-[4/3] overflow-hidden">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-[8px]">
                   <img loading="lazy" decoding="async" {...photo(SPACE_PHOTOS[i])} alt={name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <span className="absolute top-4 left-4 text-[12px] uppercase tracking-[0.16em] px-2.5 py-1 bg-[#D12126] text-white">{type}</span>
                 </div>
@@ -412,7 +412,7 @@ function LocationCard({ href, name, address, city, type, capacity, available, im
       whileHover={{ y: -10, boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }}
     >
       <a href={href} target="_blank" rel="noopener noreferrer">
-        <div className="relative aspect-[16/10] overflow-hidden">
+        <div className="relative aspect-[16/10] overflow-hidden rounded-[8px]">
           <motion.img loading="lazy" decoding="async"
             {...photo(image)}
             alt={name}

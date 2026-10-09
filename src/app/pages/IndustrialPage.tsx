@@ -198,7 +198,7 @@ export function IndustrialPage() {
               </div>
             </motion.div>
             <motion.div
-              className="relative aspect-[4/3] overflow-hidden bg-[#EDE7DF] flex items-center justify-center text-[#D12126]"
+              className="relative aspect-[4/3] overflow-hidden rounded-[8px] bg-[#EDE7DF] flex items-center justify-center text-[#D12126]"
             >
               <Warehouse size={120} strokeWidth={0.8} />
             </motion.div>
@@ -257,7 +257,7 @@ function IndustrialParkCard({ name, location, features, icon }: {
     <motion.div
       className="bg-white overflow-hidden"
     >
-      <div className="relative aspect-[16/9] overflow-hidden bg-[#EDE7DF] flex items-center justify-center text-[#D12126]">
+      <div className="relative aspect-[16/9] overflow-hidden rounded-[8px] bg-[#EDE7DF] flex items-center justify-center text-[#D12126]">
         {icon}
       </div>
       <div className="p-8">

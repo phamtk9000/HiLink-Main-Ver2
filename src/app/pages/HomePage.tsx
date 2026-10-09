@@ -2,7 +2,6 @@ import { Link } from 'react-router';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { ServiceIcon } from '../components/Glyph';
 import { motion } from 'motion/react';
-import { useRef } from 'react';
 import { AnimatedCounter } from '../components/AnimatedCounter';
 import { LinkPhilosophy } from '../components/LinkPhilosophy';
 import { ForumCarousel } from '../components/ForumCarousel';
@@ -10,6 +9,7 @@ import { useLang, usePageMeta } from '../lib/i18n';
 import { LOCATIONS, WORKSPACE_LINES } from '../data/locations';
 import { SERVICES, ws } from '../data/site';
 import { Flag } from '../components/Flag';
+import { PlaceRail } from '../components/PlaceRail';
 import { PartnerMarquee } from '../components/PartnerMarquee';
 import { Candles } from '../components/Candles';
 import { photo } from '../lib/photo';
@@ -92,8 +92,6 @@ export function HomePage() {
   const { lang, l } = useLang();
   const t = T[lang];
   usePageMeta('', t.meta);
-  const scroller = useRef<HTMLDivElement>(null);
-  const scrollBy = (dir: number) => scroller.current?.scrollBy({ left: dir * 380, behavior: 'smooth' });
 
   return (
     <>
@@ -229,50 +227,23 @@ export function HomePage() {
       {/* ── Locations (HiLink Workspaces) ── */}
       <section className="py-24 lg:py-32 bg-white text-[#2A2623] overflow-hidden">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="flex flex-wrap items-end justify-between gap-8 mb-14">
+          <div className="flex flex-wrap items-end justify-between gap-8 mb-10 lg:mb-12">
             <div>
               <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-3">
                 <Flag className="text-[#D12126]" /> {t.prjEyebrow}
               </p>
               <h2 className="serif text-4xl lg:text-6xl leading-none">{t.prjTitle}</h2>
             </div>
-            <div className="flex items-center gap-6">
-              <p className="hidden md:block max-w-sm text-[#6B645D] leading-relaxed text-[15px]">
-                {t.prjLead}
-              </p>
-              <div className="flex gap-2">
-                <button onClick={() => scrollBy(-1)} aria-label={t.prev} className="w-11 h-11 border border-[#2A2623]/25 flex items-center justify-center hover:bg-[#361716] hover:text-white transition-colors"><ArrowRight size={16} className="rotate-180" /></button>
-                <button onClick={() => scrollBy(1)} aria-label={t.next} className="w-11 h-11 border border-[#2A2623]/25 flex items-center justify-center hover:bg-[#361716] hover:text-white transition-colors"><ArrowRight size={16} /></button>
-              </div>
-            </div>
-          </div>
-
-          <div ref={scroller} data-reveal-group className="flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {LOCATIONS.map((loc) => (
-              <a
-                key={loc.id}
-                href={ws(lang, `/locations/${loc.id}`)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative shrink-0 w-[280px] sm:w-[320px] snap-start"
-              >
-                <div className="relative aspect-[3/4] overflow-hidden bg-[#2A2623]">
-                  <img loading="lazy" decoding="async" {...photo(loc.photo)} alt={loc.name} className="w-full h-full object-cover transition-transform duration-[0.9s] group-hover:scale-[1.07]" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623]/85 via-[#2A2623]/10 to-transparent" />
-                  <span className="absolute top-4 left-4 text-[12px] uppercase tracking-[0.18em] bg-[#D12126] text-white px-3 py-1.5">
-                    {loc.comingSoon ? t.soon : loc.line ? WORKSPACE_LINES[loc.line].label : 'HiLink'}
-                  </span>
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <h3 className="serif text-2xl mb-1.5 leading-tight">{loc.name}</h3>
-                    <p className="text-[12px] text-[#E9E3DA]/70 flex items-start gap-1.5">
-                      <span className="text-[#F06A6E] mt-0.5">◦</span> {loc.address}
-                    </p>
-                  </div>
-                </div>
-              </a>
-            ))}
+            <p className="max-w-sm text-[#6B645D] leading-relaxed text-[15px]">
+              {t.prjLead}
+            </p>
           </div>
         </div>
+        <PlaceRail
+          items={LOCATIONS.map((loc) => ({ key: loc.id, name: loc.name, address: loc.address, photo: loc.photo, href: `/locations/${loc.id}` }))}
+          next={t.next}
+          prev={t.prev}
+        />
       </section>
 
       {/* ── Trust ── */}
@@ -289,7 +260,7 @@ export function HomePage() {
                 {t.whyCta} <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
-            <motion.div className="relative aspect-[4/3] overflow-hidden" whileHover={{ scale: 1.02 }} transition={{ duration: 0.4 }}>
+            <motion.div className="relative aspect-[4/3] overflow-hidden rounded-[8px]" whileHover={{ scale: 1.02 }} transition={{ duration: 0.4 }}>
               <img loading="lazy" decoding="async" {...photo(IMG.lounge)} alt={t.loungeAlt} className="w-full h-full object-cover" />
             </motion.div>
           </div>

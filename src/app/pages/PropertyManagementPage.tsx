@@ -397,7 +397,7 @@ function PropertyCard({ name, location, type, stats, image, to, href, viewLabel 
       whileHover={{ y: -10, boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }}
       transition={{ type: "spring", stiffness: 300 }}
     >
-      <div className="relative aspect-[16/10] overflow-hidden">
+      <div className="relative aspect-[16/10] overflow-hidden rounded-[8px]">
         <motion.img loading="lazy" decoding="async"
           {...photo(image)}
           alt={name}
