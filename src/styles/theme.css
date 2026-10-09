@@ -408,3 +408,13 @@ footer::before {
   .hl-loop .hl-loop-draw { stroke-dashoffset: 0; }
   .hl-loop .hl-loop-run, .hl-loop .hl-loop-ring { animation: none; }
 }
+
+/* Dropdown panel (components/Select.tsx): drops in like the HiLink
+   Workspaces menu. */
+.hl-select-menu.is-open { animation: hl-select-in 0.16s ease-out; }
+@keyframes hl-select-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .hl-select-menu.is-open { animation: none; } }
+/* Contact: the link line draws itself on arrival rather than on scroll. */
+.hl-loop--auto.is-in .hl-loop-draw { transition: none; animation: hl-loop-drawin 3.2s cubic-bezier(0.65, 0, 0.35, 1) 0.3s both; }
+@keyframes hl-loop-drawin { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .hl-loop--auto.is-in .hl-loop-draw { animation: none; stroke-dashoffset: 0; } }

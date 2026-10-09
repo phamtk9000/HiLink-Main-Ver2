@@ -1,10 +1,20 @@
 import { useState, useRef } from 'react';
 import { motion } from 'motion/react';
-import { Plus, Minus, Upload, ChevronDown } from 'lucide-react';
+import { Plus, Minus, Upload } from 'lucide-react';
 import { useLang } from '../lib/i18n';
 import { translations } from '../translations';
 import { Contours } from './Contours';
+import { Select } from './Select';
 import { HONEYPOT_PROPS, honeypot, leadError, sendLead } from '../lib/lead';
+
+const UTILITIES = [
+  { en: 'None', vi: 'Không' },
+  { en: 'Gym', vi: 'Phòng gym' },
+  { en: 'Pool', vi: 'Hồ bơi' },
+  { en: 'Gym + Pool', vi: 'Gym + hồ bơi' },
+  { en: 'Gym + Pool + Parking', vi: 'Gym + hồ bơi + bãi đỗ xe' },
+  { en: 'Full Amenities', vi: 'Đầy đủ tiện ích' },
+];
 
 export function PropertyRentalForm() {
   const { lang } = useLang();
@@ -37,7 +47,7 @@ export function PropertyRentalForm() {
     e.preventDefault();
     setIsSubmitting(true);
     setError('');
-    const utilityLabel = (e.currentTarget.querySelector('select') as HTMLSelectElement | null)?.selectedOptions[0]?.text ?? utility;
+    const utilityLabel = UTILITIES[Number(utility)]?.[lang] ?? utility;
     try {
       await sendLead('rental', {
         Name: fullName, Email: email, Phone: phone, Location: location,
@@ -174,21 +184,13 @@ export function PropertyRentalForm() {
                 <label className="block text-sm mb-3 uppercase tracking-wider">
                   {t('propertyForm.utility')} <span className="text-red-400">*</span>
                 </label>
-                <div className="relative">
-                  <select
-                    value={utility}
-                    onChange={(e) => setUtility(e.target.value)}
-                    className="w-full px-6 py-4 bg-transparent border border-white/40 text-white appearance-none focus:border-[#E9E3DA] focus:outline-none transition-colors cursor-pointer"
-                  >
-                    <option value="0" className="bg-[#361716]">{lang === 'vi' ? 'Không' : 'None'}</option>
-                    <option value="1" className="bg-[#361716]">{lang === 'vi' ? 'Phòng gym' : 'Gym'}</option>
-                    <option value="2" className="bg-[#361716]">{lang === 'vi' ? 'Hồ bơi' : 'Pool'}</option>
-                    <option value="3" className="bg-[#361716]">{lang === 'vi' ? 'Gym + hồ bơi' : 'Gym + Pool'}</option>
-                    <option value="4" className="bg-[#361716]">{lang === 'vi' ? 'Gym + hồ bơi + bãi đỗ xe' : 'Gym + Pool + Parking'}</option>
-                    <option value="5" className="bg-[#361716]">{lang === 'vi' ? 'Đầy đủ tiện ích' : 'Full Amenities'}</option>
-                  </select>
-                  <ChevronDown size={20} className="absolute right-6 top-1/2 -translate-y-1/2 text-white pointer-events-none" />
-                </div>
+                <Select
+                  value={utility}
+                  onChange={setUtility}
+                  options={UTILITIES.map((u, k) => ({ value: String(k), label: u[lang] }))}
+                  tone="dark"
+                  className="w-full px-6 py-4 bg-transparent border border-white/40 text-white focus:border-[#E9E3DA] focus:outline-none transition-colors"
+                />
               </div>
             </div>
 

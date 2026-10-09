@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useLang, usePageMeta } from '../lib/i18n';
+import { Select } from '../components/Select';
 import { SERVICES } from '../data/site';
 import { HONEYPOT_PROPS, honeypot, leadError, sendLead } from '../lib/lead';
 import { Contours } from '../components/Contours';
@@ -141,16 +142,13 @@ export function BookConsultationPage() {
                 </div>
                 <div>
                   <label htmlFor="bc-interest" className="block text-sm uppercase tracking-wider text-[#D12126] mb-3">{t.interest}</label>
-                  <select
+                  <Select
                     id="bc-interest"
                     value={form.interest || interests[0]}
-                    onChange={(e) => update('interest', e.target.value)}
-                    className={`${inputClass} [&>option]:text-[#2A2623]`}
-                  >
-                    {interests.map((i) => (
-                      <option key={i} value={i}>{i}</option>
-                    ))}
-                  </select>
+                    onChange={(v) => update('interest', v)}
+                    options={interests.map((it) => ({ value: it, label: it }))}
+                    className={inputClass}
+                  />
                 </div>
               </div>
 
