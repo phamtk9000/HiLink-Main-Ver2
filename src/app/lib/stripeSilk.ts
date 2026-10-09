@@ -131,9 +131,9 @@ vec3 hueShift(vec3 color, float shift) {
   return U * cos(shift) + V * sin(shift) + projection;
 }
 
-// HiLink's palette in place of Stripe's palette texture. Along the cloth
-// (v): warm peach, coral, HiLink red, crimson, wine. The folded-back layer
-// (u > ½) is the lighter, pinker underside, as Stripe's back face is.
+// HiLink's palette in place of Stripe's palette texture: deep reds only —
+// oxblood, crimson, HiLink red, a warm red at the fold — with no peach or
+// pink, so the cloth reads rich rather than light.
 vec3 ramp(float t, vec3 a, vec3 b, vec3 c, vec3 d, vec3 e) {
   return t < 0.25 ? mix(a, b, t / 0.25)
        : t < 0.5 ? mix(b, c, (t - 0.25) / 0.25)
@@ -141,12 +141,13 @@ vec3 ramp(float t, vec3 a, vec3 b, vec3 c, vec3 d, vec3 e) {
        : mix(d, e, (t - 0.75) / 0.25);
 }
 vec3 palette(vec2 uv) {
-  // front face, from its free edge (wine) to the fold (peach)
+  // front face, from its free edge (near-black oxblood) through crimson
+  // and HiLink red to a warm red at the fold
   float k = clamp(uv.x / 0.47, 0.0, 1.0);
-  vec3 front = ramp(k, vec3(0.30, 0.03, 0.09), vec3(0.62, 0.06, 0.14), vec3(0.86, 0.15, 0.21), vec3(0.98, 0.36, 0.33), vec3(1.00, 0.62, 0.50));
-  // underside, from the fold (peach) to its free edge (rose)
+  vec3 front = ramp(k, vec3(0.14, 0.02, 0.03), vec3(0.36, 0.03, 0.06), vec3(0.62, 0.06, 0.09), vec3(0.82, 0.13, 0.15), vec3(0.92, 0.26, 0.19));
+  // underside, darkening from the fold back to oxblood
   float kb = clamp((uv.x - 0.53) / 0.47, 0.0, 1.0);
-  vec3 back = ramp(kb, vec3(1.00, 0.74, 0.62), vec3(1.00, 0.60, 0.55), vec3(0.97, 0.45, 0.50), vec3(0.86, 0.29, 0.40), vec3(0.62, 0.14, 0.27));
+  vec3 back = ramp(kb, vec3(0.88, 0.28, 0.20), vec3(0.78, 0.16, 0.14), vec3(0.58, 0.07, 0.09), vec3(0.38, 0.04, 0.07), vec3(0.22, 0.02, 0.04));
   vec3 c = mix(front, back, smoothstep(0.47, 0.53, uv.x));
   // and warmer towards one end of the length, deeper towards the other
   return c * mix(1.08, 0.82, smoothstep(0.2, 1.0, uv.y));
@@ -165,12 +166,13 @@ void main() {
   float n0 = simplexNoise(vec2(v_uv.x * 0.1, v_uv.y * 0.5));
   float n1 = simplexNoise(vec2(v_uv.x * (freq + (freq * 0.5 * n0)), v_uv.y * 4.0 * n0));
   n1 = mapLinear(n1, -1.0, 1.0, 0.0, 1.0);
-  color += n1 * strength * (1.0 - color.b * colorAtten) * pdy * p;
+  // (Stripe adds the threads in white; warm red here, so they don't grey the dark reds)
+  color += n1 * strength * (1.0 - color.b * colorAtten) * pdy * p * vec3(1.0, 0.6, 0.5);
 
   color = contrast(color, u_colorContrast);
   color = desaturate(color, 1.0 - u_colorSaturation);
   color = hueShift(color, u_colorHueShift);
-  color += (1.0 - pdy) * 0.25;
+  color += (1.0 - pdy) * 0.1 * vec3(1.0, 0.45, 0.35); // Stripe lifts by 0.25 in white; a little, in warm red, here
 
   float g = fract(sin(dot(gl_FragCoord.xy + fract(u_time * 0.001) * 91.0, vec2(12.9898, 78.233))) * 43758.5453);
   color += (g - 0.5) * 0.045 * u_grain;

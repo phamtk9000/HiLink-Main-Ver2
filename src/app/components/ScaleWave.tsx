@@ -43,12 +43,13 @@ const T = {
   },
 };
 
-// Each figure carries its own slice of the ribbon's gradient, as on Stripe.
+// Each figure carries its own slice of the silk's reds, as on Stripe (white
+// to HiLink red, warm throughout — no pink).
 const NUM_GRADIENTS = [
-  'linear-gradient(95deg, #FFE6DA 0%, #FFC3A6 50%, #FF9F86 100%)',
-  'linear-gradient(95deg, #FFC3A6 0%, #FF8F7A 55%, #FF6B78 100%)',
-  'linear-gradient(95deg, #FF9F86 0%, #FF5468 55%, #F23E5C 100%)',
-  'linear-gradient(95deg, #FF7A8C 0%, #F0485A 55%, #FF6B86 100%)',
+  'linear-gradient(95deg, #FFFFFF 0%, #FFE2D8 55%, #FFC2AE 100%)',
+  'linear-gradient(95deg, #FFE2D8 0%, #FFB29A 55%, #FF8A6E 100%)',
+  'linear-gradient(95deg, #FFB29A 0%, #FF7A5C 55%, #F2553F 100%)',
+  'linear-gradient(95deg, #FF8A6E 0%, #F2553F 55%, #E8332C 100%)',
 ];
 
 /** Counts from `from` to `to` once `run` turns true (easeOutCubic, 1.6s). */
