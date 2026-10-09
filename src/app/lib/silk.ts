@@ -13,8 +13,9 @@
 //   - a touch of film grain.
 //
 // Waves travel along it, it breathes and turns, and it swells under the
-// pointer. Returns null when WebGL2 is unavailable, so the caller can fall
-// back to drawing lines on a 2D canvas.
+// pointer. A second variant, 'sheet', lays a broad cloth across the lower
+// right with a diagonal top edge, as behind the Stripe Enterprise hero.
+// Returns null when WebGL2 is unavailable, so the caller can fall back.
 
 const VS = `#version 300 es
 in vec2 a_uv;
@@ -22,6 +23,7 @@ uniform vec2 u_size;      // CSS px
 uniform float u_time;
 uniform float u_px;       // pointer x, CSS px
 uniform float u_pon;      // pointer presence 0..1
+uniform float u_variant;  // 0 ribbon, 1 sheet
 out vec2 v_uv;
 out vec3 v_pos;
 float sm(float a, float b, float x) { return smoothstep(a, b, x); }
@@ -37,6 +39,19 @@ void main() {
   float theta = 3.14159265 * (0.18 + 0.82 * sm(0.12, 0.8, u)) + s * 0.5 * sm(0.15, 0.6, u) + 0.34 * sin(t * 0.45 + u * 3.2);
   float ripple = sin(u * 9.0 + t * 1.1 + s * 4.0) * H * 0.012 * sm(0.25, 1.0, u);
   vec3 p = vec3(x, centre + s * width * cos(theta) + ripple, s * width * sin(theta));
+  if (u_variant > 0.5) {
+    // Sheet: a broad cloth over the lower right, its top edge on a diagonal
+    // and long folds running along it (the Stripe Enterprise hero).
+    vec2 A = W < 640.0 ? vec2(W * 0.7, H * 1.08) : vec2(W * 0.5, H * 1.12);
+    vec2 B = W < 640.0 ? vec2(W * 1.4, H * 0.45) : vec2(W * 1.12, H * 0.08);
+    vec2 dir = B - A; float L = length(dir); dir /= L;
+    vec2 nrm = vec2(-dir.y, dir.x);
+    float v = a_uv.y;
+    float fold = sin(u * 7.0 + v * 2.5 - t * 0.5) * 0.5 + sin(u * 3.0 - v * 4.0 + t * 0.35) * 0.5;
+    vec2 q = A + dir * (u * L * 1.1 - L * 0.05) + nrm * (v * H * 1.5 + sin(u * 5.0 + t * 0.6) * H * 0.025 * (0.3 + v));
+    q -= nrm * u_pon * exp(-pow(q.x - u_px, 2.0) / (2.0 * 170.0 * 170.0)) * H * 0.035 * (1.0 - v);
+    p = vec3(q, fold * H * 0.06 * (0.2 + v));
+  }
   v_uv = a_uv;
   v_pos = p;
   gl_Position = vec4(p.x / W * 2.0 - 1.0, 1.0 - p.y / H * 2.0, -p.z / (H * 1.5), 1.0);
@@ -48,6 +63,7 @@ in vec2 v_uv;
 in vec3 v_pos;
 uniform float u_time;
 uniform float u_dpr;
+uniform float u_variant;
 out vec4 o;
 
 // 2D simplex noise (Ashima Arts / Stefan Gustavson), as in Stripe's shader.
@@ -105,7 +121,8 @@ void main() {
   float g = length(vec2(dFdx(v_uv.y), dFdy(v_uv.y))) * u_dpr;
   float comp = smoothstep(0.018, 0.12, g);
 
-  vec3 col = palette(v_uv.x, v_uv.y);
+  // The sheet deepens from its lit top edge towards the corner.
+  vec3 col = u_variant > 0.5 ? palette(clamp(v_uv.y * 2.2 + (1.0 - v_uv.x) * 0.25, 0.0, 1.0), 0.55) * 0.92 : palette(v_uv.x, v_uv.y);
   col *= 0.42 + 0.7 * diff;
 
   // Threads along the ribbon.
@@ -125,8 +142,8 @@ void main() {
   // Grain.
   col += (hash(gl_FragCoord.xy + fract(u_time) * 97.0) - 0.5) * 0.04;
 
-  float edge = smoothstep(0.0, 0.012, v_uv.y) * smoothstep(1.0, 0.988, v_uv.y);
-  float ends = smoothstep(0.0, 0.12, v_uv.x) * smoothstep(1.0, 0.86, v_uv.x);
+  float edge = u_variant > 0.5 ? smoothstep(0.0, 0.006, v_uv.y) : smoothstep(0.0, 0.012, v_uv.y) * smoothstep(1.0, 0.988, v_uv.y);
+  float ends = u_variant > 0.5 ? 1.0 : smoothstep(0.0, 0.12, v_uv.x) * smoothstep(1.0, 0.86, v_uv.x);
   float a = edge * ends;
   if (a < 0.01) discard;
   o = vec4(clamp(col, 0.0, 1.0) * a, a);
@@ -138,7 +155,7 @@ export type Silk = {
   dispose: () => void;
 };
 
-export function createSilk(canvas: HTMLCanvasElement): Silk | null {
+export function createSilk(canvas: HTMLCanvasElement, variant: 'ribbon' | 'sheet' = 'ribbon'): Silk | null {
   const gl = canvas.getContext('webgl2', { alpha: true, antialias: true, premultipliedAlpha: true });
   if (!gl) return null;
   const sh = (type: number, src: string) => {
@@ -174,7 +191,7 @@ export function createSilk(canvas: HTMLCanvasElement): Silk | null {
   gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
   const count = verts.length / 2;
   const U = (n: string) => gl.getUniformLocation(prog, n);
-  const uSize = U('u_size'), uTime = U('u_time'), uPx = U('u_px'), uPon = U('u_pon'), uTimeF = U('u_time'), uDpr = U('u_dpr');
+  const uSize = U('u_size'), uTime = U('u_time'), uPx = U('u_px'), uPon = U('u_pon'), uTimeF = U('u_time'), uDpr = U('u_dpr'), uVariant = U('u_variant');
   let W = 1, H = 1, DPR = 1;
 
   return {
@@ -200,6 +217,7 @@ export function createSilk(canvas: HTMLCanvasElement): Silk | null {
       gl.uniform1f(uPx, px);
       gl.uniform1f(uPon, pon);
       gl.uniform1f(uDpr, DPR);
+      gl.uniform1f(uVariant, variant === 'sheet' ? 1 : 0);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, count);
     },
     dispose() {

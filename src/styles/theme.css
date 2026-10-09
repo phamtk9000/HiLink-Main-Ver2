@@ -166,6 +166,8 @@
      foraspace.com): a display line and the title under a photo card. */
   .hl-display { font-size: clamp(2.3rem, 4.2vw, 3.8rem) !important; line-height: 1.05 !important; }
   .hl-card-title { font-size: clamp(1.45rem, 2.1vw, 2.125rem) !important; line-height: 1.15 !important; }
+  /* A heavy sans display line, for the Stripe-Enterprise-style hero on Contact. */
+  .hl-hero-sans { font-family: var(--font-sans) !important; font-weight: 600 !important; letter-spacing: -0.035em !important; font-size: clamp(2.6rem, 5.6vw, 4.75rem) !important; line-height: 1.02 !important; }
 
   h1, h2 { overflow-wrap: break-word; }
 
@@ -424,3 +426,21 @@ footer::before {
    up with the page container, so the rail can run on to the screen edge. */
 .hl-rail { --rail-pad: 24px; }
 @media (min-width: 1024px) { .hl-rail { --rail-pad: max(48px, calc((100vw - 1600px) / 2 + 48px)); } }
+
+/* Knockout text, after stripe.com/enterprise: a gradient cut out by the
+   letters, sliding upward so the word keeps changing colour (Stripe: 5s,
+   linear); it wipes in on arrival. */
+.hl-knockout {
+  display: inline-block;
+  padding: 0 0.06em 0.12em 0;
+  color: transparent;
+  background-image: linear-gradient(180deg, #FFC9B0 0%, #FF9A86 18%, #F2475A 36%, #FF7E9E 54%, #FFB49A 72%, #FFC9B0 100%);
+  background-size: 100% 200%;
+  background-repeat: repeat-y;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: hl-knockout 5s linear infinite, hl-knockout-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+}
+@keyframes hl-knockout { from { background-position: 0 0; } to { background-position: 0 -200%; } }
+@keyframes hl-knockout-in { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 -10% 0 0); } }
+@media (prefers-reduced-motion: reduce) { .hl-knockout { animation: none; } }

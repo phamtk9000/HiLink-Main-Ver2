@@ -1,4 +1,6 @@
-// Contact — laid out after foraspace.com/contact-us: a white panel on the
+// Contact — opens with a Stripe-Enterprise-style hero (silk sheet, heavy sans
+// headline with colour-shifting knockout words), then follows
+// foraspace.com/contact-us: a white panel on the
 // left holding a photograph and "Find your solution at HiLink" (it stays in
 // view while the form scrolls), and the enquiry on the right in two short
 // groups, with fields outlined and labelled on their top edge. Only what we
@@ -6,17 +8,22 @@
 // The office's live opening status in Hanoi time sits under the logo.
 import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react';
 import { Link } from 'react-router';
-import { ArrowRight, CheckCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle, ChevronRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { CONTACT, SERVICES } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Select } from '../components/Select';
 import { HONEYPOT_PROPS, honeypot, leadError, sendLead } from '../lib/lead';
 import { photo } from '../lib/photo';
+import { SilkCanvas } from '../components/SilkCanvas';
+import { Flag } from '../components/Flag';
 
 const T = {
   en: {
     meta: 'Contact HiLink — email contact@hilink.vn or call (+84) 24 2202 9000.',
+    eyebrow: 'Contact', heroA: 'Let’s start a', heroB: 'conversation',
+    heroLead: 'Tell us what you need — a workspace, a property to look after, a company to set up — and the right person will come back to you within one working day.',
+    heroCta: 'Make an enquiry', orCall: 'or call',
     title: 'Contact us', sub: 'Make your enquiry',
     lead: "Fill in the details below and we'll put you in touch with the right person. Or give us a call if you prefer, on",
     orEmail: 'or write to',
@@ -35,6 +42,9 @@ const T = {
   },
   vi: {
     meta: 'Liên hệ HiLink — email contact@hilink.vn hoặc gọi (+84) 24 2202 9000.',
+    eyebrow: 'Liên hệ', heroA: 'Hãy bắt đầu', heroB: 'trao đổi',
+    heroLead: 'Cho chúng tôi biết bạn cần gì — một không gian làm việc, một tài sản cần chăm sóc, một công ty cần thành lập — người phù hợp sẽ phản hồi bạn trong một ngày làm việc.',
+    heroCta: 'Gửi yêu cầu', orCall: 'hoặc gọi',
     title: 'Liên hệ', sub: 'Gửi yêu cầu của bạn',
     lead: 'Điền thông tin bên dưới, chúng tôi sẽ kết nối bạn với đúng người phụ trách. Hoặc gọi cho chúng tôi nếu bạn muốn, theo số',
     orEmail: 'hoặc viết tới',
@@ -131,7 +141,33 @@ export function ContactPage() {
   );
 
   return (
-    <section className="bg-[#F4F0EA]">
+    <>
+    {/* Opening, after the stripe.com/enterprise hero: a deep diagonal ground,
+        a silk sheet across the lower right, a heavy sans headline whose last
+        words keep changing colour, and one clear action. In HiLink's wine,
+        peach and red. */}
+    <section className="relative overflow-hidden bg-[linear-gradient(145deg,#3B1C1E,#1B0E0F_75%)] text-white">
+      <SilkCanvas variant="sheet" />
+      <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 pt-24 pb-24 lg:pt-36 lg:pb-36 grid lg:grid-cols-12">
+        <div className="lg:col-span-7 lg:col-start-5">
+          <p className="mb-6 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] text-[#FF9A8B]"><Flag /> {t.eyebrow}</p>
+          <h1 className="hl-hero-sans text-white">
+            {t.heroA}{' '}<span className="hl-knockout">{t.heroB}</span>
+          </h1>
+          <p className="mt-8 max-w-[38rem] text-[1.125rem] lg:text-[1.25rem] leading-[1.6] text-white/85">{t.heroLead}</p>
+          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <a href="#enquiry" className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-[15px] font-medium text-[#2A2623] hover:bg-[#FBECEC] transition-colors">
+              {t.heroCta} <ChevronRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+            </a>
+            <span className="text-[15px] text-white/70">
+              {t.orCall}{' '}<a href={CONTACT.phoneHref} className="font-mono text-white underline decoration-white/30 underline-offset-4 hover:decoration-white">{CONTACT.phone}</a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="enquiry" className="bg-[#F4F0EA] scroll-mt-[76px]">
       <div className="grid lg:grid-cols-12">
         {/* Left: photograph and sign-off, held in view. */}
         <div className="lg:col-span-5 bg-white">
@@ -150,8 +186,8 @@ export function ContactPage() {
         {/* Right: the enquiry. */}
         <div className="lg:col-span-7 px-6 sm:px-10 lg:px-20 xl:px-28 py-14 lg:py-20">
           <div className="max-w-[640px]">
-            <h1 className="serif text-[#2A2623]">{t.title}</h1>
-            <p className="serif mt-1 text-[1.8rem] lg:text-[2.4rem] leading-tight text-[#2A2623]">{t.sub}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#6B645D]">{t.title}</p>
+            <h2 className="serif mt-2 hl-display text-[#2A2623]">{t.sub}</h2>
             <p className="mt-6 text-[15px] leading-relaxed text-[#4A443F]">
               {t.lead}{' '}
               <a href={CONTACT.phoneHref} className="font-mono text-[14px] text-[#2A2623] underline decoration-[#2A2623]/30 underline-offset-4 hover:text-[#D12126]">{CONTACT.phone}</a>
@@ -219,5 +255,6 @@ export function ContactPage() {
         </div>
       </div>
     </section>
+    </>
   );
 }

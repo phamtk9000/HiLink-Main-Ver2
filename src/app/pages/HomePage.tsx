@@ -10,6 +10,7 @@ import { LOCATIONS, WORKSPACE_LINES } from '../data/locations';
 import { SERVICES, ws } from '../data/site';
 import { Flag } from '../components/Flag';
 import { PlaceRail } from '../components/PlaceRail';
+import { ServiceFx, type FxKind } from '../components/ServiceFx';
 import { PartnerMarquee } from '../components/PartnerMarquee';
 import { Candles } from '../components/Candles';
 import { photo } from '../lib/photo';
@@ -209,11 +210,12 @@ export function HomePage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#2A2623]/15">
             {SVC.map((s, i) => (
-              <ServiceCard key={s.link} icon={s.icon} title={SERVICES.find((x) => x.path === s.link)?.t[lang] ?? t.svc[i][0]} description={t.svc[i][1]} link={l(s.link)} more={t.learn} />
+              <ServiceCard key={s.link} icon={s.icon} title={SERVICES.find((x) => x.path === s.link)?.t[lang] ?? t.svc[i][0]} description={t.svc[i][1]} link={l(s.link)} path={s.link} more={t.learn} />
             ))}
-            <div className="bg-[#D12126] p-8 lg:p-12 flex flex-col justify-between">
-              <div className="text-white/60 text-[12px] uppercase tracking-[0.2em] mb-auto">{t.all}</div>
-              <div>
+            <div data-fx-root className="relative overflow-hidden bg-[#D12126] p-8 lg:p-12 flex flex-col justify-between">
+              <ServiceFx kind="sphere" onRed />
+              <div className="relative text-white/60 text-[12px] uppercase tracking-[0.2em] mb-auto">{t.all}</div>
+              <div className="relative">
                 <p className="serif text-white text-2xl lg:text-3xl mb-6 leading-snug">{t.allTitle}</p>
                 <Link to={l('/solutions')} className="inline-flex items-center gap-2 text-white text-[12px] uppercase tracking-[0.2em] border-b border-white/40 pb-1 hover:border-white transition-colors group">
                   {t.allCta} <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
@@ -289,13 +291,25 @@ export function HomePage() {
   );
 }
 
-function ServiceCard({ icon, title, description, link, more }: { icon: React.ReactNode; title: string; description: string; link: string; more: string }) {
+// Each card carries its own motion behind the text on hover (ServiceFx).
+const FX: Record<string, FxKind> = {
+  '/property-management': 'building',
+  '/workspace-leasing': 'ring',
+  '/business-services': 'orbits',
+  '/concierge-services': 'silk',
+  '/industrial-logistics': 'routes',
+};
+
+function ServiceCard({ icon, title, description, link, path, more }: { icon: React.ReactNode; title: string; description: string; link: string; path: string; more: string }) {
   return (
-    <Link to={link} className="group bg-[#F4F0EA] p-8 lg:p-12 hover:bg-[#E9E3DA] transition-all block h-full">
-      <motion.div className="text-[#D12126] mb-6" whileHover={{ x: 4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>{icon}</motion.div>
-      <h3 className="serif text-2xl lg:text-[1.7rem] mb-4 leading-snug">{title}</h3>
-      <p className="text-[#6B645D] mb-6 leading-relaxed text-[15px]">{description}</p>
-      <div className="inline-flex items-center gap-2 text-[#2A2623] text-[12px] uppercase tracking-[0.16em] group-hover:gap-4 transition-all">{more} <ArrowRight size={15} /></div>
+    <Link to={link} data-fx-root className="group relative block h-full overflow-hidden bg-[#F4F0EA] p-8 lg:p-12 transition-colors duration-500 hover:bg-[#FBF8F5]">
+      <ServiceFx kind={FX[path]} />
+      <div className="relative">
+        <motion.div className="text-[#D12126] mb-6" whileHover={{ x: 4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>{icon}</motion.div>
+        <h3 className="serif text-2xl lg:text-[1.7rem] mb-4 leading-snug">{title}</h3>
+        <p className="text-[#6B645D] mb-6 leading-relaxed text-[15px] max-w-[30ch]">{description}</p>
+        <div className="inline-flex items-center gap-2 text-[#2A2623] text-[12px] uppercase tracking-[0.16em] group-hover:gap-4 transition-all">{more} <ArrowRight size={15} /></div>
+      </div>
     </Link>
   );
 }
