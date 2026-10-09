@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useLang, usePageMeta } from '../lib/i18n';
 import type { Bi } from '../data/site';
 import { Contours } from '../components/Contours';
+import { photo } from '../lib/photo';
 
 type Photo = { file: string; label: Bi; category: string };
 
@@ -110,7 +111,7 @@ function Lightbox({ images, startIndex, onClose }: {
         <AnimatePresence mode="wait">
           <motion.img
             key={current}
-            src={images[current].file}
+            {...photo(images[current].file)}
             alt={images[current].label[lang]}
             className="max-h-full max-w-full object-contain"
             initial={{ opacity: 0, scale: 0.97 }}
@@ -149,7 +150,7 @@ function Lightbox({ images, startIndex, onClose }: {
               }`}
             >
               <img loading="lazy" decoding="async"
-                src={img.file}
+                {...photo(img.file)}
                 alt={img.label[lang]}
                 className="w-full h-full object-cover"
               />
@@ -180,7 +181,7 @@ function PhotoGrid({ images, onOpen }: {
         aria-label={t.open(1)}
       >
         <img loading="lazy" decoding="async"
-          src={shown[0].file}
+          {...photo(shown[0].file)}
           alt={shown[0].label[lang]}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
@@ -196,7 +197,7 @@ function PhotoGrid({ images, onOpen }: {
           aria-label={t.open(i + 2)}
         >
           <img loading="lazy" decoding="async"
-            src={img.file}
+            {...photo(img.file)}
             alt={img.label[lang]}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
@@ -362,10 +363,10 @@ export function WorkspaceDetailPage() {
                       }}
                     >
                       <img loading="lazy" decoding="async"
-                        src={img.file}
+                        {...photo(img.file)}
                         alt={img.label[lang]}
                         className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        loading="lazy"
+                       
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-end">
                         <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-xs uppercase tracking-wider px-3 py-2">

@@ -69,7 +69,7 @@ export const ABOUT = {
     "oneRel": "One relationship",
     "eco": [
       {
-        "t": "Property & Asset Management",
+        "t": "Property Management",
         "d": "Supporting the management and performance of properties and assets."
       },
       {
@@ -162,7 +162,7 @@ export const ABOUT = {
     "oneRel": "Một mối quan hệ",
     "eco": [
       {
-        "t": "Quản lý Bất động sản & Tài sản",
+        "t": "Quản lý bất động sản",
         "d": "Hỗ trợ quản lý và nâng cao hiệu quả của bất động sản và tài sản."
       },
       {

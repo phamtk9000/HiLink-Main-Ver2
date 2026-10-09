@@ -4,6 +4,7 @@ import { Plus, Minus, Upload, ChevronDown } from 'lucide-react';
 import { useLang } from '../lib/i18n';
 import { translations } from '../translations';
 import { Contours } from './Contours';
+import { HONEYPOT_PROPS, honeypot, leadError, sendLead } from '../lib/lead';
 
 export function PropertyRentalForm() {
   const { lang } = useLang();
@@ -30,12 +31,24 @@ export function PropertyRentalForm() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    setError('');
+    const utilityLabel = (e.currentTarget.querySelector('select') as HTMLSelectElement | null)?.selectedOptions[0]?.text ?? utility;
+    try {
+      await sendLead('rental', {
+        Name: fullName, Email: email, Phone: phone, Location: location,
+        Bedrooms: String(bedrooms), Bathrooms: String(bathrooms), Utility: utilityLabel,
+        Photo: image ? (image.size > 3 * 1024 * 1024 ? `${image.name} (too large to attach)` : image.name) : '',
+      }, { website: honeypot(e.currentTarget), lang, file: image });
+    } catch {
+      setError(leadError(lang));
+      setIsSubmitting(false);
+      return;
+    }
 
     setIsSubmitting(false);
     setShowSuccess(true);
@@ -88,7 +101,9 @@ export function PropertyRentalForm() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
+            className="relative"
           >
+            <input {...HONEYPOT_PROPS} />
             {/* Location */}
             <div className="mb-8">
               <label className="block text-sm mb-3 uppercase tracking-wider">
@@ -251,6 +266,7 @@ export function PropertyRentalForm() {
             </div>
 
             {/* Submit Button */}
+            {error && <p role="alert" className="mb-4 text-right text-[15px] text-[#F7B4B6]">{error}</p>}
             <div className="flex justify-end">
               <motion.button
                 type="submit"

@@ -12,6 +12,7 @@ import { LinkPhilosophy } from '../components/LinkPhilosophy';
 import { Flag } from '../components/Flag';
 import { Contours } from '../components/Contours';
 import { PartnerMarquee } from '../components/PartnerMarquee';
+import { photo } from '../lib/photo';
 
 const T = {
   en: {
@@ -56,13 +57,13 @@ export function AboutPage() {
       <section className="relative min-h-screen bg-[#2A2623] flex flex-col">
         <div className="absolute inset-0 overflow-hidden">
           <img
-            src="/photos/f15-lounge-wide-xl.webp"
+            {...photo('/photos/f15-lounge-wide-xl.webp')}
             alt=""
             className="w-full h-full object-cover opacity-60"
           />
         </div>
         <div className="relative flex-1 flex flex-col items-center justify-center text-center px-6 lg:px-12">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-[#F06A6E] mb-8">
+          <p className="text-[12px] uppercase tracking-[0.2em] text-[#F06A6E] mb-8">
             {t.est}
           </p>
           <h1
@@ -74,7 +75,7 @@ export function AboutPage() {
         </div>
         <div className="relative pb-12 flex flex-col items-center gap-4">
           <div className="w-px h-12 bg-white/20" />
-          <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">{t.scroll}</p>
+          <p className="text-[12px] uppercase tracking-[0.2em] text-white/40">{t.scroll}</p>
         </div>
       </section>
 
@@ -87,7 +88,7 @@ export function AboutPage() {
               <div className="lg:sticky lg:top-32 space-y-8">
                 <div className="relative aspect-[3/4] overflow-hidden">
                   <img loading="lazy" decoding="async"
-                    src="/photos/hbc-desk.webp"
+                    {...photo('/photos/hbc-desk.webp')}
                     alt={t.storyAlt}
                     className="w-full h-full object-cover"
                   />
@@ -115,7 +116,7 @@ export function AboutPage() {
                 {t.facts.map(([value, label]) => (
                   <div key={label} className="border-t pt-5" style={{ borderColor: 'rgba(209,33,38,0.3)' }}>
                     <div className="serif text-2xl text-[#D12126] mb-2">{value}</div>
-                    <div className="text-[11px] uppercase tracking-wider text-[#6B645D]">{label}</div>
+                    <div className="text-[12px] uppercase tracking-wider text-[#6B645D]">{label}</div>
                   </div>
                 ))}
               </div>
@@ -133,7 +134,7 @@ export function AboutPage() {
           <div className="grid md:grid-cols-2 gap-px bg-[#2A2623]/10">
             <div className="bg-white p-10 lg:p-14">
               <div className="text-[#D12126] mb-8"><Compass size={32} /></div>
-              <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {a.visionLbl}</p>
+              <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {a.visionLbl}</p>
               <h2 className="serif text-3xl lg:text-4xl mb-6 leading-snug">
                 {a.vision}
               </h2>
@@ -143,7 +144,7 @@ export function AboutPage() {
             </div>
             <div className="bg-white p-10 lg:p-14">
               <div className="text-[#D12126] mb-8"><Target size={32} /></div>
-              <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {a.missionLbl}</p>
+              <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {a.missionLbl}</p>
               <h2 className="serif text-3xl lg:text-4xl mb-6 leading-snug">
                 {a.whoTitle}
               </h2>
@@ -158,7 +159,7 @@ export function AboutPage() {
       {/* Values */}
       <section className="bg-white py-32">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-16 flex items-center gap-2.5"><Flag /> {t.standFor}</p>
+          <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-16 flex items-center gap-2.5"><Flag /> {t.standFor}</p>
           <div className="divide-y divide-[#2A2623]/10">
             {a.diffs.map(({ t: title, d: desc }, i) => (
               <div key={title} className="flex items-start gap-8 py-10">
@@ -179,7 +180,7 @@ export function AboutPage() {
       <section className="bg-[#F4F0EA] py-32">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.journeyEyebrow}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.journeyEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{a.howTitle}</h2>
             <p className="text-[#6B645D] text-[15px] leading-relaxed max-w-2xl mt-6">{a.howBody}</p>
           </div>
@@ -200,7 +201,7 @@ export function AboutPage() {
       <section className="bg-white py-32">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.workEyebrow}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.workEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{t.workTitle}</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -209,12 +210,12 @@ export function AboutPage() {
                 <>
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <img loading="lazy" decoding="async"
-                      src={image}
+                      {...photo(image)}
                       alt={name}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      loading="lazy"
+                     
                     />
-                    <div className="absolute top-5 left-5 px-3 py-1.5 bg-white/95 text-[10px] uppercase tracking-[0.2em]">
+                    <div className="absolute top-5 left-5 px-3 py-1.5 bg-white/95 text-[12px] uppercase tracking-[0.2em]">
                       {tag}
                     </div>
                   </div>
@@ -241,7 +242,7 @@ export function AboutPage() {
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16">
             <div>
-              <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {a.ecoEyebrow}</p>
+              <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {a.ecoEyebrow}</p>
               <h2 className="serif text-4xl lg:text-5xl">{a.oneRel}</h2>
             </div>
             <p className="text-[15px] text-[#6B645D] max-w-sm">
@@ -275,7 +276,7 @@ export function AboutPage() {
       {/* Partners ticker */}
       <section className="bg-white py-16 border-t border-b border-[#2A2623]/08">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 mb-4">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] text-center">
+          <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] text-center">
             {t.partnersLbl}
           </p>
         </div>
@@ -290,7 +291,7 @@ export function AboutPage() {
             <h2 className="serif text-4xl lg:text-5xl mb-4">{a.helpTitle}</h2>
             <p className="text-white/70 text-lg">{a.helpBody}</p>
           </div>
-          <Link to={l('/contact')} className="shrink-0 inline-flex items-center gap-3 px-9 py-4 bg-[#D12126] text-white text-[11px] uppercase tracking-[0.2em] hover:bg-[#A3181C] transition-colors group">
+          <Link to={l('/contact')} className="shrink-0 inline-flex items-center gap-3 px-9 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.2em] hover:bg-[#A3181C] transition-colors group">
             {t.cta}
             <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
           </Link>

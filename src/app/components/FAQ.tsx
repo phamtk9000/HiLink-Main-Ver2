@@ -29,7 +29,7 @@ export function FAQ({
     <section className={`py-24 lg:py-32 ${bg}`}>
       <div className="max-w-[1000px] mx-auto px-6 lg:px-12">
         <div className="text-center mb-16">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {eyebrow}</p>
+          <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {eyebrow}</p>
           <h2 className="serif text-4xl lg:text-5xl mb-6">{title}</h2>
           {subtitle && <p className="text-xl text-[#6B645D] max-w-2xl mx-auto">{subtitle}</p>}
         </div>

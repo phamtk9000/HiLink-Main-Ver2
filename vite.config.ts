@@ -16,6 +16,43 @@ function figmaAssetResolver() {
   }
 }
 
+// robots.txt and sitemap.xml, written into dist at build time. SITE_URL is the
+// public origin of this site (set it in Vercel when the final domain is live).
+const SITE_URL = (process.env.SITE_URL || 'https://hi-link-main-ver2.vercel.app').replace(/\/$/, '')
+const PAGES = [
+  '', '/about', '/solutions', '/workspace-leasing', '/workspace/quarter-house', '/property-management',
+  '/concierge-services', '/business-services', '/industrial-logistics', '/partners', '/careers', '/news',
+  '/contact', '/book-consultation', '/privacy-policy', '/terms',
+]
+function seoFiles() {
+  return {
+    name: 'hilink-seo-files',
+    apply: 'build' as const,
+    generateBundle() {
+      const today = new Date().toISOString().slice(0, 10)
+      const url = (lang: string, p: string) => `${SITE_URL}/${lang}${p}`
+      const entries = PAGES.flatMap((p) => ['en', 'vi'].map((lang) => `  <url>
+    <loc>${url(lang, p)}</loc>
+    <lastmod>${today}</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="${url('en', p)}"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="${url('vi', p)}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${url('en', p)}"/>
+  </url>`)).join('\n')
+      this.emitFile({ type: 'asset', fileName: 'sitemap.xml', source: `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${entries}
+</urlset>
+` })
+      this.emitFile({ type: 'asset', fileName: 'robots.txt', source: `User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: ${SITE_URL}/sitemap.xml
+` })
+    },
+  }
+}
+
 export default defineConfig({
   plugins: [
     figmaAssetResolver(),
@@ -23,6 +60,7 @@ export default defineConfig({
     // Tailwind is not being actively used – do not remove them
     react(),
     tailwindcss(),
+    seoFiles(),
   ],
   resolve: {
     alias: {

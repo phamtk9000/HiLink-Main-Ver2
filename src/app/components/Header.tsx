@@ -1,9 +1,9 @@
 import { Link, useLocation } from 'react-router';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
 import { useLang } from '../lib/i18n';
-import { CONTACT } from '../data/site';
+import { CONTACT, SERVICES } from '../data/site';
 
 const MAIN_LINKS = [
   { en: 'Solutions', vi: 'Giải pháp', path: '/solutions' },
@@ -14,13 +14,7 @@ const MAIN_LINKS = [
   { en: 'Contact', vi: 'Liên hệ', path: '/contact' },
 ];
 
-const SERVICE_LINKS = [
-  { en: 'Property Management', vi: 'Quản lý bất động sản', path: '/property-management' },
-  { en: 'Workspace Leasing', vi: 'Cho thuê văn phòng', path: '/workspace-leasing' },
-  { en: 'Business Services', vi: 'Dịch vụ doanh nghiệp', path: '/business-services' },
-  { en: 'Concierge Services', vi: 'Dịch vụ concierge', path: '/concierge-services' },
-  { en: 'Industrial & Logistics', vi: 'Công nghiệp & logistics', path: '/industrial-logistics' },
-];
+const SERVICE_LINKS = SERVICES.map((s) => ({ ...s.t, path: s.path }));
 
 const T = {
   en: { book: 'Book Consultation', menu: 'Menu', close: 'Close', ours: 'Our Solutions', touch: 'Get in touch', cta: 'Book a Consultation', addr: '60 Ly Thai To, Hoan Kiem · 4 Ton That Tung, Dong Da — Ha Noi', toggle: 'Toggle menu' },
@@ -35,6 +29,8 @@ export function Header() {
   const t = T[lang];
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 60);
@@ -48,6 +44,25 @@ export function Header() {
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
+
+  // Keyboard: focus moves into the menu when it opens, Tab stays within the
+  // menu and its toggle, Esc closes it and returns focus to the toggle.
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const focusables = () => [toggleRef.current, ...Array.from(menuRef.current?.querySelectorAll<HTMLElement>('a[href], button') ?? [])].filter(Boolean) as HTMLElement[];
+    const first = window.setTimeout(() => focusables()[1]?.focus(), 50);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { setIsOpen(false); toggleRef.current?.focus(); return; }
+      if (e.key !== 'Tab') return;
+      const els = focusables();
+      const i = els.indexOf(document.activeElement as HTMLElement);
+      if (e.shiftKey && i <= 0) { e.preventDefault(); els[els.length - 1]?.focus(); }
+      else if (!e.shiftKey && i === els.length - 1) { e.preventDefault(); els[0]?.focus(); }
+      else if (i === -1) { e.preventDefault(); els[0]?.focus(); }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => { window.clearTimeout(first); document.removeEventListener('keydown', onKey); };
   }, [isOpen]);
 
   const onDark = isOpen;
@@ -72,7 +87,7 @@ export function Header() {
               aria-label="HiLink — Your Solution"
             >
               <img
-                src="/brand/hilink-logo.png"
+                src="/brand/logo-hilink-lockup.svg"
                 alt="HiLink — Your Solution"
                 className="h-10 lg:h-12 w-auto"
               />
@@ -81,7 +96,7 @@ export function Header() {
             {/* Right cluster */}
             <div className="flex items-center gap-5 sm:gap-7">
               {/* Language */}
-              <div className={`flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.14em] text-[#2A2623]`}>
+              <div className={`flex items-center gap-1 text-[12px] font-medium uppercase tracking-[0.14em] text-[#2A2623]`}>
                 <Link to={switchTo('en')} className={`transition-colors ${lang === 'en' ? 'text-[#D12126]' : 'opacity-45 hover:opacity-100'}`}>EN</Link>
                 <span className="opacity-30">/</span>
                 <Link to={switchTo('vi')} className={`transition-colors ${lang === 'vi' ? 'text-[#D12126]' : 'opacity-45 hover:opacity-100'}`}>VI</Link>
@@ -91,7 +106,7 @@ export function Header() {
               {!onDark && (
                 <Link
                   to={l('/book-consultation')}
-                  className="hidden md:inline-flex items-center gap-2 px-6 py-[10px] bg-[#361716] text-white text-[11px] font-medium uppercase tracking-[0.15em] hover:bg-[#D12126] transition-colors"
+                  className="hidden md:inline-flex items-center gap-2 px-6 py-[10px] bg-[#361716] text-white text-[12px] font-medium uppercase tracking-[0.15em] hover:bg-[#D12126] transition-colors"
                 >
                   {t.book}
                 </Link>
@@ -99,11 +114,14 @@ export function Header() {
 
               {/* Menu toggle */}
               <button
+                ref={toggleRef}
                 onClick={() => setIsOpen((o) => !o)}
                 className={`flex items-center gap-3 group text-[#2A2623]`}
-                aria-label={t.toggle}
+                aria-label={isOpen ? t.close : t.toggle}
+                aria-expanded={isOpen}
+                aria-controls="site-menu"
               >
-                <span className="text-[11px] font-medium uppercase tracking-[0.18em] hidden sm:inline">
+                <span className="text-[12px] font-medium uppercase tracking-[0.18em] hidden sm:inline">
                   {isOpen ? t.close : t.menu}
                 </span>
                 <span className="relative w-7 h-[14px]">
@@ -126,6 +144,11 @@ export function Header() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id="site-menu"
+            ref={menuRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label={t.menu}
             className="fixed inset-0 z-50 bg-[#F4F0EA] text-[#2A2623] overflow-y-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -151,7 +174,7 @@ export function Header() {
                         to={l(item.path)}
                         className="group flex items-center gap-4 py-2 lg:py-3 serif text-[2.4rem] lg:text-[4rem] leading-[1.05] text-[#2A2623] hover:text-[#D12126] transition-colors"
                       >
-                        <span className="text-[11px] sans tracking-[0.2em] text-[#D12126] opacity-60 w-8 pt-4">0{i + 1}</span>
+                        <span className="text-[12px] sans tracking-[0.2em] text-[#D12126] opacity-60 w-8 pt-4">0{i + 1}</span>
                         {item[lang]}
                         <ArrowUpRight className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-[#D12126]" size={28} />
                       </Link>
@@ -167,7 +190,7 @@ export function Header() {
                   transition={{ delay: 0.4, duration: 0.5 }}
                 >
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-6">{t.ours}</p>
+                    <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-6">{t.ours}</p>
                     <div className="flex flex-col gap-3">
                       {SERVICE_LINKS.map((s) => (
                         <Link key={s.path} to={l(s.path)} className="text-[15px] text-[#6B645D] hover:text-[#D12126] hover:translate-x-1 transition-all w-fit">
@@ -178,12 +201,12 @@ export function Header() {
                   </div>
 
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-6">{t.touch}</p>
+                    <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-6">{t.touch}</p>
                     <a href={CONTACT.emailHref} className="block serif text-2xl text-[#2A2623] hover:text-[#D12126] transition-colors">{CONTACT.email}</a>
                     <a href={CONTACT.phoneHref} className="block text-[#6B645D] mt-2 hover:text-[#D12126] transition-colors">{CONTACT.phone}</a>
                     <Link
                       to={l('/book-consultation')}
-                      className="mt-8 inline-flex items-center gap-2 px-8 py-4 bg-[#D12126] text-white text-[11px] uppercase tracking-[0.18em] hover:bg-[#A3181C] transition-colors"
+                      className="mt-8 inline-flex items-center gap-2 px-8 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.18em] hover:bg-[#A3181C] transition-colors"
                     >
                       {t.cta} <ArrowUpRight size={15} />
                     </Link>
@@ -192,7 +215,7 @@ export function Header() {
               </div>
 
               {/* Footer row */}
-              <div className="flex flex-wrap items-center justify-between gap-4 pt-10 border-t border-[#2A2623]/10 text-[11px] uppercase tracking-[0.18em] text-[#6B645D]">
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-10 border-t border-[#2A2623]/10 text-[12px] uppercase tracking-[0.18em] text-[#6B645D]">
                 <span>{t.addr}</span>
                 <span>© {new Date().getFullYear()} HiLink Vietnam</span>
               </div>

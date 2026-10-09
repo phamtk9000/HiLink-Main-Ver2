@@ -114,11 +114,12 @@ export const PARTNERS = [
   { id: 'hiwise', name: 'HiWise', src: '/partners/hiwise.webp', w: 400, h: 132 },
 ];
 
-// The service lines of this site, in menu order.
+// The service lines of this site, in menu order. `t` is the one name each
+// service goes by everywhere — header, footer, home, forms.
 export const SERVICES: { path: string; t: Bi; d: Bi; photo: string }[] = [
   {
     path: '/property-management',
-    t: { en: 'Property & Asset Management', vi: 'Quản lý bất động sản & tài sản' },
+    t: { en: 'Property Management', vi: 'Quản lý bất động sản' },
     d: {
       en: 'Supporting the management and performance of properties and assets.',
       vi: 'Hỗ trợ quản lý và nâng cao hiệu quả của bất động sản và tài sản.',
@@ -127,7 +128,7 @@ export const SERVICES: { path: string; t: Bi; d: Bi; photo: string }[] = [
   },
   {
     path: '/workspace-leasing',
-    t: { en: 'Workspace Leasing', vi: 'Cho thuê không gian làm việc' },
+    t: { en: 'Workspace Leasing', vi: 'Cho thuê văn phòng' },
     d: {
       en: 'Workspace solutions designed around the different ways businesses work.',
       vi: 'Giải pháp không gian làm việc thiết kế quanh những cách làm việc khác nhau của doanh nghiệp.',

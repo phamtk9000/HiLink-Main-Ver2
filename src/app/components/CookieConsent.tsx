@@ -44,10 +44,10 @@ export function CookieConsent() {
               <Link to={l('/privacy-policy')} className="underline hover:text-white">{t.more}</Link>
             </p>
             <div className="flex gap-3 shrink-0">
-              <button onClick={() => choose('essential')} className="px-6 py-2 border border-white/30 text-white/80 text-[11px] uppercase tracking-wider hover:border-white hover:text-white transition-colors">
+              <button onClick={() => choose('essential')} className="px-6 py-2 border border-white/30 text-white/80 text-[12px] uppercase tracking-wider hover:border-white hover:text-white transition-colors">
                 {t.decline}
               </button>
-              <button onClick={() => choose('all')} className="px-6 py-2 bg-[#D12126] text-white text-[11px] uppercase tracking-wider hover:bg-[#A3181C] transition-colors">
+              <button onClick={() => choose('all')} className="px-6 py-2 bg-[#D12126] text-white text-[12px] uppercase tracking-wider hover:bg-[#A3181C] transition-colors">
                 {t.accept}
               </button>
             </div>

@@ -6,6 +6,7 @@ import { HeroBg } from '../components/HeroBg';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { PartnerMarquee } from '../components/PartnerMarquee';
+import { photo } from '../lib/photo';
 
 const TYPE_META = [
   { icon: <Building size={28} />, image: '/photos/f19-window.webp' },
@@ -94,7 +95,7 @@ export function PartnersPage() {
         <HeroBg image="/photos/hbc-meeting.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28 w-full">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-4xl">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#F06A6E] mb-7 flex items-center gap-3">
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#F06A6E] mb-7 flex items-center gap-3">
               <Flag className="text-[#F06A6E]" /> {t.eyebrow}
             </p>
             <h1 className="serif text-5xl lg:text-[5rem] mb-8 leading-[0.98]">{t.h1a}<br />{t.h1b}</h1>
@@ -109,7 +110,7 @@ export function PartnersPage() {
       <section className="py-24 lg:py-32 bg-[#F4F0EA]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-12 lg:gap-24">
           <div className="lg:col-span-5">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.introEyebrow}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.introEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl leading-tight">{t.introTitle}</h2>
           </div>
           <div className="lg:col-span-7 flex items-center">
@@ -124,14 +125,14 @@ export function PartnersPage() {
       <section id="our-partners" className="py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="text-center mb-16">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.typesEyebrow}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.typesEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{t.typesTitle}</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {t.types.map(([title, description], i) => (
               <motion.div key={title} className="group bg-white overflow-hidden border border-[#2A2623]/10" whileHover={{ y: -6 }}>
                 <div className="relative aspect-[4/3] overflow-hidden">
-                  <img src={TYPE_META[i].image} alt={title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <img {...photo(TYPE_META[i].image)} alt={title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623]/70 to-transparent" />
                   <div className="absolute bottom-4 left-4 w-11 h-11 bg-[#D12126] text-white flex items-center justify-center">{TYPE_META[i].icon}</div>
                 </div>
@@ -149,7 +150,7 @@ export function PartnersPage() {
       <section className="py-24 lg:py-32 bg-[#F4F0EA] text-[#2A2623]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.whyEyebrow}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.whyEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl mb-12 leading-tight">{t.whyTitle}</h2>
             <div className="grid sm:grid-cols-2 gap-px bg-[#2A2623]/10">
               {t.benefits.map(([title, desc], i) => (
@@ -162,7 +163,7 @@ export function PartnersPage() {
             </div>
           </div>
           <div className="relative aspect-[3/4] overflow-hidden">
-            <img loading="lazy" decoding="async" src="/photos/hbc-lounge-2.webp" alt={t.whyAlt} className="w-full h-full object-cover" />
+            <img loading="lazy" decoding="async" {...photo('/photos/hbc-lounge-2.webp')} alt={t.whyAlt} className="w-full h-full object-cover" />
           </div>
         </div>
       </section>
@@ -170,7 +171,7 @@ export function PartnersPage() {
       {/* Partners strip */}
       <section className="py-20 bg-white border-y border-[#2A2623]/10">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center justify-center gap-2.5"><Flag /> {t.stripLbl}</p>
+          <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center justify-center gap-2.5"><Flag /> {t.stripLbl}</p>
           <PartnerMarquee />
         </div>
       </section>
@@ -179,7 +180,7 @@ export function PartnersPage() {
       <section className="py-24 lg:py-32 bg-[#F4F0EA]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="mb-14 max-w-2xl">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.howEyebrow}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.howEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl leading-tight">{t.howTitle}</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#2A2623]/10">
@@ -201,7 +202,7 @@ export function PartnersPage() {
       <section id="partner-with-us" className="relative overflow-hidden bg-white text-[#2A2623]">
         <div className="grid lg:grid-cols-2">
           <div className="relative min-h-[360px] lg:min-h-0 overflow-hidden">
-            <img loading="lazy" decoding="async" src="/photos/hbc-boardroom.webp" alt={t.withAlt} className="absolute inset-0 w-full h-full object-cover" />
+            <img loading="lazy" decoding="async" {...photo('/photos/hbc-boardroom.webp')} alt={t.withAlt} className="absolute inset-0 w-full h-full object-cover" />
           </div>
           <div className="px-8 lg:px-16 py-20 lg:py-28">
             <div className="text-[#D12126] mb-6"><Handshake size={40} /></div>

@@ -8,9 +8,11 @@ import { LinkPhilosophy } from '../components/LinkPhilosophy';
 import { ForumCarousel } from '../components/ForumCarousel';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { LOCATIONS, WORKSPACE_LINES } from '../data/locations';
-import { ws } from '../data/site';
+import { SERVICES, ws } from '../data/site';
 import { Flag } from '../components/Flag';
+import { PartnerMarquee } from '../components/PartnerMarquee';
 import { Candles } from '../components/Candles';
+import { photo } from '../lib/photo';
 
 const IMG = {
   hero: '/photos/f15-lounge-wide-xl.webp',
@@ -33,9 +35,9 @@ const T = {
     svcEyebrow: 'What We Do', svcTitle: 'Services',
     svcLead: "End-to-end solutions for property owners, businesses, and international clients seeking excellence in Vietnam's dynamic market.",
     svc: [
-      ['Asset Management & Optimisation', 'Strategic oversight and performance maximisation for your real estate portfolio.'],
+      ['Property Management', 'Strategic oversight and performance maximisation for your real estate portfolio.'],
       ['Workspace Leasing', 'Premium office and coworking solutions tailored to your business needs.'],
-      ['Business Solutions & Consulting', 'Expert advisory services for market entry and business development.'],
+      ['Business Services', 'Expert advisory services for market entry and business development.'],
       ['Concierge Services', 'Personalised support for all your property and business requirements.'],
       ['Industrial & Logistics', 'Specialised warehousing, factory leasing, and supply-chain solutions across Vietnam.'],
     ],
@@ -61,9 +63,9 @@ const T = {
     svcEyebrow: 'Chúng tôi làm gì', svcTitle: 'Dịch vụ',
     svcLead: 'Giải pháp trọn gói cho chủ sở hữu bất động sản, doanh nghiệp và khách hàng quốc tế tìm kiếm sự xuất sắc tại thị trường Việt Nam năng động.',
     svc: [
-      ['Quản lý & tối ưu tài sản', 'Giám sát chiến lược và tối đa hoá hiệu quả danh mục bất động sản của bạn.'],
+      ['Quản lý bất động sản', 'Giám sát chiến lược và tối đa hoá hiệu quả danh mục bất động sản của bạn.'],
       ['Cho thuê văn phòng', 'Văn phòng và không gian coworking cao cấp, phù hợp nhu cầu doanh nghiệp.'],
-      ['Giải pháp & tư vấn doanh nghiệp', 'Dịch vụ tư vấn chuyên sâu về gia nhập thị trường và phát triển kinh doanh.'],
+      ['Dịch vụ doanh nghiệp', 'Dịch vụ tư vấn chuyên sâu về gia nhập thị trường và phát triển kinh doanh.'],
       ['Dịch vụ concierge', 'Hỗ trợ riêng cho mọi nhu cầu về bất động sản và doanh nghiệp của bạn.'],
       ['Công nghiệp & logistics', 'Giải pháp kho bãi, thuê nhà xưởng và chuỗi cung ứng chuyên biệt trên khắp Việt Nam.'],
     ],
@@ -98,7 +100,8 @@ export function HomePage() {
       {/* ── Hero ── */}
       <section className="relative min-h-[92vh] flex items-end bg-[#2A2623] text-white overflow-hidden">
         <motion.img
-          src={IMG.hero}
+          {...photo(IMG.hero)}
+          fetchPriority="high"
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
           initial={{ scale: 1.12, opacity: 0 }}
@@ -110,7 +113,7 @@ export function HomePage() {
 
         <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 pb-20 lg:pb-28 w-full">
           <motion.p
-            className="text-[11px] uppercase tracking-[0.32em] text-[#F06A6E] mb-7 flex items-center gap-3"
+            className="text-[12px] uppercase tracking-[0.2em] text-[#F06A6E] mb-7 flex items-center gap-3"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7 }}
           >
             <Flag className="text-[#F06A6E]" /> {t.eyebrow}
@@ -148,11 +151,11 @@ export function HomePage() {
       <section className="w-full bg-[#F4F0EA]">
         <div className="grid lg:grid-cols-[30%_1fr_28%] min-h-[680px]">
           <div className="relative overflow-hidden min-h-[400px] lg:min-h-0 group">
-            <img loading="lazy" decoding="async" src={IMG.reception} alt={t.receptionAlt} className="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-105" />
+            <img loading="lazy" decoding="async" {...photo(IMG.reception)} alt={t.receptionAlt} className="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-105" />
           </div>
 
           <div className="px-10 lg:px-16 py-16 lg:py-20 flex flex-col justify-center">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-10 flex items-center gap-2.5"><Flag /> {t.aboutEyebrow}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-10 flex items-center gap-2.5"><Flag /> {t.aboutEyebrow}</p>
             <h2 className="serif text-[#D12126] mb-6 leading-none" style={{ fontSize: 'clamp(3rem, 5vw, 5rem)', fontWeight: 400, letterSpacing: '0.06em' }}>HILINK</h2>
             <p className="text-[18px] uppercase tracking-[0.08em] text-[#2A2623] mb-6">{t.aboutSub}</p>
             <div className="w-full h-px mb-6" style={{ backgroundColor: 'rgba(209,33,38,0.3)' }} />
@@ -160,7 +163,7 @@ export function HomePage() {
               {t.aboutBody}
             </p>
             <Link to={l('/about')} className="inline-flex items-center gap-3 group w-fit">
-              <span className="text-[11px] uppercase tracking-[0.2em] text-[#2A2623] relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#D12126] group-hover:after:w-full after:transition-all after:duration-300">{t.aboutCta}</span>
+              <span className="text-[12px] uppercase tracking-[0.2em] text-[#2A2623] relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#D12126] group-hover:after:w-full after:transition-all after:duration-300">{t.aboutCta}</span>
               <ArrowRight size={14} className="text-[#D12126] group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
@@ -176,15 +179,15 @@ export function HomePage() {
                   <div className="serif text-[40px] font-light text-[#D12126] leading-none mb-2">
                     <AnimatedCounter end={stat.end} duration={stat.duration} />
                   </div>
-                  <div className="text-[11px] uppercase tracking-[0.2em] text-[#555]">{stat.label}</div>
+                  <div className="text-[12px] uppercase tracking-[0.2em] text-[#555]">{stat.label}</div>
                 </div>
               ))}
             </div>
             <div className="relative overflow-hidden min-h-[200px] lg:min-h-[260px]">
-              <img loading="lazy" decoding="async" src={IMG.panel} alt={t.panelAlt} className="w-full h-full object-cover" />
+              <img loading="lazy" decoding="async" {...photo(IMG.panel)} alt={t.panelAlt} className="w-full h-full object-cover" />
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center" style={{ backgroundColor: 'rgba(42,38,35,0.5)' }}>
                 <div className="serif text-white text-[72px] font-light leading-none">2020</div>
-                <div className="text-white uppercase tracking-[0.2em] text-[11px] mt-3">{t.est}</div>
+                <div className="text-white uppercase tracking-[0.2em] text-[12px] mt-3">{t.est}</div>
               </div>
             </div>
           </div>
@@ -196,7 +199,7 @@ export function HomePage() {
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 mb-20">
             <div className="lg:col-span-4">
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.svcEyebrow}</p>
+              <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.svcEyebrow}</p>
               <h2 className="serif text-5xl lg:text-6xl">{t.svcTitle}</h2>
             </div>
             <div className="lg:col-span-8 flex items-end">
@@ -208,13 +211,13 @@ export function HomePage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#2A2623]/15">
             {SVC.map((s, i) => (
-              <ServiceCard key={s.link} icon={s.icon} title={t.svc[i][0]} description={t.svc[i][1]} link={l(s.link)} more={t.learn} />
+              <ServiceCard key={s.link} icon={s.icon} title={SERVICES.find((x) => x.path === s.link)?.t[lang] ?? t.svc[i][0]} description={t.svc[i][1]} link={l(s.link)} more={t.learn} />
             ))}
             <div className="bg-[#D12126] p-8 lg:p-12 flex flex-col justify-between">
-              <div className="text-white/60 text-[10px] uppercase tracking-[0.3em] mb-auto">{t.all}</div>
+              <div className="text-white/60 text-[12px] uppercase tracking-[0.2em] mb-auto">{t.all}</div>
               <div>
                 <p className="serif text-white text-2xl lg:text-3xl mb-6 leading-snug">{t.allTitle}</p>
-                <Link to={l('/solutions')} className="inline-flex items-center gap-2 text-white text-[11px] uppercase tracking-[0.2em] border-b border-white/40 pb-1 hover:border-white transition-colors group">
+                <Link to={l('/solutions')} className="inline-flex items-center gap-2 text-white text-[12px] uppercase tracking-[0.2em] border-b border-white/40 pb-1 hover:border-white transition-colors group">
                   {t.allCta} <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
@@ -228,7 +231,7 @@ export function HomePage() {
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="flex flex-wrap items-end justify-between gap-8 mb-14">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-3">
+              <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-3">
                 <Flag className="text-[#D12126]" /> {t.prjEyebrow}
               </p>
               <h2 className="serif text-4xl lg:text-6xl leading-none">{t.prjTitle}</h2>
@@ -255,9 +258,9 @@ export function HomePage() {
                 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ delay: (i % 4) * 0.08, duration: 0.6 }}
               >
                 <div className="relative aspect-[3/4] overflow-hidden bg-[#2A2623]">
-                  <img loading="lazy" decoding="async" src={loc.photo} alt={loc.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-[0.9s] group-hover:scale-[1.07]" />
+                  <img loading="lazy" decoding="async" {...photo(loc.photo)} alt={loc.name} className="w-full h-full object-cover transition-transform duration-[0.9s] group-hover:scale-[1.07]" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623]/85 via-[#2A2623]/10 to-transparent" />
-                  <span className="absolute top-4 left-4 text-[9px] uppercase tracking-[0.18em] bg-[#D12126] text-white px-3 py-1.5">
+                  <span className="absolute top-4 left-4 text-[12px] uppercase tracking-[0.18em] bg-[#D12126] text-white px-3 py-1.5">
                     {loc.comingSoon ? t.soon : loc.line ? WORKSPACE_LINES[loc.line].label : 'HiLink'}
                   </span>
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
@@ -278,7 +281,7 @@ export function HomePage() {
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-6 flex items-center gap-2.5"><Flag /> {t.whyEyebrow}</p>
+              <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-6 flex items-center gap-2.5"><Flag /> {t.whyEyebrow}</p>
               <h2 className="serif text-4xl lg:text-5xl mb-8 leading-tight">{t.whyTitle}</h2>
               <p className="text-lg text-[#6B645D] mb-8 leading-relaxed">
                 {t.whyBody}
@@ -288,8 +291,12 @@ export function HomePage() {
               </Link>
             </div>
             <motion.div className="relative aspect-[4/3] overflow-hidden" whileHover={{ scale: 1.02 }} transition={{ duration: 0.4 }}>
-              <img loading="lazy" decoding="async" src={IMG.lounge} alt={t.loungeAlt} className="w-full h-full object-cover" />
+              <img loading="lazy" decoding="async" {...photo(IMG.lounge)} alt={t.loungeAlt} className="w-full h-full object-cover" />
             </motion.div>
+          </div>
+          {/* The clients behind "trusted by" — the companies HiLink works with. */}
+          <div className="mt-16 lg:mt-20 border-t border-[#2A2623]/10 pt-6">
+            <PartnerMarquee />
           </div>
         </div>
       </section>
@@ -318,7 +325,7 @@ function ServiceCard({ icon, title, description, link, more }: { icon: React.Rea
       <motion.div className="text-[#D12126] mb-6" whileHover={{ x: 4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>{icon}</motion.div>
       <h3 className="serif text-2xl lg:text-[1.7rem] mb-4 leading-snug">{title}</h3>
       <p className="text-[#6B645D] mb-6 leading-relaxed text-[15px]">{description}</p>
-      <div className="inline-flex items-center gap-2 text-[#2A2623] text-[11px] uppercase tracking-[0.16em] group-hover:gap-4 transition-all">{more} <ArrowRight size={15} /></div>
+      <div className="inline-flex items-center gap-2 text-[#2A2623] text-[12px] uppercase tracking-[0.16em] group-hover:gap-4 transition-all">{more} <ArrowRight size={15} /></div>
     </Link>
   );
 }

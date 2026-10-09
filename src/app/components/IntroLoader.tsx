@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 
-export function IntroLoader({ onDone }: { onDone: () => void }) {
+export function IntroLoader({ onDone, lang }: { onDone: () => void; lang: 'en' | 'vi' }) {
   const [phase, setPhase] = useState<'loading' | 'exit'>('loading');
   const [progress, setProgress] = useState(0);
 
@@ -47,12 +47,12 @@ export function IntroLoader({ onDone }: { onDone: () => void }) {
             className="flex flex-col items-center"
           >
             <img
-              src="/brand/hilink-logo.png"
+              src="/brand/logo-hilink-lockup.svg"
               alt="HiLink — Your Solution"
               className="w-auto mb-3"
               style={{ height: 'clamp(64px, 12vw, 110px)' }}
             />
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[#D12126]">
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126]">
               Your Solution
             </p>
           </motion.div>
@@ -65,8 +65,8 @@ export function IntroLoader({ onDone }: { onDone: () => void }) {
             transition={{ delay: 0.4, duration: 0.4 }}
           >
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[9px] uppercase tracking-[0.3em] text-[#2A2623]/40">Loading</span>
-              <span className="text-[9px] tracking-wider text-[#2A2623]/40 font-mono">{progress}%</span>
+              <span className="text-[12px] uppercase tracking-[0.2em] text-[#2A2623]/50">{lang === 'vi' ? 'Đang tải' : 'Loading'}</span>
+              <span className="text-[12px] tracking-wider text-[#2A2623]/50 font-mono">{progress}%</span>
             </div>
             <div className="h-px w-full bg-[#2A2623]/10 overflow-hidden">
               <motion.div

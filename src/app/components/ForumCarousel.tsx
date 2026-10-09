@@ -8,6 +8,7 @@ import { POSTS } from '../data/posts';
 import { ws } from '../data/site';
 import { useLang } from '../lib/i18n';
 import { Flag } from './Flag';
+import { photo } from '../lib/photo';
 
 const T = {
   en: { eyebrow: 'HiLink Forum', title: "What's happening.", sub: 'See the latest from HiLink.', read: 'Read article', all: 'Visit the forum', prev: 'Previous post', next: 'Next post', show: 'Show post' },
@@ -38,7 +39,7 @@ export function ForumCarousel() {
       <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
         <div className="flex flex-wrap items-end justify-between gap-6 mb-10 lg:mb-14">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 inline-flex items-center gap-2.5">
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 inline-flex items-center gap-2.5">
               <Flag /> {t.eyebrow}
             </p>
             <h2 className="serif leading-[1.05]">
@@ -50,7 +51,7 @@ export function ForumCarousel() {
               href={ws(lang, '/forum')}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.2em] text-[#2A2623] hover:text-[#D12126] transition-colors"
+              className="hidden sm:inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.2em] text-[#2A2623] hover:text-[#D12126] transition-colors"
             >
               {t.all} <ArrowUpRight size={14} />
             </a>
@@ -94,13 +95,13 @@ export function ForumCarousel() {
                 style={{ flexGrow: GROW[dist] }}
               >
                 <img
-                  src={p.photo}
+                  {...photo(p.photo, '(min-width: 1024px) 50vw, 80vw')}
                   alt=""
                   loading="lazy"
                   className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 ${on ? 'scale-100' : 'scale-110 group-hover:scale-105'}`}
                 />
                 <span className={`absolute inset-0 bg-[#2A2623] transition-opacity duration-500 ${on ? 'opacity-0' : 'opacity-25 group-hover:opacity-10'}`} />
-                <span className={`absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-[#2A2623] transition-opacity duration-500 ${on ? 'opacity-100' : 'opacity-0'}`}>
+                <span className={`absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-[12px] uppercase tracking-[0.18em] text-[#2A2623] transition-opacity duration-500 ${on ? 'opacity-100' : 'opacity-0'}`}>
                   {CATEGORY[p.category]?.[lang] ?? p.category}
                 </span>
               </button>
@@ -128,7 +129,7 @@ export function ForumCarousel() {
           href={ws(lang, '/forum')}
           target="_blank"
           rel="noopener noreferrer"
-          className="sm:hidden mt-6 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.2em] text-[#2A2623]"
+          className="sm:hidden mt-6 inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.2em] text-[#2A2623]"
         >
           {t.all} <ArrowUpRight size={14} />
         </a>

@@ -2,14 +2,15 @@ import { useState } from 'react';
 import { Mail, Phone, MapPin, CheckCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { HeroBg } from '../components/HeroBg';
-import { CONTACT } from '../data/site';
+import { CONTACT, SERVICES } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
+import { HONEYPOT_PROPS, honeypot, leadError, sendLead } from '../lib/lead';
 
 const T = {
   en: {
     meta: 'Contact HiLink — email contact@hilink.vn or call (+84) 24 2202 9000.',
     eyebrow: 'Get in Touch', title: "Let's Start a Conversation", lead: 'Tell us about your needs. We respond within 24 hours.',
-    services: ['Property Management', 'Workspace Leasing', 'Business Consulting', 'Concierge Services', 'Industrial & Logistics', 'Other'],
+    services: [...SERVICES.map((s) => s.t.en), 'Other'],
     sentTitle: 'Message Received', sentBody: 'Thank you for reaching out. A member of our team will respond within 24 hours.',
     first: 'First Name *', last: 'Last Name *', email: 'Email *', phone: 'Phone', company: 'Company', service: 'Service', select: 'Select a service', message: 'Message *',
     sending: 'Sending…', send: 'Send Message',
@@ -19,7 +20,7 @@ const T = {
   vi: {
     meta: 'Liên hệ HiLink — email contact@hilink.vn hoặc gọi (+84) 24 2202 9000.',
     eyebrow: 'Liên hệ', title: 'Hãy bắt đầu trao đổi', lead: 'Cho chúng tôi biết nhu cầu của bạn. Chúng tôi phản hồi trong vòng 24 giờ.',
-    services: ['Quản lý bất động sản', 'Cho thuê văn phòng', 'Tư vấn doanh nghiệp', 'Dịch vụ concierge', 'Công nghiệp & logistics', 'Khác'],
+    services: [...SERVICES.map((s) => s.t.vi), 'Khác'],
     sentTitle: 'Đã nhận lời nhắn', sentBody: 'Cảm ơn bạn đã liên hệ. Một thành viên đội ngũ sẽ phản hồi trong vòng 24 giờ.',
     first: 'Tên *', last: 'Họ *', email: 'Email *', phone: 'Số điện thoại', company: 'Công ty', service: 'Dịch vụ', select: 'Chọn dịch vụ', message: 'Lời nhắn *',
     sending: 'Đang gửi…', send: 'Gửi lời nhắn',
@@ -43,13 +44,23 @@ export function ContactPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1400));
-    setIsSubmitting(false);
-    setSubmitted(true);
+    setError('');
+    try {
+      const f = formData;
+      await sendLead('contact', {
+        Name: `${f.firstName} ${f.lastName}`.trim(), Email: f.email, Phone: f.phone, Company: f.company, Service: f.service, Message: f.message,
+      }, { website: honeypot(e.currentTarget), lang });
+      setSubmitted(true);
+    } catch {
+      setError(leadError(lang));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -97,7 +108,8 @@ export function ContactPage() {
                   </p>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-8">
+                <form onSubmit={handleSubmit} className="relative space-y-8">
+                  <input {...HONEYPOT_PROPS} />
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="firstName" className="block mb-3 text-sm uppercase tracking-wider">
@@ -214,6 +226,7 @@ export function ContactPage() {
                   >
                     {isSubmitting ? t.sending : t.send}
                   </button>
+                  {error && <p role="alert" className="text-[15px] text-[#B01B20]">{error}</p>}
                 </form>
               )}
             </div>

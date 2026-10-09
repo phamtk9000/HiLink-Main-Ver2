@@ -11,6 +11,7 @@ import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { Contours } from '../components/Contours';
 import { PartnerMarquee } from '../components/PartnerMarquee';
+import { photo } from '../lib/photo';
 
 const AMENITY_ICONS = [<Wifi size={24} />, <Coffee size={24} />, <Users size={24} />, <Building2 size={24} />, <Calendar size={24} />, <Mail size={24} />];
 const SPACE_PHOTOS = ['/photos/f15-office-hi08.webp', '/photos/f15-office-hi11.webp', '/photos/f15-meeting-pod.webp', '/photos/f15-boardroom.webp', '/photos/f15-lounge.webp', '/photos/hbc-meeting.webp'];
@@ -134,7 +135,7 @@ export function WorkspacePage() {
       <section className="relative min-h-[80vh] flex items-center bg-[#2A2623] text-white overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="/photos/f15-lounge-wide-xl.webp"
+            {...photo('/photos/f15-lounge-wide-xl.webp')}
             alt=""
             className="w-full h-full object-cover opacity-85"
           />
@@ -233,7 +234,7 @@ export function WorkspacePage() {
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="flex flex-wrap items-end justify-between gap-6 mb-14">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-3">
+              <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-3">
                 <Flag className="text-[#D12126]" /> {t.spacesEyebrow}
               </p>
               <h2 className="serif text-4xl lg:text-5xl">{t.spacesTitle}</h2>
@@ -242,7 +243,7 @@ export function WorkspacePage() {
               href={ws(lang, '/locations')}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[#D12126] border-b border-[#D12126]/40 pb-1 hover:border-[#D12126] transition-colors"
+              className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.18em] text-[#D12126] border-b border-[#D12126]/40 pb-1 hover:border-[#D12126] transition-colors"
             >
               {t.live} <ExternalLink size={13} />
             </a>
@@ -258,12 +259,12 @@ export function WorkspacePage() {
                 className="group relative block overflow-hidden bg-white"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
-                  <img loading="lazy" decoding="async" src={SPACE_PHOTOS[i]} alt={name} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                  <span className="absolute top-4 left-4 text-[9px] uppercase tracking-[0.16em] px-2.5 py-1 bg-[#D12126] text-white">{type}</span>
+                  <img loading="lazy" decoding="async" {...photo(SPACE_PHOTOS[i])} alt={name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <span className="absolute top-4 left-4 text-[12px] uppercase tracking-[0.16em] px-2.5 py-1 bg-[#D12126] text-white">{type}</span>
                 </div>
                 <div className="flex items-end justify-between p-5">
                   <div>
-                    <p className="text-[9px] uppercase tracking-[0.2em] text-[#D12126] mb-1.5">{floor}</p>
+                    <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-1.5">{floor}</p>
                     <h3 className="serif text-xl">{name}</h3>
                   </div>
                   <ExternalLink size={16} className="text-[#D12126] shrink-0" />
@@ -413,7 +414,7 @@ function LocationCard({ href, name, address, city, type, capacity, available, im
       <a href={href} target="_blank" rel="noopener noreferrer">
         <div className="relative aspect-[16/10] overflow-hidden">
           <motion.img loading="lazy" decoding="async"
-            src={image}
+            {...photo(image)}
             alt={name}
             className="w-full h-full object-cover"
             whileHover={{ scale: 1.05 }}

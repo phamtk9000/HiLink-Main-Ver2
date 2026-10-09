@@ -7,6 +7,7 @@ import { LOCATIONS } from '../data/locations';
 import { CONTACT } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
+import { photo } from '../lib/photo';
 
 const VALUE_ICONS = [<Heart size={26} />, <GraduationCap size={26} />, <Globe2 size={26} />, <Sparkles size={26} />, <Scale size={26} />, <Compass size={26} />];
 
@@ -98,7 +99,7 @@ export function CareersPage() {
         <HeroBg image="/photos/hbc-lounge-xl.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28 w-full">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-4xl">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#F06A6E] mb-7 flex items-center gap-3">
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#F06A6E] mb-7 flex items-center gap-3">
               <Flag className="text-[#F06A6E]" /> {t.eyebrow}
             </p>
             <h1 className="serif text-5xl lg:text-[5rem] mb-8 leading-[0.98]">{c.heroTitle}</h1>
@@ -115,7 +116,7 @@ export function CareersPage() {
           {t.stats.map(([n, label]) => (
             <div key={label} className="bg-[#2A2623] py-10 px-6 text-center">
               <div className="serif text-4xl lg:text-5xl text-[#F06A6E] mb-2">{n}</div>
-              <div className="text-[11px] uppercase tracking-[0.18em] text-white/60">{label}</div>
+              <div className="text-[12px] uppercase tracking-[0.18em] text-white/60">{label}</div>
             </div>
           ))}
         </div>
@@ -126,7 +127,7 @@ export function CareersPage() {
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-14">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.lifeEyebrow}</p>
+              <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.lifeEyebrow}</p>
               <h2 className="serif text-4xl lg:text-5xl leading-tight">{t.lifeTitle}</h2>
             </div>
             <p className="text-[15px] text-[#6B645D] max-w-sm">
@@ -140,7 +141,7 @@ export function CareersPage() {
                 className={`relative overflow-hidden ${i === 0 ? 'col-span-2 lg:col-span-2 aspect-[16/10]' : 'aspect-[4/3]'}`}
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ delay: (i % 3) * 0.08, duration: 0.5 }}
               >
-                <img src={src} alt={t.lifeAlt} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
+                <img {...photo(src)} alt={t.lifeAlt} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
               </motion.div>
             ))}
           </div>
@@ -151,7 +152,7 @@ export function CareersPage() {
       <section id="why-join" className="py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="text-center mb-16">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.whyEyebrow}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.whyEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{t.whyTitle}</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#2A2623]/10">
@@ -170,10 +171,10 @@ export function CareersPage() {
       <section className="py-24 lg:py-32 bg-[#F4F0EA] text-[#2A2623]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className="relative aspect-[4/3] overflow-hidden">
-            <img loading="lazy" decoding="async" src="/photos/hbc-team.webp" alt={t.teamAlt} className="w-full h-full object-cover" />
+            <img loading="lazy" decoding="async" {...photo('/photos/hbc-team.webp')} alt={t.teamAlt} className="w-full h-full object-cover" />
           </div>
           <div>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {c.benefitsE}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {c.benefitsE}</p>
             <h2 className="serif text-4xl lg:text-5xl mb-10 leading-tight">{c.benefitsT}</h2>
             <ul className="grid sm:grid-cols-2 gap-y-4 gap-x-8">
               {c.perks.map((b) => (
@@ -191,7 +192,7 @@ export function CareersPage() {
       <section className="py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="text-center mb-16">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.teamsEyebrow}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.teamsEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{t.teamsTitle}</h2>
           </div>
           <div className="grid sm:grid-cols-2 gap-px bg-[#2A2623]/10">
@@ -209,7 +210,7 @@ export function CareersPage() {
       <section className="py-24 lg:py-32 bg-[#F4F0EA]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="mb-14 max-w-2xl">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.hireEyebrow}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.hireEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl leading-tight">{t.hireTitle}</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#2A2623]/10">
@@ -227,7 +228,7 @@ export function CareersPage() {
       {/* Open positions */}
       <section id="open-positions" className="relative overflow-hidden py-24 lg:py-32 bg-[#FBECEC] text-[#2A2623]">
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-[#D12126] mb-5 flex items-center justify-center gap-3">
+          <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center justify-center gap-3">
             <Clock size={13} /> {t.openEyebrow}
           </p>
           <h2 className="serif text-4xl lg:text-5xl mb-10">{t.openTitle}</h2>

@@ -8,6 +8,7 @@ import { PARTNERS } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { Candles } from '../components/Candles';
+import { photo } from '../lib/photo';
 
 const SERVICE_META = [
   { icon: <Globe size={28} />, image: '/photos/hbc-client-meeting.webp' },
@@ -107,7 +108,7 @@ export function BusinessConsultingPage() {
         {/* Background image */}
         <div className="absolute inset-0">
           <img
-            src="/photos/hbc-boardroom.webp"
+            {...photo('/photos/hbc-boardroom.webp')}
             alt=""
             className="w-full h-full object-cover opacity-75"
           />
@@ -116,7 +117,7 @@ export function BusinessConsultingPage() {
 
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 pb-20 w-full">
           <div className="max-w-3xl">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#F06A6E] mb-8 flex items-center gap-2.5"><Flag /> {t.eyebrow}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#F06A6E] mb-8 flex items-center gap-2.5"><Flag /> {t.eyebrow}</p>
             <h1
               className="serif text-white mb-8 leading-[1.05]"
               style={{ fontSize: 'clamp(3rem, 6vw, 6rem)', fontWeight: 300 }}
@@ -129,14 +130,14 @@ export function BusinessConsultingPage() {
             <div className="flex flex-wrap gap-4">
               <Link
                 to={l('/contact')}
-                className="inline-flex items-center gap-3 px-10 py-4 bg-[#D12126] text-white text-[11px] uppercase tracking-widest hover:bg-[#A3181C] transition-colors group"
+                className="inline-flex items-center gap-3 px-10 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-widest hover:bg-[#A3181C] transition-colors group"
               >
                 {t.request}
                 <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </Link>
               <a
                 href="#services"
-                className="inline-flex items-center gap-3 px-10 py-4 border border-white/30 text-white text-[11px] uppercase tracking-widest hover:border-white transition-colors"
+                className="inline-flex items-center gap-3 px-10 py-4 border border-white/30 text-white text-[12px] uppercase tracking-widest hover:border-white transition-colors"
               >
                 {t.explore}
               </a>
@@ -148,7 +149,7 @@ export function BusinessConsultingPage() {
             {t.stats.map(([value, label]) => (
               <div key={label} className="bg-[#23201D] border-t border-white/10 px-8 py-6">
                 <div className="serif text-3xl text-[#F06A6E] mb-1">{value}</div>
-                <div className="text-[10px] uppercase tracking-[0.25em] text-white/50">{label}</div>
+                <div className="text-[12px] uppercase tracking-[0.2em] text-white/50">{label}</div>
               </div>
             ))}
           </div>
@@ -159,7 +160,7 @@ export function BusinessConsultingPage() {
       <section id="services" className="bg-[#F4F0EA] py-28">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.svcEyebrow}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.svcEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{t.svcTitle}</h2>
           </div>
 
@@ -177,7 +178,7 @@ export function BusinessConsultingPage() {
                   }`}
                 >
                   <div>
-                    <div className={`text-[10px] uppercase tracking-[0.25em] mb-1 transition-colors ${activeService === i ? 'text-[#D12126]' : 'text-[#6B645D]'}`}>
+                    <div className={`text-[12px] uppercase tracking-[0.2em] mb-1 transition-colors ${activeService === i ? 'text-[#D12126]' : 'text-[#6B645D]'}`}>
                       0{i + 1}
                     </div>
                     <div className="serif text-lg">{s.title}</div>
@@ -192,7 +193,7 @@ export function BusinessConsultingPage() {
               <div className="relative aspect-[16/9] overflow-hidden">
                 <img loading="lazy" decoding="async"
                   key={activeService}
-                  src={services[activeService].image}
+                  {...photo(services[activeService].image)}
                   alt={services[activeService].title}
                   className="w-full h-full object-cover"
                 />
@@ -222,7 +223,7 @@ export function BusinessConsultingPage() {
       <section className="bg-white py-28">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-20">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.howEyebrow}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.howEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl max-w-lg">{t.howTitle}</h2>
           </div>
 
@@ -243,7 +244,7 @@ export function BusinessConsultingPage() {
       <section className="bg-[#F4F0EA] py-28 text-[#2A2623]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.secEyebrow}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.secEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{t.secTitle}</h2>
           </div>
 
@@ -251,7 +252,7 @@ export function BusinessConsultingPage() {
             {t.sectors.map((name, i) => (
               <div key={name} className="bg-white p-8 group hover:bg-[#FBECEC] transition-colors">
                 <div className="serif text-4xl text-[#D12126] mb-1">0{i + 1}</div>
-                <div className="text-[10px] uppercase tracking-[0.2em] text-[#6B645D] mb-6">{t.secLabel}</div>
+                <div className="text-[12px] uppercase tracking-[0.2em] text-[#6B645D] mb-6">{t.secLabel}</div>
                 <h3 className="serif text-xl text-[#2A2623] mb-3">{name}</h3>
                 <div className="w-8 h-px bg-[#D12126]/30 group-hover:bg-[#D12126] transition-colors" />
               </div>
@@ -264,7 +265,7 @@ export function BusinessConsultingPage() {
       <section className="bg-white py-28">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-16 text-center">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.prtEyebrow}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.prtEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.prtTitle}</h2>
             <p className="text-lg text-[#6B645D] max-w-2xl mx-auto">
               {t.prtLead}
@@ -308,7 +309,7 @@ export function BusinessConsultingPage() {
           </div>
           <Link
             to={l('/contact')}
-            className="shrink-0 px-12 py-4 bg-[#D12126] text-white text-[11px] uppercase tracking-widest hover:bg-[#A3181C] transition-colors"
+            className="shrink-0 px-12 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-widest hover:bg-[#A3181C] transition-colors"
           >
             {t.cta}
           </Link>

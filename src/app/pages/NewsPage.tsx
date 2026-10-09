@@ -9,6 +9,7 @@ import { POSTS } from '../data/posts';
 import { ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Contours } from '../components/Contours';
+import { photo } from '../lib/photo';
 
 const CATS: Record<string, { en: string; vi: string }> = {
   Guide: { en: 'Guide', vi: 'Hướng dẫn' },
@@ -82,7 +83,7 @@ export function NewsPage() {
                 className="relative aspect-[4/3] overflow-hidden"
               >
                 <img
-                  src={featuredArticle.image}
+                  {...photo(featuredArticle.image)}
                   alt={featuredArticle.title}
                   className="w-full h-full object-cover"
                 />
@@ -196,7 +197,7 @@ function ArticleCard({ category, title, excerpt, date, image, href }: {
       <a href={href} target="_blank" rel="noopener noreferrer" className="block">
         <div className="relative aspect-[4/3] overflow-hidden mb-6">
           <motion.img loading="lazy" decoding="async"
-            src={image}
+            {...photo(image)}
             alt={title}
             className="w-full h-full object-cover"
             whileHover={{ scale: 1.05 }}

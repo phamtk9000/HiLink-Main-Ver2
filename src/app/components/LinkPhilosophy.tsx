@@ -285,7 +285,7 @@ export function LinkPhilosophy() {
 
           {/* Heading. */}
           <div className="relative z-10 mx-auto max-w-3xl px-6 pt-20 lg:pt-28 text-center">
-            <p className={`mb-6 inline-flex items-center gap-2.5 text-[11px] uppercase tracking-[0.3em] ${sky.dark ? 'text-[#F06A6E]' : 'text-[#D12126]'}`}>
+            <p className={`mb-6 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] ${sky.dark ? 'text-[#F06A6E]' : 'text-[#D12126]'}`}>
               <Flag /> {t.eyebrow}
             </p>
             <h2 id="hl-link-title" className="serif leading-[1.05]">{t.title}</h2>
@@ -296,7 +296,7 @@ export function LinkPhilosophy() {
           <div ref={wrapRef} className="relative mt-4 sm:mt-0 h-[340px] sm:h-[440px] lg:h-[540px] select-none" aria-hidden="true">
             <canvas ref={canvasRef} className="absolute inset-0 cursor-crosshair touch-pan-y" />
             {webgl && !reduced && (
-              <p className={`pointer-events-none absolute top-0 left-5 right-5 lg:left-8 text-center sm:text-left text-[10px] sm:text-[11px] uppercase tracking-[0.2em] transition-colors duration-[1200ms] ${muted}`}>
+              <p className={`pointer-events-none absolute top-0 left-5 right-5 lg:left-8 text-center sm:text-left text-[12px] uppercase tracking-[0.2em] transition-colors duration-[1200ms] ${muted}`}>
                 {touch ? t.hintTouch : t.hint}
               </p>
             )}

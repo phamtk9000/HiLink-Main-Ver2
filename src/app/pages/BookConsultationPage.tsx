@@ -2,13 +2,15 @@ import { useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useLang, usePageMeta } from '../lib/i18n';
+import { SERVICES } from '../data/site';
+import { HONEYPOT_PROPS, honeypot, leadError, sendLead } from '../lib/lead';
 import { Contours } from '../components/Contours';
 
 const T = {
   en: {
     eyebrow: 'Book Consultation', title: 'Let’s talk about your goals',
     lead: 'Share a few details and one of our advisors will be in touch to arrange a consultation.',
-    interests: ['Property Management', 'Workspace Leasing', 'Business Services', 'Concierge Services', 'Industrial & Logistics', 'Something else'],
+    interests: [...SERVICES.map((s) => s.t.en), 'Something else'],
     thanks: 'Thank you', thanksBody: 'We have received your request and will contact you shortly.',
     name: 'Full Name', namePh: 'Your name', email: 'Email Address', emailPh: 'Your email', phone: 'Phone Number', phonePh: 'Your phone number',
     interest: 'I’m interested in', message: 'Message', messagePh: 'Tell us a little about what you need',
@@ -17,7 +19,7 @@ const T = {
   vi: {
     eyebrow: 'Đặt lịch tư vấn', title: 'Hãy cùng trao đổi về mục tiêu của bạn',
     lead: 'Chia sẻ đôi chút thông tin, một chuyên viên tư vấn sẽ liên hệ để sắp xếp buổi tư vấn.',
-    interests: ['Quản lý bất động sản', 'Cho thuê văn phòng', 'Dịch vụ doanh nghiệp', 'Dịch vụ concierge', 'Công nghiệp & logistics', 'Nhu cầu khác'],
+    interests: [...SERVICES.map((s) => s.t.vi), 'Nhu cầu khác'],
     thanks: 'Cảm ơn bạn', thanksBody: 'Chúng tôi đã nhận được yêu cầu và sẽ liên hệ với bạn sớm.',
     name: 'Họ và tên', namePh: 'Tên của bạn', email: 'Địa chỉ email', emailPh: 'Email của bạn', phone: 'Số điện thoại', phonePh: 'Số điện thoại của bạn',
     interest: 'Tôi quan tâm đến', message: 'Lời nhắn', messagePh: 'Cho chúng tôi biết đôi chút về nhu cầu của bạn',
@@ -36,15 +38,22 @@ export function BookConsultationPage() {
 
   const update = (field: string, value: string) => setForm((f) => ({ ...f, [field]: value }));
 
-  const handleSubmit = (e: React.MouseEvent) => {
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!form.name || !form.email) return;
     setSubmitting(true);
-    // Submission is stubbed until the backend endpoint is wired up.
-    setTimeout(() => {
-      setSubmitting(false);
+    setError('');
+    try {
+      await sendLead('consultation', {
+        Name: form.name, Email: form.email, Phone: form.phone, Interest: form.interest || interests[0], Message: form.message,
+      }, { website: honeypot(e.currentTarget), lang });
       setSubmitted(true);
-    }, 800);
+    } catch {
+      setError(leadError(lang));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const inputClass =
@@ -89,11 +98,14 @@ export function BookConsultationPage() {
               </p>
             </motion.div>
           ) : (
-            <div className="space-y-8">
+            <form onSubmit={handleSubmit} className="relative space-y-8">
+              <input {...HONEYPOT_PROPS} />
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <label className="block text-sm uppercase tracking-wider text-[#D12126] mb-3">{t.name}</label>
+                  <label htmlFor="bc-name" className="block text-sm uppercase tracking-wider text-[#D12126] mb-3">{t.name} *</label>
                   <input
+                    id="bc-name"
+                    required
                     type="text"
                     value={form.name}
                     onChange={(e) => update('name', e.target.value)}
@@ -102,8 +114,10 @@ export function BookConsultationPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm uppercase tracking-wider text-[#D12126] mb-3">{t.email}</label>
+                  <label htmlFor="bc-email" className="block text-sm uppercase tracking-wider text-[#D12126] mb-3">{t.email} *</label>
                   <input
+                    id="bc-email"
+                    required
                     type="email"
                     value={form.email}
                     onChange={(e) => update('email', e.target.value)}
@@ -115,8 +129,9 @@ export function BookConsultationPage() {
 
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <label className="block text-sm uppercase tracking-wider text-[#D12126] mb-3">{t.phone}</label>
+                  <label htmlFor="bc-phone" className="block text-sm uppercase tracking-wider text-[#D12126] mb-3">{t.phone}</label>
                   <input
+                    id="bc-phone"
                     type="tel"
                     value={form.phone}
                     onChange={(e) => update('phone', e.target.value)}
@@ -125,8 +140,9 @@ export function BookConsultationPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm uppercase tracking-wider text-[#D12126] mb-3">{t.interest}</label>
+                  <label htmlFor="bc-interest" className="block text-sm uppercase tracking-wider text-[#D12126] mb-3">{t.interest}</label>
                   <select
+                    id="bc-interest"
                     value={form.interest || interests[0]}
                     onChange={(e) => update('interest', e.target.value)}
                     className={`${inputClass} [&>option]:text-[#2A2623]`}
@@ -139,8 +155,9 @@ export function BookConsultationPage() {
               </div>
 
               <div>
-                <label className="block text-sm uppercase tracking-wider text-[#D12126] mb-3">{t.message}</label>
+                <label htmlFor="bc-message" className="block text-sm uppercase tracking-wider text-[#D12126] mb-3">{t.message}</label>
                 <textarea
+                  id="bc-message"
                   rows={4}
                   value={form.message}
                   onChange={(e) => update('message', e.target.value)}
@@ -150,13 +167,14 @@ export function BookConsultationPage() {
               </div>
 
               <button
-                onClick={handleSubmit}
+                type="submit"
                 disabled={submitting}
                 className="px-12 py-4 bg-[#D12126] text-white text-sm uppercase tracking-wider hover:bg-[#A3181C] transition-colors disabled:opacity-60"
               >
                 {submitting ? t.submitting : t.submit}
               </button>
-            </div>
+              {error && <p role="alert" className="text-[15px] text-[#B01B20]">{error}</p>}
+            </form>
           )}
         </div>
       </section>

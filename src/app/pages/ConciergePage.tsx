@@ -1,9 +1,12 @@
 import { Plane, UtensilsCrossed, Calendar, Key, Briefcase, Sparkles, Mail, Lock } from '../components/Glyph';
+import { CheckCircle2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useState } from 'react';
 import { CONTACT } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
+import { HONEYPOT_PROPS, honeypot, leadError, sendLead } from '../lib/lead';
 import { Flag } from '../components/Flag';
+import { photo } from '../lib/photo';
 
 const SERVICE_META = [
   { icon: <Plane size={26} />, image: '/photos/hbc-host.webp' },
@@ -39,7 +42,7 @@ const T = {
     ],
     formTitle: 'Membership Enquiry', formLead: 'Concierge services are available exclusively to HiLink property clients and select members.',
     name: 'Full Name', email: 'Email Address', phone: 'Phone Number', message: 'Tell us about your needs and how we can assist you...',
-    submit: 'Submit Enquiry', formNote: 'Your enquiry is handled with complete confidentiality. A member of our team will contact you within 24 hours.',
+    submit: 'Submit Enquiry', sending: 'Sending…', sentTitle: 'Enquiry received', messageLbl: 'Your request', formNote: 'Your enquiry is handled with complete confidentiality. A member of our team will contact you within 24 hours.',
     qLbl: 'Questions?', qText: 'Our concierge team is available 24/7',
   },
   vi: {
@@ -66,7 +69,7 @@ const T = {
     ],
     formTitle: 'Đăng ký thành viên', formLead: 'Dịch vụ concierge dành riêng cho khách hàng bất động sản của HiLink và thành viên được chọn.',
     name: 'Họ và tên', email: 'Địa chỉ email', phone: 'Số điện thoại', message: 'Cho chúng tôi biết nhu cầu của bạn và chúng tôi có thể hỗ trợ thế nào...',
-    submit: 'Gửi yêu cầu', formNote: 'Yêu cầu của bạn được bảo mật tuyệt đối. Một thành viên đội ngũ sẽ liên hệ với bạn trong vòng 24 giờ.',
+    submit: 'Gửi yêu cầu', sending: 'Đang gửi…', sentTitle: 'Đã nhận yêu cầu', messageLbl: 'Yêu cầu của bạn', formNote: 'Yêu cầu của bạn được bảo mật tuyệt đối. Một thành viên đội ngũ sẽ liên hệ với bạn trong vòng 24 giờ.',
     qLbl: 'Câu hỏi?', qText: 'Đội concierge sẵn sàng 24/7',
   },
 };
@@ -82,9 +85,22 @@ export function ConciergePage() {
     message: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission
+    setSending(true);
+    setError('');
+    try {
+      await sendLead('concierge', { Name: formData.name, Email: formData.email, Phone: formData.phone, Message: formData.message }, { website: honeypot(e.currentTarget), lang });
+      setSent(true);
+    } catch {
+      setError(leadError(lang));
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -93,7 +109,7 @@ export function ConciergePage() {
       <section className="relative min-h-screen flex items-center bg-[#2A2623] text-white overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="/photos/hbc-lounge-xl.webp"
+            {...photo('/photos/hbc-lounge-xl.webp')}
             alt=""
             className="w-full h-full object-cover opacity-[0.8]"
           />
@@ -104,7 +120,7 @@ export function ConciergePage() {
           <div className="max-w-3xl">
             <div className="flex items-center gap-3 mb-8">
               <Sparkles size={16} className="text-[#F06A6E]" />
-              <p className="text-[11px] uppercase tracking-[0.3em] text-[#F06A6E]">
+              <p className="text-[12px] uppercase tracking-[0.2em] text-[#F06A6E]">
                 {t.eyebrow}
               </p>
             </div>
@@ -119,7 +135,7 @@ export function ConciergePage() {
             </p>
             <a
               href="#enquire"
-              className="inline-flex items-center gap-3 px-10 py-4 bg-[#D12126] text-white text-[11px] uppercase tracking-[0.2em] hover:bg-[#A3181C] transition-colors"
+              className="inline-flex items-center gap-3 px-10 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.2em] hover:bg-[#A3181C] transition-colors"
             >
               <Lock size={16} />
               {t.request}
@@ -130,7 +146,7 @@ export function ConciergePage() {
         {/* Scroll Indicator */}
         <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
           <div className="w-px h-12 bg-white/20" />
-          <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">{t.scroll}</p>
+          <p className="text-[12px] uppercase tracking-[0.2em] text-white/40">{t.scroll}</p>
         </div>
       </section>
 
@@ -151,7 +167,7 @@ export function ConciergePage() {
       <section className="py-28 lg:py-40 bg-white">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="text-center mb-16">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.arrEyebrow}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.arrEyebrow}</p>
             <h2 className="serif font-light text-4xl lg:text-5xl mb-6 text-[#2A2623]">{t.arrTitle}</h2>
             <p className="text-lg text-[#6B645D]">
               {t.arrLead}
@@ -185,7 +201,7 @@ export function ConciergePage() {
             </div>
             <div className="relative aspect-[3/4] overflow-hidden">
               <img loading="lazy" decoding="async"
-                src="/photos/hbc-reception.webp"
+                {...photo('/photos/hbc-reception.webp')}
                 alt={t.diffAlt}
                 className="w-full h-full object-cover"
               />
@@ -206,49 +222,46 @@ export function ConciergePage() {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <input
-              type="text"
-              placeholder={t.name}
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-6 py-4 bg-[#F4F0EA] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#9a9a9a] focus:outline-none focus:border-[#D12126] transition-colors"
-              required
-            />
-            <input
-              type="email"
-              placeholder={t.email}
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full px-6 py-4 bg-[#F4F0EA] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#9a9a9a] focus:outline-none focus:border-[#D12126] transition-colors"
-              required
-            />
-            <input
-              type="tel"
-              placeholder={t.phone}
-              value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              className="w-full px-6 py-4 bg-[#F4F0EA] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#9a9a9a] focus:outline-none focus:border-[#D12126] transition-colors"
-              required
-            />
-            <textarea
-              placeholder={t.message}
-              value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              rows={6}
-              className="w-full px-6 py-4 bg-[#F4F0EA] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#9a9a9a] focus:outline-none focus:border-[#D12126] transition-colors resize-none"
-              required
-            />
+          {sent ? (
+            <div role="status" className="text-center py-12 bg-[#F4F0EA]">
+              <CheckCircle2 size={44} className="mx-auto mb-5 text-[#D12126]" />
+              <p className="serif text-3xl text-[#2A2623] mb-3">{t.sentTitle}</p>
+              <p className="text-[#6B645D]">{t.formNote}</p>
+            </div>
+          ) : (
+          <form onSubmit={handleSubmit} className="relative space-y-5">
+            <input {...HONEYPOT_PROPS} />
+            <div>
+              <label htmlFor="cg-name" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.name} *</label>
+              <input id="cg-name" type="text" autoComplete="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-6 py-4 bg-[#F4F0EA] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors" required />
+            </div>
+            <div className="grid sm:grid-cols-2 gap-5">
+              <div>
+                <label htmlFor="cg-email" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.email} *</label>
+                <input id="cg-email" type="email" autoComplete="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-6 py-4 bg-[#F4F0EA] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors" required />
+              </div>
+              <div>
+                <label htmlFor="cg-phone" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.phone} *</label>
+                <input id="cg-phone" type="tel" autoComplete="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full px-6 py-4 bg-[#F4F0EA] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors" required />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="cg-message" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.messageLbl} *</label>
+              <textarea id="cg-message" placeholder={t.message} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} rows={6} className="w-full px-6 py-4 bg-[#F4F0EA] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors resize-none" required />
+            </div>
             <button
               type="submit"
-              className="w-full px-12 py-4 bg-[#D12126] text-white text-[11px] uppercase tracking-[0.2em] hover:bg-[#A3181C] transition-colors"
+              disabled={sending}
+              className="w-full px-12 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.2em] hover:bg-[#A3181C] transition-colors disabled:opacity-60"
             >
-              {t.submit}
+              {sending ? t.sending : t.submit}
             </button>
+            {error && <p role="alert" className="text-[15px] text-[#B01B20] text-center">{error}</p>}
             <p className="text-sm text-[#6B645D] text-center">
               {t.formNote}
             </p>
           </form>
+          )}
         </div>
       </section>
 
@@ -257,7 +270,7 @@ export function ConciergePage() {
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div>
-              <p className="text-[11px] uppercase tracking-[0.3em] text-[#D12126] mb-2">{t.qLbl}</p>
+              <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-2">{t.qLbl}</p>
               <p className="text-xl text-[#2A2623]">{t.qText}</p>
             </div>
             <div className="flex items-center gap-8">
@@ -290,10 +303,10 @@ function ServiceCard({ icon, title, description, image }: {
     >
       <div className="relative aspect-[4/3] overflow-hidden">
         <img loading="lazy" decoding="async"
-          src={image}
+          {...photo(image)}
           alt={title}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          loading="lazy"
+         
         />
       </div>
       <div className="p-8">

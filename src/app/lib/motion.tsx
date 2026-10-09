@@ -47,7 +47,7 @@ export function scrollTopNow() {
   else window.scrollTo(0, 0);
 }
 
-/** Eased page scroll with section settling (wheel and trackpad only). */
+/** Eased page scroll; on the home page it also settles on sections (wheel and trackpad only). */
 export function SmoothScroll() {
   useEffect(() => {
     if (reducedMotion()) return undefined;
@@ -79,8 +79,11 @@ export function SmoothScroll() {
 
     let idle = 0;
     let dir = 1;
+    // Settling helps the home page read as a sequence of panels; on long
+    // reading pages (About, legal…) it would pull people off their paragraph.
+    const isHome = () => /^\/(en|vi)?\/?$/.test(window.location.pathname);
     const settle = () => {
-      if (lenis.isStopped) return;
+      if (lenis.isStopped || !isHome()) return;
       if (lenis.isScrolling) { idle = window.setTimeout(settle, 120); return; }
       const y = lenis.scroll;
       const vh = window.innerHeight;
