@@ -295,7 +295,7 @@ export function HomePage() {
 const FX: Record<string, FxKind> = {
   '/property-management': 'building',
   '/workspace-leasing': 'ring',
-  '/business-services': 'orbits',
+  '/business-services': 'market',
   '/concierge-services': 'silk',
   '/industrial-logistics': 'routes',
 };

@@ -1,10 +1,12 @@
 // About — HiLink's story as a sequence of editorial sections: the original
-// full-screen hero; the story and the ecosystem laid out after
-// foraspace.com/about-fora (text beside a photograph rising over a pale band,
-// then staggered photo cards); a word from the leadership in Club green; the
+// full-screen hero; the story (headline and introduction, a photograph
+// rising over a pale band beside the pull line, then the facts in one row);
+// the ecosystem as a numbered index whose photograph changes with the row in
+// view of the pointer; a word from the leadership in Club green; the
 // vision; the numbers band; values under drawn rules; the way we work along
 // one line; the shared place rail; the group HiLink belongs to; partners; the
 // team; and a compact contact band. Copy is the approved hilink.vn/about text.
+import { useState } from 'react';
 import { Link } from 'react-router';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Shield, Layers, Target, Mail, MapPin, Calendar } from '../components/Glyph';
@@ -67,11 +69,9 @@ const T = {
 const TEAM_PHOTOS = ['/photos/hbc-team.webp', '/photos/hbc-host.webp', '/photos/f15-meeting-pod.webp', '/photos/hbc-client-meeting.webp', '/photos/hbc-reception.webp', '/photos/f15-boardroom.webp', '/photos/hbc-meeting.webp', '/photos/hbc-bar.webp', '/photos/f15-lounge-cabin.webp'];
 const VALUE_ICONS = [Shield, Layers, Target];
 const MAPS = 'https://maps.google.com/?q=60+Ly+Thai+To,+Hoan+Kiem,+Ha+Noi';
-// The ecosystem cards (approved copy, data/aboutCopy.ts "eco"): photo, link,
-// and the stagger of each column on wide screens.
+// The ecosystem rows (approved copy, data/aboutCopy.ts "eco"): photo and link.
 const ECO_PHOTOS = ['/photos/f19-window.webp', '/photos/f15-lounge.webp', '/photos/hbc-client-meeting.webp', '/photos/hbc-lounge.webp'];
 const ECO_LINKS = ['/property-management', '/workspace-leasing', '/business-services', ''];
-const ECO_OFFSETS = ['lg:mt-16', 'lg:mt-36', '', 'lg:mt-24'];
 
 export function AboutPage() {
   const { lang, l } = useLang();
@@ -82,6 +82,7 @@ export function AboutPage() {
   const eyebrow = (text: string, dark = false) => (
     <p className={`mb-5 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] ${dark ? 'text-[#FF9A8B]' : 'text-[#D12126]'}`}><Flag /> {text}</p>
   );
+  const [eco, setEco] = useState(0);
   const cols = [TEAM_PHOTOS.slice(0, 3), TEAM_PHOTOS.slice(3, 6), TEAM_PHOTOS.slice(6, 9)];
   const places: Place[] = [
     { key: 'qh', name: 'The Quarter House', address: lang === 'vi' ? 'Hoàn Kiếm, Hà Nội' : 'Hoan Kiem, Ha Noi', photo: '/properties/quarter-house/qh-07.webp', to: '/workspace/quarter-house', crop: 'object-[70%_50%]' },
@@ -116,69 +117,95 @@ export function AboutPage() {
         </div>
       </section>
 
-      {/* Story, after foraspace.com/about-fora ("A new world of work"): the
-          text on the left, the photograph on the right rising over the top
-          edge of a pale band. */}
-      <section className="relative bg-white pt-16 lg:pt-24">
-        <div className="absolute inset-x-0 bottom-0 top-[180px] lg:top-[260px] bg-[#FBECEC]" aria-hidden="true" />
-        <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 pb-20 lg:pb-28 grid lg:grid-cols-12 gap-12 lg:gap-16">
-          <div className="lg:col-span-5 lg:col-start-1 order-2 lg:order-1 lg:pt-[300px]">
-            <h2 className="serif hl-display text-[#2A2623]">{a.whoTitle}</h2>
-            <div className="mt-8 space-y-5 text-[15px] leading-[1.75] text-[#4A443F]">
-              <p>{a.heroLead}</p>
-              <p>{a.heroBody}</p>
-              <p>{a.solveBody}</p>
+      {/* Story: the headline beside the introduction; then the photograph,
+          rising over the top of a pale band, with the pull line and what we
+          solve beside it; then the facts, one row across the band. */}
+      <section className="relative bg-white pt-20 lg:pt-28">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-8 items-end">
+          <div className="lg:col-span-7">
+            {eyebrow(a.whoEyebrow)}
+            <h2 className="serif hl-display text-[#2A2623] max-w-[17ch]">{a.whoTitle}</h2>
+          </div>
+          <div className="lg:col-span-5 space-y-5">
+            <p className="text-[1.25rem] leading-[1.55] text-[#2A2623]">{a.heroLead}</p>
+            <p className="text-[1.0625rem] leading-[1.75] text-[#4A443F]">{a.heroBody}</p>
+          </div>
+        </div>
+
+        <div className="relative mt-14 lg:mt-20">
+          <div className="absolute inset-x-0 bottom-0 top-[120px] lg:top-[200px] bg-[#FBECEC]" aria-hidden="true" />
+          <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 pb-16 lg:pb-24">
+            <div className="grid lg:grid-cols-12 gap-x-16 gap-y-10 items-end">
+              <div className="lg:col-span-8 relative aspect-[3/2] overflow-hidden rounded-[8px] bg-[#2A2623]">
+                <img loading="lazy" decoding="async" {...photo('/photos/hbc-desk.webp', '(min-width: 1024px) 62vw, 100vw')} alt={t.storyAlt} className="absolute inset-0 h-full w-full object-cover" />
+              </div>
+              <div className="lg:col-span-4">
+                <blockquote className="serif italic leading-[1.2] text-[#D12126]" style={{ fontSize: 'clamp(1.6rem, 2.4vw, 2.25rem)' }}>
+                  “{a.solveTitle}”
+                </blockquote>
+                <p className="mt-6 text-[1.0625rem] leading-[1.75] text-[#4A443F]">{a.solveBody}</p>
+              </div>
             </div>
-            <div className="mt-10 grid grid-cols-2 gap-x-8 gap-y-6">
-              {t.facts.map(([value, label]) => (
-                <div key={label} className="border-t border-[#D12126]/25 pt-4">
-                  <div className="serif text-[1.45rem] text-[#D12126]">{value}</div>
-                  <div className="mt-1 text-[12px] uppercase tracking-[0.14em] text-[#6B645D]">{label}</div>
+            <dl className="mt-14 lg:mt-20 grid grid-cols-2 lg:grid-cols-4 border-t border-[#2A2623]/15">
+              {t.facts.map(([value, label], k) => (
+                <div key={label} className={`pt-6 lg:pt-8 pr-6 ${k % 2 ? 'pl-6 border-l' : ''} ${k > 0 ? 'lg:pl-8 lg:border-l' : ''} ${k > 1 ? 'mt-6 lg:mt-0' : ''} border-[#2A2623]/15`}>
+                  <dt className="text-[12px] uppercase tracking-[0.14em] text-[#6B645D]">{label}</dt>
+                  <dd className="serif mt-3 text-[1.625rem] sm:text-[2rem] lg:text-[2.75rem] leading-[1.05] text-[#D12126]">{value}</dd>
                 </div>
               ))}
-            </div>
-            <blockquote className="serif mt-12 italic leading-snug text-[#D12126]" style={{ fontSize: 'clamp(1.3rem, 2vw, 1.7rem)' }}>
-              "{a.solveTitle}"
-            </blockquote>
-          </div>
-          <div className="lg:col-span-6 lg:col-start-7 order-1 lg:order-2">
-            <div className="relative aspect-square overflow-hidden rounded-[8px] bg-[#2A2623]">
-              <img loading="lazy" decoding="async" {...photo('/photos/hbc-desk.webp', '(min-width: 1024px) 46vw, 100vw')} alt={t.storyAlt} className="absolute inset-0 h-full w-full object-cover" />
-            </div>
+            </dl>
           </div>
         </div>
       </section>
 
-      {/* Ecosystem, after the staggered cards on foraspace.com/about-fora. */}
+      {/* Ecosystem: the four parts as a numbered index. On wide screens the
+          heading and one photograph hold still on the left while the rows
+          run on the right; the photograph is the row under the pointer (or
+          in focus). On narrow screens each row carries its own photograph. */}
       <section className="bg-white py-20 lg:py-28">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-12 gap-8 items-end">
-            <div className="lg:col-span-6">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-12">
+          <div className="lg:col-span-5">
+            <div className="lg:sticky lg:top-28">
               {eyebrow(a.ecoEyebrow)}
               <h2 className="serif hl-display text-[#2A2623]">{a.oneRel}</h2>
-            </div>
-            <div className="lg:col-span-5 lg:col-start-8 text-[15px] leading-[1.75] text-[#4A443F] space-y-4">
-              <p>{a.ecoTitle}</p>
-              <p>{a.ecoClose}</p>
+              <p className="mt-6 max-w-[44ch] text-[1.0625rem] leading-[1.75] text-[#4A443F]">{a.ecoTitle}</p>
+              <div className="relative mt-10 hidden lg:block aspect-[4/3] overflow-hidden rounded-[8px] bg-[#2A2623]">
+                {ECO_PHOTOS.map((src, k) => (
+                  <img key={src} loading="lazy" decoding="async" {...photo(src, '(min-width: 1024px) 38vw, 100vw')} alt="" className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-700 ${k === eco ? 'opacity-100 scale-100' : 'opacity-0 scale-[1.03]'}`} />
+                ))}
+              </div>
             </div>
           </div>
-          <div className="mt-16 lg:mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-14">
-            {a.eco.map((e, k) => {
-              const inner = (
-                <>
-                  <div className="relative aspect-[363/460] overflow-hidden rounded-[8px] bg-[#2A2623]">
-                    <img loading="lazy" decoding="async" {...photo(ECO_PHOTOS[k], '(min-width: 1024px) 23vw, (min-width: 640px) 45vw, 100vw')} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04]" />
-                  </div>
-                  <h3 className="serif hl-card-title mt-6 text-[#2A2623] group-hover:text-[#D12126] transition-colors">{e.t}</h3>
-                  <p className="mt-3 text-[15px] leading-[1.7] text-[#6B645D]">{e.d}</p>
-                </>
-              );
-              const cls = `group block ${ECO_OFFSETS[k]}`;
-              const to = ECO_LINKS[k];
-              return to
-                ? <Link key={e.t} to={l(to)} className={cls}>{inner}</Link>
-                : <a key={e.t} href={BUSINESS_CLUB_SITE} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>;
-            })}
+          <div className="lg:col-span-7">
+            <ol className="border-t border-[#2A2623]/15">
+              {a.eco.map((e, k) => {
+                const inner = (
+                  <>
+                    <span className={`absolute left-0 top-[-1px] hidden lg:block h-[2px] w-full origin-left bg-[#D12126] transition-transform duration-700 ${k === eco ? 'scale-x-100' : 'scale-x-0'}`} aria-hidden="true" />
+                    <div className="relative col-span-3 mb-6 aspect-[3/2] overflow-hidden rounded-[8px] bg-[#2A2623] lg:hidden">
+                      <img loading="lazy" decoding="async" {...photo(ECO_PHOTOS[k], '100vw')} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                    </div>
+                    <span className="pt-2 font-mono text-[13px] text-[#D12126]">{String(k + 1).padStart(2, '0')}</span>
+                    <div>
+                      <h3 className={`serif hl-card-title text-[#2A2623] transition-colors duration-500 group-hover:text-[#D12126] ${k === eco ? 'lg:text-[#D12126]' : ''}`}>{e.t}</h3>
+                      <p className="mt-3 max-w-[48ch] text-[1.0625rem] leading-[1.7] text-[#6B645D]">{e.d}</p>
+                    </div>
+                    <ArrowUpRight size={22} className={`mt-2 text-[#D12126] transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1`} />
+                  </>
+                );
+                const cls = 'group relative grid grid-cols-[2.5rem_1fr_auto] lg:grid-cols-[3.5rem_1fr_auto] gap-x-4 lg:gap-x-6 py-8 lg:py-10';
+                const on = { onMouseEnter: () => setEco(k), onFocus: () => setEco(k) };
+                const to = ECO_LINKS[k];
+                return (
+                  <li key={e.t} className="border-b border-[#2A2623]/15">
+                    {to
+                      ? <Link to={l(to)} className={cls} {...on}>{inner}</Link>
+                      : <a href={BUSINESS_CLUB_SITE} target="_blank" rel="noopener noreferrer" className={cls} {...on}>{inner}</a>}
+                  </li>
+                );
+              })}
+            </ol>
+            <p className="mt-10 max-w-[56ch] text-[1.0625rem] leading-[1.75] text-[#4A443F]">{a.ecoClose}</p>
           </div>
         </div>
       </section>

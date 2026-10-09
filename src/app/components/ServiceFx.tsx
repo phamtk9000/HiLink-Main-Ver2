@@ -9,10 +9,12 @@
 //   ring      Workspace Leasing     particles gather into a ring — people
 //                                   round a table — and close up under the
 //                                   pointer (Stripe's agentic ring)
-//   orbits    Business Services     orbits draw in around a shell of dust and
-//                                   nodes travel them: connections made
+//   market    Business Services     market entry: Vietnam as a field of dots;
+//                                   routes arrive from abroad at Hanoi, Da Nang
+//                                   and Ho Chi Minh City, and the country
+//                                   lights up from Hanoi southwards
 //   silk      Concierge Services    a soft ribbon of fine threads, swaying
-//   routes    Industrial & Logistics  goods flow along routes into a hub
+//   routes    Industrial & Logistics  goods flow slowly along routes into a hub
 //   sphere    All services          a slowly turning globe of points
 //
 // 2D canvas. A card draws only while it is hovered or fading out; the graphic
@@ -20,7 +22,43 @@
 // nothing; reduced motion shows a still frame on hover.
 import { useEffect, useRef } from 'react';
 
-export type FxKind = 'building' | 'ring' | 'orbits' | 'silk' | 'routes' | 'sphere';
+export type FxKind = 'building' | 'ring' | 'market' | 'silk' | 'routes' | 'sphere';
+
+// Vietnam, simplified (longitude, latitude), clockwise from the north-west
+// corner; Phú Quốc; and a dot for each group of islands of Hoàng Sa and
+// Trường Sa.
+const VN: [number, number][] = [
+  [102.14, 22.4], [102.4, 22.62], [102.7, 22.7], [103, 22.55], [103.3, 22.8], [103.6, 22.78], [103.97, 22.5], [104.3, 22.72],
+  [104.75, 22.82], [105.05, 23], [105.32, 23.38], [105.6, 23.1], [105.85, 22.95], [106.25, 22.95], [106.7, 22.85], [106.65, 22.55],
+  [106.75, 22.3], [106.95, 21.95], [107.35, 21.65], [107.98, 21.53],
+  [107.7, 21.3], [107.2, 20.95], [106.75, 20.75], [106.55, 20.35], [106.1, 19.95], [105.85, 19.55], [105.7, 19.05], [105.95, 18.6],
+  [106.35, 18.1], [106.6, 17.55], [107.05, 17.05], [107.55, 16.6], [108, 16.2], [108.25, 15.95], [108.65, 15.45], [108.9, 15],
+  [109.1, 14.3], [109.25, 13.7], [109.3, 13.1], [109.45, 12.85], [109.2, 12.3], [109.2, 11.85], [109, 11.45], [108.7, 11.15],
+  [108.3, 10.95], [107.9, 10.75], [107.3, 10.45], [107, 10.35], [106.8, 10.1], [106.55, 9.75], [106.2, 9.45], [105.8, 9.15],
+  [105.4, 8.85], [105.1, 8.62], [104.75, 8.6],
+  [104.8, 9.1], [104.85, 9.6], [105.05, 9.95], [104.75, 10.2], [104.48, 10.4], [104.8, 10.5], [105.1, 10.75], [105.45, 10.95],
+  [105.85, 10.85], [106.15, 10.98], [105.95, 11.3], [106.1, 11.7], [106.4, 11.95], [106.8, 12.1], [107.3, 12.3], [107.55, 12.35],
+  [107.45, 12.75], [107.55, 13.3], [107.45, 13.85], [107.6, 14.4], [107.55, 14.7],
+  [107.7, 15.2], [107.4, 15.6], [107.2, 15.95], [107.05, 16.3], [106.65, 16.55], [106.55, 16.95], [106.4, 17.3], [106.05, 17.65],
+  [105.7, 18.05], [105.45, 18.35], [105.1, 18.7], [104.55, 19], [104.05, 19.3], [103.9, 19.6], [104.3, 19.8], [104.65, 20.1],
+  [104.4, 20.4], [104.05, 20.8], [103.7, 20.7], [103.3, 20.8], [103.05, 21.1], [102.85, 21.4], [102.75, 21.7], [102.55, 21.9], [102.2, 22.1],
+];
+const PHU_QUOC: [number, number][] = [[103.85, 10.45], [104.08, 10.4], [104.05, 10.05], [103.95, 10], [103.85, 10.2]];
+const ISLANDS: [number, number][] = [
+  [111.2, 15.8], [111.6, 16.5], [111.9, 16.3], [112.3, 16.6], [112.0, 16.95],
+  [114.3, 11.4], [113.9, 10.4], [114.5, 10.0], [113.2, 9.8], [114.1, 8.9], [112.9, 8.6], [111.9, 8.6],
+];
+const CITIES: [number, number][] = [[105.85, 21.03], [108.22, 16.07], [106.7, 10.78]]; // Hanoi, Da Nang, Ho Chi Minh City
+const LON0 = 102.1, LON1 = 114.6, LAT0 = 23.4, LAT1 = 8.4, KX = 0.96; // cos(16°)
+const inside = (poly: [number, number][], x: number, y: number) => {
+  let c = false;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    const [xi, yi] = poly[i], [xj, yj] = poly[j];
+    if ((yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) c = !c;
+  }
+  return c;
+};
+type MapDot = { x: number; y: number; dh: number; dc: number; r: number };
 
 type Pt = { x: number; y: number; z: number; r: number; a: number };
 
@@ -58,10 +96,13 @@ export function ServiceFx({ kind, onRed = false }: { kind: FxKind; onRed?: boole
     const t0 = performance.now();
     let last = t0;
     let pts: Pt[] = [];
+    let map: MapDot[] = [];
+    let cities: [number, number][] = [];
+    let ht = 0; // seconds of hover, for the market map's sequence
 
     const build = () => {
       pts = [];
-      const N = kind === 'silk' ? 0 : kind === 'routes' ? 260 : kind === 'orbits' ? 900 : kind === 'building' ? 1100 : 1500;
+      const N = kind === 'silk' || kind === 'market' ? 0 : kind === 'routes' ? 260 : kind === 'building' ? 1100 : 1500;
       for (let i = 0; i < N; i++) pts.push({ x: rand(), y: rand(), z: rand(), r: rand(), a: rand() * Math.PI * 2 });
     };
     const resize = () => {
@@ -70,6 +111,26 @@ export function ServiceFx({ kind, onRed = false }: { kind: FxKind; onRed?: boole
       w = r.width; h = r.height;
       canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
       canvas.style.width = `${w}px`; canvas.style.height = `${h}px`;
+      if (kind === 'market') {
+        // Vietnam on a 5px grid, filling the card's height, the islands
+        // against its right edge.
+        const k = Math.min((h * 0.9) / (LAT0 - LAT1), (w * 0.52) / ((LON1 - LON0) * KX));
+        const x0 = w - 10 - (LON1 - LON0) * KX * k, y0 = (h - (LAT0 - LAT1) * k) / 2;
+        const px = ([lon, lat]: [number, number]): [number, number] => [x0 + (lon - LON0) * KX * k, y0 + (LAT0 - lat) * k];
+        cities = CITIES.map(px);
+        const g = 5;
+        const add = (x: number, y: number) => {
+          const dh = Math.hypot(x - cities[0][0], y - cities[0][1]);
+          const dc = Math.min(dh, ...cities.slice(1).map(([cx, cy]) => Math.hypot(x - cx, y - cy)));
+          map.push({ x, y, dh, dc, r: rand() });
+        };
+        map = [];
+        for (let y = y0; y <= h - y0; y += g) for (let x = x0; x <= w; x += g) {
+          const ll: [number, number] = [LON0 + (x - x0) / (KX * k), LAT0 - (y - y0) / k];
+          if (inside(VN, ll[0], ll[1]) || inside(PHU_QUOC, ll[0], ll[1])) add(x, y);
+        }
+        ISLANDS.forEach((p) => { const [x, y] = px(p); add(x0 + Math.round((x - x0) / g) * g, y0 + Math.round((y - y0) / g) * g); });
+      }
     };
 
     const dot = (x: number, y: number, size: number, alpha: number) => {
@@ -85,6 +146,7 @@ export function ServiceFx({ kind, onRed = false }: { kind: FxKind; onRed?: boole
       mouse.x += (mouse.tx - mouse.x) * Math.min(1, dt * 0.008);
       mouse.y += (mouse.ty - mouse.y) * Math.min(1, dt * 0.008);
       const s = still ? (hovered ? 1 : 0) : strength;
+      ht = still ? 6 : ht + dt / 1000;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
       const cx = w * 0.68, cy = h * 0.55, R = Math.min(w, h) * 0.36;
@@ -124,34 +186,49 @@ export function ServiceFx({ kind, onRed = false }: { kind: FxKind; onRed?: boole
         });
         ctx.fillStyle = `rgba(${ramp(0.6, onRed)},${0.35 * s})`;
         ctx.fillRect(w * 0.56, h * 0.885, w * 0.42, 1);
-      } else if (kind === 'orbits') {
-        // A shell of dust, three tilted orbits drawing in, and nodes on them.
-        for (const p of pts) {
-          const ang = p.a + t * 0.03;
-          const rr = R * (1.15 + (p.r - 0.5) * 0.35 + noise(ang * 2, t * 0.2) * 0.1);
-          const x = cx + Math.cos(ang) * rr, y = cy + Math.sin(ang) * rr * 0.95;
-          const arc = 0.5 + 0.5 * Math.sin(ang - 0.8); // denser on one side
-          dot(x, y, 1 + p.r * 1.8, (0.15 + 0.6 * arc * p.z) * s);
+      } else if (kind === 'market') {
+        // The country lights up from Hanoi southwards (70px a second), then
+        // slow rings go out from the three cities; dots near the pointer
+        // brighten a little.
+        const front = ht * 70;
+        const ring = (ht * 22) % 110;
+        for (const d of map) {
+          const lit = Math.min(1, Math.max(0, (front - d.dh) / 50));
+          const wave = Math.exp(-(((d.dc - ring) / 8) ** 2)) * (1 - ring / 110) * lit;
+          const a = 0.24 + 0.5 * lit + 0.4 * wave + 0.25 * near(d.x, d.y, 60) + (lit > 0.9 && d.r > 0.97 ? 0.3 : 0);
+          dot(d.x, d.y, 2 + wave * 1.2, a * s);
         }
-        const orbits = [[R * 1.25, R * 0.42, -0.35], [R * 0.95, R * 0.95, 0], [R * 1.4, R * 0.6, 0.5]];
-        orbits.forEach(([rx, ry, rot], k) => {
-          ctx.save();
-          ctx.translate(cx, cy); ctx.rotate(rot);
-          ctx.strokeStyle = `rgba(${ramp(0.3 + k * 0.25, onRed)},${0.55 * s})`;
-          ctx.lineWidth = 1.2;
+        // Routes in from abroad: drawn one after another, then a parcel of
+        // light travels each one, slowly.
+        const from: [number, number][] = [[w * 0.8, -h * 0.06], [w * 1.04, h * 0.3], [w * 1.04, h * 1.04]];
+        cities.forEach(([ex, ey], k) => {
+          const [sx, sy] = from[k];
+          const mx = (sx + ex) / 2, my = Math.min(sy, ey) - h * 0.14;
+          const at = (u: number) => [(1 - u) ** 2 * sx + 2 * (1 - u) * u * mx + u * u * ex, (1 - u) ** 2 * sy + 2 * (1 - u) * u * my + u * u * ey];
+          const drawn = Math.min(1, Math.max(0, ht * 0.6 - k * 0.3));
+          if (drawn <= 0) return;
+          ctx.strokeStyle = `rgba(${ramp(0.35 + k * 0.2, onRed)},${0.45 * s})`;
+          ctx.lineWidth = 1;
           ctx.beginPath();
-          ctx.ellipse(0, 0, rx, ry, 0, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * Math.min(1, s * 1.2));
+          for (let u = 0; u <= drawn + 0.001; u += 0.02) { const [x, y] = at(Math.min(u, drawn)); if (u === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); }
           ctx.stroke();
-          const na = t * (0.4 + k * 0.15) + k * 2;
-          const nx = Math.cos(na) * rx, ny = Math.sin(na) * ry;
-          ctx.fillStyle = `rgba(255,255,255,${s})`;
-          ctx.strokeStyle = `rgba(${ramp(0.3 + k * 0.25, onRed)},${s})`;
-          ctx.lineWidth = 2;
-          ctx.beginPath(); ctx.arc(nx, ny, 5, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-          ctx.fillStyle = `rgba(${ramp(0.3 + k * 0.25, onRed)},${0.18 * s})`;
-          ctx.beginPath(); ctx.arc(nx, ny, 11, 0, Math.PI * 2); ctx.fill();
-          ctx.restore();
+          if (drawn >= 1) {
+            const u = (ht * 0.12 + k * 0.37) % 1;
+            const [x, y] = at(u);
+            ctx.fillStyle = `rgba(${ramp(0.35 + k * 0.2, onRed)},${Math.sin(u * Math.PI) * s})`;
+            ctx.fillRect(x - 2, y - 2, 4, 4);
+          }
         });
+        // The cities: Hanoi larger, with a slow pulse.
+        cities.forEach(([x, y], k) => {
+          const size = k === 0 ? 8 : 5;
+          ctx.fillStyle = `rgba(${ramp(0.5, onRed)},${s})`;
+          ctx.fillRect(x - size / 2, y - size / 2, size, size);
+        });
+        const pulse = (ht / 3) % 1;
+        ctx.strokeStyle = `rgba(${ramp(0.5, onRed)},${(1 - pulse) * 0.5 * s})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(cities[0][0], cities[0][1], 7 + pulse * 26, 0, Math.PI * 2); ctx.stroke();
       } else if (kind === 'silk') {
         // A ribbon of fine threads, peach to coral, swelling under the pointer.
         const lines = 46;
@@ -190,11 +267,11 @@ export function ServiceFx({ kind, onRed = false }: { kind: FxKind; onRed?: boole
         ctx.setLineDash([]);
         for (const p of pts) {
           const k = Math.floor(p.a / (Math.PI * 2) * starts.length) % starts.length;
-          const u = (p.r + t * (0.04 + 0.12 * s) * (0.6 + p.z)) % 1;
+          const u = (p.r + t * (0.018 + 0.03 * s) * (0.6 + p.z)) % 1;
           const [x, y] = curve(k, u);
           dot(x + (p.x - 0.5) * 8, y + (p.y - 0.5) * 8, 1.5 + p.z * 2, (0.3 + 0.6 * u) * s);
         }
-        const pulse = (t * 0.6) % 1;
+        const pulse = (t * 0.3) % 1;
         ctx.strokeStyle = `rgba(${ramp(0.5, onRed)},${(1 - pulse) * 0.5 * s})`;
         ctx.beginPath(); ctx.arc(hub.x, hub.y, 8 + pulse * 40, 0, Math.PI * 2); ctx.stroke();
         ctx.fillStyle = `rgba(${ramp(0.5, onRed)},${s})`;
@@ -226,12 +303,12 @@ export function ServiceFx({ kind, onRed = false }: { kind: FxKind; onRed?: boole
       hovered = true;
       const r = canvas.getBoundingClientRect();
       mouse.tx = e.clientX - r.left; mouse.ty = e.clientY - r.top;
-      if (strength < 0.02) { mouse.x = mouse.tx; mouse.y = mouse.ty; }
+      if (strength < 0.02) { mouse.x = mouse.tx; mouse.y = mouse.ty; ht = 0; }
       start();
     };
     const onMove = (e: PointerEvent) => { const r = canvas.getBoundingClientRect(); mouse.tx = e.clientX - r.left; mouse.ty = e.clientY - r.top; };
     const onLeave = () => { hovered = false; start(); };
-    const onFocus = () => { hovered = true; mouse.tx = w * 0.7; mouse.ty = h * 0.5; start(); };
+    const onFocus = () => { if (strength < 0.02) ht = 0; hovered = true; mouse.tx = w * 0.7; mouse.ty = h * 0.5; start(); };
 
     build();
     resize();
