@@ -84,7 +84,7 @@ export function BookConsultationPage() {
       </section>
 
       {/* Form */}
-      <section id="consultation-form" className="py-20 lg:py-28 bg-[#F4F0EA] text-[#2A2623]">
+      <section id="consultation-form" className="relative py-20 lg:py-28 bg-white text-[#2A2623]">
         <div className="max-w-[800px] mx-auto px-6 lg:px-12">
           {submitted ? (
             <motion.div

@@ -261,6 +261,19 @@
 --------------------------------------------------------------------------- */
 :root { --pat-drift: 0px; }
 
+/* Most sections are white; where two white sections meet, a hairline at the
+   content width divides them (drawn as a background, so the section needs no
+   positioning). Sections that draw their own top rule are left alone. */
+main section.bg-white + section.bg-white:not([class*="border-t"]) {
+  background-image: linear-gradient(rgb(42 38 35 / 0.1), rgb(42 38 35 / 0.1));
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: calc(min(100%, 1600px) - 48px) 1px;
+}
+@media (min-width: 1024px) {
+  main section.bg-white + section.bg-white:not([class*="border-t"]) { background-size: calc(min(100%, 1600px) - 96px) 1px; }
+}
+
 main section[class*="bg-[#F4F0EA]"],
 main section[class*="bg-[#FBECEC]"],
 footer {

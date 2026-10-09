@@ -229,7 +229,7 @@ export function WorkspaceDetailPage() {
 
   if (!property) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center bg-[#F4F0EA]">
+      <div className="min-h-[60vh] flex items-center justify-center bg-white">
         <div className="text-center">
           <h2 className="serif text-4xl mb-4">{t.notFound}</h2>
           <Link to={l('/workspace-leasing')} className="text-[#D12126] uppercase text-sm tracking-wider underline">
@@ -251,7 +251,7 @@ export function WorkspaceDetailPage() {
   return (
     <>
       {/* Back nav */}
-      <div className="bg-[#F4F0EA] border-b border-[#2A2623]/10">
+      <div className="bg-white border-b border-[#2A2623]/10">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-4">
           <Link
             to={l('/property-management')}
@@ -263,7 +263,7 @@ export function WorkspaceDetailPage() {
       </div>
 
       {/* Header info */}
-      <section className="bg-[#F4F0EA] pt-10 pb-6">
+      <section className="relative bg-white pt-10 pb-6">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <p className="text-xs uppercase tracking-[0.2em] text-[#D12126] mb-3">{property.type[lang]}</p>
           <h1 className="serif text-5xl lg:text-6xl mb-3">{property.name}</h1>
@@ -275,7 +275,7 @@ export function WorkspaceDetailPage() {
       </section>
 
       {/* Photo grid */}
-      <section className="bg-[#F4F0EA] pb-8">
+      <section className="relative bg-white pb-8">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <PhotoGrid images={images} onOpen={(i) => setLightboxIndex(i)} />
           <button

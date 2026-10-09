@@ -227,7 +227,7 @@ export function AboutPage() {
             </footer>
           </blockquote>
         </div>
-        <div className="mt-20 lg:mt-24 bg-[linear-gradient(to_bottom,#2B3A32_50%,#F4F0EA_50%)]">
+        <div className="mt-20 lg:mt-24 bg-[linear-gradient(to_bottom,#2B3A32_50%,#FFFFFF_50%)]">
           <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
             <div className="relative mx-auto max-w-[1232px] aspect-[16/9] overflow-hidden rounded-[8px] bg-[#2A2623]">
               <img loading="lazy" decoding="async" {...photo('/photos/hbc-lounge-xl.webp', '(min-width: 1280px) 1232px, 100vw')} alt={t.quoteAlt} className="absolute inset-0 h-full w-full object-cover" />
@@ -237,7 +237,7 @@ export function AboutPage() {
       </section>
 
       {/* Vision: the mission is the quote above, so the vision stands alone. */}
-      <section className="bg-[#F4F0EA] pt-16 pb-20 lg:pt-20 lg:pb-28">
+      <section className="relative bg-white pt-16 pb-20 lg:pt-20 lg:pb-28">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-8">
           <p className="lg:col-span-3 flex items-baseline gap-4 text-[12px] uppercase tracking-[0.2em] text-[#D12126]">
             <span className="serif text-[2.5rem] leading-none tracking-normal text-[#D12126]/25">01</span>
@@ -279,7 +279,7 @@ export function AboutPage() {
       </section>
 
       {/* How we work: one line that fills as you read, ending in the outcome. */}
-      <section className="bg-[#F4F0EA] py-20 lg:py-28">
+      <section className="relative bg-white py-20 lg:py-28">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-12 gap-8 items-end">
             <div className="lg:col-span-6">
@@ -294,7 +294,7 @@ export function AboutPage() {
             <ol className="relative grid gap-10 lg:grid-cols-5 lg:gap-8">
               {a.stages.map(({ t: title, s }, i) => (
                 <li key={title} className="relative pl-10 lg:pl-0">
-                  <span className="absolute left-0 lg:static grid h-[15px] w-[15px] place-items-center rounded-full border border-[#D12126] bg-[#F4F0EA]" aria-hidden="true">
+                  <span className="absolute left-0 lg:static grid h-[15px] w-[15px] place-items-center rounded-full border border-[#D12126] bg-white" aria-hidden="true">
                     <span className="h-[5px] w-[5px] rounded-full bg-[#D12126]" />
                   </span>
                   <p className="lg:mt-8 text-[12px] uppercase tracking-[0.2em] text-[#6B645D]">{t.steps} {String(i + 1).padStart(2, '0')}</p>
@@ -313,7 +313,7 @@ export function AboutPage() {
       </section>
 
       {/* Properties we run: the shared place rail (after foraspace.com). */}
-      <section className="bg-[#F4F0EA] py-20 lg:py-28 overflow-hidden">
+      <section className="relative bg-white py-20 lg:py-28 overflow-hidden">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 mb-10 lg:mb-12">
           {eyebrow(t.workEyebrow)}
           <h2 className="serif leading-[1.1]">{t.workTitle}</h2>
@@ -352,7 +352,7 @@ export function AboutPage() {
       </section>
 
       {/* Partners. */}
-      <section className="bg-[#F4F0EA] py-16 lg:py-20">
+      <section className="relative bg-white py-16 lg:py-20">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
           <h2 className="serif leading-[1.1]">{t.partnersTitle}</h2>
           <p className="text-[16px] text-[#6B645D]">{t.partnersSub}</p>

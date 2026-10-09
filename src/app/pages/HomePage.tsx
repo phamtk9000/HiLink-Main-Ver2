@@ -147,7 +147,7 @@ export function HomePage() {
       <LinkPhilosophy />
 
       {/* ── About — editorial three-column ── */}
-      <section className="w-full bg-[#F4F0EA]">
+      <section className="relative w-full bg-white">
         <div className="grid lg:grid-cols-[30%_1fr_28%] min-h-[680px]">
           <div className="relative overflow-hidden min-h-[400px] lg:min-h-0 group">
             <img loading="lazy" decoding="async" {...photo(IMG.reception)} alt={t.receptionAlt} className="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-105" />
@@ -194,7 +194,7 @@ export function HomePage() {
       </section>
 
       {/* ── Services ── */}
-      <section className="py-24 lg:py-32 bg-[#F4F0EA]">
+      <section className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 mb-20">
             <div className="lg:col-span-4">
@@ -249,7 +249,7 @@ export function HomePage() {
       </section>
 
       {/* ── Trust ── */}
-      <section className="py-24 lg:py-32 bg-[#F4F0EA]">
+      <section className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             <div>
@@ -302,7 +302,7 @@ const FX: Record<string, FxKind> = {
 
 function ServiceCard({ icon, title, description, link, path, more }: { icon: React.ReactNode; title: string; description: string; link: string; path: string; more: string }) {
   return (
-    <Link to={link} data-fx-root className="group relative block h-full overflow-hidden bg-[#F4F0EA] p-8 lg:p-12 transition-colors duration-500 hover:bg-[#FBF8F5]">
+    <Link to={link} data-fx-root className="group relative block h-full overflow-hidden bg-white p-8 lg:p-12 transition-colors duration-500 hover:bg-[#FBF8F5]">
       <ServiceFx kind={FX[path]} />
       <div className="relative">
         <motion.div className="text-[#D12126] mb-6" whileHover={{ x: 4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>{icon}</motion.div>

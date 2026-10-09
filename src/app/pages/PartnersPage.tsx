@@ -107,7 +107,7 @@ export function PartnersPage() {
       </section>
 
       {/* Intro */}
-      <section className="py-24 lg:py-32 bg-[#F4F0EA]">
+      <section className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-12 lg:gap-24">
           <div className="lg:col-span-5">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.introEyebrow}</p>
@@ -147,7 +147,7 @@ export function PartnersPage() {
       </section>
 
       {/* Why partner — benefits + feature image */}
-      <section className="py-24 lg:py-32 bg-[#F4F0EA] text-[#2A2623]">
+      <section className="relative py-24 lg:py-32 bg-white text-[#2A2623]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div>
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.whyEyebrow}</p>
@@ -177,7 +177,7 @@ export function PartnersPage() {
       </section>
 
       {/* How partnership works */}
-      <section className="py-24 lg:py-32 bg-[#F4F0EA]">
+      <section className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="mb-14 max-w-2xl">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.howEyebrow}</p>

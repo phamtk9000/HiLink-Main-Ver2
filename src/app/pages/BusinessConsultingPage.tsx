@@ -157,7 +157,7 @@ export function BusinessConsultingPage() {
       </section>
 
       {/* ── Services — interactive tabs ── */}
-      <section id="services" className="bg-[#F4F0EA] py-28">
+      <section id="services" className="relative bg-white py-28">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-16">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.svcEyebrow}</p>
@@ -241,7 +241,7 @@ export function BusinessConsultingPage() {
       </section>
 
       {/* ── Sector expertise ── */}
-      <section className="bg-[#F4F0EA] py-28 text-[#2A2623]">
+      <section className="relative bg-white py-28 text-[#2A2623]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-16">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.secEyebrow}</p>

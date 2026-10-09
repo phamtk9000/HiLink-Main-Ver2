@@ -132,7 +132,7 @@ export function ContactPage() {
 
   // Fields outlined, the label sitting on the top edge (as on Fora).
   const box = 'w-full rounded-[2px] border border-[#2A2623]/70 bg-transparent px-4 font-mono text-[14px] text-[#2A2623] placeholder:text-[#2A2623]/40 focus:border-[#D12126] focus:outline-none transition-colors';
-  const legend = 'absolute -top-[9px] left-3 z-10 bg-[#F4F0EA] px-1.5 font-mono text-[12px] leading-[18px] text-[#2A2623]';
+  const legend = 'absolute -top-[9px] left-3 z-10 bg-white px-1.5 font-mono text-[12px] leading-[18px] text-[#2A2623]';
   const field = (name: keyof typeof form, label: string, ph: string, type = 'text', required = false, auto?: string) => (
     <div className="relative">
       <label htmlFor={`c-${name}`} className={legend}>{label}</label>
@@ -167,10 +167,10 @@ export function ContactPage() {
       </div>
     </section>
 
-    <section id="enquiry" className="bg-[#F4F0EA] scroll-mt-[76px]">
+    <section id="enquiry" className="relative bg-white scroll-mt-[76px]">
       <div className="grid lg:grid-cols-12">
         {/* Left: photograph and sign-off, held in view. */}
-        <div className="lg:col-span-5 bg-white">
+        <div className="lg:col-span-5 bg-[#F4F0EA]">
           <div className="lg:sticky lg:top-[76px] flex flex-col gap-8 p-6 sm:p-10 lg:p-12 lg:h-[calc(100vh-76px)]">
             <div className="relative min-h-[260px] flex-1 overflow-hidden rounded-[8px] bg-[#2A2623]">
               <img {...photo('/photos/f15-reception.webp', '(min-width: 1024px) 38vw, 100vw')} alt={t.photoAlt} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" />

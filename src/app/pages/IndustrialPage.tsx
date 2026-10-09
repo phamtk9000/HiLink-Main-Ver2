@@ -119,7 +119,7 @@ export function IndustrialPage() {
       </section>
 
       {/* Services Overview */}
-      <section className="py-24 lg:py-32 bg-[#F4F0EA]">
+      <section className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="text-center mb-16"
@@ -163,7 +163,7 @@ export function IndustrialPage() {
       </section>
 
       {/* Facility Types */}
-      <section className="py-24 lg:py-32 bg-[#F4F0EA]">
+      <section className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="text-center mb-16"

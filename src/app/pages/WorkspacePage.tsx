@@ -184,7 +184,7 @@ export function WorkspacePage() {
       </section>
 
       {/* Why HiLink Workspaces */}
-      <section className="py-24 lg:py-32 bg-[#F4F0EA]">
+      <section className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div className="text-center mb-16">
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.whyTitle}</h2>
@@ -200,7 +200,7 @@ export function WorkspacePage() {
                 className="text-center"
                 whileHover={{ y: -5 }}
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full text-[#D12126] mb-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-[#FBECEC] rounded-full text-[#D12126] mb-4">
                   {AMENITY_ICONS[i]}
                 </div>
                 <h3 className="serif text-lg mb-2">{name}</h3>
@@ -230,7 +230,7 @@ export function WorkspacePage() {
       </section>
 
       {/* Featured Spaces */}
-      <section className="py-24 lg:py-32 bg-[#F4F0EA] text-[#2A2623] overflow-hidden">
+      <section className="relative py-24 lg:py-32 bg-white text-[#2A2623] overflow-hidden">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="flex flex-wrap items-end justify-between gap-6 mb-14">
             <div>
@@ -256,7 +256,7 @@ export function WorkspacePage() {
                 href={ws(lang, '/locations')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative block overflow-hidden bg-white"
+                className="group relative block overflow-hidden bg-white border border-[#2A2623]/10"
               >
                 <div className="relative aspect-[4/3] overflow-hidden rounded-[8px]">
                   <img loading="lazy" decoding="async" {...photo(SPACE_PHOTOS[i])} alt={name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
@@ -305,7 +305,7 @@ export function WorkspacePage() {
       </section>
 
       {/* Client Logos */}
-      <section className="py-16 bg-[#F4F0EA] border-y border-[#2A2623]/10">
+      <section className="relative py-16 bg-white border-y border-[#2A2623]/10">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <p className="text-center text-sm uppercase tracking-wider text-[#6B645D] mb-4">
             {t.trusted}

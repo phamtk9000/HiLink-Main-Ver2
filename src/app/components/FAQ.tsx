@@ -14,7 +14,7 @@ export function FAQ({
   eyebrow = 'FAQs',
   title = 'Frequently Asked Questions',
   subtitle,
-  background = 'beige',
+  background = 'white',
 }: {
   items: FAQItem[];
   eyebrow?: string;
@@ -26,7 +26,7 @@ export function FAQ({
   const bg = background === 'white' ? 'bg-white' : 'bg-[#F4F0EA]';
 
   return (
-    <section className={`py-24 lg:py-32 ${bg}`}>
+    <section className={`relative py-24 lg:py-32 ${bg}`}>
       <div className="max-w-[1000px] mx-auto px-6 lg:px-12">
         <div className="text-center mb-16">
           <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {eyebrow}</p>

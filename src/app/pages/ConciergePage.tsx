@@ -151,7 +151,7 @@ export function ConciergePage() {
       </section>
 
       {/* Philosophy */}
-      <section className="py-28 lg:py-40 bg-[#F4F0EA]">
+      <section className="relative py-28 lg:py-40 bg-white">
         <div className="max-w-[900px] mx-auto px-6 lg:px-12 text-center">
           <h2 className="serif font-light text-4xl lg:text-5xl mb-8 leading-tight text-[#2A2623]">
             {t.philTitle}
@@ -183,7 +183,7 @@ export function ConciergePage() {
       </section>
 
       {/* The Difference */}
-      <section className="py-28 lg:py-40 bg-[#F4F0EA]">
+      <section className="relative py-28 lg:py-40 bg-white">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div>
@@ -266,7 +266,7 @@ export function ConciergePage() {
       </section>
 
       {/* Contact */}
-      <section className="py-20 bg-[#F4F0EA] border-t border-[#D12126]/20">
+      <section className="relative py-20 bg-white border-t border-[#D12126]/20">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div>

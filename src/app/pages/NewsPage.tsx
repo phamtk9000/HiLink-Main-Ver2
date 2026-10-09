@@ -74,7 +74,7 @@ export function NewsPage() {
 
       {/* Featured Article */}
       {featuredArticle && (
-        <section className="py-24 bg-[#F4F0EA]">
+        <section className="relative py-24 bg-white">
           <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
             <motion.div
               className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center"

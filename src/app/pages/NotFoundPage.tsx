@@ -11,7 +11,7 @@ export function NotFoundPage() {
   const t = T[lang];
   usePageMeta(t.title);
   return (
-    <div className="min-h-[60vh] flex items-center justify-center bg-[#F4F0EA]">
+    <div className="min-h-[60vh] flex items-center justify-center bg-white">
       <div className="text-center">
         <p className="text-sm uppercase tracking-wider text-[#D12126] mb-4">404</p>
         <h2 className="serif text-4xl mb-4">{t.title}</h2>

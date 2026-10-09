@@ -165,7 +165,7 @@ export function PropertyManagementPage() {
       </section>
 
       {/* Services Grid */}
-      <section className="py-24 lg:py-32 bg-[#F4F0EA]">
+      <section className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="text-center mb-16"
@@ -210,7 +210,7 @@ export function PropertyManagementPage() {
       </section>
 
       {/* Who We Serve */}
-      <section className="py-24 lg:py-32 bg-[#F4F0EA]">
+      <section className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div className="text-center mb-16">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.serveEyebrow}</p>
@@ -221,7 +221,7 @@ export function PropertyManagementPage() {
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white p-10 lg:p-12">
+            <div className="bg-white p-10 lg:p-12 border border-[#2A2623]/10">
               <div className="text-[#D12126] mb-6"><Briefcase size={28} /></div>
               <h3 className="serif text-2xl lg:text-3xl mb-6">{t.owners}</h3>
               <ul className="space-y-4">
@@ -276,7 +276,7 @@ export function PropertyManagementPage() {
       </section>
 
       {/* Properties We Manage */}
-      <section className="py-24 lg:py-32 bg-[#F4F0EA]">
+      <section className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="text-center mb-16"

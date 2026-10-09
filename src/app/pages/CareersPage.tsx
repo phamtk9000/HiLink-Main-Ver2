@@ -123,7 +123,7 @@ export function CareersPage() {
       </section>
 
       {/* Life at HiLink — gallery */}
-      <section className="py-24 lg:py-32 bg-[#F4F0EA]">
+      <section className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-14">
             <div>
@@ -167,7 +167,7 @@ export function CareersPage() {
       </section>
 
       {/* Benefits + feature image */}
-      <section className="py-24 lg:py-32 bg-[#F4F0EA] text-[#2A2623]">
+      <section className="relative py-24 lg:py-32 bg-white text-[#2A2623]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className="relative aspect-[4/3] overflow-hidden rounded-[8px]">
             <img loading="lazy" decoding="async" {...photo('/photos/hbc-team.webp')} alt={t.teamAlt} className="w-full h-full object-cover" />
@@ -206,7 +206,7 @@ export function CareersPage() {
       </section>
 
       {/* How we hire */}
-      <section className="py-24 lg:py-32 bg-[#F4F0EA]">
+      <section className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="mb-14 max-w-2xl">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.hireEyebrow}</p>
