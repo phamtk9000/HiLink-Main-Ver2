@@ -245,6 +245,17 @@ export function ScrollMotion() {
           gsap.fromTo(el, { scale: 0.92 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: el, start: 'top 95%', end: 'top 25%', scrub: 0.6 } });
         });
 
+        // 2d. Lines that fill as their section is read ([data-scroll-progress]):
+        //     scaleX on wide screens, scaleY when the line runs down the page.
+        main.querySelectorAll<HTMLElement>('[data-scroll-progress]').forEach((el) => {
+          const horizontal = el.getBoundingClientRect().width > el.getBoundingClientRect().height;
+          gsap.fromTo(el, horizontal ? { scaleX: 0 } : { scaleY: 0 }, {
+            ...(horizontal ? { scaleX: 1 } : { scaleY: 1 }),
+            ease: 'none',
+            scrollTrigger: { trigger: el.parentElement ?? el, start: 'top 80%', end: 'bottom 55%', scrub: 0.6 },
+          });
+        });
+
         // 3. Parallax: large photographs that are not links and not already animated.
         main.querySelectorAll<HTMLImageElement>('section img').forEach((img) => {
           if (img.closest('a, button') || img.getAttribute('style') || animatedByFramer(img)) return;

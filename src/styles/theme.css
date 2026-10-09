@@ -392,3 +392,19 @@ footer::before {
 @media (prefers-reduced-motion: reduce) {
   .hl-kenburns, .hl-orbit, .hl-pulse, .hl-photo-column { animation: none; }
 }
+
+/* About: the linked line (LinkLoop) draws itself in, then light runs round it. */
+.hl-loop .hl-loop-draw { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.hl-loop.is-in .hl-loop-draw { transition: stroke-dashoffset 2.6s cubic-bezier(0.65, 0, 0.35, 1); stroke-dashoffset: 0; }
+.hl-loop .hl-loop-run { stroke-dasharray: 0.035 0.965; opacity: 0; }
+.hl-loop.is-in .hl-loop-run { opacity: 0.9; transition: opacity 0.6s 2.4s; animation: hl-loop-run 9s linear infinite; }
+@keyframes hl-loop-run { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -1; } }
+.hl-loop .hl-loop-ring { transform-box: view-box; transform-origin: 300px 300px; animation: hl-orbit 80s linear infinite; }
+/* Values: each column's rule draws from the left when it arrives. */
+.hl-rule::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: rgba(42, 38, 35, 0.12); }
+.hl-rule::after { content: ""; position: absolute; left: 0; top: -1px; height: 3px; width: 64px; background: #D12126; }
+.hl-photo-column--down { animation-direction: reverse; }
+@media (prefers-reduced-motion: reduce) {
+  .hl-loop .hl-loop-draw { stroke-dashoffset: 0; }
+  .hl-loop .hl-loop-run, .hl-loop .hl-loop-ring { animation: none; }
+}

@@ -1,8 +1,10 @@
-// About — laid out after mercury.com/about: a narrow, airy column; a large
-// centred statement over a framed photograph; story and figure in offset
-// pairs; soft rounded cards; the numbers band; the group HiLink belongs to;
-// the team; and contact cards in place of a closing banner. Copy is the
-// approved hilink.vn/about text (data/aboutCopy.ts); photos are HiLink's own.
+// About — HiLink's story told as a sequence of editorial sections rather than
+// a stack of cards: the original full-screen hero and story; the ecosystem as
+// one continuous "link" line looping through the five services (the loop in
+// the HiLink logo); vision and mission as a split statement; the numbers band;
+// values under drawn rules; the way we work along one line that fills as you
+// read; a property mosaic; the group HiLink belongs to; partners; the team;
+// and a compact contact band. Copy is the approved hilink.vn/about text.
 import { Link } from 'react-router';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Shield, Layers, Target, Mail, MapPin, Calendar, ServiceIcon } from '../components/Glyph';
@@ -10,6 +12,7 @@ import { ABOUT } from '../data/aboutCopy';
 import { CAREERS } from '../data/careersCopy';
 import { COMPANY, CONTACT, PARTNERS, SERVICES, ws } from '../data/site';
 import { LOCATIONS } from '../data/locations';
+import { useEffect, useRef, useState } from 'react';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { PartnerMarquee } from '../components/PartnerMarquee';
@@ -41,7 +44,7 @@ const T = {
       { t: 'Visit us', d: '' , cta: 'Get directions' },
       { t: 'Book a consultation', d: 'Tell us what you need and an advisor will be in touch.', cta: 'Book now' },
     ],
-    pause: 'Pause photos', play: 'Play photos',
+    steps: 'Step', ecoList: 'What sits inside it',
   },
   vi: {
     est: 'Thành lập 2020 · Hà Nội, Việt Nam', scroll: 'Cuộn để khám phá',
@@ -66,54 +69,73 @@ const T = {
       { t: 'Ghé thăm', d: '', cta: 'Chỉ đường' },
       { t: 'Đặt lịch tư vấn', d: 'Cho chúng tôi biết nhu cầu, một chuyên viên sẽ liên hệ với bạn.', cta: 'Đặt lịch' },
     ],
-    pause: 'Tạm dừng ảnh', play: 'Phát ảnh',
+    steps: 'Bước', ecoList: 'Bên trong hệ sinh thái',
   },
 };
 
-const TEAM_PHOTOS = ['/photos/hbc-team.webp', '/photos/hbc-host.webp', '/photos/f15-meeting-pod.webp', '/photos/hbc-client-meeting.webp', '/photos/hbc-reception.webp', '/photos/f15-boardroom.webp'];
+const TEAM_PHOTOS = ['/photos/hbc-team.webp', '/photos/hbc-host.webp', '/photos/f15-meeting-pod.webp', '/photos/hbc-client-meeting.webp', '/photos/hbc-reception.webp', '/photos/f15-boardroom.webp', '/photos/hbc-meeting.webp', '/photos/hbc-bar.webp', '/photos/f15-lounge-cabin.webp'];
 const VALUE_ICONS = [Shield, Layers, Target];
 const MAPS = 'https://maps.google.com/?q=60+Ly+Thai+To,+Hoan+Kiem,+Ha+Noi';
 
-/** Figure 1: the five services in orbit around one relationship. */
-function EcosystemFigure({ label }: { label: string }) {
+// One continuous line with five petals; between each pair of petals it curls
+// into a small loop — a link — like the loop in the HiLink logo. Generated as
+// x = R·cos t + ρ·cos 6t, y = R·sin t + ρ·sin 6t (R 160, ρ 48), turned so the
+// first petal points up. Petal tips sit at t = 2πk/5, radius R + ρ.
+const LOOP = 'M300.0 92.0 L303.9 92.1 L307.8 92.3 L311.7 92.6 L315.6 93.1 L319.4 93.8 L323.2 94.6 L327.0 95.5 L330.7 96.5 L334.3 97.7 L337.9 99.0 L341.5 100.5 L344.9 102.0 L348.3 103.7 L351.6 105.5 L354.8 107.4 L357.9 109.4 L361.0 111.6 L363.9 113.8 L366.7 116.1 L369.4 118.4 L371.9 120.9 L374.4 123.4 L376.7 126.0 L378.9 128.7 L381.0 131.4 L382.9 134.1 L384.8 136.9 L386.4 139.7 L388.0 142.6 L389.4 145.5 L390.7 148.3 L391.8 151.2 L392.9 154.1 L393.7 157.0 L394.5 159.8 L395.1 162.7 L395.6 165.5 L395.9 168.2 L396.2 171.0 L396.3 173.6 L396.3 176.3 L396.2 178.8 L395.9 181.3 L395.6 183.8 L395.2 186.1 L394.6 188.4 L394.0 190.6 L393.3 192.7 L392.5 194.7 L391.6 196.6 L390.7 198.4 L389.7 200.0 L388.6 201.6 L387.5 203.1 L386.3 204.4 L385.1 205.7 L383.9 206.8 L382.6 207.8 L381.3 208.7 L380.0 209.4 L378.7 210.1 L377.4 210.6 L376.1 211.0 L374.8 211.3 L373.5 211.4 L372.3 211.5 L371.1 211.4 L369.9 211.2 L368.8 210.9 L367.8 210.5 L366.8 210.0 L365.8 209.4 L365.0 208.7 L364.2 207.9 L363.5 207.0 L362.8 206.0 L362.3 205.0 L361.9 203.9 L361.5 202.7 L361.3 201.4 L361.1 200.1 L361.1 198.8 L361.2 197.4 L361.4 195.9 L361.7 194.5 L362.2 193.0 L362.7 191.4 L363.4 189.9 L364.2 188.4 L365.1 186.9 L366.2 185.3 L367.4 183.8 L368.7 182.4 L370.1 180.9 L371.6 179.5 L373.3 178.1 L375.0 176.8 L376.9 175.5 L378.9 174.3 L381.0 173.2 L383.2 172.1 L385.5 171.1 L387.9 170.2 L390.4 169.4 L393.0 168.7 L395.7 168.0 L398.4 167.5 L401.2 167.1 L404.1 166.8 L407.1 166.7 L410.1 166.6 L413.1 166.7 L416.2 166.9 L419.4 167.2 L422.5 167.7 L425.7 168.3 L428.9 169.0 L432.1 169.9 L435.3 170.9 L438.6 172.0 L441.8 173.3 L445.0 174.7 L448.1 176.2 L451.3 177.9 L454.3 179.8 L457.4 181.7 L460.4 183.8 L463.3 186.0 L466.2 188.3 L469.0 190.8 L471.7 193.4 L474.4 196.1 L476.9 198.9 L479.4 201.8 L481.8 204.8 L484.0 207.9 L486.2 211.2 L488.2 214.4 L490.1 217.8 L491.9 221.3 L493.6 224.8 L495.1 228.4 L496.5 232.0 L497.8 235.7 L499.0 239.5 L500.0 243.2 L500.8 247.0 L501.5 250.9 L502.1 254.7 L502.5 258.6 L502.8 262.5 L503.0 266.3 L503.0 270.2 L502.9 274.0 L502.6 277.8 L502.2 281.6 L501.6 285.3 L500.9 289.0 L500.1 292.6 L499.1 296.2 L498.1 299.7 L496.9 303.2 L495.5 306.6 L494.1 309.9 L492.6 313.1 L490.9 316.2 L489.2 319.2 L487.3 322.1 L485.4 324.9 L483.4 327.6 L481.3 330.2 L479.1 332.7 L476.9 335.0 L474.6 337.3 L472.3 339.4 L469.9 341.4 L467.5 343.2 L465.0 344.9 L462.5 346.5 L460.0 348.0 L457.5 349.3 L455.0 350.5 L452.4 351.6 L449.9 352.5 L447.4 353.3 L444.9 354.0 L442.5 354.6 L440.1 355.0 L437.7 355.3 L435.4 355.5 L433.1 355.6 L430.9 355.6 L428.8 355.4 L426.7 355.2 L424.7 354.8 L422.8 354.4 L420.9 353.9 L419.2 353.2 L417.5 352.6 L416.0 351.8 L414.6 350.9 L413.2 350.1 L412.0 349.1 L410.9 348.1 L409.8 347.1 L408.9 346.0 L408.2 344.9 L407.5 343.7 L407.0 342.6 L406.5 341.4 L406.2 340.2 L406.1 339.1 L406.0 337.9 L406.1 336.8 L406.2 335.7 L406.5 334.6 L406.9 333.6 L407.4 332.6 L408.1 331.6 L408.8 330.7 L409.6 329.9 L410.5 329.1 L411.6 328.4 L412.7 327.8 L413.9 327.3 L415.2 326.8 L416.5 326.5 L418.0 326.2 L419.5 326.1 L421.0 326.0 L422.6 326.1 L424.3 326.3 L426.0 326.6 L427.7 327.0 L429.5 327.5 L431.3 328.2 L433.1 328.9 L434.9 329.8 L436.7 330.9 L438.6 332.0 L440.4 333.3 L442.2 334.7 L443.9 336.2 L445.7 337.8 L447.4 339.6 L449.0 341.5 L450.6 343.5 L452.2 345.6 L453.7 347.9 L455.1 350.2 L456.4 352.7 L457.7 355.2 L458.8 357.9 L459.9 360.6 L460.9 363.5 L461.8 366.4 L462.5 369.4 L463.2 372.5 L463.7 375.6 L464.1 378.8 L464.4 382.1 L464.6 385.4 L464.6 388.8 L464.6 392.2 L464.3 395.7 L464.0 399.1 L463.5 402.6 L462.8 406.1 L462.1 409.6 L461.1 413.1 L460.1 416.6 L458.9 420.1 L457.5 423.6 L456.1 427.0 L454.5 430.4 L452.7 433.7 L450.8 437.0 L448.8 440.3 L446.7 443.5 L444.4 446.6 L442.0 449.6 L439.5 452.6 L436.9 455.4 L434.2 458.2 L431.3 460.9 L428.4 463.5 L425.4 465.9 L422.3 468.3 L419.1 470.5 L415.8 472.6 L412.4 474.6 L409.0 476.5 L405.5 478.2 L402.0 479.8 L398.4 481.3 L394.8 482.6 L391.1 483.8 L387.4 484.9 L383.7 485.8 L380.0 486.6 L376.3 487.2 L372.6 487.7 L368.8 488.0 L365.1 488.2 L361.5 488.3 L357.8 488.2 L354.2 488.0 L350.6 487.7 L347.1 487.2 L343.6 486.6 L340.2 485.8 L336.9 485.0 L333.6 484.0 L330.4 483.0 L327.3 481.8 L324.3 480.5 L321.3 479.1 L318.5 477.6 L315.8 476.0 L313.2 474.4 L310.6 472.6 L308.2 470.8 L306.0 468.9 L303.8 467.0 L301.7 465.0 L299.8 463.0 L298.0 460.9 L296.4 458.8 L294.8 456.7 L293.4 454.5 L292.1 452.4 L291.0 450.2 L289.9 448.1 L289.0 445.9 L288.3 443.8 L287.6 441.7 L287.1 439.6 L286.7 437.5 L286.4 435.5 L286.2 433.6 L286.2 431.7 L286.2 429.8 L286.3 428.0 L286.6 426.3 L286.9 424.7 L287.4 423.1 L287.9 421.7 L288.5 420.3 L289.2 419.0 L289.9 417.8 L290.8 416.7 L291.6 415.8 L292.6 414.9 L293.5 414.1 L294.6 413.5 L295.6 413.0 L296.7 412.5 L297.8 412.2 L298.9 412.1 L300.0 412.0 L301.1 412.1 L302.2 412.2 L303.3 412.5 L304.4 413.0 L305.4 413.5 L306.5 414.1 L307.4 414.9 L308.4 415.8 L309.2 416.7 L310.1 417.8 L310.8 419.0 L311.5 420.3 L312.1 421.7 L312.6 423.1 L313.1 424.7 L313.4 426.3 L313.7 428.0 L313.8 429.8 L313.8 431.7 L313.8 433.6 L313.6 435.5 L313.3 437.5 L312.9 439.6 L312.4 441.7 L311.7 443.8 L311.0 445.9 L310.1 448.1 L309.0 450.2 L307.9 452.4 L306.6 454.5 L305.2 456.7 L303.6 458.8 L302.0 460.9 L300.2 463.0 L298.3 465.0 L296.2 467.0 L294.0 468.9 L291.8 470.8 L289.4 472.6 L286.8 474.4 L284.2 476.0 L281.5 477.6 L278.7 479.1 L275.7 480.5 L272.7 481.8 L269.6 483.0 L266.4 484.0 L263.1 485.0 L259.8 485.8 L256.4 486.6 L252.9 487.2 L249.4 487.7 L245.8 488.0 L242.2 488.2 L238.5 488.3 L234.9 488.2 L231.2 488.0 L227.4 487.7 L223.7 487.2 L220.0 486.6 L216.3 485.8 L212.6 484.9 L208.9 483.8 L205.2 482.6 L201.6 481.3 L198.0 479.8 L194.5 478.2 L191.0 476.5 L187.6 474.6 L184.2 472.6 L180.9 470.5 L177.7 468.3 L174.6 465.9 L171.6 463.5 L168.7 460.9 L165.8 458.2 L163.1 455.4 L160.5 452.6 L158.0 449.6 L155.6 446.6 L153.3 443.5 L151.2 440.3 L149.2 437.0 L147.3 433.7 L145.5 430.4 L143.9 427.0 L142.5 423.6 L141.1 420.1 L139.9 416.6 L138.9 413.1 L137.9 409.6 L137.2 406.1 L136.5 402.6 L136.0 399.1 L135.7 395.7 L135.4 392.2 L135.4 388.8 L135.4 385.4 L135.6 382.1 L135.9 378.8 L136.3 375.6 L136.8 372.5 L137.5 369.4 L138.2 366.4 L139.1 363.5 L140.1 360.6 L141.2 357.9 L142.3 355.2 L143.6 352.7 L144.9 350.2 L146.3 347.9 L147.8 345.6 L149.4 343.5 L151.0 341.5 L152.6 339.6 L154.3 337.8 L156.1 336.2 L157.8 334.7 L159.6 333.3 L161.4 332.0 L163.3 330.9 L165.1 329.8 L166.9 328.9 L168.7 328.2 L170.5 327.5 L172.3 327.0 L174.0 326.6 L175.7 326.3 L177.4 326.1 L179.0 326.0 L180.5 326.1 L182.0 326.2 L183.5 326.5 L184.8 326.8 L186.1 327.3 L187.3 327.8 L188.4 328.4 L189.5 329.1 L190.4 329.9 L191.2 330.7 L191.9 331.6 L192.6 332.6 L193.1 333.6 L193.5 334.6 L193.8 335.7 L193.9 336.8 L194.0 337.9 L193.9 339.1 L193.8 340.2 L193.5 341.4 L193.0 342.6 L192.5 343.7 L191.8 344.9 L191.1 346.0 L190.2 347.1 L189.1 348.1 L188.0 349.1 L186.8 350.1 L185.4 350.9 L184.0 351.8 L182.5 352.6 L180.8 353.2 L179.1 353.9 L177.2 354.4 L175.3 354.8 L173.3 355.2 L171.2 355.4 L169.1 355.6 L166.9 355.6 L164.6 355.5 L162.3 355.3 L159.9 355.0 L157.5 354.6 L155.1 354.0 L152.6 353.3 L150.1 352.5 L147.6 351.6 L145.0 350.5 L142.5 349.3 L140.0 348.0 L137.5 346.5 L135.0 344.9 L132.5 343.2 L130.1 341.4 L127.7 339.4 L125.4 337.3 L123.1 335.0 L120.9 332.7 L118.7 330.2 L116.6 327.6 L114.6 324.9 L112.7 322.1 L110.8 319.2 L109.1 316.2 L107.4 313.1 L105.9 309.9 L104.5 306.6 L103.1 303.2 L101.9 299.7 L100.9 296.2 L99.9 292.6 L99.1 289.0 L98.4 285.3 L97.8 281.6 L97.4 277.8 L97.1 274.0 L97.0 270.2 L97.0 266.3 L97.2 262.5 L97.5 258.6 L97.9 254.7 L98.5 250.9 L99.2 247.0 L100.0 243.2 L101.0 239.5 L102.2 235.7 L103.5 232.0 L104.9 228.4 L106.4 224.8 L108.1 221.3 L109.9 217.8 L111.8 214.4 L113.8 211.2 L116.0 207.9 L118.2 204.8 L120.6 201.8 L123.1 198.9 L125.6 196.1 L128.3 193.4 L131.0 190.8 L133.8 188.3 L136.7 186.0 L139.6 183.8 L142.6 181.7 L145.7 179.8 L148.7 177.9 L151.9 176.2 L155.0 174.7 L158.2 173.3 L161.4 172.0 L164.7 170.9 L167.9 169.9 L171.1 169.0 L174.3 168.3 L177.5 167.7 L180.6 167.2 L183.8 166.9 L186.9 166.7 L189.9 166.6 L192.9 166.7 L195.9 166.8 L198.8 167.1 L201.6 167.5 L204.3 168.0 L207.0 168.7 L209.6 169.4 L212.1 170.2 L214.5 171.1 L216.8 172.1 L219.0 173.2 L221.1 174.3 L223.1 175.5 L225.0 176.8 L226.7 178.1 L228.4 179.5 L229.9 180.9 L231.3 182.4 L232.6 183.8 L233.8 185.3 L234.9 186.9 L235.8 188.4 L236.6 189.9 L237.3 191.4 L237.8 193.0 L238.3 194.5 L238.6 195.9 L238.8 197.4 L238.9 198.8 L238.9 200.1 L238.7 201.4 L238.5 202.7 L238.1 203.9 L237.7 205.0 L237.2 206.0 L236.5 207.0 L235.8 207.9 L235.0 208.7 L234.2 209.4 L233.2 210.0 L232.2 210.5 L231.2 210.9 L230.1 211.2 L228.9 211.4 L227.7 211.5 L226.5 211.4 L225.2 211.3 L223.9 211.0 L222.6 210.6 L221.3 210.1 L220.0 209.4 L218.7 208.7 L217.4 207.8 L216.1 206.8 L214.9 205.7 L213.7 204.4 L212.5 203.1 L211.4 201.6 L210.3 200.0 L209.3 198.4 L208.4 196.6 L207.5 194.7 L206.7 192.7 L206.0 190.6 L205.4 188.4 L204.8 186.1 L204.4 183.8 L204.1 181.3 L203.8 178.8 L203.7 176.3 L203.7 173.6 L203.8 171.0 L204.1 168.2 L204.4 165.5 L204.9 162.7 L205.5 159.8 L206.3 157.0 L207.1 154.1 L208.2 151.2 L209.3 148.3 L210.6 145.5 L212.0 142.6 L213.6 139.7 L215.2 136.9 L217.1 134.1 L219.0 131.4 L221.1 128.7 L223.3 126.0 L225.6 123.4 L228.1 120.9 L230.6 118.4 L233.3 116.1 L236.1 113.8 L239.0 111.6 L242.1 109.4 L245.2 107.4 L248.4 105.5 L251.7 103.7 L255.1 102.0 L258.5 100.5 L262.1 99.0 L265.7 97.7 L269.3 96.5 L273.0 95.5 L276.8 94.6 L280.6 93.8 L284.4 93.1 L288.3 92.6 L292.2 92.3 L296.1 92.1 L300.0 92.0Z';
+const TIP = 208;
+
+/** Figure: the five services on one linked line around HiLink. */
+function LinkLoop({ label }: { label: string }) {
   const { lang, l } = useLang();
-  const R = 118;
+  const ref = useRef<HTMLDivElement>(null);
+  const [on, setOn] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setOn(true); io.disconnect(); } }, { threshold: 0.35 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   return (
-    <figure className="relative aspect-square w-full rounded-[28px] overflow-hidden bg-[radial-gradient(120%_90%_at_50%_100%,#F6D3D0_0%,#FBECEC_38%,#F7F2EC_75%)]">
-      <svg viewBox="0 0 400 400" className="absolute inset-0 h-full w-full" aria-hidden="true">
-        <g className="hl-orbit" fill="none" stroke="#D12126" strokeOpacity="0.28">
-          <circle cx="200" cy="200" r={R} strokeDasharray="2 6" />
-          <circle cx="200" cy="200" r="168" strokeOpacity="0.12" />
-          {SERVICES.map((_, i) => {
-            const a = -Math.PI / 2 + (i * 2 * Math.PI) / SERVICES.length;
-            return <circle key={i} cx={200 + Math.cos(a) * R} cy={200 + Math.sin(a) * R} r="62" strokeOpacity="0.2" />;
-          })}
-        </g>
-        <circle cx="200" cy="200" r="44" fill="#fff" stroke="#D12126" strokeOpacity="0.5" />
-        <circle className="hl-pulse" cx="200" cy="200" r="44" fill="none" stroke="#D12126" />
+    <figure ref={ref} className={`hl-loop relative mx-auto aspect-square w-full max-w-[680px] ${on ? 'is-in' : ''}`}>
+      <div className="absolute inset-[12%] rounded-full bg-[radial-gradient(closest-side,rgba(209,33,38,0.09),rgba(209,33,38,0))]" aria-hidden="true" />
+      <svg viewBox="0 0 600 600" className="absolute inset-0 h-full w-full overflow-visible" aria-hidden="true">
+        <defs>
+          <filter id="hl-loop-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" /></filter>
+        </defs>
+        <circle cx="300" cy="300" r="96" fill="none" stroke="#D12126" strokeOpacity="0.18" strokeDasharray="1 7" className="hl-loop-ring" />
+        <path d={LOOP} fill="none" stroke="#D12126" strokeOpacity="0.07" strokeWidth="12" />
+        <path d={LOOP} pathLength={1} fill="none" stroke="#D12126" strokeWidth="1.6" className="hl-loop-draw" />
+        <path d={LOOP} pathLength={1} fill="none" stroke="#FF6A6E" strokeWidth="5" strokeLinecap="round" filter="url(#hl-loop-glow)" className="hl-loop-run" />
+        <path d={LOOP} pathLength={1} fill="none" stroke="#FF6A6E" strokeWidth="5" strokeLinecap="round" filter="url(#hl-loop-glow)" className="hl-loop-run" style={{ animationDelay: '-4.5s' }} />
       </svg>
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-        <span className="serif text-[15px] text-[#2A2623]">HiLink</span>
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[24%]">
+        <img src="/brand/logo-hilink-lockup.svg" alt="HiLink" className="w-full" />
       </div>
-      {SERVICES.map((s, i) => {
-        const a = -Math.PI / 2 + (i * 2 * Math.PI) / SERVICES.length;
-        const x = 50 + (Math.cos(a) * R * 100) / 400;
-        const y = 50 + (Math.sin(a) * R * 100) / 400;
+      {SERVICES.map((s, k) => {
+        const a = -Math.PI / 2 + (k * 2 * Math.PI) / SERVICES.length;
+        const x = 50 + (Math.cos(a) * TIP * 100) / 600;
+        const y = 50 + (Math.sin(a) * TIP * 100) / 600;
+        const below = Math.sin(a) > 0.2;
         return (
           <Link
             key={s.path}
             to={l(s.path)}
-            className="group absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1.5 text-center"
+            className="group absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center"
             style={{ left: `${x}%`, top: `${y}%` }}
           >
-            <span className="grid h-11 w-11 place-items-center rounded-full bg-white text-[#D12126] shadow-[0_2px_10px_rgba(209,33,38,0.12)] transition-transform group-hover:scale-110">
-              <ServiceIcon path={s.path} size={22} />
+            {below && <span className="hidden sm:block order-2 mt-2 text-[12px] tabular-nums text-[#D12126]">{String(k + 1).padStart(2, '0')}</span>}
+            <span className="relative grid h-14 w-14 place-items-center rounded-full border border-[#D12126]/25 bg-white text-[#D12126] transition-all duration-300 group-hover:scale-110 group-hover:border-[#D12126]">
+              <ServiceIcon path={s.path} size={26} />
             </span>
-            <span className="max-w-[7.5rem] text-[12px] leading-tight text-[#2A2623] group-hover:text-[#D12126]">{s.t[lang]}</span>
+            <span className={`hidden sm:block ${below ? 'order-3 mt-1' : 'order-first mb-2'} max-w-[9rem] text-[13px] leading-tight text-[#2A2623] transition-colors group-hover:text-[#D12126]`}>
+              {!below && <span className="block text-[12px] tabular-nums text-[#D12126]">{String(k + 1).padStart(2, '0')}</span>}
+              {s.t[lang]}
+            </span>
           </Link>
         );
       })}
-      <figcaption className="absolute bottom-4 right-5 text-[12px] text-[#6B645D]">{label}</figcaption>
+      <figcaption className="absolute bottom-0 right-0 hidden sm:block text-[12px] text-[#6B645D]">{label}</figcaption>
     </figure>
   );
 }
@@ -124,6 +146,10 @@ export function AboutPage() {
   const a = ABOUT[lang];
   const c = CAREERS[lang];
   usePageMeta(lang === 'vi' ? 'Về HiLink' : 'About HiLink', a.heroBody);
+  const eyebrow = (text: string, dark = false) => (
+    <p className={`mb-5 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] ${dark ? 'text-[#FF9A8B]' : 'text-[#D12126]'}`}><Flag /> {text}</p>
+  );
+  const cols = [TEAM_PHOTOS.slice(0, 3), TEAM_PHOTOS.slice(3, 6), TEAM_PHOTOS.slice(6, 9)];
 
   return (
     <>
@@ -199,30 +225,51 @@ export function AboutPage() {
         </div>
       </section>
 
-      {/* Ecosystem: the five services around one relationship. */}
-      <section className="bg-white py-20 lg:py-28">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-            <div className="lg:col-span-5 order-2 lg:order-1">
-              <p className="mb-5 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] text-[#D12126]"><Flag /> {a.ecoEyebrow}</p>
-              <h2 className="serif leading-[1.1]">{a.oneRel}</h2>
-              <p className="mt-5 text-[17px] leading-[1.75] text-[#6B645D]">{a.ecoTitle}</p>
-              <p className="mt-4 text-[17px] leading-[1.75] text-[#6B645D]">{a.ecoClose}</p>
-            </div>
-            <div className="lg:col-span-6 lg:col-start-7 order-1 lg:order-2">
-              <EcosystemFigure label={t.fig} />
-            </div>
+      {/* Ecosystem: one linked line through the five services. */}
+      <section className="bg-white py-20 lg:py-28 overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <div className="lg:col-span-4">
+            {eyebrow(a.ecoEyebrow)}
+            <h2 className="serif leading-[1.1]">{a.oneRel}</h2>
+            <p className="mt-5 text-[17px] leading-[1.75] text-[#6B645D]">{a.ecoTitle}</p>
+            <p className="mt-10 text-[12px] uppercase tracking-[0.2em] text-[#6B645D]">{t.ecoList}</p>
+            <ul className="mt-3 border-t border-[#2A2623]/10">
+              {a.eco.map((e) => (
+                <li key={e.t} className="border-b border-[#2A2623]/10 py-4">
+                  <p className="text-[15px] font-medium text-[#2A2623]">{e.t}</p>
+                  <p className="mt-1 text-[14px] leading-relaxed text-[#6B645D]">{e.d}</p>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-6 text-[15px] leading-relaxed text-[#6B645D]">{a.ecoClose}</p>
+          </div>
+          <div className="lg:col-span-8">
+            <LinkLoop label={t.fig} />
+            <ol className="mt-6 grid grid-cols-1 gap-2 sm:hidden">
+              {SERVICES.map((sv, k) => (
+                <li key={sv.path}>
+                  <Link to={l(sv.path)} className="flex items-center gap-3 border-b border-[#2A2623]/10 py-2.5 text-[15px] text-[#2A2623]">
+                    <span className="text-[12px] tabular-nums text-[#D12126]">{String(k + 1).padStart(2, '0')}</span>
+                    <span className="text-[#D12126]"><ServiceIcon path={sv.path} size={22} /></span>
+                    {sv.t[lang]}
+                  </Link>
+                </li>
+              ))}
+            </ol>
           </div>
         </div>
       </section>
 
-      {/* Vision & mission: two soft cards. */}
-      <section className="bg-white pb-20 lg:pb-28">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid md:grid-cols-2 gap-5">
-          {[[a.visionLbl, a.vision], [a.missionLbl, a.mission]].map(([lbl, text]) => (
-            <div key={lbl} className="rounded-[20px] bg-[#F4F0EA] p-8 lg:p-10">
-              <p className="mb-5 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] text-[#D12126]"><Flag /> {lbl}</p>
-              <p className="serif text-[1.6rem] lg:text-[1.85rem] leading-snug text-[#2A2623]">{text}</p>
+      {/* Vision and mission: one split statement. */}
+      <section className="bg-[#F4F0EA] py-20 lg:py-28">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid md:grid-cols-2 md:divide-x divide-[#2A2623]/12">
+          {[[a.visionLbl, a.vision], [a.missionLbl, a.mission]].map(([lbl, text], i) => (
+            <div key={lbl} className={`${i ? 'md:pl-14 lg:pl-20 mt-14 md:mt-0' : 'md:pr-14 lg:pr-20'}`}>
+              <p className="flex items-baseline gap-4 text-[12px] uppercase tracking-[0.2em] text-[#D12126]">
+                <span className="serif text-[2.5rem] leading-none tracking-normal text-[#D12126]/25">{String(i + 1).padStart(2, '0')}</span>
+                {lbl}
+              </p>
+              <p className="serif mt-8 text-[1.55rem] lg:text-[2.05rem] leading-[1.3] text-[#2A2623]">{text}</p>
             </div>
           ))}
         </div>
@@ -231,24 +278,26 @@ export function AboutPage() {
       {/* HiLink in numbers. */}
       <ScaleWave />
 
-      {/* Values. */}
+      {/* Values: three columns under drawn rules. */}
       <section className="bg-white py-20 lg:py-28">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="text-center">
-            <p className="mb-5 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] text-[#D12126]"><Flag /> {a.diffEyebrow}</p>
-            <h2 className="serif mx-auto max-w-3xl leading-[1.1]">{a.diffTitle}</h2>
-            <p className="mx-auto mt-5 max-w-2xl text-[16px] leading-relaxed text-[#6B645D]">{a.diffLead}</p>
+          <div className="grid lg:grid-cols-12 gap-8 items-end">
+            <div className="lg:col-span-6">
+              {eyebrow(a.diffEyebrow)}
+              <h2 className="serif leading-[1.1]">{a.diffTitle}</h2>
+            </div>
+            <p className="lg:col-span-5 lg:col-start-8 text-[17px] leading-relaxed text-[#6B645D]">{a.diffLead}</p>
           </div>
-          <div className="mt-14 grid md:grid-cols-3 gap-5">
+          <div className="mt-16 grid md:grid-cols-3 gap-12 md:gap-10 lg:gap-16">
             {a.diffs.map(({ t: title, d }, i) => {
               const Icon = VALUE_ICONS[i % VALUE_ICONS.length];
               return (
-                <div key={title} className="group rounded-[20px] bg-[#F4F0EA] p-8 transition-colors hover:bg-[#FBECEC]">
-                  <div className="flex items-center justify-between text-[#D12126]">
-                    <Icon size={30} />
-                    <span className="text-[12px] tabular-nums text-[#6B645D]">{String(i + 1).padStart(2, '0')}</span>
+                <div key={title} className="hl-rule relative pt-8">
+                  <div className="flex items-start justify-between">
+                    <span className="serif text-[3.5rem] leading-none text-[#2A2623]/[0.08]">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="text-[#D12126]"><Icon size={30} /></span>
                   </div>
-                  <h3 className="serif mt-10 text-[1.6rem] text-[#2A2623]">{title}</h3>
+                  <h3 className="serif mt-6 text-[#2A2623]">{title}</h3>
                   <p className="mt-3 text-[15px] leading-relaxed text-[#6B645D]">{d}</p>
                 </div>
               );
@@ -257,60 +306,61 @@ export function AboutPage() {
         </div>
       </section>
 
-      {/* How we work: four stages on one line. */}
+      {/* How we work: one line that fills as you read, ending in the outcome. */}
       <section className="bg-[#F4F0EA] py-20 lg:py-28">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="text-center">
-            <p className="mb-5 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] text-[#D12126]"><Flag /> {a.howEyebrow}</p>
-            <h2 className="serif mx-auto max-w-3xl leading-[1.1]">{a.howTitle}</h2>
-            <p className="mx-auto mt-5 max-w-2xl text-[16px] leading-relaxed text-[#6B645D]">{a.howBody}</p>
+          <div className="grid lg:grid-cols-12 gap-8 items-end">
+            <div className="lg:col-span-6">
+              {eyebrow(a.howEyebrow)}
+              <h2 className="serif leading-[1.1]">{a.howTitle}</h2>
+            </div>
+            <p className="lg:col-span-5 lg:col-start-8 text-[17px] leading-relaxed text-[#6B645D]">{a.howBody}</p>
           </div>
-          <div className="relative mt-14">
-            <div className="absolute left-0 right-0 top-[22px] hidden lg:block h-px bg-[#D12126]/25" aria-hidden="true" />
-            <ol className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="relative mt-16 lg:mt-20">
+            <div className="absolute left-[7px] top-0 bottom-0 w-px bg-[#2A2623]/15 lg:left-0 lg:right-0 lg:top-[7px] lg:bottom-auto lg:h-px lg:w-auto" aria-hidden="true" />
+            <div data-scroll-progress className="absolute left-[7px] top-0 bottom-0 w-px origin-top bg-[#D12126] lg:left-0 lg:right-0 lg:top-[7px] lg:bottom-auto lg:h-[2px] lg:w-auto lg:origin-left" aria-hidden="true" />
+            <ol className="relative grid gap-10 lg:grid-cols-5 lg:gap-8">
               {a.stages.map(({ t: title, s }, i) => (
-                <li key={title} className="relative rounded-[20px] bg-white p-7">
-                  <span className="relative z-10 -mt-[3px] grid h-[18px] w-[18px] place-items-center rounded-full border border-[#D12126] bg-white" aria-hidden="true">
-                    <span className="h-2 w-2 rounded-full bg-[#D12126]" />
+                <li key={title} className="relative pl-10 lg:pl-0">
+                  <span className="absolute left-0 lg:static grid h-[15px] w-[15px] place-items-center rounded-full border border-[#D12126] bg-[#F4F0EA]" aria-hidden="true">
+                    <span className="h-[5px] w-[5px] rounded-full bg-[#D12126]" />
                   </span>
-                  <p className="mt-6 text-[12px] tabular-nums text-[#D12126]">{String(i + 1).padStart(2, '0')}</p>
-                  <h3 className="serif mt-1 text-[1.5rem] text-[#2A2623]">{title}</h3>
-                  <p className="text-[15px] text-[#6B645D]">{s}</p>
+                  <p className="lg:mt-8 text-[12px] uppercase tracking-[0.2em] text-[#6B645D]">{t.steps} {String(i + 1).padStart(2, '0')}</p>
+                  <h3 className="serif mt-2 text-[#2A2623]">{title}</h3>
+                  <p className="mt-1 text-[15px] text-[#6B645D]">{s}</p>
                 </li>
               ))}
+              <li className="relative pl-10 lg:pl-0">
+                <span className="absolute left-0 lg:static block h-[15px] w-[15px] rounded-full bg-[#D12126]" aria-hidden="true" />
+                <p className="lg:mt-8 text-[12px] uppercase tracking-[0.2em] text-[#D12126]">→</p>
+                <p className="serif mt-2 text-[1.45rem] leading-snug text-[#D12126]">{a.performs}</p>
+              </li>
             </ol>
-            <p className="mt-8 text-center">
-              <span className="inline-flex items-center gap-2 rounded-full bg-[#D12126] px-5 py-2 text-[14px] text-white">{a.performs} <ArrowRight size={14} /></span>
-            </p>
           </div>
         </div>
       </section>
 
-      {/* Properties we run: cards like Mercury's news cards. */}
+      {/* Properties we run: a mosaic, one large and two stacked. */}
       <section className="bg-white py-20 lg:py-28">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="text-center">
-            <p className="mb-5 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] text-[#D12126]"><Flag /> {t.workEyebrow}</p>
-            <h2 className="serif leading-[1.1]">{t.workTitle}</h2>
-          </div>
-          <div className="mt-14 grid md:grid-cols-3 gap-5">
-            {t.work.map(({ name, location, tag, image, to, href }) => {
+          {eyebrow(t.workEyebrow)}
+          <h2 className="serif leading-[1.1]">{t.workTitle}</h2>
+          <div className="mt-12 grid lg:grid-cols-12 gap-4">
+            {t.work.map(({ name, location, tag, image, to, href }, i) => {
               const inner = (
                 <>
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <img loading="lazy" decoding="async" {...photo(image, '(min-width: 768px) 360px, 100vw')} alt={name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                    <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-[12px] text-[#2A2623]">{tag}</span>
-                  </div>
-                  <div className="flex flex-1 flex-col p-6">
-                    <h3 className="serif text-[1.45rem] text-[#2A2623]">{name}</h3>
-                    <p className="mt-1 text-[14px] text-[#6B645D]">{location}</p>
-                    <span className="mt-6 inline-flex w-fit items-center gap-1.5 rounded-full bg-white px-4 py-1.5 text-[13px] text-[#2A2623] transition-colors group-hover:bg-[#D12126] group-hover:text-white">
-                      {t.view} <ArrowUpRight size={14} />
-                    </span>
+                  <img loading="lazy" decoding="async" {...photo(image, i ? '(min-width: 1024px) 40vw, 100vw' : '(min-width: 1024px) 58vw, 100vw')} alt={name} className={`absolute inset-0 h-full w-full object-cover ${i === 0 ? 'lg:object-[100%_50%]' : ''} transition-transform duration-[1.2s] group-hover:scale-[1.04]`} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623]/80 via-[#2A2623]/10 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6 lg:p-8 text-white">
+                    <div>
+                      <p className="text-[12px] uppercase tracking-[0.2em] text-white/70">{tag} · {location}</p>
+                      <p className={`serif mt-2 ${i ? 'text-[1.5rem]' : 'text-[1.9rem] lg:text-[2.4rem]'} leading-tight`}>{name}</p>
+                    </div>
+                    <span className="grid h-11 w-11 shrink-0 place-items-center border border-white/40 transition-colors group-hover:bg-white group-hover:text-[#2A2623]"><ArrowUpRight size={16} /></span>
                   </div>
                 </>
               );
-              const cls = 'group flex flex-col overflow-hidden rounded-[20px] bg-[#F4F0EA]';
+              const cls = `group relative block overflow-hidden bg-[#2A2623] ${i === 0 ? 'lg:col-span-7 lg:row-span-2 aspect-[3/2] lg:aspect-auto lg:min-h-[640px]' : 'lg:col-span-5 aspect-[16/10]'}`;
               return to
                 ? <Link key={name} to={l(to)} className={cls}>{inner}</Link>
                 : <a key={name} href={ws(lang, href)} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>;
@@ -319,96 +369,98 @@ export function AboutPage() {
         </div>
       </section>
 
-      {/* The group HiLink belongs to. */}
-      <section id="group" className="bg-white pb-20 lg:pb-28 scroll-mt-24">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-12 gap-5 items-stretch">
-            <div className="lg:col-span-5 rounded-[20px] bg-[#F4F0EA] p-8 lg:p-10 flex flex-col justify-between gap-10">
+      {/* The group: statement on the left, the line from parent to member on the right. */}
+      <section id="group" className="bg-white border-t border-[#2A2623]/10 py-20 lg:py-28 scroll-mt-24">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-5">
+            {eyebrow(t.groupEyebrow)}
+            <h2 className="serif leading-[1.1]">{t.groupTitle}</h2>
+            <p className="mt-5 text-[17px] leading-relaxed text-[#6B645D]">{t.groupBody}</p>
+          </div>
+          <div className="lg:col-span-6 lg:col-start-7">
+            <div className="border border-[#2A2623]/12 p-7 lg:p-9 flex items-center gap-6">
+              <img src="/partners/hicorp.webp" alt="HiCorp" className="h-12 w-auto shrink-0" />
               <div>
                 <p className="text-[12px] uppercase tracking-[0.2em] text-[#6B645D]">{t.groupParent}</p>
-                <img src="/partners/hicorp.webp" alt="HiCorp" className="mt-6 h-14 w-auto" />
-                <p className="mt-6 serif text-[1.35rem] leading-snug text-[#2A2623]">{t.groupLegal}</p>
-              </div>
-              <div className="flex items-center gap-4 border-t border-[#2A2623]/10 pt-6">
-                <img src="/brand/logo-hilink-lockup.svg" alt="HiLink" className="h-10 w-auto" />
-                <div>
-                  <p className="text-[12px] uppercase tracking-[0.2em] text-[#6B645D]">{t.groupMember}</p>
-                  <p className="text-[14px] text-[#2A2623]">{COMPANY.name[lang]}</p>
-                </div>
+                <p className="mt-1 text-[16px] text-[#2A2623]">{t.groupLegal}</p>
               </div>
             </div>
-            <div className="lg:col-span-7 rounded-[20px] bg-[#361716] p-8 lg:p-12 text-white flex flex-col justify-center">
-              <p className="mb-5 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] text-[#FF9A8B]"><Flag /> {t.groupEyebrow}</p>
-              <h2 className="serif leading-[1.1]">{t.groupTitle}</h2>
-              <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-white/80">{t.groupBody}</p>
+            <div className="relative ml-12 h-16 w-px bg-[#D12126]" aria-hidden="true">
+              <span className="absolute -left-[3px] top-1/2 h-[7px] w-[7px] -translate-y-1/2 rounded-full bg-[#D12126]" />
+            </div>
+            <div className="border border-[#D12126]/40 bg-[#FBECEC]/50 p-7 lg:p-9 flex items-center gap-6">
+              <img src="/brand/logo-hilink-lockup.svg" alt="HiLink" className="h-12 w-auto shrink-0" />
+              <div>
+                <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126]">{t.groupMember}</p>
+                <p className="mt-1 text-[16px] text-[#2A2623]">{COMPANY.name[lang]}</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Partners. */}
-      <section className="bg-[#F4F0EA] py-20 lg:py-24">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
+      <section className="bg-[#F4F0EA] py-16 lg:py-20">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
           <h2 className="serif leading-[1.1]">{t.partnersTitle}</h2>
-          <p className="mt-4 text-[16px] text-[#6B645D]">{t.partnersSub}</p>
+          <p className="text-[16px] text-[#6B645D]">{t.partnersSub}</p>
         </div>
         <PartnerMarquee className="mt-8 max-w-[1600px] mx-auto" />
       </section>
 
-      {/* The team: a column of photographs drifting upwards. */}
-      <section className="bg-white py-20 lg:py-28">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <h2 className="serif mx-auto max-w-3xl text-center leading-[1.1]">{c.aboutT}</h2>
-          <div className="mt-14 grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-            <div className="lg:col-span-6 relative h-[420px] lg:h-[520px] overflow-hidden rounded-[20px] bg-[#F4F0EA]" aria-label={t.teamPhotos} role="img">
-              <div className="hl-photo-column absolute inset-x-0 top-0 grid grid-cols-2 gap-3 p-3">
-                {[...TEAM_PHOTOS, ...TEAM_PHOTOS].map((src, i) => (
-                  <img key={i} loading="lazy" decoding="async" {...photo(src, '280px')} alt="" className={`w-full rounded-[14px] object-cover ${i % 3 === 0 ? 'aspect-[3/4]' : 'aspect-square'} ${i % 2 ? 'translate-y-10' : ''}`} />
-                ))}
-              </div>
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#F4F0EA] to-transparent" />
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#F4F0EA] to-transparent" />
+      {/* The team: three columns of photographs drifting in opposite directions. */}
+      <section className="bg-white py-20 lg:py-28 overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <div className="lg:col-span-4">
+            {eyebrow(c.aboutE)}
+            <h2 className="serif leading-[1.1]">{c.aboutT}</h2>
+            <p className="mt-5 text-[17px] leading-[1.75] text-[#6B645D]">{c.about1}</p>
+            <Link to={l('/careers')} className="mt-8 inline-flex items-center gap-2 border-b border-[#2A2623]/40 pb-1 text-[13px] uppercase tracking-[0.18em] text-[#2A2623] hover:border-[#D12126] hover:text-[#D12126] transition-colors">
+              {c.join} <ArrowRight size={14} />
+            </Link>
+          </div>
+          <div className="lg:col-span-8 relative h-[440px] lg:h-[560px] overflow-hidden" aria-label={t.teamPhotos} role="img">
+            <div className="grid h-full grid-cols-3 gap-3">
+              {cols.map((col, k) => (
+                <div key={k} className="relative overflow-hidden">
+                  <div className={`hl-photo-column ${k === 1 ? 'hl-photo-column--down' : ''} flex flex-col gap-3`} style={{ animationDuration: `${36 + k * 8}s` }}>
+                    {[...col, ...col].map((src, i) => (
+                      <img key={i} loading="lazy" decoding="async" {...photo(src, '260px')} alt="" className={`w-full object-cover ${(i + k) % 2 ? 'aspect-[3/4]' : 'aspect-[4/5]'}`} />
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="lg:col-span-5 lg:col-start-8">
-              <h3 className="text-[1.375rem] font-medium leading-snug text-[#2A2623]">{c.heroTitle}</h3>
-              <p className="mt-4 text-[16px] leading-[1.75] text-[#6B645D]">{c.about1}</p>
-              <Link to={l('/careers')} className="mt-7 inline-flex items-center gap-1.5 rounded-full bg-[#F4F0EA] px-5 py-2 text-[14px] text-[#2A2623] hover:bg-[#D12126] hover:text-white transition-colors">
-                {c.join} <ArrowRight size={14} />
-              </Link>
-            </div>
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-white to-transparent" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent" />
           </div>
         </div>
       </section>
 
-      {/* Contact: its own dark band, three centred columns. */}
-      <section className="relative overflow-hidden bg-[#361716] py-20 lg:py-28 text-white">
+      {/* Contact: a compact dark band, three centred columns. */}
+      <section className="relative overflow-hidden bg-[#361716] py-14 lg:py-16 text-white">
         <Contours />
         <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="text-center">
-            <h2 className="serif leading-[1.1]">{t.contactTitle}</h2>
-            <p className="mt-4 text-[16px] text-white/70">{a.helpSub}</p>
-          </div>
-          <div className="mt-16 grid md:grid-cols-3 gap-14 md:gap-8 text-center">
+          <div className="grid md:grid-cols-3 gap-10 md:gap-8 text-center">
             <div className="flex flex-col items-center">
-              <span className="text-[#F2B8A8]"><MapPin size={40} strokeWidth={1} /></span>
-              <p className="mt-6 text-[12px] uppercase tracking-[0.2em] text-white/60">{t.labels[0]}</p>
-              <p className="mt-4 max-w-[18rem] text-[16px] leading-relaxed">{CONTACT.address[lang]}</p>
-              <a href={MAPS} target="_blank" rel="noopener noreferrer" className="mt-7 inline-flex items-center gap-2 border border-[#F2B8A8]/50 px-7 py-3 text-[14px] text-white hover:bg-white hover:text-[#361716] transition-colors">{t.cards[1].cta} <ArrowUpRight size={14} /></a>
+              <span className="text-[#F2B8A8]"><MapPin size={28} strokeWidth={1} /></span>
+              <p className="mt-4 text-[12px] uppercase tracking-[0.2em] text-white/60">{t.labels[0]}</p>
+              <p className="mt-2 max-w-[17rem] text-[15px] leading-relaxed">{CONTACT.address[lang]}</p>
+              <a href={MAPS} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex items-center gap-1.5 text-[13px] text-[#F2B8A8] hover:text-white transition-colors">{t.cards[1].cta} <ArrowUpRight size={13} /></a>
             </div>
             <div className="flex flex-col items-center">
-              <span className="text-[#F2B8A8]"><Mail size={40} strokeWidth={1} /></span>
-              <p className="mt-6 text-[12px] uppercase tracking-[0.2em] text-white/60">{t.labels[1]}</p>
-              <p className="mt-4 text-[16px] leading-relaxed">
+              <span className="text-[#F2B8A8]"><Mail size={28} strokeWidth={1} /></span>
+              <p className="mt-4 text-[12px] uppercase tracking-[0.2em] text-white/60">{t.labels[1]}</p>
+              <p className="mt-2 text-[15px] leading-relaxed">
                 <a href={CONTACT.phoneHref} className="hover:text-[#F2B8A8] transition-colors">{CONTACT.phone}</a><br />
                 <a href={CONTACT.emailHref} className="hover:text-[#F2B8A8] transition-colors">{CONTACT.email}</a>
               </p>
-              <p className="mt-2 text-[14px] text-white/55">{t.cards[0].d}</p>
             </div>
             <div className="flex flex-col items-center">
-              <span className="text-[#F2B8A8]"><Calendar size={40} strokeWidth={1} /></span>
-              <p className="mt-6 text-[12px] uppercase tracking-[0.2em] text-white/60">{t.labels[2]}</p>
-              <p className="mt-4 max-w-[18rem] text-[16px] leading-relaxed">{t.cards[2].d}</p>
-              <Link to={l('/book-consultation')} className="mt-7 inline-flex items-center gap-2 border border-[#F2B8A8]/50 px-7 py-3 text-[14px] text-white hover:bg-white hover:text-[#361716] transition-colors">{t.cards[2].t} <ArrowRight size={14} /></Link>
+              <span className="text-[#F2B8A8]"><Calendar size={28} strokeWidth={1} /></span>
+              <p className="mt-4 text-[12px] uppercase tracking-[0.2em] text-white/60">{t.labels[2]}</p>
+              <p className="mt-2 max-w-[17rem] text-[15px] leading-relaxed">{t.cards[2].d}</p>
+              <Link to={l('/book-consultation')} className="mt-3 inline-flex items-center gap-1.5 text-[13px] text-[#F2B8A8] hover:text-white transition-colors">{t.cards[2].t} <ArrowRight size={13} /></Link>
             </div>
           </div>
         </div>

@@ -8,18 +8,18 @@ const socials = SOCIAL.map((s) => ({ ...s, Icon: ICONS[s.label as keyof typeof I
 
 const T = {
   en: {
-    book: 'Book a Consultation',
-    blurb: 'Premium real estate solutions for international clients seeking excellence in Vietnam.',
-    follow: 'Follow Us', solutions: 'Solutions', company: 'Company', contact: 'Contact',
+    blurb: 'Workspace, property and business services in central Hanoi — under one relationship.',
+    group: 'A member of HiCorp Group.',
+    solutions: 'Solutions', company: 'Company', contact: 'Contact',
     comp: ['About Us', 'Partners', 'Careers', 'News', 'All Solutions', 'Contact'],
-    rights: 'All rights reserved.', privacy: 'Privacy Policy', terms: 'Terms and Conditions', code: 'Enterprise code',
+    privacy: 'Privacy Policy', terms: 'Terms and Conditions', code: 'Enterprise code',
   },
   vi: {
-    book: 'Đặt lịch tư vấn',
-    blurb: 'Giải pháp bất động sản cao cấp cho khách hàng quốc tế tìm kiếm sự xuất sắc tại Việt Nam.',
-    follow: 'Theo dõi', solutions: 'Giải pháp', company: 'Công ty', contact: 'Liên hệ',
+    blurb: 'Không gian làm việc, bất động sản và dịch vụ doanh nghiệp giữa trung tâm Hà Nội — trong một mối quan hệ.',
+    group: 'Thành viên Tập đoàn HiCorp.',
+    solutions: 'Giải pháp', company: 'Công ty', contact: 'Liên hệ',
     comp: ['Về chúng tôi', 'Đối tác', 'Tuyển dụng', 'Tin tức', 'Tất cả giải pháp', 'Liên hệ'],
-    rights: 'Bảo lưu mọi quyền.', privacy: 'Chính sách bảo mật', terms: 'Điều khoản & Điều kiện', code: 'Mã số doanh nghiệp',
+    privacy: 'Chính sách bảo mật', terms: 'Điều khoản & Điều kiện', code: 'Mã số doanh nghiệp',
   },
 };
 
@@ -28,94 +28,65 @@ export function Footer() {
   const { lang, l } = useLang();
   const t = T[lang];
 
+  const link = 'text-[#6B645D] hover:text-[#D12126] transition-colors';
+  const head = 'text-[12px] uppercase tracking-[0.2em] text-[#2A2623] mb-4';
+
   return (
     <footer className="bg-[#F4F0EA] text-[#2A2623] border-t-2 border-[#D12126]/35">
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-24">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-24">
-          <div className="md:col-span-4">
-            <img src="/brand/logo-hilink-lockup.svg" alt="HiLink — Your Solution" className="h-12 w-auto mb-6" />
-            <p className="text-[#6B645D] text-base leading-relaxed mb-8">
-              {t.blurb}
-            </p>
-            <Link
-              to={l('/book-consultation')}
-              className="inline-block px-8 py-3 bg-[#D12126] text-white text-sm uppercase tracking-wider hover:bg-[#A3181C] transition-colors"
-            >
-              {t.book}
-            </Link>
-
-            <div className="mt-10">
-              <h4 className="text-xs uppercase tracking-wider text-[#6B645D] mb-4">{t.follow}</h4>
-              <div className="flex gap-4">
-                {socials.map(({ label, href, Icon }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className="w-10 h-10 flex items-center justify-center border border-[#2A2623]/20 text-[#6B645D] hover:bg-[#D12126] hover:border-[#D12126] hover:text-white transition-colors"
-                  >
-                    <Icon size={18} />
-                  </a>
-                ))}
-              </div>
-            </div>
+      <div className="max-w-[1600px] mx-auto px-6 lg:px-12 pt-14 pb-8">
+        <div className="grid grid-cols-2 md:grid-cols-12 gap-x-8 gap-y-10 text-[14px]">
+          <div className="col-span-2 md:col-span-4">
+            <img src="/brand/logo-hilink-lockup.svg" alt="HiLink — Your Solution" className="h-10 w-auto" />
+            <p className="mt-4 max-w-xs text-[#6B645D] leading-relaxed">{t.blurb}</p>
+            <p className="mt-3 text-[13px] text-[#6B645D]">{t.group}</p>
           </div>
 
-          <div className="md:col-span-3">
-            <h4 className="text-sm uppercase tracking-wider mb-6">{t.solutions}</h4>
-            <nav className="space-y-3">
-              {SERVICES.map((s) => ({ to: s.path, label: s.t[lang] })).map(({ to, label }) => (
-                <Link key={to} to={l(to)} className="block text-[#6B645D] hover:text-[#D12126] transition-colors">
-                  {label}
-                </Link>
+          <nav className="md:col-span-3" aria-label={t.solutions}>
+            <p className={head}>{t.solutions}</p>
+            <ul className="space-y-2">
+              {SERVICES.map((s) => (
+                <li key={s.path}><Link to={l(s.path)} className={link}>{s.t[lang]}</Link></li>
               ))}
-            </nav>
-          </div>
+            </ul>
+          </nav>
 
-          <div className="md:col-span-2">
-            <h4 className="text-sm uppercase tracking-wider mb-6">{t.company}</h4>
-            <nav className="space-y-3">
-              {[
-                '/about', '/partners', '/careers', '/news', '/solutions', '/contact',
-              ].map((to, i) => ({ to, label: t.comp[i] })).map(({ to, label }) => (
-                <Link key={to} to={l(to)} className="block text-[#6B645D] hover:text-[#D12126] transition-colors">
-                  {label}
-                </Link>
+          <nav className="md:col-span-2" aria-label={t.company}>
+            <p className={head}>{t.company}</p>
+            <ul className="space-y-2">
+              {['/about', '/partners', '/careers', '/news', '/solutions', '/contact'].map((to, i) => (
+                <li key={to}><Link to={l(to)} className={link}>{t.comp[i]}</Link></li>
               ))}
-            </nav>
-          </div>
+            </ul>
+          </nav>
 
-          <div className="md:col-span-3">
-            <h4 className="text-sm uppercase tracking-wider mb-6">{t.contact}</h4>
-            <address className="not-italic space-y-3 text-[#6B645D]">
-              <p>
-                <a href={CONTACT.emailHref} className="hover:text-[#D12126] transition-colors">
-                  {CONTACT.email}
-                </a>
-              </p>
-              <p>
-                <a href={CONTACT.phoneHref} className="hover:text-[#D12126] transition-colors">
-                  {CONTACT.phone}
-                </a>
-              </p>
+          <div className="col-span-2 md:col-span-3">
+            <p className={head}>{t.contact}</p>
+            <address className="not-italic space-y-2 text-[#6B645D]">
+              <p><a href={CONTACT.emailHref} className={link}>{CONTACT.email}</a> · <a href={CONTACT.phoneHref} className={link}>{CONTACT.phone}</a></p>
               <p>{CONTACT.address[lang]}</p>
             </address>
+            <div className="mt-4 flex gap-2">
+              {socials.map(({ label, href, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="grid h-8 w-8 place-items-center border border-[#2A2623]/15 text-[#6B645D] hover:bg-[#D12126] hover:border-[#D12126] hover:text-white transition-colors"
+                >
+                  <Icon size={15} />
+                </a>
+              ))}
+            </div>
           </div>
         </div>
 
-        <div className="mt-20 pt-8 border-t border-[#2A2623]/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-[#6B645D] text-sm">
-            © {currentYear} {COMPANY.name[lang]} · {t.code} {COMPANY.enterpriseCode}. {t.rights}
-          </p>
-          <div className="flex gap-8 text-sm">
-            <Link to={l('/privacy-policy')} className="text-[#6B645D] hover:text-[#D12126] transition-colors">
-              {t.privacy}
-            </Link>
-            <Link to={l('/terms')} className="text-[#6B645D] hover:text-[#D12126] transition-colors">
-              {t.terms}
-            </Link>
+        <div className="mt-10 pt-6 border-t border-[#2A2623]/10 flex flex-col md:flex-row justify-between gap-3 text-[13px] text-[#6B645D]">
+          <p>© {currentYear} {COMPANY.name[lang]} · {t.code} {COMPANY.enterpriseCode}</p>
+          <div className="flex gap-6">
+            <Link to={l('/privacy-policy')} className={link}>{t.privacy}</Link>
+            <Link to={l('/terms')} className={link}>{t.terms}</Link>
           </div>
         </div>
       </div>
