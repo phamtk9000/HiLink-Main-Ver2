@@ -4,6 +4,7 @@ import { ServiceIcon } from '../components/Glyph';
 import { motion } from 'motion/react';
 import { useRef } from 'react';
 import { AnimatedCounter } from '../components/AnimatedCounter';
+import { LinkPhilosophy } from '../components/LinkPhilosophy';
 import { ScaleWave } from '../components/ScaleWave';
 import { ForumCarousel } from '../components/ForumCarousel';
 import { useLang, usePageMeta } from '../lib/i18n';
@@ -144,8 +145,8 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── Scale — HiLink in numbers ── */}
-      <ScaleWave />
+      {/* ── Philosophy — interactive ── */}
+      <LinkPhilosophy />
 
       {/* ── About — editorial three-column ── */}
       <section className="w-full bg-[#F4F0EA]">
@@ -193,6 +194,9 @@ export function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ── Scale — HiLink in numbers, right after who we are ── */}
+      <ScaleWave />
 
       {/* ── Services ── */}
       <section className="py-24 lg:py-32 bg-[#F4F0EA]">
