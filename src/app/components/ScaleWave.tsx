@@ -4,9 +4,10 @@
 // across behind it, and the figures along the bottom, counting up as the
 // section arrives.
 //
-// The ribbon is a single twisting surface of ~110 fine lines on a deep ink
-// ground, coloured peach → pink → violet like Stripe's, drawn on a 2D canvas
-// with additive light. It drifts slowly while on screen
+// The ribbon is a single twisting surface of ~110 fine lines, built like
+// Stripe's but in HiLink's colours (peach → coral → HiLink red on deep wine):
+// waves travel along it, it breathes and turns, each line ripples on its own,
+// and it swells under the pointer. 2D canvas, additive light. It drifts slowly while on screen
 // and stops when off screen. Reduced motion: still ribbon, final numbers.
 import { useEffect, useRef, useState } from 'react';
 import { LOCATIONS } from '../data/locations';
@@ -43,10 +44,10 @@ const T = {
 
 // Each figure carries its own slice of the ribbon's gradient, as on Stripe.
 const NUM_GRADIENTS = [
-  'linear-gradient(95deg, #FFE2D6 0%, #FFB49A 50%, #F49AC0 100%)',
-  'linear-gradient(95deg, #FFB0A0 0%, #F070B0 55%, #D46CF0 100%)',
-  'linear-gradient(95deg, #E683C8 0%, #B65BFF 55%, #9A6BFF 100%)',
-  'linear-gradient(95deg, #B07CFF 0%, #8A64FF 55%, #6E7BFF 100%)',
+  'linear-gradient(95deg, #FFE6DA 0%, #FFC3A6 50%, #FF9F86 100%)',
+  'linear-gradient(95deg, #FFC3A6 0%, #FF8F7A 55%, #FF6B78 100%)',
+  'linear-gradient(95deg, #FF9F86 0%, #FF5468 55%, #F23E5C 100%)',
+  'linear-gradient(95deg, #FF7A8C 0%, #F0485A 55%, #FF6B86 100%)',
 ];
 
 /** Counts from `from` to `to` once `run` turns true (easeOutCubic, 1.6s). */
@@ -102,6 +103,7 @@ export function ScaleWave() {
     const ctx = canvas?.getContext('2d');
     if (!section || !canvas || !ctx) return undefined;
     let w = 0, h = 0, dpr = 1, raf = 0, visible = false;
+    const pointer = { x: -1e4, on: 0, target: 0 };
     const t0 = performance.now();
 
     const resize = () => {
@@ -120,6 +122,7 @@ export function ScaleWave() {
     // than the far one; colour runs along the ribbon (peach → pink → violet).
     function draw(now: number) {
       const time = still ? 0 : (now - t0) / 1000;
+      pointer.on += (pointer.target - pointer.on) * 0.06;
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx!.clearRect(0, 0, w, h);
       ctx!.globalCompositeOperation = 'lighter';
@@ -129,8 +132,8 @@ export function ScaleWave() {
       const step = narrow ? 7 : 5;
       const seg = 9; // points per segment
       const g = ctx!.createLinearGradient(0, 0, w, 0);
-      [[0, 'rgba(255,190,160,0)'], [0.1, 'rgba(255,176,150,1)'], [0.3, 'rgba(255,128,128,1)'], [0.48, 'rgba(240,104,176,1)'],
-        [0.68, 'rgba(168,72,255,1)'], [0.9, 'rgba(118,72,255,1)'], [1, 'rgba(110,80,255,0)']].forEach(([o, c]) => g.addColorStop(o as number, c as string));
+      [[0, 'rgba(255,196,170,0)'], [0.1, 'rgba(255,196,170,1)'], [0.32, 'rgba(255,143,122,1)'], [0.52, 'rgba(255,84,104,1)'],
+        [0.74, 'rgba(255,92,112,1)'], [0.92, 'rgba(255,140,156,1)'], [1, 'rgba(255,140,156,0)']].forEach(([o, c]) => g.addColorStop(o as number, c as string));
       ctx!.strokeStyle = g;
       const pts: [number, number, number][] = [];
       for (let i = 0; i < lines; i++) {
@@ -138,19 +141,26 @@ export function ScaleWave() {
         pts.length = 0;
         for (let x = -step; x <= w + step; x += step) {
           const u = x / w;
-          const centre = h * 0.6 - h * 0.24 * smooth(0.3, 0.85, u) + Math.sin(u * 2.4 + time * 0.22) * h * 0.025;
-          const width = h * (0.13 + 0.42 * smooth(0.22, 0.95, u));
+          // Waves travel along the ribbon (stronger to the right), the
+          // ribbon breathes, and it swells where the pointer is.
+          const swell = 1 + 0.4 * pointer.on * Math.exp(-((x - pointer.x) ** 2) / (2 * 130 * 130));
+          const centre = h * 0.6 - h * 0.24 * smooth(0.3, 0.85, u)
+            + Math.sin(u * 5.2 - time * 0.85) * h * 0.055 * (0.35 + smooth(0.2, 1, u))
+            + Math.sin(u * 11 + time * 0.6) * h * 0.012;
+          const width = h * (0.13 + 0.42 * smooth(0.22, 0.95, u)) * (1 + 0.14 * Math.sin(time * 0.55 + u * 3)) * swell;
           // Each line turns a little ahead of the next, so the twist is woven
           // rather than pinched to a single point.
-          const theta = Math.PI * (0.18 + 0.82 * smooth(0.12, 0.8, u)) + sv * 0.55 * smooth(0.15, 0.6, u) + 0.12 * Math.sin(time * 0.3 + u * 2.2);
-          const y = centre + sv * width * Math.cos(theta);
+          const theta = Math.PI * (0.18 + 0.82 * smooth(0.12, 0.8, u)) + sv * 0.55 * smooth(0.15, 0.6, u) + 0.34 * Math.sin(time * 0.45 + u * 3.2);
+          // Each line ripples a little on its own, like silk.
+          const ripple = Math.sin(u * 9 + time * 1.1 + sv * 4) * h * 0.012 * smooth(0.25, 1, u);
+          const y = centre + sv * width * Math.cos(theta) + ripple;
           const depth = sv * Math.sin(theta); // -0.5 (far) … 0.5 (near)
           pts.push([x, y, depth]);
         }
         for (let k = 0; k < pts.length - 1; k += seg) {
           const end = Math.min(pts.length - 1, k + seg);
           const mid = pts[(k + end) >> 1][2];
-          ctx!.globalAlpha = 0.07 + 0.26 * (mid + 0.5);
+          ctx!.globalAlpha = 0.1 + 0.34 * (mid + 0.5);
           ctx!.beginPath();
           ctx!.moveTo(pts[k][0], pts[k][1]);
           for (let m = k + 1; m <= end; m++) ctx!.lineTo(pts[m][0], pts[m][1]);
@@ -176,6 +186,12 @@ export function ScaleWave() {
     }, { threshold: [0, 0.3] });
     const ro = new ResizeObserver(resize);
     const onVis = () => { if (!document.hidden) run(); };
+    const onMove = (e: PointerEvent) => { pointer.x = e.clientX - canvas.getBoundingClientRect().left; pointer.target = 1; };
+    const onLeave = () => { pointer.target = 0; };
+    if (!still && window.matchMedia('(pointer: fine)').matches) {
+      section.addEventListener('pointermove', onMove);
+      section.addEventListener('pointerleave', onLeave);
+    }
     io.observe(section);
     ro.observe(canvas.parentElement!);
     document.addEventListener('visibilitychange', onVis);
@@ -185,27 +201,29 @@ export function ScaleWave() {
       io.disconnect();
       ro.disconnect();
       document.removeEventListener('visibilitychange', onVis);
+      section.removeEventListener('pointermove', onMove);
+      section.removeEventListener('pointerleave', onLeave);
     };
   }, [still]);
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-[#0C1738] text-white" aria-labelledby="hl-scale-title">
+    <section ref={sectionRef} className="relative overflow-hidden bg-[#241010] text-white" aria-labelledby="hl-scale-title">
       <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12">
-        <div className="relative border-x border-[#24305E]">
-          <div className="border-b border-[#24305E] h-16 lg:h-20" aria-hidden="true" />
+        <div className="relative border-x border-white/10">
+          <div className="border-b border-white/10 h-16 lg:h-20" aria-hidden="true" />
           {/* The ribbon, behind the copy. */}
           <div className="pointer-events-none absolute inset-x-0 top-16 lg:top-20 bottom-0" aria-hidden="true">
             <canvas ref={canvasRef} className="absolute inset-0" />
           </div>
 
           <div className="relative px-6 lg:px-8 pt-14 lg:pt-20">
-            <p className="mb-6 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] text-[#F7A8B8]">
+            <p className="mb-6 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] text-[#FF9A8B]">
               <Flag /> {t.eyebrow}
             </p>
             <h2 id="hl-scale-title" className="serif max-w-4xl leading-[1.08]">
-              {t.title} <span className="text-[#8E9BCB]">{t.rest}</span>
+              {t.title} <span className="text-[#C9A7A2]">{t.rest}</span>
             </h2>
-            <p className="mt-6 max-w-2xl text-[1.0625rem] leading-relaxed text-[#B4BCDD]">{t.lead}</p>
+            <p className="mt-6 max-w-2xl text-[1.0625rem] leading-relaxed text-[#D9C2BE]">{t.lead}</p>
           </div>
 
           <div className="h-[220px] sm:h-[280px] lg:h-[300px]" aria-hidden="true" />

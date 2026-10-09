@@ -5,7 +5,6 @@ import { motion } from 'motion/react';
 import { useRef } from 'react';
 import { AnimatedCounter } from '../components/AnimatedCounter';
 import { LinkPhilosophy } from '../components/LinkPhilosophy';
-import { ScaleWave } from '../components/ScaleWave';
 import { ForumCarousel } from '../components/ForumCarousel';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { LOCATIONS, WORKSPACE_LINES } from '../data/locations';
@@ -194,9 +193,6 @@ export function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* ── Scale — HiLink in numbers, right after who we are ── */}
-      <ScaleWave />
 
       {/* ── Services ── */}
       <section className="py-24 lg:py-32 bg-[#F4F0EA]">
