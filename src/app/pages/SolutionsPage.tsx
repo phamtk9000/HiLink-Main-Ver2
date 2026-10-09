@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import { Building2, Briefcase, Sparkles, Factory, MonitorSmartphone, ClipboardList, Handshake, Settings, LineChart } from '../components/Glyph';
+import { Factory, ClipboardList, Handshake, Settings, LineChart, ServiceIcon } from '../components/Glyph';
 import { motion } from 'motion/react';
 import { HeroBg } from '../components/HeroBg';
 import { useLang, usePageMeta } from '../lib/i18n';
@@ -9,12 +9,12 @@ import { Candles } from '../components/Candles';
 import { photo } from '../lib/photo';
 
 const META = [
-  { icon: <Building2 size={30} />, path: '/property-management', image: '/photos/f19-window.webp' },
-  { icon: <MonitorSmartphone size={30} />, path: '/workspace-leasing', image: '/photos/f15-reception.webp' },
-  { icon: <Briefcase size={30} />, path: '/business-services', image: '/photos/hbc-client-meeting.webp' },
-  { icon: <Sparkles size={30} />, path: '/concierge-services', image: '/photos/hbc-host.webp' },
+  { icon: <ServiceIcon path="/property-management" size={30} />, path: '/property-management', image: '/photos/f19-window.webp' },
+  { icon: <ServiceIcon path="/workspace-leasing" size={30} />, path: '/workspace-leasing', image: '/photos/f15-reception.webp' },
+  { icon: <ServiceIcon path="/business-services" size={30} />, path: '/business-services', image: '/photos/hbc-client-meeting.webp' },
+  { icon: <ServiceIcon path="/concierge-services" size={30} />, path: '/concierge-services', image: '/photos/hbc-host.webp' },
   // No HiLink photograph of an industrial site yet — shown as a dark panel.
-  { icon: <Factory size={30} />, path: '/industrial-logistics', image: '' },
+  { icon: <ServiceIcon path="/industrial-logistics" size={30} />, path: '/industrial-logistics', image: '' },
 ];
 
 const STEP_ICONS = [<ClipboardList size={22} />, <Handshake size={22} />, <Settings size={22} />, <LineChart size={22} />];

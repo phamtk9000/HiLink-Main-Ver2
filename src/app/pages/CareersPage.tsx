@@ -136,13 +136,12 @@ export function CareersPage() {
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
             {gallery.map((src, i) => (
-              <motion.div
+              <div
                 key={src}
                 className={`relative overflow-hidden ${i === 0 ? 'col-span-2 lg:col-span-2 aspect-[16/10]' : 'aspect-[4/3]'}`}
-                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ delay: (i % 3) * 0.08, duration: 0.5 }}
               >
                 <img {...photo(src)} alt={t.lifeAlt} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

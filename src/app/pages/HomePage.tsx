@@ -1,10 +1,10 @@
 import { Link } from 'react-router';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import { Building2, Briefcase, Bell, TrendingUp, Warehouse } from '../components/Glyph';
+import { ServiceIcon } from '../components/Glyph';
 import { motion } from 'motion/react';
 import { useRef } from 'react';
 import { AnimatedCounter } from '../components/AnimatedCounter';
-import { LinkPhilosophy } from '../components/LinkPhilosophy';
+import { ScaleWave } from '../components/ScaleWave';
 import { ForumCarousel } from '../components/ForumCarousel';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { LOCATIONS, WORKSPACE_LINES } from '../data/locations';
@@ -29,7 +29,7 @@ const T = {
     lead: 'Bespoke property management, premium workspace, and business advisory for international clients across Vietnam.',
     book: 'Book a Consultation', explore: 'Explore Services',
     aboutEyebrow: 'About the Company', aboutSub: 'Your Solution',
-    aboutBody: 'Part of Hanoi Group, HiLink understands the complexities of cross-border investment and the needs of international clients. Our bilingual team delivers transparent services with a personalised concierge approach across property management, premium workspace, and business advisory.',
+    aboutBody: 'A member of HiCorp Group, HiLink understands the complexities of cross-border investment and the needs of international clients. Our bilingual team delivers transparent services with a personalised concierge approach across property management, premium workspace, and business advisory.',
     aboutCta: 'Learn More About Us', receptionAlt: 'Reception on Floor 15 at 4 Ton That Tung', panelAlt: 'The glass meeting pod on Floor 15',
     stats: ['HiLink Locations', 'Workspace Brands', 'Partner Companies'], est: 'Established in Ha Noi',
     svcEyebrow: 'What We Do', svcTitle: 'Services',
@@ -57,7 +57,7 @@ const T = {
     lead: 'Quản lý bất động sản theo nhu cầu, không gian làm việc cao cấp và tư vấn doanh nghiệp cho khách hàng quốc tế tại Việt Nam.',
     book: 'Đặt lịch tư vấn', explore: 'Khám phá dịch vụ',
     aboutEyebrow: 'Về công ty', aboutSub: 'Your Solution',
-    aboutBody: 'Là thành viên của Hanoi Group, HiLink thấu hiểu sự phức tạp của đầu tư xuyên biên giới và nhu cầu của khách hàng quốc tế. Đội ngũ song ngữ mang đến dịch vụ minh bạch theo phong cách concierge riêng cho từng khách hàng, trong quản lý bất động sản, không gian làm việc cao cấp và tư vấn doanh nghiệp.',
+    aboutBody: 'Là thành viên của Tập đoàn HiCorp, HiLink thấu hiểu sự phức tạp của đầu tư xuyên biên giới và nhu cầu của khách hàng quốc tế. Đội ngũ song ngữ mang đến dịch vụ minh bạch theo phong cách concierge riêng cho từng khách hàng, trong quản lý bất động sản, không gian làm việc cao cấp và tư vấn doanh nghiệp.',
     aboutCta: 'Tìm hiểu về chúng tôi', receptionAlt: 'Quầy lễ tân tầng 15, 4 Tôn Thất Tùng', panelAlt: 'Phòng họp kính trên tầng 15',
     stats: ['Địa điểm HiLink', 'Dòng sản phẩm', 'Doanh nghiệp đối tác'], est: 'Thành lập tại Hà Nội',
     svcEyebrow: 'Chúng tôi làm gì', svcTitle: 'Dịch vụ',
@@ -81,11 +81,11 @@ const T = {
 };
 
 const SVC = [
-  { icon: <TrendingUp size={30} />, link: '/property-management' },
-  { icon: <Briefcase size={30} />, link: '/workspace-leasing' },
-  { icon: <Building2 size={30} />, link: '/business-services' },
-  { icon: <Bell size={30} />, link: '/concierge-services' },
-  { icon: <Warehouse size={30} />, link: '/industrial-logistics' },
+  { icon: <ServiceIcon path="/property-management" size={30} />, link: '/property-management' },
+  { icon: <ServiceIcon path="/workspace-leasing" size={30} />, link: '/workspace-leasing' },
+  { icon: <ServiceIcon path="/business-services" size={30} />, link: '/business-services' },
+  { icon: <ServiceIcon path="/concierge-services" size={30} />, link: '/concierge-services' },
+  { icon: <ServiceIcon path="/industrial-logistics" size={30} />, link: '/industrial-logistics' },
 ];
 
 export function HomePage() {
@@ -144,8 +144,8 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── Philosophy — interactive ── */}
-      <LinkPhilosophy />
+      {/* ── Scale — HiLink in numbers ── */}
+      <ScaleWave />
 
       {/* ── About — editorial three-column ── */}
       <section className="w-full bg-[#F4F0EA]">
@@ -247,15 +247,14 @@ export function HomePage() {
             </div>
           </div>
 
-          <div ref={scroller} className="flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {LOCATIONS.map((loc, i) => (
-              <motion.a
+          <div ref={scroller} data-reveal-group className="flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {LOCATIONS.map((loc) => (
+              <a
                 key={loc.id}
                 href={ws(lang, `/locations/${loc.id}`)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative shrink-0 w-[280px] sm:w-[320px] snap-start"
-                initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ delay: (i % 4) * 0.08, duration: 0.6 }}
               >
                 <div className="relative aspect-[3/4] overflow-hidden bg-[#2A2623]">
                   <img loading="lazy" decoding="async" {...photo(loc.photo)} alt={loc.name} className="w-full h-full object-cover transition-transform duration-[0.9s] group-hover:scale-[1.07]" />
@@ -270,7 +269,7 @@ export function HomePage() {
                     </p>
                   </div>
                 </div>
-              </motion.a>
+              </a>
             ))}
           </div>
         </div>

@@ -136,6 +136,51 @@ const SHAPES: Record<string, ReactNode> = {
     <D i={1}>{P('M12 12.5v8')}</D>
     <ellipse className="lv lv-ring" cx="12" cy="20.5" rx="4" ry="1.3" />
   </>,
+  // ── The five services. Each has one symbol, used wherever that service
+  //    appears (home, solutions, its own page) and for nothing else.
+  // Property Management: a building whose windows light one after another.
+  'svc-property': <>
+    <D i={0}>{P('M3.5 20.5h17')}</D>
+    <D i={1}>{P('M7 20.5V5h10v15.5')}</D>
+    <D i={2}>{P('M10.5 20.5V17h3v3.5')}</D>
+    {[[9.2, 7.6], [12.8, 7.6], [9.2, 11.4], [12.8, 11.4]].map(([x, y], k) => (
+      <g key={k}>
+        <rect className="lv lv-cell fill" x={x} y={y} width="2" height="2" style={{ animationDelay: `${k * 0.9}s` }} />
+        <D i={3}><rect x={x} y={y} width="2" height="2" pathLength={1} /></D>
+      </g>
+    ))}
+  </>,
+  // Workspace Leasing: a desk and a screen, a line being typed on it.
+  'svc-workspace': <>
+    <D i={0}>{P('M3.5 17.5h17')}</D>
+    <D i={1}>{P('M6 17.5v3M18 17.5v3')}</D>
+    <D i={2}>{P('M7 5h10v7.5H7z')}</D>
+    <D i={3}>{P('M12 12.5v5')}</D>
+    <path className="lv lv-write" d="M9.3 8.8h5.4" pathLength={1} />
+  </>,
+  // Business Services: a briefcase; the handle lifts, the clasp glows.
+  'svc-business': <>
+    <g className="lv lv-lift"><D i={0}>{P('M9 8V5.5h6V8')}</D></g>
+    <D i={1}>{P('M4 8h16v11.5H4z')}</D>
+    <D i={2}>{P('M4 12.5h16')}</D>
+    <circle className="lv lv-focus fill" cx="12" cy="12.5" r="1.3" />
+  </>,
+  // Concierge Services: a service bell, and the ring it sends out.
+  'svc-concierge': <>
+    <D i={0}>{P('M3.5 18h17')}</D>
+    <D i={1}>{P('M5.5 18a6.5 6.5 0 0 1 13 0')}</D>
+    <D i={2}>{P('M12 11.5V10')}</D>
+    <circle cx="12" cy="9" r="1.1" className="fill" />
+    <g className="lv lv-wave" style={{ animationDelay: '0s' }}><D i={3}>{P('M9.4 6.4a3.7 3.7 0 0 1 5.2 0')}</D></g>
+    <g className="lv lv-wave" style={{ animationDelay: '0.35s' }}><D i={3}>{P('M7.5 4.3a6.4 6.4 0 0 1 9 0')}</D></g>
+  </>,
+  // Industrial & Logistics: a sawtooth-roof warehouse; the roller door lifts.
+  'svc-industrial': <>
+    <D i={0}>{P('M3.5 20.5h17')}</D>
+    <D i={1}>{P('M4.5 20.5v-10l5-3v3l5-3v3l5-3v13')}</D>
+    <D i={2}>{P('M9.5 20.5V15h5v5.5')}</D>
+    <path className="lv lv-roll" d="M10.4 19h3.2" />
+  </>,
 };
 
 function glyph(kind: keyof typeof SHAPES, Fallback?: LucideIcon) {
@@ -206,8 +251,21 @@ export const Plane = glyph('route');
 export const Settings = glyph('grid');
 export const LayoutDashboard = glyph('grid');
 export const Package = glyph('grid');
-export const Warehouse = glyph('grid');
-export const Factory = glyph('grid');
+export const Warehouse = glyph('svc-industrial');
+export const Factory = glyph('svc-industrial');
 export const Sparkles = glyph('spark');
 export const GraduationCap = glyph('spark');
 export const MapPin = glyph('pin', LMapPin);
+
+// One symbol per service, keyed by the service's path (see SERVICES in site.ts).
+const SERVICE_GLYPHS: Record<string, ReturnType<typeof glyph>> = {
+  '/property-management': glyph('svc-property'),
+  '/workspace-leasing': glyph('svc-workspace'),
+  '/business-services': glyph('svc-business'),
+  '/concierge-services': glyph('svc-concierge'),
+  '/industrial-logistics': glyph('svc-industrial'),
+};
+export function ServiceIcon({ path, ...props }: Props & { path: string }) {
+  const Icon = SERVICE_GLYPHS[path];
+  return Icon ? <Icon {...props} /> : null;
+}

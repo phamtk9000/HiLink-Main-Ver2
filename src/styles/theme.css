@@ -289,8 +289,6 @@ footer::before {
   opacity: var(--pat-base);
 }
 
-/* Progress line under the active philosophy pillar (LinkPhilosophy). */
-@keyframes hl-progress { from { width: 0; } to { width: 100%; } }
 
 /* Eyebrow flag (components/Flag.tsx), after the Stripe Treasury glyph: it
    unfurls from the left once, then a slow ripple runs across its four strips. */
@@ -377,4 +375,20 @@ footer::before {
   .hl-glyph.is-in .d > *, .hl-glyph .lv, .hl-glyph.is-in .lv-run { animation: none; }
   .hl-glyph .lv-run, .hl-glyph .lv-cell { opacity: 0; }
   .hl-glyph .lv-write { stroke-dashoffset: 0; }
+}
+.hl-glyph .lv-roll { animation: hl-roll 3.8s ease-in-out infinite; }
+@keyframes hl-roll { 0%, 15% { transform: translateY(0); opacity: 1; } 60% { transform: translateY(-3.6px); opacity: 1; } 75%, 100% { transform: translateY(-3.6px); opacity: 0; } }
+
+/* About page (pages/AboutPage.tsx). */
+.hl-kenburns { animation: hl-kenburns 24s ease-in-out infinite alternate; transform-origin: 60% 40%; }
+@keyframes hl-kenburns { from { transform: scale(1.02); } to { transform: scale(1.12); } }
+.hl-orbit { transform-box: view-box; transform-origin: 200px 200px; animation: hl-orbit 60s linear infinite; }
+@keyframes hl-orbit { to { transform: rotate(360deg); } }
+.hl-pulse { transform-box: view-box; transform-origin: 200px 200px; animation: hl-pulse 3.2s ease-out infinite; }
+@keyframes hl-pulse { from { transform: scale(1); opacity: 0.5; } to { transform: scale(1.9); opacity: 0; } }
+.hl-photo-column { animation: hl-photo-column 40s linear infinite; }
+.hl-photo-column:hover { animation-play-state: paused; }
+@keyframes hl-photo-column { to { transform: translateY(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .hl-kenburns, .hl-orbit, .hl-pulse, .hl-photo-column { animation: none; }
 }

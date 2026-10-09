@@ -3,7 +3,9 @@
 //   1. Eased scroll (Lenis) that settles onto the next section when the wheel
 //      stops with it in the top half of the screen.
 //   2. Section headings rise a line at a time, each line out of its own mask.
-//   3. Cards and grid items fade up in a short stagger as they arrive.
+//   3. Cards and grid items rise into place in reading order — left to right,
+//      then the next row — and the copy under a heading follows it in, with
+//      the timing of mercury.com (50px rise, 0.67s, a slight overshoot).
 //   4. Large photographs drift a little slower than the page (parallax).
 //
 // The pages keep their own markup: everything here works on the rendered DOM
@@ -30,11 +32,17 @@ type MotionLibs = {
   SplitText: typeof import('gsap/SplitText').SplitText;
   Lenis: typeof import('lenis').default;
 };
+// mercury.com: translate cubic-bezier(.28,1.1,.74,1) .67s after .15s; opacity
+// cubic-bezier(.59,.41,.68,.49) .67s.
+const RISE = 'hlRise';
+const FADE = 'hlFade';
 let libs: Promise<MotionLibs> | null = null;
 const loadMotion = () =>
-  (libs ??= Promise.all([import('gsap'), import('gsap/ScrollTrigger'), import('gsap/SplitText'), import('lenis')]).then(
-    ([g, st, sp, l]) => {
-      g.gsap.registerPlugin(st.ScrollTrigger, sp.SplitText);
+  (libs ??= Promise.all([import('gsap'), import('gsap/ScrollTrigger'), import('gsap/SplitText'), import('lenis'), import('gsap/CustomEase')]).then(
+    ([g, st, sp, l, ce]) => {
+      g.gsap.registerPlugin(st.ScrollTrigger, sp.SplitText, ce.CustomEase);
+      ce.CustomEase.create(RISE, '.28,1.1,.74,1');
+      ce.CustomEase.create(FADE, '.59,.41,.68,.49');
       return { gsap: g.gsap, ScrollTrigger: st.ScrollTrigger, SplitText: sp.SplitText, Lenis: l.default };
     },
   ));
@@ -55,7 +63,9 @@ export function SmoothScroll() {
     let cleanup = () => {};
     loadMotion().then(({ gsap, ScrollTrigger, Lenis }) => {
     if (cancelled) return;
-    const lenis = new Lenis({ lerp: 0.09, smoothWheel: true, anchors: true });
+    // Duration-based easing (rather than lerp) keeps every wheel step the same
+    // length, which reads smoother on trackpads and mice alike.
+    const lenis = new Lenis({ duration: 1.15, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true, anchors: true });
     window.__lenis = lenis;
     lenis.on('scroll', ScrollTrigger.update);
     const tick = (time: number) => lenis.raf(time * 1000);
@@ -166,9 +176,9 @@ export function ScrollMotion() {
             onSplit: (self) =>
               gsap.from(self.lines, {
                 yPercent: 110,
-                duration: isHero ? 1.05 : 0.9,
-                ease: 'power3.out',
-                stagger: 0.09,
+                duration: isHero ? 1.05 : 0.85,
+                ease: 'expo.out',
+                stagger: 0.08,
                 delay: isHero ? 0.15 : 0,
                 scrollTrigger: isHero ? undefined : { trigger: el, start: 'top 85%', once: true },
               }),
@@ -176,22 +186,63 @@ export function ScrollMotion() {
           splits.push(split);
         });
 
-        // 2. Grid items: cards, panels and list cells fade up in a stagger.
-        main.querySelectorAll<HTMLElement>('section .grid').forEach((grid) => {
-          if (grid.closest('header, footer')) return;
+        // 2. Cards: the items of every grid (and of any [data-reveal-group]
+        //    row or carousel) rise in reading order. Items arriving together
+        //    are sorted top-to-bottom, then left-to-right, and staggered.
+        const cards: HTMLElement[] = [];
+        main.querySelectorAll<HTMLElement>('section .grid, [data-reveal-group]').forEach((grid) => {
+          if (grid.closest('header, footer, [aria-hidden="true"]')) return;
           const items = [...grid.children].filter(
-            (c): c is HTMLElement => c instanceof HTMLElement && !c.getAttribute('style') && !animatedByFramer(c),
+            (c): c is HTMLElement => c instanceof HTMLElement && !c.getAttribute('style') && !animatedByFramer(c) && c.offsetHeight > 0,
           );
           if (items.length < 2 || items.length > 24) return;
-          gsap.from(items, {
-            autoAlpha: 0,
-            y: 28,
-            duration: 0.8,
-            ease: 'power3.out',
-            stagger: 0.07,
-            clearProps: 'transform,opacity,visibility',
-            scrollTrigger: { trigger: grid, start: 'top 88%', once: true },
+          items.forEach((c) => { if (!cards.includes(c) && !cards.some((p) => p.contains(c))) cards.push(c); });
+        });
+        if (cards.length) {
+          gsap.set(cards, { autoAlpha: 0, y: 50 });
+          ScrollTrigger.batch(cards, {
+            start: 'top 92%',
+            once: true,
+            interval: 0.08,
+            onEnter: (batch) => {
+              const els = (batch as HTMLElement[]).slice().sort((a, b) => {
+                const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
+                return Math.abs(ra.top - rb.top) > 12 ? ra.top - rb.top : ra.left - rb.left;
+              });
+              gsap.to(els, { y: 0, duration: 0.67, delay: 0.15, ease: RISE, stagger: 0.09, overwrite: 'auto', clearProps: 'transform' });
+              gsap.to(els, { autoAlpha: 1, duration: 0.67, ease: FADE, stagger: 0.09, clearProps: 'opacity,visibility' });
+            },
           });
+        }
+
+        // 2b. The copy that follows a section heading (lead, buttons) comes in
+        //     just after the heading's lines, the same way.
+        main.querySelectorAll<HTMLElement>('section h2').forEach((h2) => {
+          if (h2.closest('[aria-hidden="true"], button, a, .grid')) return;
+          const parent = h2.parentElement;
+          if (!parent) return;
+          const after = [...parent.children].filter(
+            (c): c is HTMLElement =>
+              c instanceof HTMLElement && c !== h2 && !!(h2.compareDocumentPosition(c) & Node.DOCUMENT_POSITION_FOLLOWING) &&
+              /^(P|A|UL|DIV|FORM)$/.test(c.tagName) && c.offsetHeight < 420 && !c.querySelector('.grid, img, canvas, form') &&
+              !cards.includes(c) && !c.getAttribute('style') && !animatedByFramer(c),
+          ).slice(0, 3);
+          if (!after.length) return;
+          gsap.set(after, { autoAlpha: 0, y: 50 });
+          ScrollTrigger.create({
+            trigger: h2,
+            start: 'top 85%',
+            once: true,
+            onEnter: () => {
+              gsap.to(after, { y: 0, duration: 0.67, delay: 0.25, ease: RISE, stagger: 0.08, clearProps: 'transform' });
+              gsap.to(after, { autoAlpha: 1, duration: 0.67, delay: 0.1, ease: FADE, stagger: 0.08, clearProps: 'opacity,visibility' });
+            },
+          });
+        });
+
+        // 2c. Framed media that grows to full size as it comes up the screen.
+        main.querySelectorAll<HTMLElement>('[data-scroll-grow]').forEach((el) => {
+          gsap.fromTo(el, { scale: 0.92 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: el, start: 'top 95%', end: 'top 25%', scrub: 0.6 } });
         });
 
         // 3. Parallax: large photographs that are not links and not already animated.
