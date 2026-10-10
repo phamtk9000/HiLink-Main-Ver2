@@ -88,7 +88,7 @@ export function PropertyRentalForm() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="serif text-4xl lg:text-5xl mb-6 text-[#E9E3DA] uppercase tracking-wider">
+          <h2 className="serif text-4xl lg:text-5xl mb-6 text-[#E9E3DA]">
             {t('propertyForm.title')}
           </h2>
           <p className="text-lg text-[#E9E3DA]/80">

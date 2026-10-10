@@ -99,7 +99,7 @@ function OfficeStatus({ t }: { t: (typeof T)['en'] }) {
         <span className={`relative h-2 w-2 rounded-full ${open ? 'bg-[#2F9E6B]' : 'bg-[#B3A79F]'}`} />
       </span>
       <span className="font-medium">{open ? t.open : t.closed}</span>
-      <span className="font-mono text-[12px] text-[#6B645D]">{clock} {t.in} · {open && today ? `${t.closes} ${today[1]}:00` : next}</span>
+      <span className="text-[13px] tabular-nums text-[#6B645D]">{clock} {t.in} · {open && today ? `${t.closes} ${today[1]}:00` : next}</span>
     </p>
   );
 }
@@ -131,8 +131,8 @@ export function ContactPage() {
   };
 
   // Fields outlined, the label sitting on the top edge (as on Fora).
-  const box = 'w-full rounded-[2px] border border-[#2A2623]/70 bg-transparent px-4 font-mono text-[14px] text-[#2A2623] placeholder:text-[#2A2623]/40 focus:border-[#D12126] focus:outline-none transition-colors';
-  const legend = 'absolute -top-[9px] left-3 z-10 bg-white px-1.5 font-mono text-[12px] leading-[18px] text-[#2A2623]';
+  const box = 'w-full rounded-[2px] border border-[#2A2623]/70 bg-transparent px-4 text-[15px] text-[#2A2623] placeholder:text-[#2A2623]/40 focus:border-[#D12126] focus:outline-none transition-colors';
+  const legend = 'absolute -top-[9px] left-3 z-10 bg-white px-1.5 text-[12px] font-medium tracking-[0.02em] leading-[18px] text-[#2A2623]';
   const field = (name: keyof typeof form, label: string, ph: string, type = 'text', required = false, auto?: string) => (
     <div className="relative">
       <label htmlFor={`c-${name}`} className={legend}>{label}</label>
@@ -151,7 +151,7 @@ export function ContactPage() {
       <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 pt-24 pb-24 lg:pt-36 lg:pb-36 grid lg:grid-cols-12">
         <div className="lg:col-span-7 lg:col-start-5">
           <p className="mb-6 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] text-[#FF9A8B]"><Flag /> {t.eyebrow}</p>
-          <h1 className="hl-hero-sans text-white">
+          <h1 className="serif hl-display text-white">
             {t.heroA}{' '}<span className="hl-knockout">{t.heroB}</span>
           </h1>
           <p className="mt-8 max-w-[38rem] text-[1.125rem] lg:text-[1.25rem] leading-[1.6] text-white/85">{t.heroLead}</p>
@@ -160,7 +160,7 @@ export function ContactPage() {
               {t.heroCta} <ChevronRight size={16} className="transition-transform group-hover:translate-x-0.5" />
             </a>
             <span className="text-[15px] text-white/70">
-              {t.orCall}{' '}<a href={CONTACT.phoneHref} className="font-mono text-white underline decoration-white/30 underline-offset-4 hover:decoration-white">{CONTACT.phone}</a>
+              {t.orCall}{' '}<a href={CONTACT.phoneHref} className="tabular-nums text-white underline decoration-white/30 underline-offset-4 hover:decoration-white">{CONTACT.phone}</a>
             </span>
           </div>
         </div>
@@ -190,9 +190,9 @@ export function ContactPage() {
             <h2 className="serif mt-2 hl-display text-[#2A2623]">{t.sub}</h2>
             <p className="mt-6 text-[15px] leading-relaxed text-[#4A443F]">
               {t.lead}{' '}
-              <a href={CONTACT.phoneHref} className="font-mono text-[14px] text-[#2A2623] underline decoration-[#2A2623]/30 underline-offset-4 hover:text-[#D12126]">{CONTACT.phone}</a>
+              <a href={CONTACT.phoneHref} className="tabular-nums text-[#2A2623] underline decoration-[#2A2623]/30 underline-offset-4 hover:text-[#D12126]">{CONTACT.phone}</a>
               {' '}{t.orEmail}{' '}
-              <a href={CONTACT.emailHref} className="font-mono text-[14px] text-[#2A2623] underline decoration-[#2A2623]/30 underline-offset-4 hover:text-[#D12126]">{CONTACT.email}</a>.
+              <a href={CONTACT.emailHref} className="text-[#2A2623] underline decoration-[#2A2623]/30 underline-offset-4 hover:text-[#D12126]">{CONTACT.email}</a>.
             </p>
 
             {sent ? (

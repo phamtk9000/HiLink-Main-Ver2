@@ -185,7 +185,7 @@ export function AboutPage() {
                     <div className="relative col-span-3 mb-6 aspect-[3/2] overflow-hidden rounded-[8px] bg-[#2A2623] lg:hidden">
                       <img loading="lazy" decoding="async" {...photo(ECO_PHOTOS[k], '100vw')} alt="" className="absolute inset-0 h-full w-full object-cover" />
                     </div>
-                    <span className="pt-2 font-mono text-[13px] text-[#D12126]">{String(k + 1).padStart(2, '0')}</span>
+                    <span className="pt-2 text-[13px] font-medium tabular-nums tracking-[0.08em] text-[#D12126]">{String(k + 1).padStart(2, '0')}</span>
                     <div>
                       <h3 className={`serif hl-card-title text-[#2A2623] transition-colors duration-500 group-hover:text-[#D12126] ${k === eco ? 'lg:text-[#D12126]' : ''}`}>{e.t}</h3>
                       <p className="mt-3 max-w-[48ch] text-[1.0625rem] leading-[1.7] text-[#6B645D]">{e.d}</p>
@@ -223,7 +223,7 @@ export function AboutPage() {
             <p className="serif text-[1.55rem] sm:text-[1.9rem] lg:text-[2.125rem] leading-[1.22] text-[#F6EFE6]">{a.mission}</p>
             <footer className="mt-10">
               <p className="text-[13px] uppercase tracking-[0.12em] text-[#F6EFE6]">{t.leaders}</p>
-              <p className="mt-1 font-mono text-[13px] text-[#F6EFE6]/75">{t.leadersRole}</p>
+              <p className="mt-1 text-[13px] text-[#F6EFE6]/75">{t.leadersRole}</p>
             </footer>
           </blockquote>
         </div>

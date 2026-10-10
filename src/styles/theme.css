@@ -166,8 +166,6 @@
      foraspace.com): a display line and the title under a photo card. */
   .hl-display { font-size: clamp(2.3rem, 4.2vw, 3.8rem) !important; line-height: 1.05 !important; }
   .hl-card-title { font-size: clamp(1.45rem, 2.1vw, 2.125rem) !important; line-height: 1.15 !important; }
-  /* A heavy sans display line, for the Stripe-Enterprise-style hero on Contact. */
-  .hl-hero-sans { font-family: var(--font-sans) !important; font-weight: 600 !important; letter-spacing: -0.035em !important; font-size: clamp(2.6rem, 5.6vw, 4.75rem) !important; line-height: 1.02 !important; }
 
   h1, h2 { overflow-wrap: break-word; }
 
@@ -202,8 +200,12 @@
   }
 
   /* Utility classes for editorial layout */
+  /* Two families only: Playfair Display for headings, titles and figures,
+     Inter for everything else (no monospace). Figures are lining wherever
+     the serif is used, in or out of a heading. */
   .serif {
     font-family: var(--font-serif);
+    font-variant-numeric: lining-nums;
   }
 
   .sans {

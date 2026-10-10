@@ -1,8 +1,8 @@
 // A sideways rail of tall place cards, measured off foraspace.com's
 // "Featured workspaces" at 1440px: cards 388 × 550 with 8px corners and a
 // 32px gap; the first card lines up with the page margin and the rail runs
-// on past the right edge of the screen; title 27.2/34px, address in mono
-// 13.6/20.4px capitals, 32px in from the left and 40px up from the bottom;
+// on past the right edge of the screen; title 27.2/34px (in the site's
+// serif), address in small spaced capitals (the site's label style), 32px in from the left and 40px up from the bottom;
 // 64px round arrows sitting 24px inside the outer cards; a 4px progress bar
 // 36px below. Used for the HiLink locations on Home and the properties on
 // About.
@@ -54,8 +54,8 @@ export function PlaceRail({ items, next, prev }: { items: Place[]; next: string;
                 <img loading="lazy" decoding="async" {...photo(it.photo, '(min-width: 640px) 388px, 78vw')} alt={it.name} className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-[1.05] ${it.crop ?? ''}`} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 px-8 pb-10 text-white">
-                  <p className="text-[1.7rem] font-normal leading-[2.125rem]">{it.name}</p>
-                  <p className="mt-2 font-mono text-[0.85rem] uppercase leading-[1.275rem] text-white/90">{it.address}</p>
+                  <p className="serif text-[1.7rem] leading-[2.125rem]">{it.name}</p>
+                  <p className="mt-2 text-[12px] uppercase tracking-[0.14em] leading-[1.275rem] text-white/90">{it.address}</p>
                 </div>
               </>
             );

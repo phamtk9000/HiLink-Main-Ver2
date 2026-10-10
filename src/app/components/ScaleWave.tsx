@@ -75,7 +75,7 @@ function Stat({ n, from = 0, l, i, run, still }: { n: number; from?: number; l: 
   return (
     <div className="px-6 lg:px-8 py-8 lg:py-10">
       <div
-        className="text-[3rem] lg:text-[4.25rem] leading-none tracking-[-0.03em] font-light tabular-nums bg-clip-text text-transparent"
+        className="serif text-[3rem] lg:text-[4.25rem] leading-none lining-nums tabular-nums bg-clip-text text-transparent"
         style={{ backgroundImage: NUM_GRADIENTS[i % NUM_GRADIENTS.length], WebkitBackgroundClip: 'text' }}
         aria-label={String(n)}
       >

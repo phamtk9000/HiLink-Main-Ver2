@@ -66,7 +66,7 @@ export function IntroLoader({ onDone, lang }: { onDone: () => void; lang: 'en' |
           >
             <div className="flex items-center justify-between mb-3">
               <span className="text-[12px] uppercase tracking-[0.2em] text-[#2A2623]/50">{lang === 'vi' ? 'Đang tải' : 'Loading'}</span>
-              <span className="text-[12px] tracking-wider text-[#2A2623]/50 font-mono">{progress}%</span>
+              <span className="text-[12px] tracking-wider text-[#2A2623]/50 tabular-nums">{progress}%</span>
             </div>
             <div className="h-px w-full bg-[#2A2623]/10 overflow-hidden">
               <motion.div
