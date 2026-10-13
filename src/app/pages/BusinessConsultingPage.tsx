@@ -10,6 +10,8 @@ import { Flag } from '../components/Flag';
 import { Candles } from '../components/Candles';
 import { photo } from '../lib/photo';
 import { IsoScene } from '../components/IsoScene';
+import { FigureStack, Statement } from '../components/Figures';
+import { Contours } from '../components/Contours';
 
 const SERVICE_META = [
   { icon: <Globe size={28} />, image: '/photos/hbc-client-meeting.webp' },
@@ -27,6 +29,23 @@ const T = {
     lead: "Expert advisory for international businesses entering or expanding in Vietnam's dynamic market — from strategy through to operational launch.",
     request: 'Request Consultation', explore: 'Explore Services',
     stats: [['2020', 'Founded in Ha Noi'], [String(LOCATIONS.length), 'HiLink Locations'], [String(PARTNERS.length), 'Partner Companies']],
+    vnEyebrow: 'Vietnam in figures', vnTitle: 'Why companies are coming to Vietnam',
+    vnRed: 'Vietnam’s economy grew 8.02% in 2025, and foreign investors disbursed US$27.62 billion — the most in five years.',
+    vnInk: 'We help international companies turn that momentum into a licensed, staffed and operating business.',
+    vnFigures: [
+      { value: 8.02, decimals: 2, suf: '%', label: 'GDP growth, 2025', note: 1 },
+      { value: 38.42, decimals: 2, pre: 'US$', suf: 'B', label: 'Registered foreign direct investment, 2025', note: 2 },
+      { value: 27.62, decimals: 2, pre: 'US$', suf: 'B', label: 'Disbursed FDI, 2025', note: 2 },
+      { value: 20, suf: '%', label: 'Standard corporate income tax', note: 3 },
+    ],
+    vnNotes: [
+      'General Statistics Office of Vietnam, estimate for the full year 2025.',
+      'General Statistics Office of Vietnam, full year 2025. Disbursement was the highest in five years.',
+      'Law on Corporate Income Tax No. 67/2025/QH15, in force from 1 October 2025. Lower rates apply to small enterprises and to encouraged sectors and locations.',
+    ],
+    lawLbl: 'Regulatory update',
+    law: 'The Law on Investment 2025 (No. 143/2025/QH15) has been in force since 1 March 2026. Where market-access conditions are met, a foreign investor may now set up the company first and complete investment registration afterwards — we advise on the right sequence for your sector.',
+    fields: { fedex: 'Logistics', lianlian: 'Cross-border payments', kosaido: 'Human resources', wts: 'Tax advisory', gp: 'Legal', hicorp: 'Parent group' } as Record<string, string>,
     svcEyebrow: 'What We Do', svcTitle: 'Comprehensive Business Solutions',
     services: [
       { title: 'Market Entry Strategy', description: 'Comprehensive market analysis, competitive landscape assessment, and strategic roadmap for successful Vietnam market entry.', points: ['Feasibility assessment', 'Competitive benchmarking', 'Go-to-market roadmap', 'Risk mitigation planning'] },
@@ -63,6 +82,23 @@ const T = {
     lead: 'Tư vấn chuyên sâu cho doanh nghiệp quốc tế gia nhập hoặc mở rộng tại thị trường Việt Nam năng động — từ chiến lược đến khi đi vào vận hành.',
     request: 'Yêu cầu tư vấn', explore: 'Khám phá dịch vụ',
     stats: [['2020', 'Thành lập tại Hà Nội'], [String(LOCATIONS.length), 'Địa điểm HiLink'], [String(PARTNERS.length), 'Doanh nghiệp đối tác']],
+    vnEyebrow: 'Việt Nam qua số liệu', vnTitle: 'Vì sao doanh nghiệp đến Việt Nam',
+    vnRed: 'Kinh tế Việt Nam tăng trưởng 8,02% trong năm 2025, và vốn đầu tư nước ngoài giải ngân đạt 27,62 tỷ USD — mức cao nhất trong năm năm.',
+    vnInk: 'Chúng tôi giúp doanh nghiệp quốc tế biến đà tăng trưởng đó thành một doanh nghiệp có giấy phép, có đội ngũ và đi vào vận hành.',
+    vnFigures: [
+      { value: 8.02, decimals: 2, suf: '%', label: 'Tăng trưởng GDP năm 2025', note: 1 },
+      { value: 38.42, decimals: 2, suf: ' tỷ USD', label: 'Vốn FDI đăng ký năm 2025', note: 2 },
+      { value: 27.62, decimals: 2, suf: ' tỷ USD', label: 'Vốn FDI giải ngân năm 2025', note: 2 },
+      { value: 20, suf: '%', label: 'Thuế suất thuế thu nhập doanh nghiệp phổ thông', note: 3 },
+    ],
+    vnNotes: [
+      'Tổng cục Thống kê, số ước tính cả năm 2025.',
+      'Tổng cục Thống kê, cả năm 2025. Vốn giải ngân cao nhất trong năm năm.',
+      'Luật Thuế thu nhập doanh nghiệp số 67/2025/QH15, hiệu lực từ 01/10/2025. Doanh nghiệp nhỏ và các ngành, địa bàn ưu đãi được áp dụng mức thấp hơn.',
+    ],
+    lawLbl: 'Cập nhật pháp lý',
+    law: 'Luật Đầu tư 2025 (số 143/2025/QH15) có hiệu lực từ 01/03/2026. Khi đáp ứng điều kiện tiếp cận thị trường, nhà đầu tư nước ngoài nay có thể thành lập doanh nghiệp trước rồi hoàn tất đăng ký đầu tư sau — chúng tôi tư vấn trình tự phù hợp với ngành của bạn.',
+    fields: { fedex: 'Logistics', lianlian: 'Thanh toán xuyên biên giới', kosaido: 'Nhân sự', wts: 'Tư vấn thuế', gp: 'Pháp lý', hicorp: 'Tập đoàn mẹ' } as Record<string, string>,
     svcEyebrow: 'Chúng tôi làm gì', svcTitle: 'Giải pháp doanh nghiệp toàn diện',
     services: [
       { title: 'Chiến lược gia nhập thị trường', description: 'Phân tích thị trường, đánh giá cạnh tranh và lộ trình chiến lược để gia nhập thị trường Việt Nam thành công.', points: ['Đánh giá khả thi', 'So sánh đối thủ', 'Lộ trình ra thị trường', 'Kế hoạch giảm thiểu rủi ro'] },
@@ -149,6 +185,25 @@ export function BusinessConsultingPage() {
         </div>
       </section>
 
+      {/* ── Vietnam in figures (set out after hines.com): a statement beside
+          a stack of sourced figures, and one regulatory note. ── */}
+      <section className="relative bg-white py-24 lg:py-32">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-14">
+          <div className="lg:col-span-7">
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.vnEyebrow}</p>
+            <Statement heading={t.vnTitle} red={t.vnRed} ink={t.vnInk}>
+              <div className="mt-12 border-l-2 border-[#D12126] pl-6">
+                <p className="text-[12px] uppercase tracking-[0.18em] text-[#D12126]">{t.lawLbl}</p>
+                <p className="mt-3 max-w-[62ch] text-[1.0625rem] leading-[1.75] text-[#4A443F]">{t.law}</p>
+              </div>
+            </Statement>
+          </div>
+          <div className="lg:col-span-4 lg:col-start-9">
+            <FigureStack lang={lang} figures={t.vnFigures} notes={t.vnNotes} pairs={0} />
+          </div>
+        </div>
+      </section>
+
       {/* ── Services — interactive tabs ── */}
       <section id="services" className="relative bg-white py-28">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
@@ -212,45 +267,43 @@ export function BusinessConsultingPage() {
         </div>
       </section>
 
-      {/* ── Process ── */}
-      <section className="bg-white py-28">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="mb-20">
-            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.howEyebrow}</p>
-            <h2 className="serif text-4xl lg:text-5xl max-w-lg">{t.howTitle}</h2>
+      {/* ── Process: the four stages as a list on a dark band ── */}
+      <section className="relative overflow-hidden bg-[#361716] py-24 lg:py-32 text-white">
+        <Contours />
+        <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-10">
+          <div className="lg:col-span-5">
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#F06A6E] mb-5 flex items-center gap-2.5"><Flag /> {t.howEyebrow}</p>
+            <h2 className="serif text-4xl lg:text-5xl">{t.howTitle}</h2>
           </div>
-
-          <div className="grid md:grid-cols-4 gap-px bg-[#2A2623]/10">
+          <ol className="lg:col-span-7 border-t border-white/20">
             {t.steps.map(([title, desc], i) => (
-              <div key={title} className="bg-white p-8 lg:p-10">
-                <div className="serif text-[56px] font-light text-[#2A2623]/08 leading-none mb-6">0{i + 1}</div>
-                <div className="w-6 h-px bg-[#D12126] mb-6" />
-                <h3 className="serif text-2xl mb-4">{title}</h3>
-                <p className="text-[#6B645D] text-[14px] leading-relaxed">{desc}</p>
-              </div>
+              <li key={title} className="grid grid-cols-[3rem_1fr] sm:grid-cols-[4rem_13rem_1fr] gap-x-4 gap-y-1 border-b border-white/20 py-6 lg:py-7">
+                <span className="pt-1.5 text-[13px] font-medium tabular-nums tracking-[0.08em] text-[#F06A6E]">{String(i + 1).padStart(2, '0')}</span>
+                <p className="serif text-[1.4rem] lg:text-[1.6rem] leading-snug">{title}</p>
+                <p className="col-start-2 sm:col-start-3 text-[15px] leading-relaxed text-white/75">{desc}</p>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </section>
 
-      {/* ── Sector expertise ── */}
-      <section className="relative bg-white py-28 text-[#2A2623]">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="mb-16">
-            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.secEyebrow}</p>
+      {/* ── Sector expertise: the six sectors as ruled rows ── */}
+      <section className="relative bg-white py-24 lg:py-32 text-[#2A2623]">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-10">
+          <div className="lg:col-span-4">
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.secEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{t.secTitle}</h2>
+            <p className="serif mt-8 text-[4.25rem] leading-none lining-nums text-[#D12126]">{t.sectors.length}</p>
+            <p className="mt-2 text-[14px] text-[#2A2623]">{t.secLabel}</p>
           </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#2A2623]/10">
+          <ol className="lg:col-span-8 grid sm:grid-cols-2 gap-x-12 border-t border-[#2A2623]/15">
             {t.sectors.map((name, i) => (
-              <div key={name} className="bg-white p-8 group hover:bg-[#FBECEC] transition-colors">
-                <div className="serif text-4xl text-[#D12126] mb-1">0{i + 1}</div>
-                <div className="text-[12px] uppercase tracking-[0.2em] text-[#6B645D] mb-6">{t.secLabel}</div>
-                <h3 className="serif text-xl text-[#2A2623] mb-3">{name}</h3>
-                <div className="w-8 h-px bg-[#D12126]/30 group-hover:bg-[#D12126] transition-colors" />
-              </div>
+              <li key={name} className="group flex items-baseline gap-5 border-b border-[#2A2623]/15 py-6 transition-colors hover:text-[#D12126]">
+                <span className="text-[13px] font-medium tabular-nums tracking-[0.08em] text-[#D12126]">{String(i + 1).padStart(2, '0')}</span>
+                <span className="serif text-[1.35rem] lg:text-[1.5rem] leading-snug">{name}</span>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </section>
 
@@ -258,26 +311,20 @@ export function BusinessConsultingPage() {
       <section className="bg-white py-28">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-16 text-center">
-            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.prtEyebrow}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center justify-center gap-2.5"><Flag /> {t.prtEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.prtTitle}</h2>
             <p className="text-lg text-[#6B645D] max-w-2xl mx-auto">
               {t.prtLead}
             </p>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-[#2A2623]/10">
+          <ul className="grid grid-cols-2 md:grid-cols-3 border-t border-l border-[#2A2623]/12">
             {PARTNERS.map((p) => (
-              <div
-                key={p.id}
-                className="bg-white py-10 flex items-center justify-center text-[#2A2623]/40 hover:text-[#D12126] transition-colors"
-              >
-                <span className="serif text-xl lg:text-2xl font-light whitespace-nowrap">{p.name}</span>
-              </div>
+              <li key={p.id} className="group flex h-36 lg:h-44 flex-col items-center justify-center gap-4 border-b border-r border-[#2A2623]/12 px-6 transition-colors hover:bg-[#FBF8F5]">
+                <img loading="lazy" decoding="async" src={p.src} width={p.w} height={p.h} alt={p.name} className="hl-logo max-h-9 lg:max-h-11 w-auto max-w-[70%] object-contain group-hover:[filter:none]" />
+                {t.fields[p.id] && <span className="text-[12px] uppercase tracking-[0.14em] text-[#6B645D]">{t.fields[p.id]}</span>}
+              </li>
             ))}
-            {/* Fill the last row so the grid shows no empty grey cell. */}
-            {Array.from({ length: (5 - (PARTNERS.length % 5)) % 5 }, (_, i) => (
-              <div key={`fill-${i}`} className="bg-white hidden lg:block" />
-            ))}
-          </div>
+          </ul>
         </div>
       </section>
 
@@ -287,7 +334,6 @@ export function BusinessConsultingPage() {
         eyebrow={t.faqEyebrow}
         title={t.faqTitle}
         subtitle={t.faqSub}
-        background="beige"
       />
 
       {/* ── CTA ── */}
