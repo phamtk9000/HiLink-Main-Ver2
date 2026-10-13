@@ -3,7 +3,7 @@
 import { ArrowRight, Check, ExternalLink } from 'lucide-react';
 import { Building2, Users, Wifi, Coffee, Mail, Calendar, MapPin } from '../components/Glyph';
 import { motion } from 'motion/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { FAQ } from '../components/FAQ';
 import { LOCATIONS, WORKSPACE_LINES } from '../data/locations';
 import { ws } from '../data/site';
@@ -14,17 +14,30 @@ import { PartnerMarquee } from '../components/PartnerMarquee';
 import { photo } from '../lib/photo';
 
 const AMENITY_ICONS = [<Wifi size={24} />, <Coffee size={24} />, <Users size={24} />, <Building2 size={24} />, <Calendar size={24} />, <Mail size={24} />];
-const SPACE_PHOTOS = ['/photos/f15-office-hi08.webp', '/photos/f15-office-hi11.webp', '/photos/f15-meeting-pod.webp', '/photos/f15-boardroom.webp', '/photos/f15-lounge.webp', '/photos/hbc-meeting.webp'];
+// The workspace addresses: every HiLink location except The Quarter Club
+// (204 Tran Quang Khai), which is a club, not a workspace.
+const WS_LOCATIONS = LOCATIONS.filter((l) => l.id !== 'club-tqk');
+// The photographs each location card turns through (the first is its cover).
+const LOCATION_PHOTOS: Record<string, string[]> = {
+  obc: ['/photos/hbc-lounge.webp', '/photos/hbc-lounge-3.webp', '/photos/hbc-meeting.webp', '/photos/hbc-lounge-4.webp'],
+  'nha-chung': ['/photos/nc35-hall.webp', '/photos/nc35-room.webp', '/photos/nc35-desks.webp'],
+  'ttt-f15': ['/photos/f15-lounge-cabin.webp', '/photos/f15-lounge.webp', '/photos/f15-office-hi08.webp', '/photos/f15-meeting-pod.webp', '/photos/f15-boardroom.webp'],
+  'ttt-f19': ['/photos/f19-window.webp', '/photos/f19-room.webp', '/photos/f19-corridor.webp'],
+};
+// A tag on the photograph, by location.
+const LOCATION_TAGS: Record<string, string> = { 'ttt-f15': 'HiLink Premium Workspace' };
+// The three workspace tiers and the addresses in each.
+const TIER_LOCATIONS = [['ttt-f17', 'ttt-f19'], ['ttt-f15'], ['nha-chung', 'nq49']];
 const PLAN_SLUGS = ['/solutions/hybrid-work', '/solutions/private-workspaces', '/solutions/corporate-suites', '/solutions/e-office'];
 
 const HOURS_VI: [RegExp, string][] = [[/Mon/g, 'T2'], [/Fri/g, 'T6'], [/Sat/g, 'T7'], [/Sun/g, 'CN'], [/late/g, 'khuya']];
 
 const T = {
   en: {
-    meta: 'Private offices, desks, meeting rooms and business addresses at seven HiLink locations in central Hanoi.',
+    meta: 'Private offices, desks, meeting rooms and business addresses at six HiLink locations in central Hanoi.',
     tour: 'Book a Tour', visit: 'Visit HiLink Workspace', view: 'View Locations',
     eyebrow: 'Workspace Leasing', title: 'Work Where You Thrive',
-    lead: 'Premium flexible workspaces across seven Hanoi addresses — from a lakeside business club at 60 Ly Thai To to whole floors high above Dong Da at 4 Ton That Tung. Private offices, desks, meeting rooms and business addresses.',
+    lead: 'Premium flexible workspaces across six Hanoi addresses — from a lakeside business club at 60 Ly Thai To to whole floors high above Dong Da at 4 Ton That Tung. Private offices, desks, meeting rooms and business addresses.',
     whyTitle: 'Why Choose HiLink', whyLead: 'More than just a desk — a complete business ecosystem',
     amenities: [['1 Gbps Fibre Wi-Fi', 'Fast, reliable connection'], ['Pantry', 'Coffee and tea on every floor'], ['Meeting Rooms', 'Rooms for 4–12 people'], ['Staffed Reception', 'Guests welcomed for you'], ['Event Space', 'Lounges for events'], ['Mail Handling', 'Letters and parcels received']],
     pricingTitle: 'Spaces & Pricing', pricingLead: 'Starting prices from HiLink Workspaces — live prices and booking on hilink.vn',
@@ -35,16 +48,16 @@ const T = {
       { name: 'Meeting Room', price: 'From ₫475k', period: '/hour', description: 'Meeting rooms & event venues', features: ['Rooms for 4–12 people', 'Booked by the hour', '4 Ton That Tung · 60 Ly Thai To', 'Whole lounges for events'] },
       { name: 'E-office', price: 'From ₫1m', period: '/month', description: 'Registered business address', features: ['60 Ly Thai To or 35 Nha Chung', 'Register your company here', 'Mail handling', 'Calls handled'] },
     ],
-    spacesEyebrow: `${LOCATIONS.length} Locations · Ha Noi`, spacesTitle: 'Featured Spaces', live: 'See live availability',
-    spaces: [
-      ['Private Office Hi.08', 'Private Office', 'Floor 15 · 4 Ton That Tung'],
-      ['Private Office Hi.11', 'Private Office', 'Floor 15 · 4 Ton That Tung'],
-      ['Glass Meeting Pod', 'Meeting Room', 'Floor 15 · 4 Ton That Tung'],
-      ['Meeting Room 10', 'Meeting Room', 'Floor 15 · 4 Ton That Tung'],
-      ['Lounge Desk', 'Hybrid Work', 'Floor 15 · 4 Ton That Tung'],
-      ['Business Club Meeting Room', 'Meeting Room', 'Floor 7 · 60 Ly Thai To'],
+    live: 'See live availability',
+    tiersEyebrow: 'Workspace tiers', tiersTitle: 'Signature, Premium Workspaces, Flex-Spaces',
+    tiersLead: 'Three ways to work with HiLink, from a floor of your own to a desk for the day.',
+    tierRows: ['Best for', 'Spaces', 'Addresses', 'Hours'], opening: 'opening soon',
+    tiers: [
+      { name: 'Signature', d: 'Whole floors at 4 Ton That Tung, leased to one tenant and built to suit your team, with the building\'s best views over Dong Da.', best: 'Companies that want a floor of their own', spaces: 'Private floors · Enterprise Solutions (fit-out and operations to your brief)', hours: 'Mon–Fri · from 08:00' },
+      { name: 'Premium Workspaces', d: 'High-floor workspace with skyline views over Dong Da: scalable private offices, lounges, meeting rooms and an event space on one floor.', best: 'Growing teams that need a fitted office and room to scale', spaces: 'Private offices · hybrid desks · E-office · meeting rooms · event space', hours: 'Mon–Fri · 08:00–20:00' },
+      { name: 'Flex-Spaces', d: 'Boutique addresses in Hoan Kiem and Cua Nam for flexible working: flex and dedicated desks, by the day or the month.', best: 'Small teams, independents and hybrid workers', spaces: 'Flex desks · dedicated desks · E-office · event space', hours: 'Mon–Fri · 08:00–19:00' },
     ],
-    locTitle: 'Our Locations', locLead: `${LOCATIONS.length} addresses in central Hanoi — Hoan Kiem and Dong Da`,
+    locTitle: 'Our Locations', locLead: `${WS_LOCATIONS.length} addresses in central Hanoi — Hoan Kiem and Dong Da`,
     available: 'Now Available', soon: 'Coming Soon', type: 'Brand', hours: 'Hours', explore: 'Explore live availability',
     trusted: 'Trusted by Leading Companies',
     faqSub: 'What members most often ask before joining a HiLink workspace.', faqEyebrow: 'FAQs', faqTitle: 'Frequently Asked Questions',
@@ -58,10 +71,10 @@ const T = {
     ctaTitle: 'Ready to Find Your Perfect Workspace?', ctaLead: 'Book a tour of any of our locations. Our team will help you find the ideal solution for your business.', ctaBtn: 'Schedule a Tour',
   },
   vi: {
-    meta: 'Văn phòng riêng, chỗ ngồi, phòng họp và địa chỉ doanh nghiệp tại bảy địa điểm HiLink giữa trung tâm Hà Nội.',
+    meta: 'Văn phòng riêng, chỗ ngồi, phòng họp và địa chỉ doanh nghiệp tại sáu địa điểm HiLink giữa trung tâm Hà Nội.',
     tour: 'Đặt lịch tham quan', visit: 'Đến HiLink Workspace', view: 'Xem địa điểm',
     eyebrow: 'Cho thuê văn phòng', title: 'Làm việc ở nơi bạn phát triển',
-    lead: 'Không gian làm việc linh hoạt cao cấp tại bảy địa chỉ ở Hà Nội — từ câu lạc bộ doanh nhân bên hồ tại 60 Lý Thái Tổ đến những sàn nguyên tầng trên cao tại 4 Tôn Thất Tùng. Văn phòng riêng, chỗ ngồi, phòng họp và địa chỉ doanh nghiệp.',
+    lead: 'Không gian làm việc linh hoạt cao cấp tại sáu địa chỉ ở Hà Nội — từ câu lạc bộ doanh nhân bên hồ tại 60 Lý Thái Tổ đến những sàn nguyên tầng trên cao tại 4 Tôn Thất Tùng. Văn phòng riêng, chỗ ngồi, phòng họp và địa chỉ doanh nghiệp.',
     whyTitle: 'Vì sao chọn HiLink', whyLead: 'Hơn cả một chỗ ngồi — một hệ sinh thái doanh nghiệp trọn vẹn',
     amenities: [['Wi-Fi cáp quang 1 Gbps', 'Kết nối nhanh, ổn định'], ['Pantry', 'Cà phê và trà ở mọi tầng'], ['Phòng họp', 'Phòng cho 4–12 người'], ['Lễ tân trực', 'Đón khách giúp bạn'], ['Không gian sự kiện', 'Lounge cho sự kiện'], ['Nhận thư', 'Nhận thư và bưu phẩm']],
     pricingTitle: 'Không gian & giá', pricingLead: 'Giá khởi điểm của HiLink Workspaces — giá hiện hành và đặt chỗ trên hilink.vn',
@@ -72,16 +85,16 @@ const T = {
       { name: 'Phòng họp', price: 'Từ ₫475k', period: '/giờ', description: 'Phòng họp & không gian sự kiện', features: ['Phòng cho 4–12 người', 'Đặt theo giờ', '4 Tôn Thất Tùng · 60 Lý Thái Tổ', 'Cả lounge cho sự kiện'] },
       { name: 'E-office', price: 'Từ ₫1tr', period: '/tháng', description: 'Địa chỉ đăng ký kinh doanh', features: ['60 Lý Thái Tổ hoặc 35 Nhà Chung', 'Đăng ký công ty tại đây', 'Nhận thư', 'Nghe máy hộ'] },
     ],
-    spacesEyebrow: `${LOCATIONS.length} địa điểm · Hà Nội`, spacesTitle: 'Không gian nổi bật', live: 'Xem phòng trống',
-    spaces: [
-      ['Văn phòng riêng Hi.08', 'Văn phòng riêng', 'Tầng 15 · 4 Tôn Thất Tùng'],
-      ['Văn phòng riêng Hi.11', 'Văn phòng riêng', 'Tầng 15 · 4 Tôn Thất Tùng'],
-      ['Phòng họp kính', 'Phòng họp', 'Tầng 15 · 4 Tôn Thất Tùng'],
-      ['Phòng họp 10', 'Phòng họp', 'Tầng 15 · 4 Tôn Thất Tùng'],
-      ['Lounge Desk', 'Làm việc linh hoạt', 'Tầng 15 · 4 Tôn Thất Tùng'],
-      ['Phòng họp Business Club', 'Phòng họp', 'Tầng 7 · 60 Lý Thái Tổ'],
+    live: 'Xem phòng trống',
+    tiersEyebrow: 'Các hạng Workspace', tiersTitle: 'Signature, Premium Workspaces, Flex-Spaces',
+    tiersLead: 'Ba cách làm việc cùng HiLink, từ nguyên một sàn riêng đến một chỗ ngồi theo ngày.',
+    tierRows: ['Phù hợp với', 'Không gian', 'Địa chỉ', 'Giờ mở cửa'], opening: 'sắp mở',
+    tiers: [
+      { name: 'Signature', d: 'Nguyên sàn tại 4 Tôn Thất Tùng, cho thuê trọn cho một đơn vị và thi công theo nhu cầu của đội bạn, với tầm nhìn đẹp nhất toà nhà ra Đống Đa.', best: 'Doanh nghiệp muốn có một sàn riêng', spaces: 'Sàn riêng · Giải pháp doanh nghiệp (hoàn thiện và vận hành theo yêu cầu)', hours: 'T2–T6 · từ 08:00' },
+      { name: 'Premium Workspaces', d: 'Không gian tầng cao với tầm nhìn toàn cảnh Đống Đa: văn phòng riêng có thể mở rộng, lounge, phòng họp và không gian sự kiện trên cùng một sàn.', best: 'Đội ngũ đang lớn, cần văn phòng đủ nội thất và chỗ để mở rộng', spaces: 'Văn phòng riêng · chỗ ngồi linh hoạt · E-office · phòng họp · không gian sự kiện', hours: 'T2–T6 · 08:00–20:00' },
+      { name: 'Flex-Spaces', d: 'Những địa chỉ boutique tại Hoàn Kiếm và Cửa Nam cho cách làm việc linh hoạt: flex desk và dedicated desk, theo ngày hoặc theo tháng.', best: 'Đội nhỏ, người làm độc lập và làm việc hybrid', spaces: 'Flex desk · dedicated desk · E-office · không gian sự kiện', hours: 'T2–T6 · 08:00–19:00' },
     ],
-    locTitle: 'Các địa điểm', locLead: `${LOCATIONS.length} địa chỉ giữa trung tâm Hà Nội — Hoàn Kiếm và Đống Đa`,
+    locTitle: 'Các địa điểm', locLead: `${WS_LOCATIONS.length} địa chỉ giữa trung tâm Hà Nội — Hoàn Kiếm và Đống Đa`,
     available: 'Đang mở', soon: 'Sắp mở', type: 'Dòng sản phẩm', hours: 'Giờ mở cửa', explore: 'Xem phòng trống',
     trusted: 'Đồng hành cùng các doanh nghiệp',
     faqSub: 'Những câu hỏi thường gặp trước khi chọn không gian HiLink.', faqEyebrow: 'Câu hỏi', faqTitle: 'Câu hỏi thường gặp',
@@ -211,6 +224,47 @@ export function WorkspacePage() {
         </div>
       </section>
 
+      {/* Workspace tiers: the three compared side by side (one after another
+          on phones), each row the same question. */}
+      <section id="tiers" className="relative py-24 lg:py-32 bg-white">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+          <div className="mb-12 lg:mb-16 grid lg:grid-cols-12 gap-x-16 gap-y-6 items-end">
+            <div className="lg:col-span-7">
+              <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.tiersEyebrow}</p>
+              <h2 className="serif text-4xl lg:text-5xl">{t.tiersTitle}</h2>
+            </div>
+            <p className="lg:col-span-5 text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.tiersLead}</p>
+          </div>
+          <div className="grid lg:grid-cols-3 border-t border-[#2A2623]/15">
+            {t.tiers.map((tier, k) => {
+              const locs = TIER_LOCATIONS[k].map((id) => LOCATIONS.find((l) => l.id === id)!);
+              const rows = [tier.best, tier.spaces, null, tier.hours];
+              return (
+                <div key={tier.name} className={`py-10 lg:py-12 ${k > 0 ? 'border-t lg:border-t-0 lg:border-l border-[#2A2623]/15 lg:pl-10' : ''} ${k < 2 ? 'lg:pr-10' : ''}`}>
+                  <p className="text-[13px] font-medium tabular-nums tracking-[0.08em] text-[#D12126]">{String(k + 1).padStart(2, '0')}</p>
+                  <h3 className="serif hl-card-title mt-3 text-[#2A2623]">{tier.name}</h3>
+                  <p className="mt-4 text-[15px] leading-relaxed text-[#6B645D] lg:min-h-[7.5em]">{tier.d}</p>
+                  <dl className="mt-8">
+                    {t.tierRows.map((label, r) => (
+                      <div key={label} className="border-t border-[#2A2623]/10 py-4 lg:min-h-[6.25rem]">
+                        <dt className="text-[12px] uppercase tracking-[0.14em] text-[#6B645D]">{label}</dt>
+                        <dd className="mt-1.5 text-[15px] leading-relaxed text-[#2A2623]">
+                          {rows[r] ?? locs.map((l) => (
+                            <a key={l.id} href={ws(lang, `/locations/${l.id}`)} target="_blank" rel="noopener noreferrer" className="block underline decoration-[#2A2623]/25 underline-offset-4 hover:text-[#D12126] hover:decoration-[#D12126]">
+                              {l.name}{l.comingSoon ? ` (${t.opening})` : ''}
+                            </a>
+                          ))}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* Plans */}
       <section className="py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
@@ -229,52 +283,6 @@ export function WorkspacePage() {
         </div>
       </section>
 
-      {/* Featured Spaces */}
-      <section className="relative py-24 lg:py-32 bg-white text-[#2A2623] overflow-hidden">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="flex flex-wrap items-end justify-between gap-6 mb-14">
-            <div>
-              <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-3">
-                <Flag className="text-[#D12126]" /> {t.spacesEyebrow}
-              </p>
-              <h2 className="serif text-4xl lg:text-5xl">{t.spacesTitle}</h2>
-            </div>
-            <a
-              href={ws(lang, '/locations')}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.18em] text-[#D12126] border-b border-[#D12126]/40 pb-1 hover:border-[#D12126] transition-colors"
-            >
-              {t.live} <ExternalLink size={13} />
-            </a>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {t.spaces.map(([name, type, floor], i) => (
-              <a
-                key={name}
-                href={ws(lang, '/locations')}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative block overflow-hidden bg-white border border-[#2A2623]/10"
-              >
-                <div className="relative aspect-[4/3] overflow-hidden rounded-[8px]">
-                  <img loading="lazy" decoding="async" {...photo(SPACE_PHOTOS[i])} alt={name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                  <span className="absolute top-4 left-4 text-[12px] uppercase tracking-[0.16em] px-2.5 py-1 bg-[#D12126] text-white">{type}</span>
-                </div>
-                <div className="flex items-end justify-between p-5">
-                  <div>
-                    <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-1.5">{floor}</p>
-                    <h3 className="serif text-xl">{name}</h3>
-                  </div>
-                  <ExternalLink size={16} className="text-[#D12126] shrink-0" />
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Locations */}
       <section id="locations" className="py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
@@ -283,10 +291,18 @@ export function WorkspacePage() {
             <p className="text-xl text-[#6B645D] max-w-3xl mx-auto">
               {t.locLead}
             </p>
+            <a
+              href={ws(lang, '/locations')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.18em] text-[#D12126] border-b border-[#D12126]/40 pb-1 hover:border-[#D12126] transition-colors"
+            >
+              {t.live} <ExternalLink size={13} />
+            </a>
           </motion.div>
 
           <motion.div className="grid md:grid-cols-2 gap-8">
-            {LOCATIONS.map((loc) => (
+            {WS_LOCATIONS.map((loc, k) => (
               <LocationCard
                 key={loc.id}
                 href={ws(lang, `/locations/${loc.id}`)}
@@ -296,7 +312,9 @@ export function WorkspacePage() {
                 type={loc.line ? WORKSPACE_LINES[loc.line].label : 'HiLink'}
                 capacity={lang === 'vi' ? HOURS_VI.reduce((s, [re, v]) => s.replace(re, v), loc.hours) : loc.hours}
                 available={!loc.comingSoon}
-                image={loc.photo}
+                images={LOCATION_PHOTOS[loc.id] ?? [loc.photo]}
+                tag={LOCATION_TAGS[loc.id]}
+                delay={k * 700}
                 labels={{ available: t.available, soon: t.soon, type: t.type, capacity: t.hours, explore: t.explore }}
               />
             ))}
@@ -395,7 +413,7 @@ function PlanCard({ name, price, period, description, features, popular, href, p
   );
 }
 
-function LocationCard({ href, name, address, city, type, capacity, available, image, labels }: {
+function LocationCard({ href, name, address, city, type, capacity, available, images, tag, delay = 0, labels }: {
   href: string;
   name: string;
   address: string;
@@ -403,23 +421,55 @@ function LocationCard({ href, name, address, city, type, capacity, available, im
   type: string;
   capacity: string;
   available: boolean;
-  image: string;
+  images: string[];
+  tag?: string;
+  delay?: number;
   labels: { available: string; soon: string; type: string; capacity: string; explore: string };
 }) {
+  // The photographs turn by themselves, one every four seconds, while the
+  // card is on screen (each card a beat after the one before it).
+  const [shot, setShot] = useState(0);
+  const cardRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el || images.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    let timer = 0, first = 0;
+    const io = new IntersectionObserver(([e]) => {
+      window.clearInterval(timer); window.clearTimeout(first);
+      if (!e.isIntersecting) return;
+      first = window.setTimeout(() => {
+        setShot((n) => (n + 1) % images.length);
+        timer = window.setInterval(() => setShot((n) => (n + 1) % images.length), 4000);
+      }, 1800 + delay);
+    }, { threshold: 0.35 });
+    io.observe(el);
+    return () => { io.disconnect(); window.clearInterval(timer); window.clearTimeout(first); };
+  }, [images.length, delay]);
+
   return (
     <motion.div
+      ref={cardRef}
       className="group bg-[#F4F0EA] overflow-hidden"
       whileHover={{ y: -10, boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }}
     >
       <a href={href} target="_blank" rel="noopener noreferrer">
         <div className="relative aspect-[16/10] overflow-hidden rounded-[8px]">
-          <motion.img loading="lazy" decoding="async"
-            {...photo(image)}
-            alt={name}
-            className="w-full h-full object-cover"
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.6 }}
-          />
+          {images.map((src, k) => (
+            <img
+              key={src}
+              loading="lazy"
+              decoding="async"
+              {...photo(src, '(min-width: 768px) 50vw, 100vw')}
+              alt={k === 0 ? name : ''}
+              className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-[1400ms] ease-out group-hover:scale-[1.04] ${k === shot ? 'opacity-100' : 'opacity-0'}`}
+            />
+          ))}
+          {tag && <span className="absolute top-6 left-6 px-4 py-2 text-xs uppercase tracking-wider bg-white text-[#2A2623]">{tag}</span>}
+          {images.length > 1 && (
+            <div className="absolute bottom-5 left-6 flex gap-1.5" aria-hidden="true">
+              {images.map((src, k) => <span key={src} className={`h-[3px] rounded-full transition-all duration-500 ${k === shot ? 'w-6 bg-white' : 'w-3 bg-white/50'}`} />)}
+            </div>
+          )}
           <div className="absolute top-6 right-6">
             <div className={`px-4 py-2 text-xs uppercase tracking-wider ${
               available ? 'bg-[#D12126] text-white' : 'bg-[#6B645D] text-white'
