@@ -228,7 +228,7 @@ export function HomePage() {
       </section>
 
       {/* ── Locations (HiLink Workspaces) ── */}
-      <section className="py-24 lg:py-32 bg-white text-[#2A2623] overflow-hidden">
+      <section className="pt-24 lg:pt-32 pb-14 lg:pb-16 bg-white text-[#2A2623] overflow-hidden">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="flex flex-wrap items-end justify-between gap-8 mb-10 lg:mb-12">
             <div>
@@ -250,7 +250,7 @@ export function HomePage() {
       </section>
 
       {/* ── Trust ── */}
-      <section className="relative py-24 lg:py-32 bg-white">
+      <section className="relative pt-16 lg:pt-20 pb-24 lg:pb-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             <div>

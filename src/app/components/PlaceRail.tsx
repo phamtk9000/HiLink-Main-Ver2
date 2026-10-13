@@ -1,7 +1,7 @@
 // A sideways rail of place cards, set out after the homes rail on
 // onefinestay.com (measured at 1440px): a photograph 568 × 377 (3:2) with
 // square corners and nothing laid over it, so the picture stays clear; the
-// name beneath in the site's serif italic (20/28px) and the address in grey
+// name beneath in the site's serif (20/28px, upright) and the address in grey
 // (14/20px); 12px between cards; 64px white round arrows 32px in from either
 // edge, level with the middle of the photographs. The first card lines up
 // with the page margin and the rail runs on past the right edge; a fine
@@ -56,7 +56,7 @@ export function PlaceRail({ items, next, prev }: { items: Place[]; next: string;
                 <span className="relative block aspect-[3/2] overflow-hidden bg-[#EDE7DF]">
                   <img loading="lazy" decoding="async" {...photo(it.photo, '(min-width: 1622px) 640px, (min-width: 640px) 40vw, 78vw')} alt={it.name} className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.04] ${it.crop ?? ''}`} />
                 </span>
-                <span className="serif mt-4 block text-[1.25rem] italic leading-[1.75rem] text-[#2A2623] transition-colors group-hover:text-[#D12126]">{it.name}</span>
+                <span className="serif mt-4 block text-[1.25rem] leading-[1.75rem] text-[#2A2623] transition-colors group-hover:text-[#D12126]">{it.name}</span>
                 <span className="block text-[14px] leading-[1.25rem] text-[#6B645D]">{it.address}</span>
               </>
             );

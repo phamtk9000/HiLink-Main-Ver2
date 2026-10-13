@@ -311,7 +311,7 @@ export function AboutPage() {
       </section>
 
       {/* Properties we run: the shared place rail (after foraspace.com). */}
-      <section className="relative bg-white py-20 lg:py-28 overflow-hidden">
+      <section className="relative bg-white pt-20 lg:pt-28 pb-14 lg:pb-16 overflow-hidden">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 mb-10 lg:mb-12">
           {eyebrow(t.workEyebrow)}
           <h2 className="serif leading-[1.1]">{t.workTitle}</h2>
@@ -320,7 +320,7 @@ export function AboutPage() {
       </section>
 
       {/* The group: statement on the left, the line from parent to member on the right. */}
-      <section id="group" className="bg-white border-t border-[#2A2623]/10 py-20 lg:py-28 scroll-mt-24">
+      <section id="group" className="bg-white border-t border-[#2A2623]/10 pt-16 lg:pt-20 pb-20 lg:pb-28 scroll-mt-24">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-5">
             {eyebrow(t.groupEyebrow)}
