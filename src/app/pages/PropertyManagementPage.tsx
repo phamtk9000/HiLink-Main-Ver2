@@ -7,8 +7,8 @@
 // own.
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
-import { ArrowRight, ArrowUpRight, ChevronRight } from 'lucide-react';
-import { TrendingUp, Users, Shield, BarChart, MapPin, LayoutDashboard, Coffee, Home, Briefcase } from '../components/Glyph';
+import { ArrowRight, ChevronRight } from 'lucide-react';
+import { TrendingUp, Users, Shield, BarChart, LayoutDashboard, Coffee, Home, Briefcase, Search, DollarSign, Settings, ClipboardList, Globe } from '../components/Glyph';
 import { PropertyRentalForm } from '../components/PropertyRentalForm';
 import { FAQ } from '../components/FAQ';
 import { AnimatedCounter } from '../components/AnimatedCounter';
@@ -17,11 +17,14 @@ import { CONTACT, PARTNERS, ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { photo } from '../lib/photo';
+import { PropertyDeck } from '../components/PropertyDeck';
 import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 
 const SERVICE_ICONS = [<Users size={26} />, <TrendingUp size={26} />, <Shield size={26} />, <BarChart size={26} />];
 // (no glyph twice: a house, a floor plan, a cup, a stack of plans)
 const TYPE_ICONS = [<Home size={26} />, <LayoutDashboard size={26} />, <Coffee size={26} />, <Briefcase size={26} />];
+// What we do for home owners, one glyph each (the order of T.ownerItems).
+const OWNER_ICONS = [Search, DollarSign, Settings, ClipboardList, Globe];
 // One photograph for each asset class (the order of T.types).
 const TYPE_PHOTOS = ['/properties/quarter-house/qh-02.webp', '/photos/f15-office-hi08.webp', '/properties/quarter-house/qh-03.webp', '/photos/f19-window.webp'];
 
@@ -77,6 +80,15 @@ const T = {
       { question: 'How quickly can you onboard a new property?', answer: 'Most properties are fully onboarded within one to two weeks, depending on condition and documentation. We handle the assessment, marketing, and tenant acquisition end to end.' },
       { question: 'How will I track my property’s performance?', answer: 'You receive monthly financial statements and performance analytics.' },
     ],
+    ownerEyebrow: 'For home owners', ownerTitle: 'Everything an owner needs, taken care of',
+    ownerItems: [
+      [['Tenant', 'finding'], 'Marketing, premium screening and lease execution to secure quality tenants.'],
+      [['Rent', 'collection'], 'Rent collected and tenant relations handled, day to day.'],
+      [['Maintenance', '& inspections'], 'Proactive maintenance, quality contractors and regular property inspections.'],
+      [['Monthly', 'reporting'], 'Monthly financial statements and performance analytics.'],
+      [['Bilingual,', 'around the clock'], 'Clear, bilingual communication for owners abroad, with 24/7 concierge support.'],
+    ] as [string[], string][],
+    prev: 'Previous property', next: 'Next property',
     step: 'Step', hotline: 'Hotline', ctaAlt: 'A client at work at the HiLink Business Club',
     ctaTitle: 'Elevate Your Property Performance', ctaLead: "Let's discuss how our concierge approach can maximize your asset value and minimize your stress.", cta: 'Schedule a Consultation',
   },
@@ -131,6 +143,15 @@ const T = {
       { question: 'Mất bao lâu để tiếp nhận một tài sản mới?', answer: 'Hầu hết tài sản được tiếp nhận hoàn tất trong một đến hai tuần, tuỳ hiện trạng và giấy tờ. Chúng tôi lo trọn khâu đánh giá, quảng bá và tìm khách thuê.' },
       { question: 'Tôi theo dõi hiệu quả tài sản bằng cách nào?', answer: 'Bạn nhận báo cáo tài chính và phân tích hiệu quả hàng tháng.' },
     ],
+    ownerEyebrow: 'Dành cho chủ nhà', ownerTitle: 'Mọi việc của chủ nhà, đã có chúng tôi lo',
+    ownerItems: [
+      [['Tìm', 'khách thuê'], 'Quảng bá, sàng lọc và ký hợp đồng để có khách thuê chất lượng.'],
+      [['Thu', 'tiền thuê'], 'Thu tiền thuê và chăm sóc quan hệ khách thuê hằng ngày.'],
+      [['Bảo trì', '& kiểm tra'], 'Bảo trì chủ động, nhà thầu chất lượng và kiểm tra định kỳ.'],
+      [['Báo cáo', 'hàng tháng'], 'Báo cáo tài chính và phân tích hiệu quả hàng tháng.'],
+      [['Song ngữ,', 'hỗ trợ 24/7'], 'Giao tiếp song ngữ rõ ràng cho chủ nhà ở nước ngoài, cùng hỗ trợ concierge 24/7.'],
+    ] as [string[], string][],
+    prev: 'Bất động sản trước', next: 'Bất động sản tiếp theo',
     step: 'Bước', hotline: 'Hotline', ctaAlt: 'Khách hàng làm việc tại HiLink Business Club',
     ctaTitle: 'Nâng tầm hiệu quả tài sản', ctaLead: 'Cùng trao đổi cách tiếp cận concierge của chúng tôi giúp tối đa hoá giá trị tài sản và giảm bớt nỗi lo cho bạn.', cta: 'Đặt lịch tư vấn',
   },
@@ -224,30 +245,25 @@ export function PropertyManagementPage() {
         </div>
       </section>
 
-      {/* Who we serve: owners and occupiers, each a ruled list. */}
-      <section className="relative py-24 lg:py-32 bg-white">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-12">
-          <div className="lg:col-span-4">
-            {eyebrow(t.serveEyebrow)}
-            <h2 className="serif text-4xl lg:text-5xl text-[#2A2623]">{t.serveTitle}</h2>
-            <p className="mt-6 text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.serveLead}</p>
-          </div>
-          <div className="lg:col-span-7 lg:col-start-6 grid sm:grid-cols-2 gap-x-12 gap-y-12">
-            {([[t.owners, t.ownerList, <Briefcase size={26} />], [t.tenants, t.tenantList, <Users size={26} />]] as [string, string[], React.ReactNode][]).map(([head, items, icon]) => (
-              <div key={head}>
-                <span className="text-[#D12126]">{icon}</span>
-                <h3 className="serif hl-card-title mt-5 text-[#2A2623]">{head}</h3>
-                <ul className="mt-6 border-t border-[#2A2623]/15">
-                  {items.map((item, k) => (
-                    <li key={item} className="flex items-baseline gap-4 border-b border-[#2A2623]/15 py-4 text-[1.0625rem] text-[#2A2623]">
-                      <span className="text-[12px] tabular-nums tracking-[0.08em] text-[#D12126]">{String(k + 1).padStart(2, '0')}</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+      {/* What we do for home owners, set out after augustcollections.com
+          ("Local experts, at your service"): five columns on club green,
+          each a fine glyph, a title on two lines and a line of detail. */}
+      <section className="relative py-24 lg:py-28 bg-[#2B3A32] text-[#F6EFE6]">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+          <p className="text-[12px] uppercase tracking-[0.2em] text-[#E8B9A6] mb-5 flex items-center gap-2.5"><Flag /> {t.ownerEyebrow}</p>
+          <h2 className="serif hl-display max-w-[20ch] text-[#F6EFE6]">{t.ownerTitle}</h2>
+          <ul className="mt-14 lg:mt-16 grid grid-cols-2 lg:grid-cols-5 gap-x-10 gap-y-14">
+            {t.ownerItems.map(([title, d], k) => {
+              const Icon = OWNER_ICONS[k];
+              return (
+                <li key={title.join(' ')}>
+                  <span className="block text-[#F6EFE6]/70"><Icon size={44} strokeWidth={1} /></span>
+                  <h3 className="serif hl-card-title mt-8 text-[#F6EFE6]">{title[0]}<br />{title[1]}</h3>
+                  <p className="mt-5 max-w-[30ch] text-[14px] leading-relaxed text-[#F6EFE6]/80">{d}</p>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </section>
 
@@ -280,27 +296,22 @@ export function PropertyManagementPage() {
         </div>
       </section>
 
-      {/* The portfolio: one row a property, its facts in columns. */}
-      <section className="relative py-24 lg:py-32 bg-white">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="mb-10 lg:mb-14 grid lg:grid-cols-12 gap-x-16 gap-y-6 items-end">
-            <div className="lg:col-span-7">
-              {eyebrow(t.resEyebrow)}
-              <h2 className="serif hl-display text-[#2A2623]">{t.propTitle}</h2>
-            </div>
-            <p className="lg:col-span-5 text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.propLead}</p>
-          </div>
-          <ul className="border-t border-[#2A2623]/15">
-            {t.properties.map((property) => (
-              <PropertyRow
-                key={property.name}
-                {...property}
-                to={property.slug ? l(`/workspace/${property.slug}`) : undefined}
-                href={property.href ? ws(lang, property.href) : undefined}
-                viewLabel={t.view}
-              />
-            ))}
-          </ul>
+      {/* The portfolio: a deck of tall cards (after augustcollections.com);
+          the one in the middle opens to show how the property performs. */}
+      <section className="relative py-24 lg:py-28 bg-[#F7F4EC] overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
+          <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center justify-center gap-2.5"><Flag /> {t.resEyebrow}</p>
+          <h2 className="serif hl-display text-[#2A2623]">{t.propTitle}</h2>
+          <p className="mx-auto mt-6 max-w-2xl text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.propLead}</p>
+        </div>
+        <div className="mt-6 lg:mt-8">
+          {/* The Quarter House photograph carries a HiHomes mark top-left: it keeps that side, so the mark shows whole. */}
+          <PropertyDeck
+            view={t.view}
+            prev={t.prev}
+            next={t.next}
+            items={t.properties.map((p) => ({ ...p, to: p.slug ? l(`/workspace/${p.slug}`) : undefined, href: p.href ? ws(lang, p.href) : undefined, crop: p.slug === 'quarter-house' ? 'object-left' : undefined }))}
+          />
         </div>
       </section>
 
@@ -383,49 +394,5 @@ function AssetCard({ n, icon, title, desc, image }: { n: number; icon: React.Rea
         </div>
       </div>
     </article>
-  );
-}
-
-/** A property as one row of facts: photograph, name and place, its three
-    figures, and the way in. */
-function PropertyRow({ name, location, type, stats, image, to, href, viewLabel }: {
-  name: string;
-  location: string;
-  type: string;
-  stats: string[][];
-  image: string;
-  to?: string;
-  href?: string;
-  viewLabel: string;
-}) {
-  const cls = 'group grid lg:grid-cols-[minmax(0,15rem)_minmax(0,1.5fr)_minmax(0,2.2fr)_auto] items-center gap-x-10 gap-y-5 py-7 lg:py-8';
-  const inner = (
-    <>
-      <div className="relative aspect-[3/2] overflow-hidden rounded-[8px] bg-[#2A2623]">
-        <img loading="lazy" decoding="async" {...photo(image, '(min-width: 1024px) 240px, 100vw')} alt={name} className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-[1.05]" />
-      </div>
-      <div>
-        <p className="text-[12px] uppercase tracking-[0.16em] text-[#D12126]">{type}</p>
-        <h3 className="serif hl-card-title mt-2 text-[#2A2623] transition-colors group-hover:text-[#D12126]">{name}</h3>
-        <p className="mt-2 flex items-center gap-2 text-[14px] text-[#6B645D]"><MapPin size={14} className="shrink-0 text-[#D12126]" /> {location}</p>
-      </div>
-      {/* three columns from tablets up; on phones, three rows (label left, figure right) */}
-      <dl className="grid sm:grid-cols-3 sm:gap-x-6">
-        {stats.map(([label, value]) => (
-          <div key={label} className="flex items-baseline justify-between gap-4 border-t border-[#2A2623]/12 py-3 sm:block sm:border-t-0 sm:border-l sm:border-[#2A2623]/15 sm:py-0 sm:pl-5 lg:pl-6">
-            <dt className="text-[12px] uppercase tracking-[0.12em] text-[#6B645D]">{label}</dt>
-            <dd className="serif sm:mt-2 text-[1.15rem] lg:text-[1.45rem] leading-snug lining-nums text-[#2A2623]">{value}</dd>
-          </div>
-        ))}
-      </dl>
-      <span className="hidden lg:grid h-12 w-12 place-items-center rounded-full border border-[#2A2623]/20 text-[#2A2623] transition-colors group-hover:border-[#D12126] group-hover:bg-[#D12126] group-hover:text-white" aria-label={viewLabel}>
-        <ArrowUpRight size={18} />
-      </span>
-    </>
-  );
-  return (
-    <li className="border-b border-[#2A2623]/15">
-      {to ? <Link to={to} className={cls}>{inner}</Link> : href ? <a href={href} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a> : <div className={cls}>{inner}</div>}
-    </li>
   );
 }
