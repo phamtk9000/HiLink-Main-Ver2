@@ -1,20 +1,29 @@
-import { Plane, UtensilsCrossed, Calendar, Key, Briefcase, Sparkles, Mail, Lock } from '../components/Glyph';
-import { CheckCircle2 } from 'lucide-react';
-import { motion } from 'motion/react';
+// Concierge Services — laid out after maslows.com and pavilion.club, with the
+// photographs of the two houses where the service is delivered (the HiLink
+// Business Club and The Quarter Club): a hero of fading photographs under a
+// centred title, the six things we arrange as captioned photographs, the
+// showcase, what sets the service apart on a band of club green, the two
+// houses, and the membership enquiry.
+import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
+import { Link } from 'react-router';
+import { Mail } from '../components/Glyph';
+import { HeroFade, RuleTitle, Showcase, type Shot } from '../components/Club';
 import { CONTACT } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { HONEYPOT_PROPS, honeypot, leadError, sendLead } from '../lib/lead';
 import { Flag } from '../components/Flag';
 import { photo } from '../lib/photo';
 
-const SERVICE_META = [
-  { icon: <Plane size={26} />, image: '/photos/hbc-host.webp' },
-  { icon: <UtensilsCrossed size={26} />, image: '/photos/hbc-fandb.webp' },
-  { icon: <Calendar size={26} />, image: '/photos/quarter-club-bar.webp' },
-  { icon: <Key size={26} />, image: '/properties/quarter-house/qh-02.webp' },
-  { icon: <Briefcase size={26} />, image: '/photos/hbc-meeting.webp' },
-  { icon: <Sparkles size={26} />, image: '/photos/hbc-bar.webp' },
+const HERO = ['/photos/hbc-reception.webp', '/photos/hbc-lounge-5.webp', '/photos/qc-bar-2.webp'];
+// One photograph for each thing we arrange (the order of T.services).
+const SERVICE_PHOTOS = ['/photos/hbc-hostess.webp', '/photos/hbc-fandb.webp', '/photos/qc-bar.webp', '/photos/hbc-study.webp', '/photos/hbc-advisor.webp', '/photos/hbc-host.webp'];
+const HOUSE_PHOTOS = ['/photos/hbc-lounge-3.webp', '/photos/qc-sign.webp'];
+const HBC = 'HiLink Business Club', QC = 'The Quarter Club';
+const SHOWCASE: Shot[] = [
+  { src: '/photos/hbc-lounge-5.webp', caption: HBC }, { src: '/photos/qc-lounge.webp', caption: QC }, { src: '/photos/hbc-members.webp', caption: HBC },
+  { src: '/photos/qc-dining.webp', caption: QC }, { src: '/photos/hbc-globe.webp', caption: HBC }, { src: '/photos/qc-cellar.webp', caption: QC },
+  { src: '/photos/hbc-mr8.webp', caption: HBC }, { src: '/photos/qc-room.webp', caption: QC }, { src: '/photos/hbc-counter.webp', caption: HBC },
 ];
 
 const T = {
@@ -44,6 +53,12 @@ const T = {
     name: 'Full Name', email: 'Email Address', phone: 'Phone Number', message: 'Tell us about your needs and how we can assist you...',
     submit: 'Submit Enquiry', sending: 'Sending…', sentTitle: 'Enquiry received', messageLbl: 'Your request', formNote: 'Your enquiry is handled with complete confidentiality. A member of our team will contact you within 24 hours.',
     qLbl: 'Questions?', qText: 'Our concierge team is available 24/7',
+    explore: 'Explore', prev: 'Previous photograph', next: 'Next photograph',
+    housesTitle: 'Where we host you', housesLink: 'Discover the Business Club',
+    houses: [
+      ['HiLink Business Club', 'Floor 7, 60 Ly Thai To', 'A lounge for businesspeople, companies and the community — a place to host guests, to meet and to work.'],
+      ['The Quarter Club', '204 Tran Quang Khai', 'A private club for individuals, where privacy comes first. Membership is by referral.'],
+    ],
   },
   vi: {
     meta: 'Đội ngũ concierge riêng của HiLink cho đi lại, ẩm thực, sự kiện, phong cách sống và hỗ trợ công việc.',
@@ -71,11 +86,17 @@ const T = {
     name: 'Họ và tên', email: 'Địa chỉ email', phone: 'Số điện thoại', message: 'Cho chúng tôi biết nhu cầu của bạn và chúng tôi có thể hỗ trợ thế nào...',
     submit: 'Gửi yêu cầu', sending: 'Đang gửi…', sentTitle: 'Đã nhận yêu cầu', messageLbl: 'Yêu cầu của bạn', formNote: 'Yêu cầu của bạn được bảo mật tuyệt đối. Một thành viên đội ngũ sẽ liên hệ với bạn trong vòng 24 giờ.',
     qLbl: 'Câu hỏi?', qText: 'Đội concierge sẵn sàng 24/7',
+    explore: 'Khám phá', prev: 'Ảnh trước', next: 'Ảnh tiếp theo',
+    housesTitle: 'Nơi chúng tôi đón tiếp bạn', housesLink: 'Khám phá Business Club',
+    houses: [
+      ['HiLink Business Club', 'Tầng 7, 60 Lý Thái Tổ', 'Không gian Lounge cho doanh nhân, doanh nghiệp và cộng đồng — tiếp khách, giao lưu, làm việc.'],
+      ['The Quarter Club', '204 Trần Quang Khải', 'Không gian Private Club dành riêng cho cá nhân, ưu tiên sự riêng tư, gia nhập qua giới thiệu.'],
+    ],
   },
 };
 
 export function ConciergePage() {
-  const { lang } = useLang();
+  const { lang, l } = useLang();
   const t = T[lang];
   usePageMeta(t.eyebrow, t.meta);
   const [formData, setFormData] = useState({
@@ -103,128 +124,111 @@ export function ConciergePage() {
     }
   };
 
+
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center bg-[#2A2623] text-white overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            {...photo('/photos/hbc-reception.webp')}
-            alt=""
-            className="w-full h-full object-cover opacity-[0.8]"
-          />
-          <div className="absolute inset-0 bg-[#2A2623]/55 lg:bg-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#2A2623]/85 via-[#2A2623]/45 to-[#2A2623]/20" />
-        </div>
-
-        <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 py-24 w-full">
-          <div className="max-w-3xl">
-            <div className="flex items-center gap-3 mb-8">
-              <Sparkles size={16} className="text-[#F06A6E]" />
-              <p className="text-[12px] uppercase tracking-[0.2em] text-[#F06A6E]">
-                {t.eyebrow}
-              </p>
-            </div>
-            <h1
-              className="serif text-white mb-8 leading-[1.05]"
-              style={{ fontSize: 'clamp(3.5rem, 7vw, 7rem)', fontWeight: 300 }}
-            >
-              {t.h1[0]}<br />{t.h1[1]}
-            </h1>
-            <p className="text-lg md:text-xl text-[#E9E3DA] mb-12 leading-relaxed max-w-2xl font-light">
-              {t.lead}
-            </p>
-            <a
-              href="#enquire"
-              className="inline-flex items-center gap-3 px-10 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.2em] hover:bg-[#A3181C] transition-colors"
-            >
-              <Lock size={16} />
-              {t.request}
-            </a>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
-          <div className="w-px h-12 bg-white/20" />
-          <p className="text-[12px] uppercase tracking-[0.2em] text-white/40">{t.scroll}</p>
+      {/* Hero: photographs of the two houses fading into one another. */}
+      <section className="relative min-h-[88vh] flex items-center justify-center overflow-hidden bg-[#1B1412] text-white">
+        <HeroFade images={HERO} />
+        <div className="relative z-10 max-w-3xl mx-auto px-6 py-28 text-center">
+          <p className="mb-8 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.24em] text-white/85"><Flag className="text-[#F06A6E]" /> {t.eyebrow}</p>
+          <h1 className="serif">{t.h1[0]}<br />{t.h1[1]}</h1>
+          <p className="mt-8 text-lg lg:text-xl leading-relaxed text-white/85">{t.lead}</p>
+          <a href="#enquire" className="mt-10 inline-flex items-center justify-center px-10 py-4 border border-white/70 text-white text-[12px] uppercase tracking-[0.2em] hover:bg-white hover:text-[#2A2623] transition-colors">{t.request}</a>
         </div>
       </section>
 
-      {/* Philosophy */}
-      <section className="relative py-28 lg:py-40 bg-white">
-        <div className="max-w-[900px] mx-auto px-6 lg:px-12 text-center">
-          <h2 className="serif font-light text-4xl lg:text-5xl mb-8 leading-tight text-[#2A2623]">
-            {t.philTitle}
-          </h2>
-          <p className="text-lg text-[#6B645D] leading-relaxed mb-10">
-            {t.phil}
-          </p>
-          <div className="w-16 h-px bg-[#D12126] mx-auto" />
+      {/* The idea, in one centred statement. */}
+      <section className="relative py-24 lg:py-32 bg-white">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <h2 className="serif hl-club-statement text-[#2A2623]">{t.philTitle}</h2>
+          <p className="mt-8 text-[1.0625rem] leading-[1.8] text-[#4A443F]">{t.phil}</p>
         </div>
       </section>
 
-      {/* What We Arrange */}
-      <section className="py-28 lg:py-40 bg-white">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="text-center mb-16">
-            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.arrEyebrow}</p>
-            <h2 className="serif font-light text-4xl lg:text-5xl mb-6 text-[#2A2623]">{t.arrTitle}</h2>
-            <p className="text-lg text-[#6B645D]">
-              {t.arrLead}
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#2A2623]/10">
-            {t.services.map(([title, description], i) => (
-              <ServiceCard key={title} icon={SERVICE_META[i].icon} image={SERVICE_META[i].image} title={title} description={description} />
+      {/* What we arrange: six photographs with centred captions. */}
+      <section className="relative pb-24 lg:pb-32 bg-white hl-no-rule">
+        <div className="max-w-[1320px] mx-auto px-6 lg:px-12">
+          <RuleTitle>{t.arrTitle}</RuleTitle>
+          <p className="mt-8 text-center text-[1.0625rem] text-[#6B645D]">{t.arrLead}</p>
+          <div className="mt-14 lg:mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
+            {t.services.map(([title, d], k) => (
+              <figure key={title} className="group text-center">
+                <div className="relative aspect-[4/5] overflow-hidden rounded-[8px] bg-[#2A2623]">
+                  <img loading="lazy" decoding="async" {...photo(SERVICE_PHOTOS[k], '(min-width: 1024px) 30vw, (min-width: 640px) 46vw, 100vw')} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] group-hover:scale-[1.04]" />
+                </div>
+                <figcaption className="mx-auto mt-7 max-w-[34ch]">
+                  <h3 className="serif hl-club-caption text-[#2A2623]">{title}</h3>
+                  <p className="mt-3 text-[15px] leading-relaxed text-[#6B645D]">{d}</p>
+                </figcaption>
+              </figure>
             ))}
           </div>
         </div>
       </section>
 
-      {/* The Difference */}
-      <section className="relative py-28 lg:py-40 bg-white">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            <div>
-              <h2 className="serif font-light text-4xl lg:text-5xl mb-12 text-[#2A2623]">{t.diffTitle}</h2>
-              <div className="divide-y divide-[#2A2623]/10">
-                {t.diffs.map(([title, body], i) => (
-                  <div key={title} className={i === 0 ? 'pb-8' : i === t.diffs.length - 1 ? 'pt-8' : 'py-8'}>
-                    <h3 className="serif text-2xl mb-3 text-[#2A2623]">{title}</h3>
-                    <p className="text-[#6B645D] leading-relaxed">
-                      {body}
-                    </p>
+      {/* The showcase (after the Explore gallery on maslows.com). */}
+      <section className="relative py-20 lg:py-28 bg-[#F7F4EC] overflow-hidden">
+        <div className="max-w-[1320px] mx-auto px-6 lg:px-12 mb-12 lg:mb-16"><RuleTitle>{t.explore}</RuleTitle></div>
+        <Showcase shots={SHOWCASE} prev={t.prev} next={t.next} />
+      </section>
+
+      {/* What sets it apart, on club green. */}
+      <section className="relative py-24 lg:py-32 bg-[#2B3A32] text-[#F6EFE6]">
+        <div className="max-w-[1320px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-12 items-center">
+          <div className="lg:col-span-5 relative aspect-[4/5] overflow-hidden rounded-[8px] bg-[#1B1412]">
+            <img loading="lazy" decoding="async" {...photo('/photos/hbc-member.webp', '(min-width: 1024px) 40vw, 100vw')} alt={t.diffAlt} className="absolute inset-0 h-full w-full object-cover" />
+          </div>
+          <div className="lg:col-span-6 lg:col-start-7">
+            <div className="border-t border-[#F6EFE6]/30 pt-8">
+              <h2 className="serif hl-club-title text-[#F6EFE6]">{t.diffTitle}</h2>
+            </div>
+            <ol className="mt-10 space-y-10">
+              {t.diffs.map(([title, d], k) => (
+                <li key={title} className="grid grid-cols-[2.5rem_1fr] gap-x-4">
+                  <span className="pt-1.5 text-[13px] font-medium tabular-nums tracking-[0.08em] text-[#E8B9A6]">{String(k + 1).padStart(2, '0')}</span>
+                  <div>
+                    <p className="serif text-[1.5rem] lg:text-[1.75rem] leading-snug text-[#F6EFE6]">{title}</p>
+                    <p className="mt-3 text-[1.0625rem] leading-relaxed text-[#F6EFE6]/75">{d}</p>
                   </div>
-                ))}
-              </div>
-            </div>
-            <div className="relative aspect-[3/4] overflow-hidden rounded-[8px]">
-              <img loading="lazy" decoding="async"
-                {...photo('/photos/hbc-reception.webp')}
-                alt={t.diffAlt}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#D12126]" />
-            </div>
+                </li>
+              ))}
+            </ol>
           </div>
         </div>
       </section>
 
-      {/* Membership Enquiry */}
-      <section id="enquire" className="py-28 lg:py-40 bg-white">
-        <div className="max-w-[760px] mx-auto px-6 lg:px-12">
-          <div className="text-center mb-16">
-            <Lock size={36} className="mx-auto mb-8 text-[#D12126]" />
-            <h2 className="serif font-light text-4xl lg:text-5xl mb-6 text-[#2A2623]">{t.formTitle}</h2>
-            <p className="text-lg text-[#6B645D]">
-              {t.formLead}
-            </p>
+      {/* The two houses where the service is delivered. */}
+      <section className="relative py-24 lg:py-32 bg-white">
+        <div className="max-w-[1320px] mx-auto px-6 lg:px-12">
+          <RuleTitle>{t.housesTitle}</RuleTitle>
+          <div className="mt-14 lg:mt-16 grid md:grid-cols-2 gap-x-10 gap-y-14">
+            {t.houses.map(([name, address, line], k) => (
+              <Link key={name} to={l('/business-club')} className="group block">
+                <div className="relative aspect-[3/2] overflow-hidden rounded-[8px] bg-[#2A2623]">
+                  <img loading="lazy" decoding="async" {...photo(HOUSE_PHOTOS[k], '(min-width: 768px) 46vw, 100vw')} alt={name} className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] group-hover:scale-[1.04]" />
+                </div>
+                <p className="mt-6 text-[13px] text-[#6B645D] underline decoration-[#2A2623]/25 underline-offset-4">{address}</p>
+                <h3 className="serif hl-club-caption mt-2 text-[#2A2623] transition-colors group-hover:text-[#D12126]">{name}</h3>
+                <p className="mt-3 max-w-[46ch] text-[15px] leading-relaxed text-[#6B645D]">{line}</p>
+              </Link>
+            ))}
           </div>
+          <div className="mt-14 text-center">
+            <Link to={l('/business-club')} className="group inline-flex items-center gap-2 border-b border-[#D12126]/40 pb-1 text-[12px] uppercase tracking-[0.18em] text-[#D12126] hover:border-[#D12126] transition-colors">
+              {t.housesLink} <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Link>
+          </div>
+        </div>
+      </section>
 
+      {/* Membership enquiry. */}
+      <section id="enquire" className="relative pb-24 lg:pb-32 bg-white hl-no-rule scroll-mt-24">
+        <div className="max-w-[1320px] mx-auto px-6 lg:px-12"><RuleTitle>{t.formTitle}</RuleTitle></div>
+        <div className="max-w-[720px] mx-auto px-6 mt-10">
+          <p className="mb-12 text-center text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.formLead}</p>
           {sent ? (
-            <div role="status" className="text-center py-12 bg-[#F4F0EA]">
+            <div role="status" className="text-center py-12 bg-[#F7F4EC]">
               <CheckCircle2 size={44} className="mx-auto mb-5 text-[#D12126]" />
               <p className="serif text-3xl text-[#2A2623] mb-3">{t.sentTitle}</p>
               <p className="text-[#6B645D]">{t.formNote}</p>
@@ -234,21 +238,21 @@ export function ConciergePage() {
             <input {...HONEYPOT_PROPS} />
             <div>
               <label htmlFor="cg-name" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.name} *</label>
-              <input id="cg-name" type="text" autoComplete="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-6 py-4 bg-[#F4F0EA] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors" required />
+              <input id="cg-name" type="text" autoComplete="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-6 py-4 bg-[#F7F4EC] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors" required />
             </div>
             <div className="grid sm:grid-cols-2 gap-5">
               <div>
                 <label htmlFor="cg-email" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.email} *</label>
-                <input id="cg-email" type="email" autoComplete="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-6 py-4 bg-[#F4F0EA] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors" required />
+                <input id="cg-email" type="email" autoComplete="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-6 py-4 bg-[#F7F4EC] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors" required />
               </div>
               <div>
                 <label htmlFor="cg-phone" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.phone} *</label>
-                <input id="cg-phone" type="tel" autoComplete="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full px-6 py-4 bg-[#F4F0EA] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors" required />
+                <input id="cg-phone" type="tel" autoComplete="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full px-6 py-4 bg-[#F7F4EC] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors" required />
               </div>
             </div>
             <div>
               <label htmlFor="cg-message" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.messageLbl} *</label>
-              <textarea id="cg-message" placeholder={t.message} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} rows={6} className="w-full px-6 py-4 bg-[#F4F0EA] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors resize-none" required />
+              <textarea id="cg-message" placeholder={t.message} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} rows={6} className="w-full px-6 py-4 bg-[#F7F4EC] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors resize-none" required />
             </div>
             <button
               type="submit"
@@ -267,54 +271,17 @@ export function ConciergePage() {
       </section>
 
       {/* Contact */}
-      <section className="relative py-20 bg-white border-t border-[#D12126]/20">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-            <div>
-              <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-2">{t.qLbl}</p>
-              <p className="text-xl text-[#2A2623]">{t.qText}</p>
-            </div>
-            <div className="flex items-center gap-8">
-              <a
-                href={CONTACT.emailHref}
-                className="flex items-center gap-3 text-[#6B645D] hover:text-[#D12126] transition-colors"
-              >
-                <Mail size={20} />
-                <span>{CONTACT.email}</span>
-              </a>
-            </div>
+      <section className="relative py-16 bg-white">
+        <div className="max-w-[1320px] mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="text-center md:text-left">
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-2">{t.qLbl}</p>
+            <p className="text-xl text-[#2A2623]">{t.qText}</p>
           </div>
+          <a href={CONTACT.emailHref} className="flex items-center gap-3 text-[#6B645D] hover:text-[#D12126] transition-colors">
+            <Mail size={20} /> <span>{CONTACT.email}</span>
+          </a>
         </div>
       </section>
     </>
-  );
-}
-
-function ServiceCard({ icon, title, description, image }: {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  image: string;
-}) {
-  return (
-    <motion.div
-      className="group bg-white overflow-hidden"
-      whileHover={{ y: -6 }}
-      transition={{ duration: 0.3 }}
-    >
-      <div className="relative aspect-[4/3] overflow-hidden rounded-[8px]">
-        <img loading="lazy" decoding="async"
-          {...photo(image)}
-          alt={title}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-         
-        />
-      </div>
-      <div className="p-8">
-        <div className="text-[#D12126] mb-4">{icon}</div>
-        <h3 className="serif text-2xl mb-3 text-[#2A2623]">{title}</h3>
-        <p className="text-[#6B645D] text-sm leading-relaxed">{description}</p>
-      </div>
-    </motion.div>
   );
 }

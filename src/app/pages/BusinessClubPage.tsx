@@ -1,24 +1,37 @@
-// HiLink Business Club — the club's two houses (the Business Club lounge at
-// 60 Ly Thai To and The Quarter Club at 204 Tran Quang Khai), what membership
-// includes, and the three levels of membership. Copy is the approved text of
+// HiLink Business Club — laid out after maslows.com and pavilion.club: a hero
+// of fading photographs under a centred title; the club's two houses (the
+// Business Club lounge at 60 Ly Thai To and The Quarter Club at 204 Tran
+// Quang Khai) as photographs beside ruled text; the showcase; the three
+// levels of membership on a band of club green; what membership includes as
+// captioned photographs; the partner network. Copy is the approved text of
 // the Business Club page on HiLink Workspaces; applications are taken there.
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { MapPin, Clock } from '../components/Glyph';
-import { HeroBg } from '../components/HeroBg';
 import { Candles } from '../components/Candles';
 import { Flag } from '../components/Flag';
 import { Slides } from '../components/Slides';
+import { HeroFade, RuleTitle, Showcase, type Shot } from '../components/Club';
 import { LOCATIONS } from '../data/locations';
 import { ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
+import { photo } from '../lib/photo';
 
 const HOURS_VI: [RegExp, string][] = [[/Mon/g, 'T2'], [/Fri/g, 'T6'], [/Sat/g, 'T7'], [/Sun/g, 'CN'], [/late/g, 'khuya']];
+const HERO = ['/photos/hbc-lounge-xl.webp', '/photos/qc-bar.webp', '/photos/hbc-lounge-3.webp'];
 const HOUSE_PHOTOS = [
-  ['/photos/hbc-lounge-5.webp', '/photos/hbc-lounge-3.webp', '/photos/hbc-members.webp', '/photos/hbc-mr8.webp', '/photos/hbc-lounge-4.webp'],
-  ['/photos/qc-sign.webp', '/photos/qc-bar.webp', '/photos/qc-lounge.webp', '/photos/qc-dining.webp', '/photos/qc-cellar.webp'],
+  ['/photos/hbc-lounge-5.webp', '/photos/hbc-study.webp', '/photos/hbc-members.webp', '/photos/hbc-mr8.webp', '/photos/hbc-lounge-4.webp'],
+  ['/photos/qc-sign.webp', '/photos/qc-bar-2.webp', '/photos/qc-lounge.webp', '/photos/qc-dining.webp', '/photos/qc-cellar.webp'],
 ];
 const HOUSE_IDS = ['obc', 'club-tqk'];
 const CARDS = ['/brand/card-club.webp', '/brand/card-premier.webp', '/brand/card-executive.webp'];
+// One photograph for each benefit (the order of T.benefits).
+const BENEFIT_PHOTOS = ['/photos/hbc-globe.webp', '/photos/hbc-members.webp', '/photos/hbc-host.webp', '/photos/hbc-client-meeting.webp', '/photos/hbc-mr8.webp', '/photos/hbc-mr10-flowers.webp'];
+const HBC = 'HiLink Business Club', QC = 'The Quarter Club';
+const SHOWCASE: Shot[] = [
+  { src: '/photos/hbc-lounge-3.webp', caption: HBC }, { src: '/photos/qc-bar.webp', caption: QC }, { src: '/photos/hbc-study-2.webp', caption: HBC },
+  { src: '/photos/qc-room-2.webp', caption: QC }, { src: '/photos/hbc-counter.webp', caption: HBC }, { src: '/photos/qc-lounge.webp', caption: QC },
+  { src: '/photos/hbc-detail.webp', caption: HBC }, { src: '/photos/qc-sign-2.webp', caption: QC }, { src: '/photos/hbc-desk-pair.webp', caption: HBC },
+];
 
 const T = {
   en: {
@@ -50,6 +63,7 @@ const T = {
     svcEyebrow: 'Partner network', svcTitle: 'Business support and lifestyle services',
     svcLead: "Members draw on a catalogue of services delivered through the club's network of trusted partners.",
     svc: [['Business support', ['Marketing & Branding', 'Audit', 'Finance', 'Accounting & Tax', 'Legal', 'Insurance', 'Human Resources', 'Logistics', 'Trade']], ['Lifestyle', ['Gastronomy', 'Health & Welfare', 'Entertainment & Leisure', 'Events', 'Transport']]] as [string, string[]][],
+    explore: 'Explore', prev: 'Previous photograph', next: 'Next photograph', housesRule: 'The houses',
     ctaTitle: 'Apply for Membership',
     ctaLead: 'Applications are reviewed by the membership committee, and we come back to every one within two business days.',
   },
@@ -82,6 +96,7 @@ const T = {
     svcEyebrow: 'Mạng lưới đối tác', svcTitle: 'Dịch vụ hỗ trợ doanh nghiệp và phong cách sống',
     svcLead: 'Hội viên sử dụng danh mục dịch vụ được cung cấp qua mạng lưới đối tác tin cậy của câu lạc bộ.',
     svc: [['Hỗ trợ doanh nghiệp', ['Marketing & Thương hiệu', 'Kiểm toán', 'Tài chính', 'Kế toán & Thuế', 'Pháp lý', 'Bảo hiểm', 'Nhân sự', 'Logistics', 'Thương mại']], ['Phong cách sống', ['Ẩm thực', 'Sức khoẻ & Phúc lợi', 'Giải trí & Thư giãn', 'Sự kiện', 'Di chuyển']]] as [string, string[]][],
+    explore: 'Khám phá', prev: 'Ảnh trước', next: 'Ảnh tiếp theo', housesRule: 'Hai ngôi nhà',
     ctaTitle: 'Đăng ký hội viên',
     ctaLead: 'Hồ sơ được hội đồng hội viên xét duyệt và chúng tôi phản hồi mọi hồ sơ trong vòng hai ngày làm việc.',
   },
@@ -92,61 +107,60 @@ export function BusinessClubPage() {
   const t = T[lang];
   usePageMeta('HiLink Business Club', t.meta);
   const applyUrl = ws(lang, '/business-club#apply');
-  const eyebrow = (text: string) => (
-    <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {text}</p>
-  );
   const hours = (h: string) => (lang === 'vi' ? HOURS_VI.reduce((s, [re, v]) => s.replace(re, v), h) : h);
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative overflow-hidden min-h-[78vh] flex items-end bg-[#2A2623] text-white">
-        <HeroBg image="/photos/hbc-lounge-xl.webp" />
-        <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28 w-full">
-          <div className="max-w-4xl">
-            <p className="text-[12px] uppercase tracking-[0.2em] text-[#F06A6E] mb-7 flex items-center gap-3"><Flag className="text-[#F06A6E]" /> {t.eyebrow}</p>
-            <h1 className="serif mb-8">{t.title}</h1>
-            <p className="text-lg md:text-xl text-[#E9E3DA]/90 leading-relaxed max-w-2xl">{t.sub}</p>
-            <div className="mt-10 flex flex-col sm:flex-row gap-4">
-              <a href={applyUrl} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center justify-center gap-2 px-10 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#A3181C] transition-colors">
-                {t.apply} <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a href={ws(lang, '/book-a-tour')} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-10 py-4 border border-white/60 text-white text-[12px] uppercase tracking-[0.16em] hover:bg-white hover:text-[#2A2623] transition-colors">
-                {t.tour}
-              </a>
-            </div>
+      {/* Hero: photographs of the two houses fading into one another. */}
+      <section className="relative min-h-[88vh] flex items-center justify-center overflow-hidden bg-[#1B1412] text-white">
+        <HeroFade images={HERO} />
+        <div className="relative z-10 max-w-4xl mx-auto px-6 py-28 text-center">
+          <p className="mb-8 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.24em] text-white/85"><Flag className="text-[#F06A6E]" /> {t.eyebrow}</p>
+          <h1 className="serif">{t.title}</h1>
+          <p className="mx-auto mt-8 max-w-2xl text-lg lg:text-xl leading-relaxed text-white/85">{t.sub}</p>
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href={applyUrl} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center justify-center gap-2 px-10 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.2em] hover:bg-[#A3181C] transition-colors">
+              {t.apply} <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+            </a>
+            <a href={ws(lang, '/book-a-tour')} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-10 py-4 border border-white/70 text-white text-[12px] uppercase tracking-[0.2em] hover:bg-white hover:text-[#2A2623] transition-colors">
+              {t.tour}
+            </a>
           </div>
         </div>
       </section>
 
-      {/* The two houses: photographs that turn by themselves beside what each
-          house is, its address and its hours; the second one mirrored. */}
+      {/* One centred statement. */}
       <section className="relative py-24 lg:py-32 bg-white">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="mb-14 lg:mb-20 grid lg:grid-cols-12 gap-x-16 gap-y-6 items-end">
-            <div className="lg:col-span-7">
-              {eyebrow(t.housesEyebrow)}
-              <h2 className="serif hl-display text-[#2A2623]">{t.housesTitle}</h2>
-            </div>
-            <p className="lg:col-span-5 text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.housesLead}</p>
-          </div>
-          <div className="space-y-20 lg:space-y-28">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <h2 className="serif hl-club-statement text-[#2A2623]">{t.housesTitle}</h2>
+          <p className="mt-8 text-[1.0625rem] leading-[1.8] text-[#4A443F]">{t.housesLead}</p>
+        </div>
+      </section>
+
+      {/* The two houses: photographs that turn by themselves beside ruled
+          text; the second one mirrored. */}
+      <section className="relative pb-24 lg:pb-32 bg-white hl-no-rule">
+        <div className="max-w-[1320px] mx-auto px-6 lg:px-12">
+          <RuleTitle>{t.housesRule}</RuleTitle>
+          <div className="mt-14 lg:mt-20 space-y-20 lg:space-y-28">
             {t.houses.map((hse, k) => {
               const loc = LOCATIONS.find((l) => l.id === HOUSE_IDS[k])!;
               return (
                 <article key={hse.name} className="grid lg:grid-cols-12 gap-x-16 gap-y-8 items-center">
                   <Slides images={HOUSE_PHOTOS[k]} alt={hse.name} sizes="(min-width: 1024px) 56vw, 100vw" delay={k * 900} className={`aspect-[3/2] lg:col-span-7 ${k % 2 ? 'lg:order-2' : ''}`} />
-                  <div className="lg:col-span-5">
-                    <p className="text-[13px] font-medium tabular-nums tracking-[0.08em] text-[#D12126]">{String(k + 1).padStart(2, '0')} · <span className="uppercase tracking-[0.14em]">{hse.kind}</span></p>
-                    <h3 className="serif hl-display mt-4 text-[#2A2623]">{hse.name}</h3>
-                    <p className="serif mt-6 text-[1.35rem] lg:text-[1.5rem] leading-[1.35] text-[#D12126]">{hse.line}</p>
-                    <p className="mt-5 text-[1.0625rem] leading-[1.75] text-[#4A443F]">{hse.body}</p>
-                    <dl className="mt-8 border-t border-[#2A2623]/15">
-                      <div className="flex items-start gap-3 border-b border-[#2A2623]/15 py-4 text-[15px] text-[#2A2623]"><MapPin size={16} className="mt-1 shrink-0 text-[#D12126]" /> {loc.address}</div>
-                      <div className="flex items-start gap-3 border-b border-[#2A2623]/15 py-4 text-[15px] text-[#2A2623]"><Clock size={16} className="mt-1 shrink-0 text-[#D12126]" /> {hours(loc.hours)}</div>
+                  <div className={`lg:col-span-4 ${k % 2 ? 'lg:col-start-1' : 'lg:col-start-9'}`}>
+                    <div className="border-t border-[#2A2623]/25 pt-7">
+                      <p className="text-[12px] uppercase tracking-[0.18em] text-[#D12126]">{hse.kind}</p>
+                      <h3 className="serif hl-club-title mt-3 text-[#2A2623]">{hse.name}</h3>
+                    </div>
+                    <p className="serif mt-6 text-[1.3rem] leading-[1.4] italic text-[#2A2623]">{hse.line}</p>
+                    <p className="mt-5 text-[15px] leading-[1.8] text-[#4A443F]">{hse.body}</p>
+                    <dl className="mt-7 space-y-2.5 text-[14px] text-[#4A443F]">
+                      <div className="flex items-start gap-3"><MapPin size={15} className="mt-0.5 shrink-0 text-[#D12126]" /> {loc.address}</div>
+                      <div className="flex items-start gap-3"><Clock size={15} className="mt-0.5 shrink-0 text-[#D12126]" /> {hours(loc.hours)}</div>
                     </dl>
-                    <a href={ws(lang, `/locations/${loc.id}`)} target="_blank" rel="noopener noreferrer" className="group mt-8 inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.16em] text-[#2A2623] hover:text-[#D12126] transition-colors">
-                      {t.view} <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    <a href={ws(lang, `/locations/${loc.id}`)} target="_blank" rel="noopener noreferrer" className="group mt-8 inline-flex items-center gap-2 border-b border-[#D12126]/40 pb-1 text-[12px] uppercase tracking-[0.18em] text-[#D12126] hover:border-[#D12126] transition-colors">
+                      {t.view} <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </a>
                   </div>
                 </article>
@@ -156,59 +170,69 @@ export function BusinessClubPage() {
         </div>
       </section>
 
-      {/* Member privileges: the three cards, then what membership includes. */}
-      <section id="membership" className="relative py-24 lg:py-32 bg-white scroll-mt-24">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="mb-12 lg:mb-16 grid lg:grid-cols-12 gap-x-16 gap-y-6 items-end">
-            <div className="lg:col-span-7">
-              {eyebrow(t.tiersEyebrow)}
-              <h2 className="serif hl-display text-[#2A2623]">{t.tiersTitle}</h2>
-            </div>
-            <p className="lg:col-span-5 text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.tiersLead}</p>
+      {/* The showcase (after the Explore gallery on maslows.com). */}
+      <section className="relative py-20 lg:py-28 bg-[#F7F4EC] overflow-hidden">
+        <div className="max-w-[1320px] mx-auto px-6 lg:px-12 mb-12 lg:mb-16"><RuleTitle>{t.explore}</RuleTitle></div>
+        <Showcase shots={SHOWCASE} prev={t.prev} next={t.next} />
+      </section>
+
+      {/* Member privileges: the three cards, on club green. */}
+      <section id="membership" className="relative py-24 lg:py-32 bg-[#2B3A32] text-[#F6EFE6] scroll-mt-24">
+        <div className="max-w-[1320px] mx-auto px-6 lg:px-12">
+          <RuleTitle dark>{t.tiersEyebrow}</RuleTitle>
+          <div className="mx-auto mt-10 max-w-3xl text-center">
+            <p className="serif hl-club-statement text-[#F6EFE6]">{t.tiersTitle}</p>
+            <p className="mt-6 text-[1.0625rem] leading-relaxed text-[#F6EFE6]/75">{t.tiersLead}</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-x-8 gap-y-12">
+          <div className="mt-16 grid md:grid-cols-3 gap-x-10 gap-y-14">
             {t.tiers.map(([name, d], k) => (
-              <div key={name} className="group">
-                <div className="relative aspect-[1011/637] overflow-hidden rounded-[12px] shadow-[0_18px_40px_-18px_rgba(42,38,35,0.55)] transition-transform duration-500 group-hover:-translate-y-1.5">
+              <div key={name} className="group text-center">
+                <div className="relative aspect-[1011/637] overflow-hidden rounded-[12px] shadow-[0_24px_50px_-20px_rgba(0,0,0,0.7)] transition-transform duration-500 group-hover:-translate-y-1.5">
                   <img loading="lazy" decoding="async" src={CARDS[k]} alt={`HiLink Business Club — ${name}`} className="absolute inset-0 h-full w-full object-cover" />
                 </div>
-                <p className="mt-7 text-[12px] uppercase tracking-[0.14em] text-[#6B645D]">{t.who}</p>
-                <h3 className="serif hl-card-title mt-2 text-[#2A2623]">{name}</h3>
-                <p className="mt-3 text-[1.0625rem] leading-relaxed text-[#4A443F]">{d}</p>
-                {k === 2 && <p className="mt-3 text-[15px] leading-relaxed text-[#D12126]">{t.invite}</p>}
+                <h3 className="serif hl-club-caption mt-8 text-[#F6EFE6]">{name}</h3>
+                <p className="mt-2 text-[12px] uppercase tracking-[0.14em] text-[#E8B9A6]">{t.who}</p>
+                <p className="mt-4 text-[1.0625rem] leading-relaxed text-[#F6EFE6]/80">{d}</p>
+                {k === 2 && <p className="mx-auto mt-3 max-w-[34ch] text-[14px] leading-relaxed text-[#E8B9A6]">{t.invite}</p>}
               </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          <div className="mt-20 lg:mt-28">
-            {eyebrow(t.incEyebrow)}
-            <h3 className="serif hl-card-title text-[#2A2623]">{t.incTitle}</h3>
-            <ol className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 border-t border-[#2A2623]/15">
-              {t.benefits.map(([title, d], k) => (
-                <li key={title} className={`border-b border-[#2A2623]/15 py-8 lg:py-10 lg:pr-10 ${k % 3 ? 'lg:border-l lg:pl-10' : ''} ${k % 2 ? 'sm:max-lg:border-l sm:max-lg:pl-8' : 'sm:max-lg:pr-8'}`}>
-                  <span className="text-[13px] font-medium tabular-nums tracking-[0.08em] text-[#D12126]">{String(k + 1).padStart(2, '0')}</span>
-                  <p className="serif mt-3 text-[1.35rem] leading-snug text-[#2A2623]">{title}</p>
+      {/* What membership includes: six photographs with centred captions. */}
+      <section className="relative py-24 lg:py-32 bg-white">
+        <div className="max-w-[1320px] mx-auto px-6 lg:px-12">
+          <RuleTitle>{t.incTitle}</RuleTitle>
+          <div className="mt-14 lg:mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
+            {t.benefits.map(([title, d], k) => (
+              <figure key={title} className="group text-center">
+                <div className="relative aspect-[4/5] overflow-hidden rounded-[8px] bg-[#2A2623]">
+                  <img loading="lazy" decoding="async" {...photo(BENEFIT_PHOTOS[k], '(min-width: 1024px) 30vw, (min-width: 640px) 46vw, 100vw')} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] group-hover:scale-[1.04]" />
+                </div>
+                <figcaption className="mx-auto mt-7 max-w-[34ch]">
+                  <h3 className="serif hl-club-caption text-[#2A2623]">{title}</h3>
                   <p className="mt-3 text-[15px] leading-relaxed text-[#6B645D]">{d}</p>
-                </li>
-              ))}
-            </ol>
+                </figcaption>
+              </figure>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Partner network. */}
-      <section className="relative py-24 lg:py-32 bg-white">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-12">
-          <div className="lg:col-span-5">
-            {eyebrow(t.svcEyebrow)}
-            <h2 className="serif text-[#2A2623]">{t.svcTitle}</h2>
+      <section className="relative pb-24 lg:pb-32 bg-white hl-no-rule">
+        <div className="max-w-[1320px] mx-auto px-6 lg:px-12">
+          <RuleTitle>{t.svcEyebrow}</RuleTitle>
+          <div className="mx-auto mt-10 max-w-3xl text-center">
+            <p className="serif hl-club-statement text-[#2A2623]">{t.svcTitle}</p>
             <p className="mt-6 text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.svcLead}</p>
           </div>
-          <div className="lg:col-span-7 grid sm:grid-cols-2 gap-x-12 gap-y-10">
+          <div className="mx-auto mt-14 max-w-4xl grid sm:grid-cols-2 gap-x-16 gap-y-12">
             {t.svc.map(([head, items]) => (
-              <div key={head}>
-                <p className="text-[12px] uppercase tracking-[0.14em] text-[#D12126]">{head}</p>
-                <ul className="mt-4 border-t border-[#2A2623]/15">
+              <div key={head} className="text-center">
+                <p className="text-[12px] uppercase tracking-[0.18em] text-[#D12126]">{head}</p>
+                <ul className="mt-5 border-t border-[#2A2623]/15">
                   {items.map((it) => <li key={it} className="border-b border-[#2A2623]/15 py-3 text-[1.0625rem] text-[#2A2623]">{it}</li>)}
                 </ul>
               </div>
