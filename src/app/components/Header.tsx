@@ -106,7 +106,7 @@ export function Header() {
               {/* Consultation — a short label on phones; hidden when the overlay is open */}
               {!onDark && (
                 <Link
-                  to={l('/book-consultation')}
+                  to={l('/contact')}
                   className="inline-flex items-center gap-2 px-3.5 py-2 md:px-6 md:py-[10px] bg-[#361716] text-white text-[12px] font-medium uppercase tracking-[0.12em] md:tracking-[0.15em] whitespace-nowrap hover:bg-[#D12126] transition-colors"
                 >
                   <span className="md:hidden">{t.bookShort}</span><span className="hidden md:inline">{t.book}</span>
@@ -206,7 +206,7 @@ export function Header() {
                     <a href={CONTACT.emailHref} className="block serif text-2xl text-[#2A2623] hover:text-[#D12126] transition-colors">{CONTACT.email}</a>
                     <a href={CONTACT.phoneHref} className="block text-[#6B645D] mt-2 hover:text-[#D12126] transition-colors">{CONTACT.phone}</a>
                     <Link
-                      to={l('/book-consultation')}
+                      to={l('/contact')}
                       className="mt-8 inline-flex items-center gap-2 px-8 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.18em] hover:bg-[#A3181C] transition-colors"
                     >
                       {t.cta} <ArrowUpRight size={15} />

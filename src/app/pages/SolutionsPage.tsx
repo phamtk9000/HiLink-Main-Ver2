@@ -207,7 +207,7 @@ export function SolutionsPage() {
           <p className="text-xl text-white/70 mb-12 max-w-2xl mx-auto">
             {t.ctaLead}
           </p>
-          <Link to={l('/book-consultation')} className="group inline-flex items-center gap-2 px-12 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#A3181C] transition-colors">
+          <Link to={l('/contact')} className="group inline-flex items-center gap-2 px-12 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#A3181C] transition-colors">
             {t.cta} <ArrowUpRight size={15} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </Link>
         </div>

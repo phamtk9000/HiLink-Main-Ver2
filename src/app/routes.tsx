@@ -38,11 +38,12 @@ export const router = createBrowserRouter([
       { path: 'careers', lazy: () => import('./pages/CareersPage').then((m) => ({ Component: m.CareersPage })) },
       { path: 'news', lazy: () => import('./pages/NewsPage').then((m) => ({ Component: m.NewsPage })) },
       { path: 'contact', lazy: () => import('./pages/ContactPage').then((m) => ({ Component: m.ContactPage })) },
-      { path: 'book-consultation', lazy: () => import('./pages/BookConsultationPage').then((m) => ({ Component: m.BookConsultationPage })) },
       { path: 'privacy-policy', lazy: () => import('./pages/PrivacyPolicyPage').then((m) => ({ Component: m.PrivacyPolicyPage })) },
       { path: 'terms', lazy: () => import('./pages/TermsPage').then((m) => ({ Component: m.TermsPage })) },
 
       { path: 'services', loader: moved('/solutions') },
+      // Every "book a consultation" button leads to Contact; the old address follows.
+      { path: 'book-consultation', loader: moved('/contact') },
       { path: 'concierge', loader: moved('/concierge-services') },
       { path: 'business-consulting', loader: moved('/business-services') },
 

@@ -22,7 +22,7 @@ const SITE_URL = (process.env.SITE_URL || 'https://hi-link-main-ver2.vercel.app'
 const PAGES = [
   '', '/about', '/solutions', '/workspace-leasing', '/workspace/quarter-house', '/property-management',
   '/concierge-services', '/business-services', '/industrial-logistics', '/business-club', '/partners', '/careers', '/news',
-  '/contact', '/book-consultation', '/privacy-policy', '/terms',
+  '/contact', '/privacy-policy', '/terms',
 ]
 function seoFiles() {
   return {

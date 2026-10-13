@@ -42,8 +42,8 @@ void main() {
   if (u_variant > 0.5) {
     // Sheet: a broad cloth over the lower right, its top edge on a diagonal
     // and long folds running along it (the Stripe Enterprise hero).
-    vec2 A = W < 640.0 ? vec2(W * 0.7, H * 1.08) : vec2(W * 0.5, H * 1.12);
-    vec2 B = W < 640.0 ? vec2(W * 1.4, H * 0.45) : vec2(W * 1.12, H * 0.08);
+    vec2 A = W < 640.0 ? vec2(W * 0.7, H * 1.08) : vec2(W * 0.4, H * 1.12);
+    vec2 B = W < 640.0 ? vec2(W * 1.4, H * 0.45) : vec2(W * 1.1, H * -0.02);
     vec2 dir = B - A; float L = length(dir); dir /= L;
     vec2 nrm = vec2(-dir.y, dir.x);
     float v = a_uv.y;

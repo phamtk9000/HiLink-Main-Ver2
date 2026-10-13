@@ -410,7 +410,7 @@ export function AboutPage() {
               <span className="text-[#F2B8A8]"><Calendar size={28} strokeWidth={1} /></span>
               <p className="mt-4 text-[12px] uppercase tracking-[0.2em] text-white/60">{t.labels[2]}</p>
               <p className="mt-2 max-w-[17rem] text-[15px] leading-relaxed">{t.cards[2].d}</p>
-              <Link to={l('/book-consultation')} className="mt-3 inline-flex items-center gap-1.5 text-[13px] text-[#F2B8A8] hover:text-white transition-colors">{t.cards[2].t} <ArrowRight size={13} /></Link>
+              <Link to={l('/contact')} className="mt-3 inline-flex items-center gap-1.5 text-[13px] text-[#F2B8A8] hover:text-white transition-colors">{t.cards[2].t} <ArrowRight size={13} /></Link>
             </div>
           </div>
         </div>

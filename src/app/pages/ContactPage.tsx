@@ -149,7 +149,7 @@ export function ContactPage() {
     <section className="relative overflow-hidden bg-[linear-gradient(145deg,#3B1C1E,#1B0E0F_75%)] text-white">
       <SilkCanvas variant="sheet" />
       <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 pt-24 pb-24 lg:pt-36 lg:pb-36 grid lg:grid-cols-12">
-        <div className="lg:col-span-7 lg:col-start-5">
+        <div className="lg:col-span-8">
           <p className="mb-6 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] text-[#FF9A8B]"><Flag /> {t.eyebrow}</p>
           <h1 className="serif hl-display text-white">
             {t.heroA}{' '}<span className="hl-knockout">{t.heroB}</span>
