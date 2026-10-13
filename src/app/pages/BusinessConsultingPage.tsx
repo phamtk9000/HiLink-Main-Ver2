@@ -9,6 +9,7 @@ import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { Candles } from '../components/Candles';
 import { photo } from '../lib/photo';
+import { IsoScene } from '../components/IsoScene';
 
 const SERVICE_META = [
   { icon: <Globe size={28} />, image: '/photos/hbc-client-meeting.webp' },
@@ -104,19 +105,11 @@ export function BusinessConsultingPage() {
   return (
     <>
       {/* ── Hero ── */}
-      <section className="relative min-h-screen bg-[#2A2623] flex items-end overflow-hidden">
-        {/* Background image */}
-        <div className="absolute inset-0">
-          <img
-            {...photo('/photos/hbc-boardroom.webp')}
-            alt=""
-            className="w-full h-full object-cover opacity-75"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623] via-[#2A2623]/45 to-[#2A2623]/10" />
-        </div>
+      <section className="relative min-h-screen bg-[#361716] flex items-end overflow-hidden">
+        <IsoScene kind="market" />
 
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 pb-20 w-full">
-          <div className="max-w-3xl">
+          <div className="max-w-3xl lg:max-w-[40rem]">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#F06A6E] mb-8 flex items-center gap-2.5"><Flag /> {t.eyebrow}</p>
             <h1
               className="serif text-white mb-8 leading-[1.05]"
@@ -145,9 +138,9 @@ export function BusinessConsultingPage() {
           </div>
 
           {/* Stat strip */}
-          <div className="grid grid-cols-3 gap-px bg-white/10 mt-20">
+          <div className="grid grid-cols-3 gap-px bg-white/10 mt-64 lg:mt-20">
             {t.stats.map(([value, label]) => (
-              <div key={label} className="bg-[#23201D] border-t border-white/10 px-8 py-6">
+              <div key={label} className="bg-[#2C1312] border-t border-white/10 px-4 sm:px-8 py-6">
                 <div className="serif text-3xl text-[#F06A6E] mb-1">{value}</div>
                 <div className="text-[12px] uppercase tracking-[0.2em] text-white/50">{label}</div>
               </div>

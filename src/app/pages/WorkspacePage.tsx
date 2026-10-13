@@ -12,6 +12,7 @@ import { Flag } from '../components/Flag';
 import { Contours } from '../components/Contours';
 import { PartnerMarquee } from '../components/PartnerMarquee';
 import { photo } from '../lib/photo';
+import { IsoScene } from '../components/IsoScene';
 
 const AMENITY_ICONS = [<Wifi size={24} />, <Coffee size={24} />, <Users size={24} />, <Building2 size={24} />, <Calendar size={24} />, <Mail size={24} />];
 // The workspace addresses: every HiLink location except The Quarter Club
@@ -145,25 +146,18 @@ export function WorkspacePage() {
       </motion.div>
 
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center bg-[#2A2623] text-white overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            {...photo('/photos/blog-office-solution.webp')}
-            alt=""
-            className="w-full h-full object-cover opacity-85"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#2A2623]/80 via-[#2A2623]/45 to-[#2A2623]/15" />
-        </div>
+      <section className="relative min-h-[80vh] flex items-start lg:items-center bg-[#361716] text-white overflow-hidden pb-56 lg:pb-0">
+        <IsoScene kind="office" />
 
         <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 py-24 w-full">
           <motion.div className="max-w-4xl">
             <motion.p className="text-sm uppercase tracking-wider text-[#F06A6E] mb-8">
               {t.eyebrow}
             </motion.p>
-            <motion.h1 className="serif text-5xl lg:text-7xl mb-8 leading-tight">
+            <motion.h1 className="serif text-5xl lg:text-7xl mb-8 leading-tight lg:max-w-[38rem]">
               {t.title}
             </motion.h1>
-            <motion.p className="text-xl text-[#E9E3DA] mb-12 leading-relaxed">
+            <motion.p className="text-xl text-[#E9E3DA] mb-12 leading-relaxed lg:max-w-[38rem]">
               {t.lead}
             </motion.p>
             <motion.div className="flex flex-col sm:flex-row gap-4">

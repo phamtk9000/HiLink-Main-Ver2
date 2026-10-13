@@ -7,6 +7,7 @@ import { useLang, usePageMeta } from '../lib/i18n';
 import { HONEYPOT_PROPS, honeypot, leadError, sendLead } from '../lib/lead';
 import { Flag } from '../components/Flag';
 import { photo } from '../lib/photo';
+import { IsoScene } from '../components/IsoScene';
 
 const SERVICE_META = [
   { icon: <Plane size={26} />, image: '/photos/hbc-host.webp' },
@@ -106,19 +107,11 @@ export function ConciergePage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center bg-[#2A2623] text-white overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            {...photo('/photos/hbc-reception.webp')}
-            alt=""
-            className="w-full h-full object-cover opacity-[0.8]"
-          />
-          <div className="absolute inset-0 bg-[#2A2623]/55 lg:bg-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#2A2623]/85 via-[#2A2623]/45 to-[#2A2623]/20" />
-        </div>
+      <section className="relative min-h-screen flex items-start lg:items-center bg-[#361716] text-white overflow-hidden">
+        <IsoScene kind="lounge" />
 
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 py-24 w-full">
-          <div className="max-w-3xl">
+          <div className="max-w-3xl lg:max-w-[40rem]">
             <div className="flex items-center gap-3 mb-8">
               <Sparkles size={16} className="text-[#F06A6E]" />
               <p className="text-[12px] uppercase tracking-[0.2em] text-[#F06A6E]">
