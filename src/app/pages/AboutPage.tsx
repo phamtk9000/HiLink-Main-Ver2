@@ -212,7 +212,7 @@ export function AboutPage() {
           HiLink link mark, the mission as a quote, and a photograph that
           steps over into the next section. In Club green, from the shutters
           of the HiLink Business Club. */}
-      <section className="bg-[#2B3A32] text-[#F6EFE6] pt-20 lg:pt-28">
+      <section className="bg-[#2E3A33] text-[#F6EFE6] pt-20 lg:pt-28">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
           <svg viewBox="0 0 600 600" className="mx-auto h-20 w-20" aria-hidden="true">
             <path d={LOOP_PATH} fill="none" stroke="currentColor" strokeWidth="26" strokeLinejoin="round" />
@@ -225,7 +225,7 @@ export function AboutPage() {
             </footer>
           </blockquote>
         </div>
-        <div className="mt-20 lg:mt-24 bg-[linear-gradient(to_bottom,#2B3A32_50%,#FFFFFF_50%)]">
+        <div className="mt-20 lg:mt-24 bg-[linear-gradient(to_bottom,#2E3A33_50%,#FFFFFF_50%)]">
           <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
             <div className="relative mx-auto max-w-[1232px] aspect-[16/9] overflow-hidden rounded-[8px] bg-[#2A2623]">
               <img loading="lazy" decoding="async" {...photo('/photos/hbc-lounge-xl.webp', '(min-width: 1280px) 1232px, 100vw')} alt={t.quoteAlt} className="absolute inset-0 h-full w-full object-cover" />

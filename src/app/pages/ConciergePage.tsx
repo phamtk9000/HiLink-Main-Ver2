@@ -174,7 +174,7 @@ export function ConciergePage() {
       </section>
 
       {/* What sets it apart, on club green. */}
-      <section className="relative py-24 lg:py-32 bg-[#2B3A32] text-[#F6EFE6]">
+      <section className="relative py-24 lg:py-32 bg-[#2E3A33] text-[#F6EFE6]">
         <div className="max-w-[1320px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-12 items-center">
           <div className="lg:col-span-5 relative aspect-[4/5] overflow-hidden rounded-[8px] bg-[#1B1412]">
             <img loading="lazy" decoding="async" {...photo('/photos/hbc-member.webp', '(min-width: 1024px) 40vw, 100vw')} alt={t.diffAlt} className="absolute inset-0 h-full w-full object-cover" />

@@ -246,7 +246,7 @@ export function WorkspacePage() {
       </section>
 
       {/* Plans: four soft panels, the price in large figures; the popular one
-          in olive and a little taller. On phones they sit in a row to swipe. */}
+          in club green and a little taller. On phones they sit in a row to swipe. */}
       <section className="py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div className="text-center mb-12 lg:mb-16">
@@ -476,7 +476,7 @@ function TierStage({ tiers, rows, opening, label, lang }: { tiers: Tier[]; rows:
 }
 
 /** A plan as a soft panel: a glyph, the name, the price in large figures,
-    what it includes, and the way in. The popular one is olive. */
+    what it includes, and the way in. The popular one is club green. */
 function PlanCard({ name, price, from, period, description, features, popular, href, icon, popularLabel, fromLabel, cta }: {
   name: string;
   price: string;
@@ -496,7 +496,7 @@ function PlanCard({ name, price, from, period, description, features, popular, h
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group relative flex w-[80vw] max-w-[340px] shrink-0 snap-center flex-col rounded-[16px] p-7 transition-[translate,box-shadow,background-color] duration-500 ease-out hover:-translate-y-1.5 hover:shadow-[0_28px_50px_-28px_rgba(42,38,35,0.45)] md:w-auto md:max-w-none lg:p-8 ${popular ? 'bg-[#363D23] text-[#F8F6F1] lg:-my-4 lg:py-12' : 'bg-[#F8F6F1] text-[#2A2623] hover:bg-[#F3EFE6]'}`}
+      className={`group relative flex w-[80vw] max-w-[340px] shrink-0 snap-center flex-col rounded-[16px] p-7 transition-[translate,box-shadow,background-color] duration-500 ease-out hover:-translate-y-1.5 hover:shadow-[0_28px_50px_-28px_rgba(42,38,35,0.45)] md:w-auto md:max-w-none lg:p-8 ${popular ? 'bg-[#2E3A33] text-[#F8F6F1] lg:-my-4 lg:py-12' : 'bg-[#F8F6F1] text-[#2A2623] hover:bg-[#F3EFE6]'}`}
     >
       <div className="flex min-h-[34px] items-start justify-between gap-4">
         <span className={popular ? 'text-[#F8F6F1]/85' : 'text-[#D12126]'}>{icon}</span>
