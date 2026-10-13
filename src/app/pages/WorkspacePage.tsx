@@ -1,7 +1,7 @@
 // Workspace Leasing — original layout. Locations, spaces and starting prices
 // come from HiLink Workspaces (hilink.vn); live prices and booking stay there.
-import { ArrowRight, Check, ExternalLink } from 'lucide-react';
-import { Building2, Users, Wifi, Coffee, Mail, Calendar, MapPin } from '../components/Glyph';
+import { ArrowRight, ArrowUpRight, ExternalLink } from 'lucide-react';
+import { Building2, Users, Wifi, Coffee, Mail, Calendar, MapPin, Key, Clock, ServiceIcon } from '../components/Glyph';
 import { motion } from 'motion/react';
 import { useState, useEffect, useRef } from 'react';
 import { FAQ } from '../components/FAQ';
@@ -24,8 +24,13 @@ const LOCATION_PHOTOS: Record<string, string[]> = {
 };
 // A tag on the photograph, by location.
 const LOCATION_TAGS: Record<string, string> = { 'ttt-f15': 'HiLink Premium Workspace' };
-// The three workspace tiers and the addresses in each.
+// The three workspace tiers and the addresses in each; the photograph each
+// is shown with, and the address it was taken at.
 const TIER_LOCATIONS = [['ttt-f17', 'ttt-f19'], ['ttt-f15'], ['nha-chung', 'nq49']];
+const TIER_PHOTOS = ['/photos/f19-window.webp', '/photos/f15-lounge-wide-xl.webp', '/photos/nc35-long.webp'];
+const TIER_PHOTO_AT = ['ttt-f19', 'ttt-f15', 'nha-chung'];
+// One glyph for each plan (the order of T.plans): a desk, a key, two people, an address.
+const PLAN_ICONS = [<ServiceIcon path="/workspace-leasing" size={34} strokeWidth={1.1} />, <Key size={34} strokeWidth={1.1} />, <Users size={34} strokeWidth={1.1} />, <MapPin size={34} strokeWidth={1.1} />];
 const PLAN_SLUGS = ['/solutions/hybrid-work', '/solutions/private-workspaces', '/solutions/corporate-suites', '/solutions/e-office'];
 
 const HOURS_VI: [RegExp, string][] = [[/Mon/g, 'T2'], [/Fri/g, 'T6'], [/Sat/g, 'T7'], [/Sun/g, 'CN'], [/late/g, 'khuya']];
@@ -39,21 +44,22 @@ const T = {
     whyTitle: 'Why Choose HiLink', whyLead: 'More than just a desk — a complete business ecosystem',
     amenities: [['1 Gbps Fibre Wi-Fi', 'Fast, reliable connection'], ['Pantry', 'Coffee and tea on every floor'], ['Meeting Rooms', 'Rooms for 4–12 people'], ['Staffed Reception', 'Guests welcomed for you'], ['Event Space', 'Lounges for events'], ['Mail Handling', 'Letters and parcels received']],
     pricingTitle: 'Spaces & Pricing', pricingLead: 'Starting prices from HiLink Workspaces — live prices and booking on hilink.vn',
-    popular: 'Popular', start: 'Get Started',
+    popular: 'Popular', start: 'Get Started', from: 'From',
+    unsure: 'Not sure which one fits? Tell us the size of your team and we will suggest one.',
     plans: [
-      { name: 'Hybrid Work', price: 'From ₫130k', period: '/day', description: 'Desks in HiLink lounges', features: ['Flex desk — any open seat', 'Dedicated desk — your own seat', 'By the day or the month', '35 Nha Chung · 4 Ton That Tung'] },
-      { name: 'Private Office', price: 'On request', period: '', description: 'Lockable, fitted offices', features: ['Teams of 2–12', 'Floor 15, 4 Ton That Tung', 'Staffed reception', 'Meeting rooms on the same floor'], popular: true },
-      { name: 'Meeting Room', price: 'From ₫475k', period: '/hour', description: 'Meeting rooms & event venues', features: ['Rooms for 4–12 people', 'Booked by the hour', '4 Ton That Tung · 60 Ly Thai To', 'Whole lounges for events'] },
-      { name: 'E-office', price: 'From ₫1m', period: '/month', description: 'Registered business address', features: ['60 Ly Thai To or 35 Nha Chung', 'Register your company here', 'Mail handling', 'Calls handled'] },
+      { name: 'Hybrid Work', price: '₫130k', from: true, period: '/day', description: 'Desks in HiLink lounges', features: ['Flex desk — any open seat', 'Dedicated desk — your own seat', 'By the day or the month', '35 Nha Chung · 4 Ton That Tung'] },
+      { name: 'Private Office', price: 'On request', from: false, period: '', description: 'Lockable, fitted offices', features: ['Teams of 2–12', 'Floor 15, 4 Ton That Tung', 'Staffed reception', 'Meeting rooms on the same floor'], popular: true },
+      { name: 'Meeting Room', price: '₫475k', from: true, period: '/hour', description: 'Meeting rooms & event venues', features: ['Rooms for 4–12 people', 'Booked by the hour', '4 Ton That Tung · 60 Ly Thai To', 'Whole lounges for events'] },
+      { name: 'E-office', price: '₫1m', from: true, period: '/month', description: 'Registered business address', features: ['60 Ly Thai To or 35 Nha Chung', 'Register your company here', 'Mail handling', 'Calls handled'] },
     ],
     live: 'See live availability',
-    tiersEyebrow: 'Workspace tiers', tiersTitle: 'Signature, Premium Workspaces, Flex-Spaces',
+    tiersTitle: 'Workspace tiers',
     tiersLead: 'Three ways to work with HiLink, from a floor of your own to a desk for the day.',
     tierRows: ['Best for', 'Spaces', 'Addresses', 'Hours'], opening: 'opening soon',
     tiers: [
-      { name: 'Signature', d: 'Whole floors at 4 Ton That Tung, leased to one tenant and built to suit your team, with the building\'s best views over Dong Da.', best: 'Companies that want a floor of their own', spaces: 'Private floors · Enterprise Solutions (fit-out and operations to your brief)', hours: 'Mon–Fri · from 08:00' },
-      { name: 'Premium Workspaces', d: 'High-floor workspace with skyline views over Dong Da: scalable private offices, lounges, meeting rooms and an event space on one floor.', best: 'Growing teams that need a fitted office and room to scale', spaces: 'Private offices · hybrid desks · E-office · meeting rooms · event space', hours: 'Mon–Fri · 08:00–20:00' },
-      { name: 'Flex-Spaces', d: 'Boutique addresses in Hoan Kiem and Cua Nam for flexible working: flex and dedicated desks, by the day or the month.', best: 'Small teams, independents and hybrid workers', spaces: 'Flex desks · dedicated desks · E-office · event space', hours: 'Mon–Fri · 08:00–19:00' },
+      { name: 'Signature', d: 'Whole floors at 4 Ton That Tung, leased to one tenant and built to suit your team, with the building\'s best views over Dong Da.', best: 'Companies that want a floor of their own', spaces: 'Private floors · Enterprise Solutions', note: 'Enterprise Solutions: fit-out and operations to your brief.', hours: 'Mon–Fri · from 08:00' },
+      { name: 'Premium Workspaces', d: 'High-floor workspace with skyline views over Dong Da: scalable private offices, lounges, meeting rooms and an event space on one floor.', best: 'Growing teams that need a fitted office and room to scale', spaces: 'Private offices · Hybrid desks · E-office · Meeting rooms · Event space', note: '', hours: 'Mon–Fri · 08:00–20:00' },
+      { name: 'Flex-Spaces', d: 'Boutique addresses in Hoan Kiem and Cua Nam for flexible working: flex and dedicated desks, by the day or the month.', best: 'Small teams, independents and hybrid workers', spaces: 'Flex desks · Dedicated desks · E-office · Event space', note: '', hours: 'Mon–Fri · 08:00–19:00' },
     ],
     locTitle: 'Our Locations', locLead: `${WORKSPACE_LOCATIONS.length} addresses in central Hanoi — Hoan Kiem and Dong Da`,
     available: 'Now Available', soon: 'Coming Soon', type: 'Brand', hours: 'Hours', explore: 'Explore live availability',
@@ -76,21 +82,22 @@ const T = {
     whyTitle: 'Vì sao chọn HiLink', whyLead: 'Hơn cả một chỗ ngồi — một hệ sinh thái doanh nghiệp trọn vẹn',
     amenities: [['Wi-Fi cáp quang 1 Gbps', 'Kết nối nhanh, ổn định'], ['Pantry', 'Cà phê và trà ở mọi tầng'], ['Phòng họp', 'Phòng cho 4–12 người'], ['Lễ tân trực', 'Đón khách giúp bạn'], ['Không gian sự kiện', 'Lounge cho sự kiện'], ['Nhận thư', 'Nhận thư và bưu phẩm']],
     pricingTitle: 'Không gian & giá', pricingLead: 'Giá khởi điểm của HiLink Workspaces — giá hiện hành và đặt chỗ trên hilink.vn',
-    popular: 'Phổ biến', start: 'Bắt đầu',
+    popular: 'Phổ biến', start: 'Bắt đầu', from: 'Từ',
+    unsure: 'Chưa rõ lựa chọn nào phù hợp? Cho chúng tôi biết quy mô đội ngũ để được gợi ý.',
     plans: [
-      { name: 'Làm việc linh hoạt', price: 'Từ ₫130k', period: '/ngày', description: 'Chỗ ngồi trong lounge HiLink', features: ['Flex desk — chỗ trống bất kỳ', 'Dedicated desk — chỗ ngồi cố định', 'Theo ngày hoặc theo tháng', '35 Nhà Chung · 4 Tôn Thất Tùng'] },
-      { name: 'Văn phòng riêng', price: 'Liên hệ', period: '', description: 'Văn phòng có khoá, đủ nội thất', features: ['Cho đội 2–12 người', 'Tầng 15, 4 Tôn Thất Tùng', 'Lễ tân trực', 'Phòng họp cùng tầng'], popular: true },
-      { name: 'Phòng họp', price: 'Từ ₫475k', period: '/giờ', description: 'Phòng họp & không gian sự kiện', features: ['Phòng cho 4–12 người', 'Đặt theo giờ', '4 Tôn Thất Tùng · 60 Lý Thái Tổ', 'Cả lounge cho sự kiện'] },
-      { name: 'E-office', price: 'Từ ₫1tr', period: '/tháng', description: 'Địa chỉ đăng ký kinh doanh', features: ['60 Lý Thái Tổ hoặc 35 Nhà Chung', 'Đăng ký công ty tại đây', 'Nhận thư', 'Nghe máy hộ'] },
+      { name: 'Làm việc linh hoạt', price: '₫130k', from: true, period: '/ngày', description: 'Chỗ ngồi trong lounge HiLink', features: ['Flex desk — chỗ trống bất kỳ', 'Dedicated desk — chỗ ngồi cố định', 'Theo ngày hoặc theo tháng', '35 Nhà Chung · 4 Tôn Thất Tùng'] },
+      { name: 'Văn phòng riêng', price: 'Liên hệ', from: false, period: '', description: 'Văn phòng có khoá, đủ nội thất', features: ['Cho đội 2–12 người', 'Tầng 15, 4 Tôn Thất Tùng', 'Lễ tân trực', 'Phòng họp cùng tầng'], popular: true },
+      { name: 'Phòng họp', price: '₫475k', from: true, period: '/giờ', description: 'Phòng họp & không gian sự kiện', features: ['Phòng cho 4–12 người', 'Đặt theo giờ', '4 Tôn Thất Tùng · 60 Lý Thái Tổ', 'Cả lounge cho sự kiện'] },
+      { name: 'E-office', price: '₫1tr', from: true, period: '/tháng', description: 'Địa chỉ đăng ký kinh doanh', features: ['60 Lý Thái Tổ hoặc 35 Nhà Chung', 'Đăng ký công ty tại đây', 'Nhận thư', 'Nghe máy hộ'] },
     ],
     live: 'Xem phòng trống',
-    tiersEyebrow: 'Các hạng Workspace', tiersTitle: 'Signature, Premium Workspaces, Flex-Spaces',
+    tiersTitle: 'Các hạng Workspace',
     tiersLead: 'Ba cách làm việc cùng HiLink, từ nguyên một sàn riêng đến một chỗ ngồi theo ngày.',
     tierRows: ['Phù hợp với', 'Không gian', 'Địa chỉ', 'Giờ mở cửa'], opening: 'sắp mở',
     tiers: [
-      { name: 'Signature', d: 'Nguyên sàn tại 4 Tôn Thất Tùng, cho thuê trọn cho một đơn vị và thi công theo nhu cầu của đội bạn, với tầm nhìn đẹp nhất toà nhà ra Đống Đa.', best: 'Doanh nghiệp muốn có một sàn riêng', spaces: 'Sàn riêng · Giải pháp doanh nghiệp (hoàn thiện và vận hành theo yêu cầu)', hours: 'T2–T6 · từ 08:00' },
-      { name: 'Premium Workspaces', d: 'Không gian tầng cao với tầm nhìn toàn cảnh Đống Đa: văn phòng riêng có thể mở rộng, lounge, phòng họp và không gian sự kiện trên cùng một sàn.', best: 'Đội ngũ đang lớn, cần văn phòng đủ nội thất và chỗ để mở rộng', spaces: 'Văn phòng riêng · chỗ ngồi linh hoạt · E-office · phòng họp · không gian sự kiện', hours: 'T2–T6 · 08:00–20:00' },
-      { name: 'Flex-Spaces', d: 'Những địa chỉ boutique tại Hoàn Kiếm và Cửa Nam cho cách làm việc linh hoạt: flex desk và dedicated desk, theo ngày hoặc theo tháng.', best: 'Đội nhỏ, người làm độc lập và làm việc hybrid', spaces: 'Flex desk · dedicated desk · E-office · không gian sự kiện', hours: 'T2–T6 · 08:00–19:00' },
+      { name: 'Signature', d: 'Nguyên sàn tại 4 Tôn Thất Tùng, cho thuê trọn cho một đơn vị và thi công theo nhu cầu của đội bạn, với tầm nhìn đẹp nhất toà nhà ra Đống Đa.', best: 'Doanh nghiệp muốn có một sàn riêng', spaces: 'Sàn riêng · Giải pháp doanh nghiệp', note: 'Giải pháp doanh nghiệp: hoàn thiện và vận hành theo yêu cầu.', hours: 'T2–T6 · từ 08:00' },
+      { name: 'Premium Workspaces', d: 'Không gian tầng cao với tầm nhìn toàn cảnh Đống Đa: văn phòng riêng có thể mở rộng, lounge, phòng họp và không gian sự kiện trên cùng một sàn.', best: 'Đội ngũ đang lớn, cần văn phòng đủ nội thất và chỗ để mở rộng', spaces: 'Văn phòng riêng · Chỗ ngồi linh hoạt · E-office · Phòng họp · Không gian sự kiện', note: '', hours: 'T2–T6 · 08:00–20:00' },
+      { name: 'Flex-Spaces', d: 'Những địa chỉ boutique tại Hoàn Kiếm và Cửa Nam cho cách làm việc linh hoạt: flex desk và dedicated desk, theo ngày hoặc theo tháng.', best: 'Đội nhỏ, người làm độc lập và làm việc hybrid', spaces: 'Flex desk · Dedicated desk · E-office · Không gian sự kiện', note: '', hours: 'T2–T6 · 08:00–19:00' },
     ],
     locTitle: 'Các địa điểm', locLead: `${WORKSPACE_LOCATIONS.length} địa chỉ giữa trung tâm Hà Nội — Hoàn Kiếm và Đống Đa`,
     available: 'Đang mở', soon: 'Sắp mở', type: 'Dòng sản phẩm', hours: 'Giờ mở cửa', explore: 'Xem phòng trống',
@@ -222,62 +229,46 @@ export function WorkspacePage() {
         </div>
       </section>
 
-      {/* Workspace tiers: the three compared side by side (one after another
-          on phones), each row the same question. */}
+      {/* Workspace tiers: the three names side by side with who each suits;
+          under them one stage — a photograph and the facts of the tier on
+          show — that moves on by itself until a tier is chosen. */}
       <section id="tiers" className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="mb-12 lg:mb-16 grid lg:grid-cols-12 gap-x-16 gap-y-6 items-end">
+          <div className="mb-10 lg:mb-14 grid lg:grid-cols-12 gap-x-16 gap-y-6 items-end">
             <div className="lg:col-span-7">
-              <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.tiersEyebrow}</p>
+              <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.eyebrow}</p>
               <h2 className="serif text-4xl lg:text-5xl">{t.tiersTitle}</h2>
             </div>
             <p className="lg:col-span-5 text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.tiersLead}</p>
           </div>
-          <div className="grid lg:grid-cols-3 border-t border-[#2A2623]/15">
-            {t.tiers.map((tier, k) => {
-              const locs = TIER_LOCATIONS[k].map((id) => LOCATIONS.find((l) => l.id === id)!);
-              const rows = [tier.best, tier.spaces, null, tier.hours];
-              return (
-                <div key={tier.name} className={`py-10 lg:py-12 ${k > 0 ? 'border-t lg:border-t-0 lg:border-l border-[#2A2623]/15 lg:pl-10' : ''} ${k < 2 ? 'lg:pr-10' : ''}`}>
-                  <p className="text-[13px] font-medium tabular-nums tracking-[0.08em] text-[#D12126]">{String(k + 1).padStart(2, '0')}</p>
-                  <h3 className="serif hl-card-title mt-3 text-[#2A2623]">{tier.name}</h3>
-                  <p className="mt-4 text-[15px] leading-relaxed text-[#6B645D] lg:min-h-[7.5em]">{tier.d}</p>
-                  <dl className="mt-8">
-                    {t.tierRows.map((label, r) => (
-                      <div key={label} className="border-t border-[#2A2623]/10 py-4 lg:min-h-[6.25rem]">
-                        <dt className="text-[12px] uppercase tracking-[0.14em] text-[#6B645D]">{label}</dt>
-                        <dd className="mt-1.5 text-[15px] leading-relaxed text-[#2A2623]">
-                          {rows[r] ?? locs.map((l) => (
-                            <a key={l.id} href={ws(lang, `/locations/${l.id}`)} target="_blank" rel="noopener noreferrer" className="block underline decoration-[#2A2623]/25 underline-offset-4 hover:text-[#D12126] hover:decoration-[#D12126]">
-                              {l.name}{l.comingSoon ? ` (${t.opening})` : ''}
-                            </a>
-                          ))}
-                        </dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              );
-            })}
-          </div>
+          <TierStage tiers={t.tiers} rows={t.tierRows} opening={t.opening} label={t.tiersTitle} lang={lang} />
         </div>
       </section>
 
-      {/* Plans */}
+      {/* Plans: four soft panels, the price in large figures; the popular one
+          in olive and a little taller. On phones they sit in a row to swipe. */}
       <section className="py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <motion.div className="text-center mb-16">
+          <motion.div className="text-center mb-12 lg:mb-16">
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.pricingTitle}</h2>
             <p className="text-xl text-[#6B645D] max-w-3xl mx-auto">
               {t.pricingLead}
             </p>
           </motion.div>
 
-          <motion.div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div data-reveal-group className="-mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4">
             {t.plans.map((plan, i) => (
-              <PlanCard key={plan.name} {...plan} href={ws(lang, PLAN_SLUGS[i])} popularLabel={t.popular} cta={t.start} />
+              <PlanCard key={plan.name} {...plan} icon={PLAN_ICONS[i]} href={ws(lang, PLAN_SLUGS[i])} popularLabel={t.popular} fromLabel={t.from} cta={t.start} />
             ))}
-          </motion.div>
+          </div>
+
+          <div className="mt-8 lg:mt-14 flex flex-col gap-5 rounded-[16px] bg-[#F8F6F1] px-6 py-6 sm:flex-row sm:items-center sm:justify-between lg:px-9">
+            <p className="max-w-[60ch] text-[15px] leading-relaxed text-[#4A443F]">{t.unsure}</p>
+            <div className="flex shrink-0 flex-wrap gap-3">
+              <a href={tourUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center rounded-full bg-[#D12126] px-6 py-3 text-[12.5px] font-semibold uppercase leading-[1.5] tracking-[0.07em] text-white hover:bg-[#A3181C] transition-colors">{t.tour}</a>
+              <a href="#locations" className="inline-flex items-center justify-center rounded-full border border-[#2A2623]/35 px-6 py-3 text-[12.5px] font-semibold uppercase leading-[1.5] tracking-[0.07em] text-[#2A2623] hover:border-[#2A2623] hover:bg-[#2A2623] hover:text-white transition-colors">{t.view}</a>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -364,50 +355,177 @@ export function WorkspacePage() {
   );
 }
 
-function PlanCard({ name, price, period, description, features, popular, href, popularLabel, cta }: {
+type Tier = { name: string; d: string; best: string; spaces: string; note: string; hours: string };
+
+/** The three workspace tiers on one stage. Their names stand side by side
+    (with who each suits, on wide screens); beneath, a photograph and the
+    facts of the tier on show. It moves on by itself every seven seconds —
+    the line over the name fills meanwhile — while it is on screen and the
+    pointer is elsewhere, until a tier is chosen by hand. */
+function TierStage({ tiers, rows, opening, label, lang }: { tiers: Tier[]; rows: string[]; opening: string; label: string; lang: 'en' | 'vi' }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [on, setOn] = useState(0);
+  const [auto, setAuto] = useState(true);
+  const [live, setLive] = useState(false);
+  const [held, setHeld] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setAuto(false); return undefined; }
+    const io = new IntersectionObserver(([e]) => setLive(e.isIntersecting), { threshold: 0.3 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  const pick = (k: number) => { setOn(k); setAuto(false); };
+  const dt = 'text-[12px] uppercase tracking-[0.14em] text-[#6B645D]';
+  const shotAt = LOCATIONS.find((l) => l.id === TIER_PHOTO_AT[on]);
+
+  return (
+    <div ref={ref} onMouseEnter={() => setHeld(true)} onMouseLeave={() => setHeld(false)}>
+      <div role="tablist" aria-label={label} className="flex gap-4 sm:gap-6 lg:gap-10">
+        {tiers.map((tier, k) => (
+          <button
+            key={tier.name}
+            type="button"
+            role="tab"
+            id={`tier-tab-${k}`}
+            aria-selected={k === on}
+            aria-controls={`tier-panel-${k}`}
+            onClick={() => pick(k)}
+            className="group relative flex min-w-0 flex-1 flex-col items-start pt-4 text-left outline-none lg:pt-6"
+          >
+            <span className="absolute inset-x-0 top-0 h-[2px] overflow-hidden bg-[#2A2623]/12" aria-hidden="true">
+              {k === on && (
+                <span
+                  key={auto ? 'run' : 'held'}
+                  className={`absolute inset-0 origin-left bg-[#D12126] ${auto ? 'hl-tier-bar' : ''}`}
+                  style={auto ? { animationPlayState: live && !held ? 'running' : 'paused' } : undefined}
+                  onAnimationEnd={() => setOn((n) => (n + 1) % tiers.length)}
+                />
+              )}
+            </span>
+            <span className={`serif block text-[1.02rem] leading-[1.15] transition-colors duration-300 sm:text-[1.35rem] lg:text-[1.9rem] ${k === on ? 'text-[#2A2623]' : 'text-[#2A2623]/45 group-hover:text-[#2A2623]/80 group-focus-visible:text-[#2A2623]/80'}`}>{tier.name}</span>
+            <span className={`mt-2.5 hidden max-w-[34ch] text-[14.5px] font-normal leading-snug transition-colors duration-300 lg:block ${k === on ? 'text-[#6B645D]' : 'text-[#6B645D]/60'}`}>{tier.best}</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="mt-8 flex flex-col gap-8 lg:mt-12 lg:flex-row lg:items-stretch lg:gap-14 xl:gap-20">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-[12px] bg-[#2A2623] lg:aspect-auto lg:min-h-[540px] lg:w-[56%]">
+          {TIER_PHOTOS.map((src, k) => (
+            <img key={src} loading="lazy" decoding="async" {...photo(src, '(min-width: 1024px) 56vw, 100vw')} alt={k === on ? tiers[k].name : ''} className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1100ms] ease-out ${k === on ? 'opacity-100' : 'opacity-0'}`} />
+          ))}
+          <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/60 to-transparent" aria-hidden="true" />
+          {shotAt && (
+            <p key={shotAt.id} className="hl-fade-up absolute bottom-5 left-5 flex items-center gap-2 text-[13px] leading-none text-white lg:bottom-7 lg:left-7">
+              <MapPin size={14} className="shrink-0" /> {shotAt.name}
+            </p>
+          )}
+        </div>
+
+        <div className="flex-1 [display:grid]">
+          {tiers.map((tier, k) => {
+            const locs = TIER_LOCATIONS[k].map((id) => LOCATIONS.find((l) => l.id === id)!);
+            return (
+              <div
+                key={tier.name}
+                role="tabpanel"
+                id={`tier-panel-${k}`}
+                aria-labelledby={`tier-tab-${k}`}
+                aria-hidden={k !== on}
+                className={`[grid-area:1/1] flex flex-col justify-center transition-[opacity,translate,visibility] duration-500 ease-out ${k === on ? 'visible translate-y-0 opacity-100 delay-150' : 'invisible translate-y-3 opacity-0 pointer-events-none'}`}
+              >
+                <p className="serif text-[1.3rem] leading-[1.42] text-[#2A2623] lg:text-[1.55rem]">{tier.d}</p>
+                <dl className="mt-8 space-y-6 lg:mt-10 lg:space-y-7">
+                  <div className="lg:hidden">
+                    <dt className={dt}>{rows[0]}</dt>
+                    <dd className="mt-2 text-[15px] leading-relaxed text-[#2A2623]">{tier.best}</dd>
+                  </div>
+                  <div>
+                    <dt className={dt}>{rows[1]}</dt>
+                    <dd className="mt-3">
+                      <span className="flex flex-wrap gap-2">
+                        {tier.spaces.split(' · ').map((sp) => <span key={sp} className="rounded-full bg-[#F8F6F1] px-3.5 py-1.5 text-[13.5px] leading-[1.4] text-[#2A2623]">{sp}</span>)}
+                      </span>
+                      {tier.note && <span className="mt-3 block text-[14px] leading-relaxed text-[#6B645D]">{tier.note}</span>}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className={dt}>{rows[2]}</dt>
+                    <dd className="mt-3 flex flex-wrap gap-2">
+                      {locs.map((l) => (
+                        <a key={l.id} href={ws(lang, `/locations/${l.id}`)} target="_blank" rel="noopener noreferrer" className="group/loc inline-flex items-center gap-2 rounded-full border border-[#2A2623]/20 py-1.5 pl-3.5 pr-3 text-[13.5px] leading-[1.4] text-[#2A2623] hover:border-[#D12126] hover:text-[#D12126] transition-colors">
+                          {l.name}{l.comingSoon ? ` (${opening})` : ''}
+                          <ArrowUpRight size={14} className="shrink-0 transition-transform group-hover/loc:-translate-y-0.5 group-hover/loc:translate-x-0.5" />
+                        </a>
+                      ))}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className={dt}>{rows[3]}</dt>
+                    <dd className="mt-2 flex items-center gap-2 text-[15px] leading-relaxed text-[#2A2623]"><Clock size={15} className="shrink-0 text-[#D12126]" /> {tier.hours}</dd>
+                  </div>
+                </dl>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** A plan as a soft panel: a glyph, the name, the price in large figures,
+    what it includes, and the way in. The popular one is olive. */
+function PlanCard({ name, price, from, period, description, features, popular, href, icon, popularLabel, fromLabel, cta }: {
   name: string;
   price: string;
+  from: boolean;
   period: string;
   description: string;
   features: string[];
   popular?: boolean;
   href: string;
+  icon: React.ReactNode;
   popularLabel: string;
+  fromLabel: string;
   cta: string;
 }) {
   return (
-    <motion.div
-      className={`bg-white p-8 relative ${popular ? 'ring-2 ring-[#D12126]' : 'border border-[#2A2623]/10'}`}
-      whileHover={{ y: -10, boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`group relative flex w-[80vw] max-w-[340px] shrink-0 snap-center flex-col rounded-[16px] p-7 transition-[translate,box-shadow,background-color] duration-500 ease-out hover:-translate-y-1.5 hover:shadow-[0_28px_50px_-28px_rgba(42,38,35,0.45)] md:w-auto md:max-w-none lg:p-8 ${popular ? 'bg-[#363D23] text-[#F8F6F1] lg:-my-4 lg:py-12' : 'bg-[#F8F6F1] text-[#2A2623] hover:bg-[#F3EFE6]'}`}
     >
-      {popular && (
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#D12126] text-white text-xs uppercase tracking-wider">
-          {popularLabel}
-        </div>
-      )}
-      <h3 className="serif text-2xl mb-2">{name}</h3>
-      <p className="text-sm text-[#6B645D] mb-6">{description}</p>
-      <div className="mb-8">
-        <span className="serif text-4xl">{price}</span>
-        <span className="text-[#6B645D]">{period}</span>
+      <div className="flex min-h-[34px] items-start justify-between gap-4">
+        <span className={popular ? 'text-[#F8F6F1]/85' : 'text-[#D12126]'}>{icon}</span>
+        {popular && <span className="rounded-full bg-[#F8F6F1] px-3 py-1 text-[11px] font-semibold uppercase leading-[1.5] tracking-[0.1em] text-[#0F0F0F]">{popularLabel}</span>}
       </div>
-      <ul className="space-y-3 mb-8">
-        {features.map((feature, index) => (
-          <li key={index} className="flex items-start gap-3 text-sm">
-            <Check size={16} className="text-[#D12126] flex-shrink-0 mt-0.5" />
-            <span>{feature}</span>
+      <h3 className="serif hl-card-title mt-7">{name}</h3>
+      <p className={`mt-2 text-[15px] leading-relaxed ${popular ? 'text-[#F8F6F1]/75' : 'text-[#6B645D]'}`}>{description}</p>
+      <div className={`mt-7 border-b pb-7 ${popular ? 'border-[#F8F6F1]/20' : 'border-[#2A2623]/12'}`}>
+        <p className={`h-[18px] text-[12px] uppercase leading-[18px] tracking-[0.14em] ${popular ? 'text-[#F8F6F1]/60' : 'text-[#6B645D]'}`}>{from ? fromLabel : ''}</p>
+        <p className="mt-1.5 flex items-baseline gap-1.5 whitespace-nowrap">
+          <span className="serif lining-nums text-[2.5rem] leading-none">{price}</span>
+          {period && <span className={`text-[14px] leading-none ${popular ? 'text-[#F8F6F1]/70' : 'text-[#6B645D]'}`}>{period}</span>}
+        </p>
+      </div>
+      <ul className="mt-7 space-y-3">
+        {features.map((feature) => (
+          <li key={feature} className={`flex items-start gap-3 text-[14.5px] leading-[1.5] ${popular ? 'text-[#F8F6F1]/90' : 'text-[#2A2623]'}`}>
+            <span className={`mt-[9px] h-[5px] w-[5px] shrink-0 rounded-full ${popular ? 'bg-[#F8F6F1]/70' : 'bg-[#D12126]'}`} aria-hidden="true" />
+            {feature}
           </li>
         ))}
       </ul>
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block w-full text-center px-6 py-3 bg-[#361716] text-white text-sm uppercase tracking-wider hover:bg-[#D12126] transition-colors"
-      >
-        {cta}
-      </a>
-    </motion.div>
+      <div className="mt-auto flex items-center justify-between gap-4 pt-9">
+        <span className="text-[12.5px] font-semibold uppercase leading-[1.5] tracking-[0.07em]">{cta}</span>
+        <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-full transition-colors duration-300 ${popular ? 'bg-[#F8F6F1] text-[#0F0F0F] group-hover:bg-white' : 'border border-[#2A2623]/25 group-hover:border-[#D12126] group-hover:bg-[#D12126] group-hover:text-white'}`}>
+          <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+        </span>
+      </div>
+    </a>
   );
 }
 

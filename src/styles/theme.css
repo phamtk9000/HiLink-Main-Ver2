@@ -277,6 +277,11 @@
 @media (min-width: 1024px) { .hl-deck { --w: calc(min(85.25vw, 1024px) / 3 - 32px); } }
 @media (min-width: 1680px) { .hl-deck { --w: 368px; } }
 
+/* The line over a workspace tier (WorkspacePage): it fills while that tier
+   is on show, then the next one takes over. */
+@keyframes hl-tier-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.hl-tier-bar { animation: hl-tier-bar 7s linear both; }
+
 .line-mask__line-mask {
   padding-block: 0.16em 0.24em;
   margin-block: -0.16em -0.24em;
