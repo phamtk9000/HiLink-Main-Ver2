@@ -136,6 +136,18 @@ const SHAPES: Record<string, ReactNode> = {
     <D i={1}>{P('M12 12.5v8')}</D>
     <ellipse className="lv lv-ring" cx="12" cy="20.5" rx="4" ry="1.3" />
   </>,
+  // A spanner; the bolt it holds breathes.
+  wrench: <>
+    <D i={0}>{P('M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z')}</D>
+    <circle className="lv lv-focus fill" cx="5.75" cy="18.25" r="1.1" />
+  </>,
+  // Two voices: one speech bubble answering another, a line being written in the first.
+  speak: <>
+    <D i={0}>{P('M3.5 4.5H15v8H9l-3 2.6v-2.6H3.5z')}</D>
+    <D i={1}>{P('M17 9h3.5v8H18v2.6L15 17h-5v-2.4')}</D>
+    <path className="lv lv-write" d="M6.3 7.4h5.9" pathLength={1} style={{ animationDelay: '0s' }} />
+    <path className="lv lv-write" d="M6.3 9.8h3.4" pathLength={1} style={{ animationDelay: '0.5s' }} />
+  </>,
   // ── The five services. Each has one symbol, used wherever that service
   //    appears (home, solutions, its own page) and for nothing else.
   // Property Management: a building whose windows light one after another.
@@ -253,6 +265,9 @@ export const LayoutDashboard = glyph('grid');
 export const Package = glyph('grid');
 export const Warehouse = glyph('svc-industrial');
 export const Factory = glyph('svc-industrial');
+export const Wrench = glyph('wrench');
+export const Languages = glyph('speak');
+export const MessagesSquare = glyph('speak');
 export const Sparkles = glyph('spark');
 export const GraduationCap = glyph('spark');
 export const MapPin = glyph('pin', LMapPin);

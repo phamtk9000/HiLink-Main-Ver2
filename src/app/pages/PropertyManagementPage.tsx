@@ -2,13 +2,13 @@
 // out (Savills, Hines, Home Made): the promise with its figures up front;
 // what the service covers as a ruled list; the asset classes as tall
 // photographs that come into focus; who it is for; the four stages along one
-// line; the portfolio as a list of facts; the rental estimate; questions;
-// and a closing invitation laid out after foraspace.com, in a colour of its
-// own.
+// line; the portfolio as a deck of cards (after augustcollections.com); the
+// rental estimate; questions; and a closing panel set after HiLink
+// Workspaces.
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
-import { ArrowRight, ChevronRight } from 'lucide-react';
-import { TrendingUp, Users, Shield, BarChart, LayoutDashboard, Coffee, Home, Briefcase, Search, DollarSign, Settings, ClipboardList, Globe } from '../components/Glyph';
+import { ArrowRight } from 'lucide-react';
+import { TrendingUp, Users, Shield, BarChart, LayoutDashboard, Coffee, Home, Briefcase, Search, DollarSign, Wrench, ClipboardList, Languages } from '../components/Glyph';
 import { PropertyRentalForm } from '../components/PropertyRentalForm';
 import { FAQ } from '../components/FAQ';
 import { AnimatedCounter } from '../components/AnimatedCounter';
@@ -23,8 +23,9 @@ import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 const SERVICE_ICONS = [<Users size={26} />, <TrendingUp size={26} />, <Shield size={26} />, <BarChart size={26} />];
 // (no glyph twice: a house, a floor plan, a cup, a stack of plans)
 const TYPE_ICONS = [<Home size={26} />, <LayoutDashboard size={26} />, <Coffee size={26} />, <Briefcase size={26} />];
-// What we do for home owners, one glyph each (the order of T.ownerItems).
-const OWNER_ICONS = [Search, DollarSign, Settings, ClipboardList, Globe];
+// What we do for home owners, one glyph each (the order of T.ownerItems):
+// a lens, a rising line, a spanner, a written sheet, two voices.
+const OWNER_ICONS = [Search, DollarSign, Wrench, ClipboardList, Languages];
 // One photograph for each asset class (the order of T.types).
 const TYPE_PHOTOS = ['/properties/quarter-house/qh-02.webp', '/photos/f15-office-hi08.webp', '/properties/quarter-house/qh-03.webp', '/photos/f19-window.webp'];
 
@@ -296,8 +297,9 @@ export function PropertyManagementPage() {
         </div>
       </section>
 
-      {/* The portfolio: a deck of tall cards (after augustcollections.com);
-          the one in the middle opens to show how the property performs. */}
+      {/* The portfolio: a row of tall cards the full width of the screen, to
+          the measure of augustcollections.com; the one in the middle opens to
+          show how the property performs. */}
       <section className="relative py-24 lg:py-28 bg-[#F7F4EC] overflow-hidden">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
           <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center justify-center gap-2.5"><Flag /> {t.resEyebrow}</p>
@@ -310,7 +312,7 @@ export function PropertyManagementPage() {
             view={t.view}
             prev={t.prev}
             next={t.next}
-            items={t.properties.map((p) => ({ ...p, to: p.slug ? l(`/workspace/${p.slug}`) : undefined, href: p.href ? ws(lang, p.href) : undefined, crop: p.slug === 'quarter-house' ? 'object-left' : undefined }))}
+            items={t.properties.map((p) => ({ ...p, to: p.slug ? l(`/workspace/${p.slug}`) : undefined, href: p.href ? ws(lang, p.href) : undefined, crop: p.slug === 'quarter-house' ? 'left center' : undefined }))}
           />
         </div>
       </section>
@@ -327,29 +329,24 @@ export function PropertyManagementPage() {
         background="white"
       />
 
-      {/* The closing invitation, laid out after foraspace.com ("We're here to
-          help"): the words on the left, heading above and the way in below,
-          a photograph on the right — on a sage drawn from the club's
-          shutters, a ground no other page uses. */}
-      <section className="relative bg-[#CBD3C5] text-[#1F2A23]">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-10 lg:py-12 grid lg:grid-cols-12 gap-x-12 gap-y-10">
-          <div className="lg:col-span-6 flex flex-col justify-between gap-12 py-6 lg:py-10">
-            <div>
-              <p className="text-[13px] uppercase tracking-[0.16em] text-[#1F2A23]">{t.eyebrow}</p>
-              <h2 className="serif hl-display mt-5 max-w-[14ch] text-[#1F2A23]">{t.ctaTitle}</h2>
-            </div>
-            <div>
-              <p className="max-w-[40ch] text-[1.0625rem] leading-relaxed text-[#1F2A23]">{t.ctaLead}</p>
-              <div className="mt-7 flex flex-wrap items-center gap-x-8 gap-y-4">
-                <Link to={l('/contact')} className="group inline-flex items-center gap-2 rounded-full bg-[#D12126] px-7 py-3.5 text-[15px] font-medium text-white hover:bg-[#A3181C] transition-colors">
-                  {t.cta} <ChevronRight size={16} className="transition-transform group-hover:translate-x-0.5" />
-                </Link>
-                <a href={CONTACT.phoneHref} className="text-[15px] tabular-nums text-[#1F2A23] underline decoration-[#1F2A23]/30 underline-offset-4 hover:decoration-[#1F2A23]">{t.hotline}: {CONTACT.phone}</a>
-              </div>
+      {/* The closing invitation, built like "Chúng tôi luôn sẵn sàng" on
+          HiLink Workspaces (hilink.vn): an olive panel with round corners set
+          into the page; the words on the left — a label, the heading, a
+          line, a pale pill and the hotline — and a photograph on the right
+          (beneath, on phones). */}
+      <section className="hl-no-rule relative bg-white px-[18px] sm:px-6 lg:px-12 pt-[38px] pb-[52px]">
+        <div className="mx-auto grid max-w-[1320px] items-center gap-x-[58px] gap-y-9 rounded-[16px] bg-[#363D23] p-7 text-[#F8F6F1] sm:p-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)] lg:p-14">
+          <div className="flex flex-col gap-[18px]">
+            <p className="text-[12px] font-medium uppercase leading-[1.5] tracking-[0.08em] text-[#F8F6F1]/70">{t.eyebrow}</p>
+            <h2 className="serif hl-help-title text-[#F8F6F1]">{t.ctaTitle}</h2>
+            <p className="max-w-[400px] text-[15px] leading-[24px] text-[#F8F6F1]/75">{t.ctaLead}</p>
+            <div className="mt-1 flex flex-col items-start gap-x-[22px] gap-y-4 sm:flex-row sm:items-center">
+              <Link to={l('/contact')} className="inline-flex w-full items-center justify-center rounded-full bg-[#F8F6F1] px-[30px] py-[14px] text-[13px] font-semibold uppercase leading-[1.5] tracking-[0.07em] text-[#0F0F0F] hover:bg-white transition-colors sm:w-auto">{t.cta}</Link>
+              <a href={CONTACT.phoneHref} className="text-[14.5px] font-semibold tabular-nums text-[#F8F6F1] underline-offset-4 hover:underline">{t.hotline}: {CONTACT.phone}</a>
             </div>
           </div>
-          <div className="lg:col-span-6 relative min-h-[320px] lg:min-h-[560px] overflow-hidden rounded-[8px] bg-[#1F2A23]">
-            <img loading="lazy" decoding="async" {...photo('/photos/hbc-desk.webp', '(min-width: 1024px) 48vw, 100vw')} alt={t.ctaAlt} className="absolute inset-0 h-full w-full object-cover" />
+          <div className="relative aspect-[16/11] overflow-hidden rounded-[12px] bg-[#2C3219]">
+            <img loading="lazy" decoding="async" {...photo('/photos/hbc-desk.webp', '(min-width: 1024px) 600px, 100vw')} alt={t.ctaAlt} className="absolute inset-0 h-full w-full object-cover" />
           </div>
         </div>
       </section>
