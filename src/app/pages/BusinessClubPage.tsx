@@ -16,6 +16,7 @@ import { LOCATIONS } from '../data/locations';
 import { ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { photo } from '../lib/photo';
+import { TileFx, type TileKind } from '../components/TileFx';
 
 const HOURS_VI: [RegExp, string][] = [[/Mon/g, 'T2'], [/Fri/g, 'T6'], [/Sat/g, 'T7'], [/Sun/g, 'CN'], [/late/g, 'khuya']];
 const HERO = ['/photos/hbc-lounge-xl.webp', '/photos/qc-bar.webp', '/photos/hbc-lounge-3.webp'];
@@ -33,6 +34,11 @@ const SVC_PHOTOS = ['/photos/hbc-advisor.webp', '/photos/hbc-fandb.webp'];
 const SVC_ICONS = [
   [Sparkles, Search, TrendingUp, ClipboardList, Scale, Layers, Users, Truck, Globe],
   [UtensilsCrossed, Bell, Sparkles, Calendar, Plane],
+];
+// …and the drawing that plays behind each tile on hover.
+const SVC_FX: TileKind[][] = [
+  ['broadcast', 'audit', 'chart', 'ledger', 'scale', 'cover', 'people', 'route', 'trade'],
+  ['steam', 'pulse', 'equalizer', 'calendar', 'flight'],
 ];
 const HBC = 'HiLink Business Club', QC = 'The Quarter Club';
 const SHOWCASE: Shot[] = [
@@ -153,7 +159,8 @@ export function BusinessClubPage() {
                   <div className={`lg:col-span-4 ${k % 2 ? 'lg:col-start-1' : 'lg:col-start-9'}`}>
                     <div className="border-t border-[#2A2623]/25 pt-7">
                       <p className="text-[12px] uppercase tracking-[0.18em] text-[#D12126]">{hse.kind}</p>
-                      <h3 className="serif hl-club-title mt-3 text-[#2A2623]">{hse.name}</h3>
+                      <h3 className="serif hl-club-name mt-4 text-[#2A2623]">{hse.name}</h3>
+                      <span className="mt-6 block h-[2px] w-12 bg-[#D12126]" aria-hidden="true" />
                     </div>
                     <p className="serif mt-6 text-[1.3rem] leading-[1.4] italic text-[#2A2623]">{hse.line}</p>
                     <p className="mt-5 text-[15px] leading-[1.8] text-[#4A443F]">{hse.body}</p>
@@ -234,26 +241,26 @@ export function BusinessClubPage() {
                   <img loading="lazy" decoding="async" {...photo(SVC_PHOTOS[g], '(min-width: 1024px) 32vw, 100vw')} alt="" className="absolute inset-0 h-full w-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-7 text-white">
-                    <p className="serif text-[3rem] leading-none lining-nums">{String(items.length).padStart(2, '0')}</p>
-                    <h3 className="serif hl-club-caption mt-3">{head}</h3>
+                    <h3 className="serif hl-club-caption">{head}</h3>
                   </div>
                 </div>
                 <ul className="lg:col-span-8 grid grid-cols-2 md:grid-cols-3 border-t border-l border-[#2A2623]/12">
                   {items.map((it, k) => {
                     const Icon = SVC_ICONS[g][k];
                     return (
-                      <li key={it} className="group flex min-h-[132px] flex-col justify-between border-b border-r border-[#2A2623]/12 p-5 lg:p-6 transition-colors duration-300 hover:bg-[#FBF8F5]">
-                        <span className="flex items-start justify-between text-[#D12126]">
+                      <li key={it} data-fx-root tabIndex={0} className="group relative flex min-h-[148px] flex-col justify-between overflow-hidden border-b border-r border-[#2A2623]/12 p-5 lg:p-6 outline-none transition-colors duration-500 hover:bg-[#FBF8F5] focus-visible:bg-[#FBF8F5]">
+                        <TileFx kind={SVC_FX[g][k]} />
+                        <span className="relative flex items-start justify-between text-[#D12126]">
                           <Icon size={24} />
-                          <span className="text-[12px] tabular-nums tracking-[0.08em] text-[#6B645D]">{String(k + 1).padStart(2, '0')}</span>
+                          <span className="text-[12px] tabular-nums tracking-[0.08em] text-[#6B645D] transition-opacity duration-300 group-hover:opacity-0">{String(k + 1).padStart(2, '0')}</span>
                         </span>
-                        <span className="serif mt-6 text-[1.15rem] lg:text-[1.3rem] leading-snug text-[#2A2623] transition-colors group-hover:text-[#D12126]">{it}</span>
+                        <span className="serif relative mt-6 max-w-[62%] sm:max-w-[58%] text-[1.15rem] lg:text-[1.3rem] leading-snug text-[#2A2623] transition-colors group-hover:text-[#D12126]">{it}</span>
                       </li>
                     );
                   })}
                   {g === 1 && (
                     <li className="border-b border-r border-[#2A2623]/12">
-                      <Link to={l('/concierge-services')} className="group flex h-full min-h-[132px] flex-col justify-between bg-[#2B3A32] p-5 lg:p-6 text-[#F6EFE6] transition-colors duration-300 hover:bg-[#22302A]">
+                      <Link to={l('/concierge-services')} className="group flex h-full min-h-[148px] flex-col justify-between bg-[#2B3A32] p-5 lg:p-6 text-[#F6EFE6] transition-colors duration-300 hover:bg-[#22302A]">
                         <ArrowUpRight size={22} className="self-end transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                         <span className="serif mt-6 text-[1.15rem] lg:text-[1.3rem] leading-snug">{t.svcMore}</span>
                       </Link>
