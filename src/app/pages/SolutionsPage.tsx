@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Factory, ClipboardList, Handshake, Settings, LineChart, ServiceIcon } from '../components/Glyph';
@@ -73,6 +74,20 @@ export function SolutionsPage() {
   const t = T[lang];
   usePageMeta(t.eyebrow, t.meta);
   const solutions = t.solutions.map((s, i) => ({ ...s, ...META[i] }));
+  // Which solution is being read (the one crossing the middle of the screen), for the quick nav.
+  const [active, setActive] = useState(-1);
+  useEffect(() => {
+    const blocks = META.map((_, i) => document.getElementById(`solution-${i}`)).filter((el): el is HTMLElement => !!el);
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        const i = Number(e.target.id.split('-')[1]);
+        if (e.isIntersecting) setActive(i);
+        else setActive((cur) => (cur === i ? -1 : cur));
+      });
+    }, { rootMargin: '-45% 0px -54% 0px' });
+    blocks.forEach((b) => io.observe(b));
+    return () => io.disconnect();
+  }, []);
 
   return (
     <>
@@ -94,18 +109,28 @@ export function SolutionsPage() {
         </div>
       </section>
 
-      {/* Quick nav strip */}
-      <section className="bg-[#2A2623] border-t border-white/10">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="flex flex-wrap gap-x-8 gap-y-3 py-6">
-            {solutions.map((s, i) => (
-              <a key={s.path} href={`#solution-${i}`} className="text-[12px] uppercase tracking-[0.16em] text-white/55 hover:text-[#F06A6E] transition-colors">
-                {s.title}
-              </a>
-            ))}
-          </div>
+      {/* Quick nav, after the tab bar on HiLink Workspaces: a pale strip
+          between hairlines, each solution a glyph over its name; the one
+          being read is picked out in red with a line beneath. On wide
+          screens it stays under the header while the solutions are on
+          screen; on phones it is a row to swipe. */}
+      <div>
+      <nav aria-label={t.eyebrow} className="z-40 border-y border-[#2A2623]/12 bg-[#F8F6F1] lg:sticky lg:top-[76px]">
+        <div className="max-w-[1600px] mx-auto lg:px-12 flex overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {solutions.map((s, i) => (
+            <a
+              key={s.path}
+              href={`#solution-${i}`}
+              aria-current={i === active ? 'true' : undefined}
+              className={`group relative flex min-w-[9.5rem] flex-1 flex-col items-center gap-2.5 px-4 pb-[18px] pt-5 text-center transition-colors duration-300 ${i === active ? 'text-[#D12126]' : 'text-[#4A443F] hover:text-[#2A2623]'}`}
+            >
+              <ServiceIcon path={s.path} size={26} strokeWidth={1.3} />
+              <span className={`whitespace-nowrap text-[15px] font-medium leading-[1.3] ${i === active ? 'text-[#2A2623]' : ''}`}>{s.title}</span>
+              <span className={`absolute inset-x-0 bottom-[-1px] h-[2px] origin-left bg-[#D12126] transition-transform duration-500 ease-out ${i === active ? 'scale-x-100' : 'scale-x-0'}`} aria-hidden="true" />
+            </a>
+          ))}
         </div>
-      </section>
+      </nav>
 
       {/* Intro */}
       <section className="relative py-24 lg:py-32 bg-white">
@@ -128,7 +153,7 @@ export function SolutionsPage() {
           <div
             id={`solution-${i}`}
             key={s.path}
-            className="border-t border-[#2A2623]/10 bg-white"
+            className="border-t border-[#2A2623]/10 bg-white scroll-mt-[76px] lg:scroll-mt-[168px]"
           >
             <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28">
               <div className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${i % 2 === 1 ? 'lg:[direction:rtl]' : ''}`}>
@@ -176,6 +201,7 @@ export function SolutionsPage() {
           </div>
         ))}
       </section>
+      </div>
 
       {/* How we work together */}
       <section className="relative py-24 lg:py-32 bg-white text-[#2A2623]">
