@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import { Package, Truck, Factory, Shield, BarChart, MapPin, Warehouse } from '../components/Glyph';
 import { motion } from 'motion/react';
 import { useLang, usePageMeta } from '../lib/i18n';
-import { Candles } from '../components/Candles';
+import { Yard } from '../components/Yard';
 import { Contours } from '../components/Contours';
 
 // No HiLink photograph of an industrial site exists yet, so image slots show
@@ -89,8 +89,8 @@ export function IndustrialPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#361716] text-white">
-        <Candles />
+      <section className="relative overflow-hidden pt-24 pb-64 lg:py-36 bg-[#361716] text-white">
+        <Yard />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="grid lg:grid-cols-12 gap-12 lg:gap-24"
@@ -111,9 +111,6 @@ export function IndustrialPage() {
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
-            <div className="hidden lg:flex lg:col-span-6 items-center justify-center text-[#F06A6E]/40">
-              <Warehouse size={220} strokeWidth={0.6} />
-            </div>
           </motion.div>
         </div>
       </section>

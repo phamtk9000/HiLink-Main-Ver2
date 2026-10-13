@@ -68,7 +68,11 @@ export function Candles({ className = '' }: { className?: string }) {
     const svg = svgRef.current;
     const host = svg?.closest('section') ?? svg?.parentElement;
     if (!svg || !host) return undefined;
-    if (window.matchMedia('(prefers-reduced-motion: reduce), (pointer: coarse)').matches) return undefined;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    // On a touch screen there is no pointer to follow: the swell sweeps
+    // slowly from side to side while the section is on screen.
+    const auto = window.matchMedia('(pointer: coarse)').matches;
+    let visible = false;
 
     const paths = Array.from(svg.querySelectorAll('path'));
     const scales = paths.map(() => 1);
@@ -82,9 +86,10 @@ export function Candles({ className = '' }: { className?: string }) {
         return r.left + r.width / 2;
       });
     };
-    const tick = () => {
+    const tick = (now = 0) => {
       raf = 0;
       let moving = false;
+      if (auto && visible) mouseX = window.innerWidth * (0.5 + 0.48 * Math.sin(now / 2600));
       paths.forEach((p, i) => {
         const dist = Math.min(Math.abs(mouseX - centers[i]), MAX_DIST);
         const target = MAX_SCALE - (dist / MAX_DIST) * (MAX_SCALE - 1);
@@ -102,12 +107,23 @@ export function Candles({ className = '' }: { className?: string }) {
     const onMove = (e: PointerEvent) => { mouseX = e.clientX; start(); };
     const onLeave = () => { mouseX = -1e4; start(); };
 
-    host.addEventListener('pointerenter', onEnter);
-    host.addEventListener('pointermove', onMove);
-    host.addEventListener('pointerleave', onLeave);
+    let io: IntersectionObserver | null = null;
+    if (auto) {
+      io = new IntersectionObserver(([e]) => {
+        const was = visible;
+        visible = e.isIntersecting;
+        if (visible) { measure(); start(); } else if (was) onLeave();
+      });
+      io.observe(host);
+    } else {
+      host.addEventListener('pointerenter', onEnter);
+      host.addEventListener('pointermove', onMove);
+      host.addEventListener('pointerleave', onLeave);
+    }
     window.addEventListener('resize', measure);
     return () => {
       cancelAnimationFrame(raf);
+      io?.disconnect();
       host.removeEventListener('pointerenter', onEnter);
       host.removeEventListener('pointermove', onMove);
       host.removeEventListener('pointerleave', onLeave);

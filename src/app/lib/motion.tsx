@@ -175,7 +175,7 @@ export function ScrollMotion() {
             autoSplit: true,
             onSplit: (self) =>
               gsap.from(self.lines, {
-                yPercent: 110,
+                yPercent: 135,
                 duration: isHero ? 1.05 : 0.85,
                 ease: 'expo.out',
                 stagger: 0.08,

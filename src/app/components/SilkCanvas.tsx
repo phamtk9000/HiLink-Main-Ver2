@@ -1,6 +1,6 @@
 // A silk surface (lib/silk.ts) filling its parent: sized to it, drawn only
 // while on screen, swelling under the pointer anywhere in the nearest
-// section. Still frame for reduced motion; nothing if WebGL2 is missing.
+// section (on touch screens the swell travels by itself). Still frame for reduced motion; nothing if WebGL2 is missing.
 import { useEffect, useRef } from 'react';
 import { createSilk } from '../lib/silk';
 
@@ -19,7 +19,10 @@ export function SilkCanvas({ variant = 'sheet', className = '' }: { variant?: 'r
     const pointer = { x: -1e4, on: 0, target: 0 };
     let raf = 0, visible = false;
 
+    // On a touch screen the swell travels slowly along the cloth by itself.
+    const auto = !still && !window.matchMedia('(pointer: fine)').matches;
     const draw = (now: number) => {
+      if (auto) { pointer.x = canvas.clientWidth * (0.55 + 0.4 * Math.sin((now - t0) / 3200)); pointer.target = 1; }
       pointer.on += (pointer.target - pointer.on) * 0.06;
       silk.draw(still ? 6 : (now - t0) / 1000 + 6, pointer.x, pointer.on);
     };

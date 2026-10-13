@@ -51,7 +51,7 @@ export function ForumCarousel() {
               href={ws(lang, '/forum')}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.2em] text-[#2A2623] hover:text-[#D12126] transition-colors"
+              className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.2em] text-[#2A2623] hover:text-[#D12126] transition-colors"
             >
               {t.all} <ArrowUpRight size={14} />
             </a>

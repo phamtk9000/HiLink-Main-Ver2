@@ -109,10 +109,11 @@ export function ConciergePage() {
       <section className="relative min-h-screen flex items-center bg-[#2A2623] text-white overflow-hidden">
         <div className="absolute inset-0">
           <img
-            {...photo('/photos/hbc-lounge-xl.webp')}
+            {...photo('/photos/hbc-reception.webp')}
             alt=""
             className="w-full h-full object-cover opacity-[0.8]"
           />
+          <div className="absolute inset-0 bg-[#2A2623]/55 lg:bg-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#2A2623]/85 via-[#2A2623]/45 to-[#2A2623]/20" />
         </div>
 

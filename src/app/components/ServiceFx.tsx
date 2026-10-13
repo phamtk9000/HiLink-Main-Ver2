@@ -18,8 +18,9 @@
 //   sphere    All services          a slowly turning globe of points
 //
 // 2D canvas. A card draws only while it is hovered or fading out; the graphic
-// sits towards the right and fades out under the text. Touch screens show
-// nothing; reduced motion shows a still frame on hover.
+// sits towards the right and fades out under the text. On touch screens,
+// where nothing hovers, a card plays while it crosses the middle of the
+// screen. Reduced motion shows a still frame.
 import { useEffect, useRef } from 'react';
 
 export type FxKind = 'building' | 'ring' | 'market' | 'silk' | 'routes' | 'sphere';
@@ -87,7 +88,9 @@ export function ServiceFx({ kind, onRed = false }: { kind: FxKind; onRed?: boole
     const host = canvas?.closest('[data-fx-root]') as HTMLElement | null;
     const ctx = canvas?.getContext('2d');
     if (!canvas || !host || !ctx) return undefined;
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return undefined;
+    // No hover on a touch screen: there the graphic plays while its card
+    // crosses the middle of the screen.
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     let w = 0, h = 0, dpr = 1, raf = 0, hovered = false;
@@ -314,14 +317,21 @@ export function ServiceFx({ kind, onRed = false }: { kind: FxKind; onRed?: boole
     resize();
     const ro = new ResizeObserver(resize);
     ro.observe(host);
-    host.addEventListener('pointerenter', onEnter);
-    host.addEventListener('pointermove', onMove);
-    host.addEventListener('pointerleave', onLeave);
-    host.addEventListener('focusin', onFocus);
-    host.addEventListener('focusout', onLeave);
+    let io: IntersectionObserver | null = null;
+    if (canHover) {
+      host.addEventListener('pointerenter', onEnter);
+      host.addEventListener('pointermove', onMove);
+      host.addEventListener('pointerleave', onLeave);
+      host.addEventListener('focusin', onFocus);
+      host.addEventListener('focusout', onLeave);
+    } else {
+      io = new IntersectionObserver(([e]) => { if (e.isIntersecting) onFocus(); else onLeave(); }, { rootMargin: '-38% 0px -38% 0px' });
+      io.observe(host);
+    }
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
+      io?.disconnect();
       host.removeEventListener('pointerenter', onEnter);
       host.removeEventListener('pointermove', onMove);
       host.removeEventListener('pointerleave', onLeave);
@@ -334,7 +344,7 @@ export function ServiceFx({ kind, onRed = false }: { kind: FxKind; onRed?: boole
     <canvas
       ref={ref}
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_right,transparent_28%,#000_66%)]"
+      className="pointer-events-none absolute inset-0 opacity-60 sm:opacity-100 [mask-image:linear-gradient(to_right,transparent_48%,#000_92%)] sm:[mask-image:linear-gradient(to_right,transparent_28%,#000_66%)]"
     />
   );
 }

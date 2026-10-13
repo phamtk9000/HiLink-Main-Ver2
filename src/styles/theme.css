@@ -251,6 +251,13 @@
   display: block;
   will-change: transform;
 }
+/* The mask is one line box tall, and at the headings' tight line-height the
+   serif's descenders (g, p, y, ạ, ợ…) and stacked Vietnamese accents reach
+   past it. Padding widens the clip; the negative margin keeps the layout. */
+.line-mask__line-mask {
+  padding-block: 0.16em 0.24em;
+  margin-block: -0.16em -0.24em;
+}
 
 /* ---------------------------------------------------------------------------
    Hidden background pattern — interlinked loops drawn from the HiLink logo's

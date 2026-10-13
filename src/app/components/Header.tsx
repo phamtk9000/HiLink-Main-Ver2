@@ -17,8 +17,8 @@ const MAIN_LINKS = [
 const SERVICE_LINKS = SERVICES.map((s) => ({ ...s.t, path: s.path }));
 
 const T = {
-  en: { book: 'Book Consultation', menu: 'Menu', close: 'Close', ours: 'Our Solutions', touch: 'Get in touch', cta: 'Book a Consultation', addr: '60 Ly Thai To, Hoan Kiem · 4 Ton That Tung, Dong Da — Ha Noi', toggle: 'Toggle menu' },
-  vi: { book: 'Đặt lịch tư vấn', menu: 'Menu', close: 'Đóng', ours: 'Giải pháp của chúng tôi', touch: 'Liên hệ', cta: 'Đặt lịch tư vấn', addr: '60 Lý Thái Tổ, Hoàn Kiếm · 4 Tôn Thất Tùng, Đống Đa — Hà Nội', toggle: 'Mở menu' },
+  en: { book: 'Book Consultation', bookShort: 'Book', menu: 'Menu', close: 'Close', ours: 'Our Solutions', touch: 'Get in touch', cta: 'Book a Consultation', addr: '60 Ly Thai To, Hoan Kiem · 4 Ton That Tung, Dong Da — Ha Noi', toggle: 'Toggle menu' },
+  vi: { book: 'Đặt lịch tư vấn', bookShort: 'Đặt lịch', menu: 'Menu', close: 'Đóng', ours: 'Giải pháp của chúng tôi', touch: 'Liên hệ', cta: 'Đặt lịch tư vấn', addr: '60 Lý Thái Tổ, Hoàn Kiếm · 4 Tôn Thất Tùng, Đống Đa — Hà Nội', toggle: 'Mở menu' },
 };
 
 export function Header() {
@@ -94,7 +94,7 @@ export function Header() {
             </Link>
 
             {/* Right cluster */}
-            <div className="flex items-center gap-5 sm:gap-7">
+            <div className="flex items-center gap-3.5 sm:gap-7">
               {/* Language */}
               <div className={`flex items-center gap-1 text-[12px] font-medium uppercase tracking-[0.14em] text-[#2A2623]`}>
                 <Link to={switchTo('en')} className={`transition-colors ${lang === 'en' ? 'text-[#D12126]' : 'opacity-45 hover:opacity-100'}`}>EN</Link>
@@ -102,13 +102,13 @@ export function Header() {
                 <Link to={switchTo('vi')} className={`transition-colors ${lang === 'vi' ? 'text-[#D12126]' : 'opacity-45 hover:opacity-100'}`}>VI</Link>
               </div>
 
-              {/* Consultation — desktop only, hidden when overlay open */}
+              {/* Consultation — a short label on phones; hidden when the overlay is open */}
               {!onDark && (
                 <Link
                   to={l('/book-consultation')}
-                  className="hidden md:inline-flex items-center gap-2 px-6 py-[10px] bg-[#361716] text-white text-[12px] font-medium uppercase tracking-[0.15em] hover:bg-[#D12126] transition-colors"
+                  className="inline-flex items-center gap-2 px-3.5 py-2 md:px-6 md:py-[10px] bg-[#361716] text-white text-[12px] font-medium uppercase tracking-[0.12em] md:tracking-[0.15em] whitespace-nowrap hover:bg-[#D12126] transition-colors"
                 >
-                  {t.book}
+                  <span className="md:hidden">{t.bookShort}</span><span className="hidden md:inline">{t.book}</span>
                 </Link>
               )}
 

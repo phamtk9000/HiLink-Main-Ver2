@@ -135,7 +135,7 @@ export function WorkspacePage() {
       <section className="relative min-h-[80vh] flex items-center bg-[#2A2623] text-white overflow-hidden">
         <div className="absolute inset-0">
           <img
-            {...photo('/photos/f15-lounge-wide-xl.webp')}
+            {...photo('/photos/blog-office-solution.webp')}
             alt=""
             className="w-full h-full object-cover opacity-85"
           />

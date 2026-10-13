@@ -1,4 +1,5 @@
-import { ArrowRight } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Heart, GraduationCap, Globe2, Mail, Sparkles, Scale, Compass, MapPin, Clock } from '../components/Glyph';
 import { motion } from 'motion/react';
 import { HeroBg } from '../components/HeroBg';
@@ -11,8 +12,11 @@ import { photo } from '../lib/photo';
 
 const VALUE_ICONS = [<Heart size={26} />, <GraduationCap size={26} />, <Globe2 size={26} />, <Sparkles size={26} />, <Scale size={26} />, <Compass size={26} />];
 
+// One photograph per team (Teams at HiLink).
+const TEAM_PHOTOS = ['/photos/f19-window.webp', '/photos/f15-reception.webp', '/photos/hbc-client-meeting.webp', '/photos/f15-boardroom.webp'];
+
 const gallery = [
-  '/photos/hbc-team.webp',
+  '/photos/hbc-lounge-2.webp',
   '/photos/f15-lounge.webp',
   '/photos/hbc-host.webp',
   '/photos/f15-meeting-pod.webp',
@@ -43,13 +47,6 @@ const T = {
       ['Advisory & Business Services', 'Consultants, accountants, and legal specialists guiding international clients into Vietnam.'],
       ['Marketing & Studio', 'Strategists, content, and creative producers shaping the HiLink brand and campaigns.'],
     ],
-    hireEyebrow: 'How we hire', hireTitle: 'A clear, respectful process',
-    hiring: [
-      ['Application', 'Send your CV and a short note. We read every one.'],
-      ['Intro call', 'A relaxed conversation to learn about you and share more about us.'],
-      ['Team interview', 'Meet the people you would work with and dig into the role.'],
-      ['Offer & welcome', 'A clear offer and a structured onboarding from day one.'],
-    ],
     openEyebrow: 'Always open to great people', openTitle: 'Open positions', applySubject: 'Application',
   },
   vi: {
@@ -74,19 +71,13 @@ const T = {
       ['Tư vấn & dịch vụ doanh nghiệp', 'Tư vấn viên, kế toán và chuyên viên pháp lý đồng hành cùng khách hàng quốc tế vào Việt Nam.'],
       ['Marketing & studio', 'Chiến lược, nội dung và sáng tạo định hình thương hiệu và chiến dịch HiLink.'],
     ],
-    hireEyebrow: 'Quy trình tuyển dụng', hireTitle: 'Rõ ràng và tôn trọng',
-    hiring: [
-      ['Ứng tuyển', 'Gửi CV kèm vài dòng giới thiệu. Chúng tôi đọc từng hồ sơ.'],
-      ['Trao đổi ban đầu', 'Một cuộc trò chuyện thoải mái để hiểu về bạn và giới thiệu thêm về chúng tôi.'],
-      ['Phỏng vấn với nhóm', 'Gặp những người bạn sẽ làm cùng và tìm hiểu sâu về vị trí.'],
-      ['Mời nhận việc', 'Thư mời rõ ràng và quy trình hội nhập bài bản từ ngày đầu.'],
-    ],
     openEyebrow: 'Luôn chào đón người giỏi', openTitle: 'Vị trí đang tuyển', applySubject: 'Ứng tuyển',
   },
 };
 
 export function CareersPage() {
   const { lang } = useLang();
+  const [team, setTeam] = useState(0);
   const t = T[lang];
   const c = CAREERS[lang];
   usePageMeta(t.eyebrow, c.heroSub);
@@ -96,7 +87,7 @@ export function CareersPage() {
     <>
       {/* Hero */}
       <section id="hero" className="relative overflow-hidden min-h-[72vh] flex items-end bg-[#2A2623] text-white">
-        <HeroBg image="/photos/hbc-lounge-xl.webp" />
+        <HeroBg image="/photos/f15-logo.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28 w-full">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-4xl">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#F06A6E] mb-7 flex items-center gap-3">
@@ -187,66 +178,69 @@ export function CareersPage() {
         </div>
       </section>
 
-      {/* Teams */}
-      <section className="py-24 lg:py-32 bg-white">
+      {/* Teams: four photographs side by side; the one in hand opens out and
+          shows what the team does. Hover or focus on wide screens, tap on
+          phones (where the panels stack and the open one grows taller). */}
+      <section className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="text-center mb-16">
+          <div className="mb-12 lg:mb-14">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.teamsEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{t.teamsTitle}</h2>
           </div>
-          <div className="grid sm:grid-cols-2 gap-px bg-[#2A2623]/10">
-            {t.teams.map(([title, desc]) => (
-              <div key={title} className="bg-[#F4F0EA] p-8 lg:p-12">
-                <h3 className="serif text-2xl mb-3">{title}</h3>
-                <p className="text-[#6B645D] leading-relaxed">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How we hire */}
-      <section className="relative py-24 lg:py-32 bg-white">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="mb-14 max-w-2xl">
-            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.hireEyebrow}</p>
-            <h2 className="serif text-4xl lg:text-5xl leading-tight">{t.hireTitle}</h2>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#2A2623]/10">
-            {t.hiring.map(([title, desc], i) => (
-              <div key={title} className="bg-white p-8 lg:p-10">
-                <span className="serif text-3xl text-[#D12126]">0{i + 1}</span>
-                <h3 className="serif text-xl mt-4 mb-3">{title}</h3>
-                <p className="text-[#6B645D] text-[14px] leading-relaxed">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Open positions */}
-      <section id="open-positions" className="relative overflow-hidden py-24 lg:py-32 bg-[#FBECEC] text-[#2A2623]">
-        <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
-          <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center justify-center gap-3">
-            <Clock size={13} /> {t.openEyebrow}
-          </p>
-          <h2 className="serif text-4xl lg:text-5xl mb-10">{t.openTitle}</h2>
-          <ul className="max-w-2xl mx-auto mb-12 divide-y divide-[#2A2623]/10 border-y border-[#2A2623]/10 text-left">
-            {c.jobs.map((j) => (
-              <li key={j.t}>
-                <a href={mail(`${t.applySubject}: ${j.t}`)} className="group flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-4 hover:text-[#D12126] transition-colors">
-                  <span className="serif text-xl">{j.t}</span>
-                  <span className="text-[12px] uppercase tracking-[0.14em] text-[#6B645D] flex items-center gap-2">
-                    {j.dept} · <MapPin size={12} /> {j.loc}
+          <div className="flex flex-col lg:flex-row gap-3 lg:gap-4 lg:h-[540px]">
+            {t.teams.map(([title, desc], k) => {
+              const on = k === team;
+              return (
+                <button
+                  key={title}
+                  type="button"
+                  onMouseEnter={() => setTeam(k)}
+                  onFocus={() => setTeam(k)}
+                  onClick={() => setTeam(k)}
+                  aria-expanded={on}
+                  className={`group relative overflow-hidden rounded-[8px] bg-[#2A2623] text-left text-white transition-[flex-grow,height] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] lg:h-auto lg:basis-0 ${on ? 'h-[340px] lg:grow-[3.4]' : 'h-[108px] lg:grow'}`}
+                >
+                  <img loading="lazy" decoding="async" {...photo(TEAM_PHOTOS[k], '(min-width: 1024px) 50vw, 100vw')} alt="" className={`absolute inset-0 h-full w-full object-cover transition-[transform,opacity] duration-[1.2s] ${on ? 'scale-100 opacity-90' : 'scale-[1.08] opacity-55'}`} />
+                  <span className={`absolute inset-0 transition-colors duration-700 ${on ? 'bg-gradient-to-t from-black/75 via-black/15 to-transparent' : 'bg-[#361716]/55'}`} aria-hidden="true" />
+                  <span className="absolute left-5 top-3.5 lg:left-7 lg:top-7 text-[13px] font-medium tabular-nums tracking-[0.08em] text-white/85">{String(k + 1).padStart(2, '0')}</span>
+                  {/* Closed, on wide screens: the title runs up the panel. */}
+                  <span className={`serif absolute bottom-7 left-7 hidden origin-bottom-left -rotate-90 translate-x-[1.1em] whitespace-nowrap text-[1.35rem] transition-opacity duration-500 lg:block ${on ? 'opacity-0' : 'opacity-100'}`} aria-hidden="true">{title}</span>
+                  <span className={`absolute inset-x-5 bottom-4 lg:inset-x-8 lg:bottom-8 block ${on ? '' : 'lg:opacity-0'} transition-opacity duration-500 ${on ? 'delay-200' : ''}`}>
+                    <span className={`serif block lg:text-[2rem] leading-[1.15] ${on ? 'text-[1.5rem]' : 'text-[1.25rem]'}`}>{title}</span>
+                    <span className={`mt-3 block max-w-[46ch] text-[15px] leading-relaxed text-white/85 ${on ? '' : 'hidden lg:block'}`}>{desc}</span>
                   </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Open positions: one row per role, the same columns in every row. */}
+      <section id="open-positions" className="relative py-24 lg:py-32 bg-white text-[#2A2623]">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+          <div className="mb-10 lg:mb-14 flex flex-wrap items-end justify-between gap-x-16 gap-y-6">
+            <div>
+              <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Clock size={13} /> {t.openEyebrow}</p>
+              <h2 className="serif text-4xl lg:text-5xl">{t.openTitle}</h2>
+            </div>
+            <p className="max-w-md text-[15px] leading-relaxed text-[#6B645D]">
+              <strong className="font-medium text-[#2A2623]">{c.noRole}</strong> {c.noRoleSub}
+            </p>
+          </div>
+          <ul className="border-t border-[#2A2623]/15">
+            {c.jobs.map((j) => (
+              <li key={j.t} className="border-b border-[#2A2623]/15">
+                <a href={mail(`${t.applySubject}: ${j.t}`)} className="group grid grid-cols-[1fr_auto] lg:grid-cols-[minmax(0,5fr)_minmax(0,4fr)_minmax(0,3fr)_auto] items-center gap-x-8 gap-y-2 py-6 lg:py-7">
+                  <span className="serif text-[1.35rem] lg:text-[1.6rem] leading-tight transition-colors group-hover:text-[#D12126]">{j.t}</span>
+                  <ArrowUpRight size={20} className="text-[#D12126] transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 lg:order-last" />
+                  <span className="col-span-2 lg:col-span-1 text-[12px] uppercase tracking-[0.14em] text-[#6B645D]">{j.dept}</span>
+                  <span className="col-span-2 lg:col-span-1 flex items-center gap-2 text-[12px] uppercase tracking-[0.14em] text-[#6B645D]"><MapPin size={12} /> {j.loc}</span>
                 </a>
               </li>
             ))}
           </ul>
-          <p className="text-xl text-[#6B645D] mb-4 max-w-2xl mx-auto">
-            <strong className="font-medium">{c.noRole}</strong> {c.noRoleSub}
-          </p>
-          <a href={mail('CV')} className="mt-8 group inline-flex items-center gap-2 px-12 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#A3181C] transition-colors">
+          <a href={mail('CV')} className="mt-12 group inline-flex items-center gap-2 px-8 sm:px-12 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#A3181C] transition-colors">
             <Mail size={16} /> {CONTACT.email}
             <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
           </a>

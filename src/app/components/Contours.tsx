@@ -21,6 +21,8 @@ export function Contours({ className = '' }: { className?: string }) {
     if (!canvas || !host || !ctx) return undefined;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const pointerOk = !reduced && window.matchMedia('(pointer: fine)').matches;
+    // On a touch screen the lens drifts slowly by itself.
+    const auto = !reduced && !pointerOk;
 
     // Phases change slowly from one line to the next, so neighbouring lines
     // stay nearly parallel and never cross — like real contours.
@@ -43,6 +45,10 @@ export function Contours({ className = '' }: { className?: string }) {
 
     function draw(now: number) {
       const t = reduced ? 0 : (now - start) / 1000;
+      if (auto) {
+        target.x = w * (0.5 + 0.36 * Math.sin(t * 0.23)); target.y = h * (0.5 + 0.3 * Math.sin(t * 0.31 + 1)); target.on = 1;
+        if (cur.on < 0.01) { cur.x = target.x; cur.y = target.y; }
+      }
       cur.x += (target.x - cur.x) * 0.12;
       cur.y += (target.y - cur.y) * 0.12;
       cur.on += (target.on - cur.on) * 0.08;
