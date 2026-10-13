@@ -254,7 +254,7 @@ export function BusinessClubPage() {
                           <Icon size={24} />
                           <span className="text-[12px] tabular-nums tracking-[0.08em] text-[#6B645D] transition-opacity duration-300 group-hover:opacity-0">{String(k + 1).padStart(2, '0')}</span>
                         </span>
-                        <span className="serif relative mt-6 max-w-[62%] sm:max-w-[58%] text-[1.15rem] lg:text-[1.3rem] leading-snug text-[#2A2623] transition-colors group-hover:text-[#D12126]">{it}</span>
+                        <span className="serif relative mt-6 sm:max-w-[58%] text-[1.15rem] lg:text-[1.3rem] leading-snug text-[#2A2623] transition-colors group-hover:text-[#D12126]">{it}</span>
                       </li>
                     );
                   })}

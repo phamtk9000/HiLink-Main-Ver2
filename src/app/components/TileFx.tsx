@@ -300,5 +300,5 @@ export function TileFx({ kind }: { kind: TileKind }) {
     };
   }, [kind]);
 
-  return <canvas ref={ref} aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-70 sm:opacity-100" />;
+  return <canvas ref={ref} aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-45 sm:opacity-100" />;
 }
