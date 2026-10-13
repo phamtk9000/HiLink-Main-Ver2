@@ -1,21 +1,29 @@
+// Property Management — rebuilt after how property managers set their pages
+// out (Savills, Hines, Home Made): the promise with its figures up front;
+// what the service covers as a ruled list; the asset classes as tall
+// photographs that come into focus; who it is for; the four stages along one
+// line; the portfolio as a list of facts; the rental estimate; questions;
+// and a closing invitation laid out after foraspace.com, in a colour of its
+// own.
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
-import { ArrowRight } from 'lucide-react';
-import { TrendingUp, Users, Shield, BarChart, MapPin, Building2, Calendar, Home, Briefcase, Globe, ClipboardList, FileSignature, Settings, LineChart } from '../components/Glyph';
-import { motion } from 'motion/react';
+import { ArrowRight, ArrowUpRight, ChevronRight } from 'lucide-react';
+import { TrendingUp, Users, Shield, BarChart, MapPin, LayoutDashboard, Coffee, Home, Briefcase } from '../components/Glyph';
 import { PropertyRentalForm } from '../components/PropertyRentalForm';
 import { FAQ } from '../components/FAQ';
 import { AnimatedCounter } from '../components/AnimatedCounter';
 import { HeroBg } from '../components/HeroBg';
-import { PARTNERS, ws } from '../data/site';
+import { CONTACT, PARTNERS, ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
-import { Candles } from '../components/Candles';
 import { photo } from '../lib/photo';
 import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 
-const SERVICE_ICONS = [<Users size={28} />, <TrendingUp size={28} />, <Shield size={28} />, <BarChart size={28} />];
-const TYPE_ICONS = [<Home size={26} />, <Building2 size={26} />, <Calendar size={26} />, <Briefcase size={26} />];
-const STEP_ICONS = [<ClipboardList size={24} />, <FileSignature size={24} />, <Settings size={24} />, <LineChart size={24} />];
+const SERVICE_ICONS = [<Users size={26} />, <TrendingUp size={26} />, <Shield size={26} />, <BarChart size={26} />];
+// (no glyph twice: a house, a floor plan, a cup, a stack of plans)
+const TYPE_ICONS = [<Home size={26} />, <LayoutDashboard size={26} />, <Coffee size={26} />, <Briefcase size={26} />];
+// One photograph for each asset class (the order of T.types).
+const TYPE_PHOTOS = ['/properties/quarter-house/qh-02.webp', '/photos/f15-office-hi08.webp', '/properties/quarter-house/qh-03.webp', '/photos/f19-window.webp'];
 
 const T = {
   en: {
@@ -69,6 +77,7 @@ const T = {
       { question: 'How quickly can you onboard a new property?', answer: 'Most properties are fully onboarded within one to two weeks, depending on condition and documentation. We handle the assessment, marketing, and tenant acquisition end to end.' },
       { question: 'How will I track my property’s performance?', answer: 'You receive monthly financial statements and performance analytics.' },
     ],
+    step: 'Step', hotline: 'Hotline', ctaAlt: 'A client at work at the HiLink Business Club',
     ctaTitle: 'Elevate Your Property Performance', ctaLead: "Let's discuss how our concierge approach can maximize your asset value and minimize your stress.", cta: 'Schedule a Consultation',
   },
   vi: {
@@ -122,6 +131,7 @@ const T = {
       { question: 'Mất bao lâu để tiếp nhận một tài sản mới?', answer: 'Hầu hết tài sản được tiếp nhận hoàn tất trong một đến hai tuần, tuỳ hiện trạng và giấy tờ. Chúng tôi lo trọn khâu đánh giá, quảng bá và tìm khách thuê.' },
       { question: 'Tôi theo dõi hiệu quả tài sản bằng cách nào?', answer: 'Bạn nhận báo cáo tài chính và phân tích hiệu quả hàng tháng.' },
     ],
+    step: 'Bước', hotline: 'Hotline', ctaAlt: 'Khách hàng làm việc tại HiLink Business Club',
     ctaTitle: 'Nâng tầm hiệu quả tài sản', ctaLead: 'Cùng trao đổi cách tiếp cận concierge của chúng tôi giúp tối đa hoá giá trị tài sản và giảm bớt nỗi lo cho bạn.', cta: 'Đặt lịch tư vấn',
   },
 };
@@ -136,162 +146,153 @@ export function PropertyManagementPage() {
     { value: PARTNERS.length, suffix: '' },
     { value: 24, suffix: '/7' },
   ];
+  const eyebrow = (text: string) => (
+    <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {text}</p>
+  );
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#2A2623] text-white">
+      {/* Hero: the promise, and the figures behind it along the foot. */}
+      <section className="relative overflow-hidden bg-[#2A2623] text-white">
         <HeroBg image="/photos/f19-room.webp" />
-        <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12">
-          <motion.div
-            className="max-w-4xl"
-          >
-            <p className="text-sm uppercase tracking-wider text-[#F06A6E] mb-8">{t.eyebrow}</p>
-            <h1 className="serif text-5xl lg:text-7xl mb-8 leading-tight">
-              {t.h1[0]}<br />{t.h1[1]}<br />{t.h1[2]}
-            </h1>
-            <p className="text-xl text-[#E9E3DA] mb-12 leading-relaxed">
-              {t.lead}
-            </p>
-            <Link
-              to={l('/contact')}
-              className="inline-flex items-center gap-2 px-10 py-4 bg-[#D12126] text-white text-sm uppercase tracking-wider hover:bg-[#A3181C] transition-colors group"
-            >
+        <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 pt-24 pb-20 lg:pt-36 lg:pb-28">
+          <div className="max-w-4xl">
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#F06A6E] mb-7 flex items-center gap-3"><Flag className="text-[#F06A6E]" /> {t.eyebrow}</p>
+            <h1 className="serif mb-8">{t.h1[0]}<br />{t.h1[1]}<br />{t.h1[2]}</h1>
+            <p className="text-lg lg:text-xl text-[#E9E3DA] mb-10 leading-relaxed max-w-2xl">{t.lead}</p>
+            <Link to={l('/contact')} className="inline-flex items-center gap-2 px-10 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#A3181C] transition-colors group">
               {t.review}
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
             </Link>
-          </motion.div>
+          </div>
+        </div>
+        <div className="relative z-10 border-t border-white/15 bg-[#241F1C]/85">
+          <dl className="max-w-[1600px] mx-auto px-6 lg:px-12 grid grid-cols-2 lg:grid-cols-4">
+            {metrics.map(({ value, suffix }, i) => (
+              <div key={t.metrics[i]} className={`py-7 lg:py-9 ${i % 2 ? 'pl-6 border-l border-white/15' : ''} ${i > 0 ? 'lg:pl-10 lg:border-l lg:border-white/15' : ''} ${i > 1 ? 'border-t border-white/15 lg:border-t-0' : ''}`}>
+                <dd className="serif text-[2.5rem] lg:text-[3.25rem] leading-none text-[#F06A6E]"><AnimatedCounter end={value} suffix={suffix} /></dd>
+                <dt className="mt-3 text-[12px] uppercase tracking-[0.16em] text-white/65">{t.metrics[i]}</dt>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 
-      {/* Services Grid */}
+      {/* What the service covers: a statement held on the left, the four
+          parts as a ruled list on the right. */}
       <section className="relative py-24 lg:py-32 bg-white">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <motion.div
-            className="text-center mb-16"
-          >
-            <h2 className="serif text-4xl lg:text-5xl mb-6">{t.svcTitle}</h2>
-            <p className="text-xl text-[#6B645D] max-w-3xl mx-auto">
-              {t.svcLead}
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-[#2A2623]/15"
-          >
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-12">
+          <div className="lg:col-span-5">
+            <div className="lg:sticky lg:top-28">
+              {eyebrow(t.eyebrow)}
+              <h2 className="serif hl-display text-[#2A2623]">{t.svcTitle}</h2>
+              <span className="mt-8 block h-px w-10 bg-[#D12126]" aria-hidden="true" />
+              <p className="serif mt-8 max-w-[30ch] text-[1.35rem] lg:text-[1.6rem] leading-[1.4] text-[#D12126]">{t.svcLead}</p>
+            </div>
+          </div>
+          <dl className="lg:col-span-6 lg:col-start-7 border-t border-[#2A2623]/15">
             {t.services.map(([title, description], i) => (
-              <ServiceCard key={title} icon={SERVICE_ICONS[i]} title={title} description={description} />
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* What We Manage */}
-      <section className="py-24 lg:py-32 bg-white">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <motion.div className="text-center mb-16">
-            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.manageEyebrow}</p>
-            <h2 className="serif text-4xl lg:text-5xl mb-6">{t.manageTitle}</h2>
-            <p className="text-xl text-[#6B645D] max-w-3xl mx-auto">
-              {t.manageLead}
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {t.types.map(([title, desc], i) => (
-              <motion.div key={title} className="bg-white p-8" whileHover={{ y: -5 }}>
-                <div className="text-[#D12126] mb-4">{TYPE_ICONS[i]}</div>
-                <h3 className="serif text-xl mb-3">{title}</h3>
-                <p className="text-[#6B645D] text-sm leading-relaxed">{desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Who We Serve */}
-      <section className="relative py-24 lg:py-32 bg-white">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <motion.div className="text-center mb-16">
-            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.serveEyebrow}</p>
-            <h2 className="serif text-4xl lg:text-5xl mb-6">{t.serveTitle}</h2>
-            <p className="text-xl text-[#6B645D] max-w-3xl mx-auto">
-              {t.serveLead}
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white p-10 lg:p-12 border border-[#2A2623]/10">
-              <div className="text-[#D12126] mb-6"><Briefcase size={28} /></div>
-              <h3 className="serif text-2xl lg:text-3xl mb-6">{t.owners}</h3>
-              <ul className="space-y-4">
-                {t.ownerList.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-[#444] text-[16px]">
-                    <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#D12126] shrink-0" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="bg-[#361716] text-white p-10 lg:p-12">
-              <div className="text-[#D12126] mb-6"><Globe size={28} /></div>
-              <h3 className="serif text-2xl lg:text-3xl mb-6">{t.tenants}</h3>
-              <ul className="space-y-4">
-                {t.tenantList.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-[#E9E3DA] text-[16px]">
-                    <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#D12126] shrink-0" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="py-24 lg:py-32 bg-white">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <motion.div className="text-center mb-16">
-            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.howEyebrow}</p>
-            <h2 className="serif text-4xl lg:text-5xl mb-6">{t.howTitle}</h2>
-            <p className="text-xl text-[#6B645D] max-w-3xl mx-auto">
-              {t.howLead}
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {t.steps.map(([title, desc], i) => (
-              <motion.div key={title} className="bg-[#F4F0EA] p-8" whileHover={{ y: -5 }}>
-                <div className="flex items-center justify-between mb-6">
-                  <span className="text-[#D12126]">{STEP_ICONS[i]}</span>
-                  <span className="serif text-3xl text-[#2A2623]/10">0{i + 1}</span>
+              <div key={title} className="group grid grid-cols-[3rem_1fr] sm:grid-cols-[4.5rem_1fr] gap-x-4 border-b border-[#2A2623]/15 py-8 lg:py-10">
+                <span className="pt-1 text-[#D12126]">{SERVICE_ICONS[i]}</span>
+                <div>
+                  <p className="text-[13px] font-medium tabular-nums tracking-[0.08em] text-[#D12126]">{String(i + 1).padStart(2, '0')}</p>
+                  <dt className="serif hl-card-title mt-2 text-[#2A2623]">{title}</dt>
+                  <dd className="mt-3 max-w-[48ch] text-[1.0625rem] leading-relaxed text-[#6B645D]">{description}</dd>
                 </div>
-                <h3 className="serif text-xl mb-3">{title}</h3>
-                <p className="text-[#6B645D] text-sm leading-relaxed">{desc}</p>
-              </motion.div>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      {/* What we manage: four tall photographs, soft and dim until one is
+          under the pointer (or, on a phone, in the middle of the screen). */}
+      <section className="relative py-24 lg:py-32 bg-white">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+          <div className="mb-12 lg:mb-16 grid lg:grid-cols-12 gap-x-16 gap-y-6 items-end">
+            <div className="lg:col-span-7">
+              {eyebrow(t.manageEyebrow)}
+              <h2 className="serif hl-display text-[#2A2623]">{t.manageTitle}</h2>
+            </div>
+            <p className="lg:col-span-5 text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.manageLead}</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+            {t.types.map(([title, desc], i) => (
+              <AssetCard key={title} n={i} icon={TYPE_ICONS[i]} title={title} desc={desc} image={TYPE_PHOTOS[i]} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* Properties We Manage */}
+      {/* Who we serve: owners and occupiers, each a ruled list. */}
+      <section className="relative py-24 lg:py-32 bg-white">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-12">
+          <div className="lg:col-span-4">
+            {eyebrow(t.serveEyebrow)}
+            <h2 className="serif text-4xl lg:text-5xl text-[#2A2623]">{t.serveTitle}</h2>
+            <p className="mt-6 text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.serveLead}</p>
+          </div>
+          <div className="lg:col-span-7 lg:col-start-6 grid sm:grid-cols-2 gap-x-12 gap-y-12">
+            {([[t.owners, t.ownerList, <Briefcase size={26} />], [t.tenants, t.tenantList, <Users size={26} />]] as [string, string[], React.ReactNode][]).map(([head, items, icon]) => (
+              <div key={head}>
+                <span className="text-[#D12126]">{icon}</span>
+                <h3 className="serif hl-card-title mt-5 text-[#2A2623]">{head}</h3>
+                <ul className="mt-6 border-t border-[#2A2623]/15">
+                  {items.map((item, k) => (
+                    <li key={item} className="flex items-baseline gap-4 border-b border-[#2A2623]/15 py-4 text-[1.0625rem] text-[#2A2623]">
+                      <span className="text-[12px] tabular-nums tracking-[0.08em] text-[#D12126]">{String(k + 1).padStart(2, '0')}</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How it works: four stages along one line that fills as you read. */}
       <section className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <motion.div
-            className="text-center mb-16"
-          >
-            <h2 className="serif text-4xl lg:text-5xl mb-6">{t.propTitle}</h2>
-            <p className="text-xl text-[#6B645D] max-w-3xl mx-auto">
-              {t.propLead}
-            </p>
-          </motion.div>
+          <div className="grid lg:grid-cols-12 gap-x-16 gap-y-6 items-end">
+            <div className="lg:col-span-7">
+              {eyebrow(t.howEyebrow)}
+              <h2 className="serif hl-display text-[#2A2623]">{t.howTitle}</h2>
+            </div>
+            <p className="lg:col-span-5 text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.howLead}</p>
+          </div>
+          <div className="relative mt-16 lg:mt-20">
+            <div className="absolute left-[7px] top-0 bottom-0 w-px bg-[#2A2623]/15 lg:left-0 lg:right-0 lg:top-[7px] lg:bottom-auto lg:h-px lg:w-auto" aria-hidden="true" />
+            <div data-scroll-progress className="absolute left-[7px] top-0 bottom-0 w-px origin-top bg-[#D12126] lg:left-0 lg:right-0 lg:top-[7px] lg:bottom-auto lg:h-[2px] lg:w-auto lg:origin-left" aria-hidden="true" />
+            <ol className="relative grid gap-10 lg:grid-cols-4 lg:gap-10">
+              {t.steps.map(([title, desc], i) => (
+                <li key={title} className="relative pl-10 lg:pl-0">
+                  <span className="absolute left-0 lg:static grid h-[15px] w-[15px] place-items-center rounded-full border border-[#D12126] bg-white" aria-hidden="true">
+                    <span className="h-[5px] w-[5px] rounded-full bg-[#D12126]" />
+                  </span>
+                  <p className="lg:mt-8 text-[12px] uppercase tracking-[0.2em] text-[#6B645D]">{t.step} {String(i + 1).padStart(2, '0')}</p>
+                  <h3 className="serif hl-card-title mt-2 text-[#2A2623]">{title}</h3>
+                  <p className="mt-3 max-w-[34ch] text-[15px] leading-relaxed text-[#6B645D]">{desc}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
 
-          <motion.div
-            className="grid md:grid-cols-2 gap-8"
-          >
+      {/* The portfolio: one row a property, its facts in columns. */}
+      <section className="relative py-24 lg:py-32 bg-white">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+          <div className="mb-10 lg:mb-14 grid lg:grid-cols-12 gap-x-16 gap-y-6 items-end">
+            <div className="lg:col-span-7">
+              {eyebrow(t.resEyebrow)}
+              <h2 className="serif hl-display text-[#2A2623]">{t.propTitle}</h2>
+            </div>
+            <p className="lg:col-span-5 text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.propLead}</p>
+          </div>
+          <ul className="border-t border-[#2A2623]/15">
             {t.properties.map((property) => (
-              <PropertyCard
+              <PropertyRow
                 key={property.name}
                 {...property}
                 to={property.slug ? l(`/workspace/${property.slug}`) : undefined}
@@ -299,31 +300,7 @@ export function PropertyManagementPage() {
                 viewLabel={t.view}
               />
             ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Results & Metrics */}
-      <section className="py-24 lg:py-32 bg-white text-[#2A2623]">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <motion.div className="text-center mb-16">
-            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-4 flex items-center gap-2.5"><Flag /> {t.resEyebrow}</p>
-            <h2 className="serif text-4xl lg:text-5xl mb-6">{t.resTitle}</h2>
-            <p className="text-xl text-[#6B645D] max-w-3xl mx-auto">
-              {t.resLead}
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[#2A2623]/10">
-            {metrics.map(({ value, suffix }, i) => (
-              <div key={t.metrics[i]} className="bg-white p-10 text-center">
-                <div className="serif text-5xl lg:text-6xl text-[#D12126] mb-3">
-                  <AnimatedCounter end={value} suffix={suffix} />
-                </div>
-                <div className="text-[12px] uppercase tracking-[0.2em] text-[#6B645D]">{t.metrics[i]}</div>
-              </div>
-            ))}
-          </div>
+          </ul>
         </div>
       </section>
 
@@ -339,48 +316,79 @@ export function PropertyManagementPage() {
         background="white"
       />
 
-      {/* CTA Section */}
-      <section className="relative py-24 lg:py-32 bg-[#361716] text-white overflow-hidden">
-        <Candles />
-        <motion.div
-          className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center"
-        >
-          <h2 className="serif text-4xl lg:text-5xl mb-8">
-            {t.ctaTitle}
-          </h2>
-          <p className="text-xl text-white/70 mb-12 max-w-2xl mx-auto">
-            {t.ctaLead}
-          </p>
-          <Link
-            to={l('/contact')}
-            className="inline-block px-12 py-4 bg-[#D12126] text-white text-sm uppercase tracking-wider hover:bg-[#A3181C] transition-colors"
-          >
-            {t.cta}
-          </Link>
-        </motion.div>
+      {/* The closing invitation, laid out after foraspace.com ("We're here to
+          help"): the words on the left, heading above and the way in below,
+          a photograph on the right — on a sage drawn from the club's
+          shutters, a ground no other page uses. */}
+      <section className="relative bg-[#CBD3C5] text-[#1F2A23]">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-10 lg:py-12 grid lg:grid-cols-12 gap-x-12 gap-y-10">
+          <div className="lg:col-span-6 flex flex-col justify-between gap-12 py-6 lg:py-10">
+            <div>
+              <p className="text-[13px] uppercase tracking-[0.16em] text-[#1F2A23]">{t.eyebrow}</p>
+              <h2 className="serif hl-display mt-5 max-w-[14ch] text-[#1F2A23]">{t.ctaTitle}</h2>
+            </div>
+            <div>
+              <p className="max-w-[40ch] text-[1.0625rem] leading-relaxed text-[#1F2A23]">{t.ctaLead}</p>
+              <div className="mt-7 flex flex-wrap items-center gap-x-8 gap-y-4">
+                <Link to={l('/contact')} className="group inline-flex items-center gap-2 rounded-full bg-[#D12126] px-7 py-3.5 text-[15px] font-medium text-white hover:bg-[#A3181C] transition-colors">
+                  {t.cta} <ChevronRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+                </Link>
+                <a href={CONTACT.phoneHref} className="text-[15px] tabular-nums text-[#1F2A23] underline decoration-[#1F2A23]/30 underline-offset-4 hover:decoration-[#1F2A23]">{t.hotline}: {CONTACT.phone}</a>
+              </div>
+            </div>
+          </div>
+          <div className="lg:col-span-6 relative min-h-[320px] lg:min-h-[560px] overflow-hidden rounded-[8px] bg-[#1F2A23]">
+            <img loading="lazy" decoding="async" {...photo('/photos/hbc-desk.webp', '(min-width: 1024px) 48vw, 100vw')} alt={t.ctaAlt} className="absolute inset-0 h-full w-full object-cover" />
+          </div>
+        </div>
       </section>
     </>
   );
 }
 
-function ServiceCard({ icon, title, description }: {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}) {
+/** A tall photograph for an asset class: soft and dim at rest, in focus under
+    the pointer or keyboard focus; on touch screens, while it crosses the
+    middle of the screen. */
+function AssetCard({ n, icon, title, desc, image }: { n: number; icon: React.ReactNode; title: string; desc: string; image: string }) {
+  const ref = useRef<HTMLElement>(null);
+  const [on, setOn] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || window.matchMedia('(hover: hover) and (pointer: fine)').matches) return undefined;
+    const io = new IntersectionObserver(([e]) => setOn(e.isIntersecting), { rootMargin: '-36% 0px -36% 0px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   return (
-    <motion.div
-      className="bg-[#F4F0EA] p-8"
-      whileHover={{ y: -5 }}
-    >
-      <div className="text-[#D12126] mb-4">{icon}</div>
-      <h3 className="serif text-xl mb-3">{title}</h3>
-      <p className="text-[#6B645D] text-sm leading-relaxed">{description}</p>
-    </motion.div>
+    <article ref={ref} data-on={on} tabIndex={0} className="group relative aspect-[4/5] sm:aspect-[3/4] overflow-hidden rounded-[8px] bg-[#2A2623] text-white outline-none">
+      <div className="absolute inset-0 overflow-hidden">
+        <img
+          loading="lazy"
+          decoding="async"
+          {...photo(image, '(min-width: 1024px) 24vw, (min-width: 640px) 46vw, 100vw')}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover scale-110 blur-[5px] brightness-[0.5] saturate-[0.55] transition-[filter,scale] duration-[900ms] ease-out group-hover:scale-100 group-hover:blur-none group-hover:brightness-100 group-hover:saturate-100 group-focus-visible:scale-100 group-focus-visible:blur-none group-focus-visible:brightness-100 group-focus-visible:saturate-100 group-data-[on=true]:scale-100 group-data-[on=true]:blur-none group-data-[on=true]:brightness-100 group-data-[on=true]:saturate-100"
+        />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-black/25" aria-hidden="true" />
+      <div className="absolute inset-0 flex flex-col justify-between p-6 lg:p-7">
+        <div className="flex items-start justify-between">
+          <span className="text-white">{icon}</span>
+          <span className="text-[13px] font-medium tabular-nums tracking-[0.08em] text-white/80">{String(n + 1).padStart(2, '0')}</span>
+        </div>
+        <div>
+          <h3 className="serif hl-card-title text-white">{title}</h3>
+          <span className="mt-4 block h-px w-8 bg-[#F06A6E] transition-[width] duration-700 group-hover:w-16 group-data-[on=true]:w-16" aria-hidden="true" />
+          <p className="mt-4 text-[15px] leading-relaxed text-white/85">{desc}</p>
+        </div>
+      </div>
+    </article>
   );
 }
 
-function PropertyCard({ name, location, type, stats, image, to, href, viewLabel }: {
+/** A property as one row of facts: photograph, name and place, its three
+    figures, and the way in. */
+function PropertyRow({ name, location, type, stats, image, to, href, viewLabel }: {
   name: string;
   location: string;
   type: string;
@@ -390,51 +398,34 @@ function PropertyCard({ name, location, type, stats, image, to, href, viewLabel 
   href?: string;
   viewLabel: string;
 }) {
-  const linked = Boolean(to || href);
+  const cls = 'group grid lg:grid-cols-[minmax(0,15rem)_minmax(0,1.5fr)_minmax(0,2.2fr)_auto] items-center gap-x-10 gap-y-5 py-7 lg:py-8';
   const inner = (
-    <motion.div
-      className={`group bg-white overflow-hidden ${linked ? 'cursor-pointer' : ''}`}
-      whileHover={{ y: -10, boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }}
-      transition={{ type: "spring", stiffness: 300 }}
-    >
-      <div className="relative aspect-[16/10] overflow-hidden rounded-[8px]">
-        <motion.img loading="lazy" decoding="async"
-          {...photo(image)}
-          alt={name}
-          className="w-full h-full object-cover"
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.6 }}
-        />
-        <div className="absolute top-6 right-6 px-4 py-2 bg-white/95 text-xs uppercase tracking-wider">
-          {type}
-        </div>
-        {linked && (
-          <div className="absolute inset-0 bg-[#2A2623]/0 group-hover:bg-[#2A2623]/20 transition-colors duration-300 flex items-center justify-center">
-            <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-6 py-3 bg-[#D12126] text-white text-xs uppercase tracking-widest">
-              {viewLabel}
-            </span>
+    <>
+      <div className="relative aspect-[3/2] overflow-hidden rounded-[8px] bg-[#2A2623]">
+        <img loading="lazy" decoding="async" {...photo(image, '(min-width: 1024px) 240px, 100vw')} alt={name} className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-[1.05]" />
+      </div>
+      <div>
+        <p className="text-[12px] uppercase tracking-[0.16em] text-[#D12126]">{type}</p>
+        <h3 className="serif hl-card-title mt-2 text-[#2A2623] transition-colors group-hover:text-[#D12126]">{name}</h3>
+        <p className="mt-2 flex items-center gap-2 text-[14px] text-[#6B645D]"><MapPin size={14} className="shrink-0 text-[#D12126]" /> {location}</p>
+      </div>
+      {/* three columns from tablets up; on phones, three rows (label left, figure right) */}
+      <dl className="grid sm:grid-cols-3 sm:gap-x-6">
+        {stats.map(([label, value]) => (
+          <div key={label} className="flex items-baseline justify-between gap-4 border-t border-[#2A2623]/12 py-3 sm:block sm:border-t-0 sm:border-l sm:border-[#2A2623]/15 sm:py-0 sm:pl-5 lg:pl-6">
+            <dt className="text-[12px] uppercase tracking-[0.12em] text-[#6B645D]">{label}</dt>
+            <dd className="serif sm:mt-2 text-[1.15rem] lg:text-[1.45rem] leading-snug lining-nums text-[#2A2623]">{value}</dd>
           </div>
-        )}
-      </div>
-      <div className="p-8">
-        <h3 className="serif text-3xl mb-2">{name}</h3>
-        <div className="flex items-center gap-2 text-[#D12126] mb-6">
-          <MapPin size={16} />
-          <span className="text-sm">{location}</span>
-        </div>
-        <div className="grid grid-cols-3 gap-4 pt-6 border-t border-[#2A2623]/10">
-          {stats.map(([label, value]) => (
-            <div key={label}>
-              <div className="text-sm text-[#6B645D] mb-1">{label}</div>
-              <div className="serif text-lg">{value}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </motion.div>
+        ))}
+      </dl>
+      <span className="hidden lg:grid h-12 w-12 place-items-center rounded-full border border-[#2A2623]/20 text-[#2A2623] transition-colors group-hover:border-[#D12126] group-hover:bg-[#D12126] group-hover:text-white" aria-label={viewLabel}>
+        <ArrowUpRight size={18} />
+      </span>
+    </>
   );
-
-  if (to) return <Link to={to}>{inner}</Link>;
-  if (href) return <a href={href} target="_blank" rel="noopener noreferrer">{inner}</a>;
-  return inner;
+  return (
+    <li className="border-b border-[#2A2623]/15">
+      {to ? <Link to={to} className={cls}>{inner}</Link> : href ? <a href={href} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a> : <div className={cls}>{inner}</div>}
+    </li>
+  );
 }
