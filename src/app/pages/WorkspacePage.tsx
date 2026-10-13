@@ -12,11 +12,9 @@ import { Flag } from '../components/Flag';
 import { Contours } from '../components/Contours';
 import { PartnerMarquee } from '../components/PartnerMarquee';
 import { photo } from '../lib/photo';
+import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 
 const AMENITY_ICONS = [<Wifi size={24} />, <Coffee size={24} />, <Users size={24} />, <Building2 size={24} />, <Calendar size={24} />, <Mail size={24} />];
-// The workspace addresses: every HiLink location except The Quarter Club
-// (204 Tran Quang Khai), which is a club, not a workspace.
-const WS_LOCATIONS = LOCATIONS.filter((l) => l.id !== 'club-tqk');
 // The photographs each location card turns through (the first is its cover).
 const LOCATION_PHOTOS: Record<string, string[]> = {
   obc: ['/photos/hbc-lounge.webp', '/photos/hbc-lounge-3.webp', '/photos/hbc-meeting.webp', '/photos/hbc-lounge-4.webp'],
@@ -57,7 +55,7 @@ const T = {
       { name: 'Premium Workspaces', d: 'High-floor workspace with skyline views over Dong Da: scalable private offices, lounges, meeting rooms and an event space on one floor.', best: 'Growing teams that need a fitted office and room to scale', spaces: 'Private offices · hybrid desks · E-office · meeting rooms · event space', hours: 'Mon–Fri · 08:00–20:00' },
       { name: 'Flex-Spaces', d: 'Boutique addresses in Hoan Kiem and Cua Nam for flexible working: flex and dedicated desks, by the day or the month.', best: 'Small teams, independents and hybrid workers', spaces: 'Flex desks · dedicated desks · E-office · event space', hours: 'Mon–Fri · 08:00–19:00' },
     ],
-    locTitle: 'Our Locations', locLead: `${WS_LOCATIONS.length} addresses in central Hanoi — Hoan Kiem and Dong Da`,
+    locTitle: 'Our Locations', locLead: `${WORKSPACE_LOCATIONS.length} addresses in central Hanoi — Hoan Kiem and Dong Da`,
     available: 'Now Available', soon: 'Coming Soon', type: 'Brand', hours: 'Hours', explore: 'Explore live availability',
     trusted: 'Trusted by Leading Companies',
     faqSub: 'What members most often ask before joining a HiLink workspace.', faqEyebrow: 'FAQs', faqTitle: 'Frequently Asked Questions',
@@ -94,7 +92,7 @@ const T = {
       { name: 'Premium Workspaces', d: 'Không gian tầng cao với tầm nhìn toàn cảnh Đống Đa: văn phòng riêng có thể mở rộng, lounge, phòng họp và không gian sự kiện trên cùng một sàn.', best: 'Đội ngũ đang lớn, cần văn phòng đủ nội thất và chỗ để mở rộng', spaces: 'Văn phòng riêng · chỗ ngồi linh hoạt · E-office · phòng họp · không gian sự kiện', hours: 'T2–T6 · 08:00–20:00' },
       { name: 'Flex-Spaces', d: 'Những địa chỉ boutique tại Hoàn Kiếm và Cửa Nam cho cách làm việc linh hoạt: flex desk và dedicated desk, theo ngày hoặc theo tháng.', best: 'Đội nhỏ, người làm độc lập và làm việc hybrid', spaces: 'Flex desk · dedicated desk · E-office · không gian sự kiện', hours: 'T2–T6 · 08:00–19:00' },
     ],
-    locTitle: 'Các địa điểm', locLead: `${WS_LOCATIONS.length} địa chỉ giữa trung tâm Hà Nội — Hoàn Kiếm và Đống Đa`,
+    locTitle: 'Các địa điểm', locLead: `${WORKSPACE_LOCATIONS.length} địa chỉ giữa trung tâm Hà Nội — Hoàn Kiếm và Đống Đa`,
     available: 'Đang mở', soon: 'Sắp mở', type: 'Dòng sản phẩm', hours: 'Giờ mở cửa', explore: 'Xem phòng trống',
     trusted: 'Đồng hành cùng các doanh nghiệp',
     faqSub: 'Những câu hỏi thường gặp trước khi chọn không gian HiLink.', faqEyebrow: 'Câu hỏi', faqTitle: 'Câu hỏi thường gặp',
@@ -302,7 +300,7 @@ export function WorkspacePage() {
           </motion.div>
 
           <motion.div className="grid md:grid-cols-2 gap-8">
-            {WS_LOCATIONS.map((loc, k) => (
+            {WORKSPACE_LOCATIONS.map((loc, k) => (
               <LocationCard
                 key={loc.id}
                 href={ws(lang, `/locations/${loc.id}`)}

@@ -14,9 +14,9 @@ import { Contours } from '../components/Contours';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { PARTNER_COPY } from '../data/partnerCopy';
-import { LOCATIONS } from '../data/locations';
 import { PARTNERS, ws } from '../data/site';
 import { photo } from '../lib/photo';
+import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 
 const BENEFIT_ICONS = [<Layers size={24} />, <Globe size={24} />, <ShieldCheck size={24} />, <HeartHandshake size={24} />];
 const PATH_PHOTOS = ['/photos/f19-window.webp', '/photos/f15-lounge-cabin.webp', '/photos/f15-office-hi11.webp', '/photos/f19-room.webp', '/photos/hbc-client-meeting.webp'];
@@ -35,7 +35,7 @@ const T = {
     ],
     whyEyebrow: 'Why partner with HiLink', whyTitle: 'The benefits of working together', whyAlt: 'The business lounge at the HiLink Business Club',
     benefits: [
-      ['Access our portfolio', 'Work across managed assets and seven HiLink workspace locations in central Hanoi with steady, recurring demand.'],
+      ['Access our portfolio', 'Work across managed assets and six HiLink workspace locations in central Hanoi with steady, recurring demand.'],
       ['Reach global clients', 'Tap into our international, bilingual client base of investors, expats, and corporates.'],
       ['Trust & transparency', 'Clear agreements, prompt settlement, and a reputation built on doing things properly.'],
       ['Long-term relationships', 'We invest in partners for the long run, not one-off transactions.'],
@@ -73,7 +73,7 @@ const T = {
     ],
     whyEyebrow: 'Vì sao hợp tác với HiLink', whyTitle: 'Lợi ích khi hợp tác', whyAlt: 'Business lounge tại HiLink Business Club',
     benefits: [
-      ['Tiếp cận danh mục', 'Làm việc với các tài sản đang quản lý và bảy địa điểm HiLink giữa trung tâm Hà Nội, với nhu cầu ổn định, thường xuyên.'],
+      ['Tiếp cận danh mục', 'Làm việc với các tài sản đang quản lý và sáu địa điểm HiLink giữa trung tâm Hà Nội, với nhu cầu ổn định, thường xuyên.'],
       ['Tiếp cận khách hàng quốc tế', 'Kết nối với tệp khách hàng quốc tế, song ngữ gồm nhà đầu tư, người nước ngoài và doanh nghiệp.'],
       ['Tin cậy & minh bạch', 'Thoả thuận rõ ràng, thanh toán đúng hạn và uy tín xây trên cách làm việc chuẩn mực.'],
       ['Quan hệ lâu dài', 'Chúng tôi đầu tư cho đối tác lâu dài, không phải giao dịch một lần.'],
@@ -146,7 +146,7 @@ export function PartnersPage() {
               pairs={2}
               figures={[
                 { value: PARTNERS.length, label: t.figures[0] },
-                { value: LOCATIONS.length, label: t.figures[1] },
+                { value: WORKSPACE_LOCATIONS.length, label: t.figures[1] },
                 { value: pc.paths.length, label: t.figures[2] },
                 { value: '24h', label: t.figures[3], note: 1 },
               ]}
@@ -297,7 +297,7 @@ export function PartnersPage() {
           <ul className="grid grid-cols-2 md:grid-cols-3 border-t border-l border-[#2A2623]/12">
             {PARTNERS.map((p) => (
               <li key={p.id} className="group relative flex h-36 lg:h-44 flex-col items-center justify-center gap-4 border-b border-r border-[#2A2623]/12 px-6 transition-colors hover:bg-[#FBF8F5]">
-                <img loading="lazy" decoding="async" src={p.src} width={p.w} height={p.h} alt={p.name} className="hl-logo max-h-9 lg:max-h-11 w-auto max-w-[70%] object-contain group-hover:[filter:none]" />
+                <img loading="lazy" decoding="async" src={p.src} width={p.w} height={p.h} alt={p.name} className="hl-logo max-h-9 lg:max-h-11 w-auto max-w-[70%] object-contain" />
                 {t.fields[p.id] && <span className="text-[12px] uppercase tracking-[0.14em] text-[#6B645D]">{t.fields[p.id]}</span>}
               </li>
             ))}

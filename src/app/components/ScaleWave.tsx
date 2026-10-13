@@ -10,11 +10,11 @@
 // pointer. Without WebGL2, fine light lines on a 2D canvas stand in.
 // Reduced motion: a still frame and the final numbers.
 import { useEffect, useRef, useState } from 'react';
-import { LOCATIONS } from '../data/locations';
 import { PARTNERS, SERVICES } from '../data/site';
 import { useLang } from '../lib/i18n';
 import { Flag } from './Flag';
 import { createStripeSilk, STRIPE_HERO, type SilkConfig } from '../lib/stripeSilk';
+import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 
 const T = {
   en: {
@@ -23,7 +23,7 @@ const T = {
     rest: 'Designed to scale.',
     lead: 'From a business address to a whole floor, HiLink grows with the companies it serves — across central Hanoi, under one relationship.',
     stats: [
-      { n: LOCATIONS.length, l: 'locations in central Hanoi' },
+      { n: WORKSPACE_LOCATIONS.length, l: 'locations in central Hanoi' },
       { n: PARTNERS.length, l: 'partner companies' },
       { n: SERVICES.length, l: 'service lines, one point of contact' },
       { n: 2020, from: 2010, l: 'serving businesses since' },
@@ -35,7 +35,7 @@ const T = {
     rest: 'Thiết kế để mở rộng.',
     lead: 'Từ địa chỉ doanh nghiệp đến nguyên một sàn, HiLink lớn lên cùng các doanh nghiệp đồng hành — giữa trung tâm Hà Nội, trong một mối quan hệ duy nhất.',
     stats: [
-      { n: LOCATIONS.length, l: 'địa điểm giữa trung tâm Hà Nội' },
+      { n: WORKSPACE_LOCATIONS.length, l: 'địa điểm giữa trung tâm Hà Nội' },
       { n: PARTNERS.length, l: 'doanh nghiệp đối tác' },
       { n: SERVICES.length, l: 'mảng dịch vụ, một đầu mối' },
       { n: 2020, from: 2010, l: 'đồng hành cùng doanh nghiệp từ' },

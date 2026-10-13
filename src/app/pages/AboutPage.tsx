@@ -13,7 +13,6 @@ import { Shield, Layers, Target, Mail, MapPin, Calendar } from '../components/Gl
 import { ABOUT } from '../data/aboutCopy';
 import { CAREERS } from '../data/careersCopy';
 import { COMPANY, CONTACT, PARTNERS } from '../data/site';
-import { LOCATIONS } from '../data/locations';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { PartnerMarquee } from '../components/PartnerMarquee';
@@ -22,11 +21,12 @@ import { Contours } from '../components/Contours';
 import { photo } from '../lib/photo';
 import { LOOP_PATH } from '../lib/loop';
 import { PlaceRail, type Place } from '../components/PlaceRail';
+import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 
 const T = {
   en: {
     est: 'Est. 2020 · Ha Noi, Vietnam', scroll: 'Scroll to discover',
-    facts: [['2020', 'Year Founded'], ['Ha Noi', 'Headquarters'], [`${LOCATIONS.length} Locations`, 'HiLink Workspaces'], [`${PARTNERS.length} Partners`, 'Companies we work with']],
+    facts: [['2020', 'Year Founded'], ['Ha Noi', 'Headquarters'], [`${WORKSPACE_LOCATIONS.length} Locations`, 'HiLink Workspaces'], [`${PARTNERS.length} Partners`, 'Companies we work with']],
     storyAlt: 'A client at work in a private office at the HiLink Business Club',
     fig: 'Figure 1 · One relationship',
     workEyebrow: 'Selected work', workTitle: 'Properties we run',
@@ -46,7 +46,7 @@ const T = {
   },
   vi: {
     est: 'Thành lập 2020 · Hà Nội, Việt Nam', scroll: 'Cuộn để khám phá',
-    facts: [['2020', 'Năm thành lập'], ['Hà Nội', 'Trụ sở'], [`${LOCATIONS.length} địa điểm`, 'HiLink Workspaces'], [`${PARTNERS.length} đối tác`, 'Doanh nghiệp đồng hành']],
+    facts: [['2020', 'Năm thành lập'], ['Hà Nội', 'Trụ sở'], [`${WORKSPACE_LOCATIONS.length} địa điểm`, 'HiLink Workspaces'], [`${PARTNERS.length} đối tác`, 'Doanh nghiệp đồng hành']],
     storyAlt: 'Khách hàng làm việc trong văn phòng riêng tại HiLink Business Club',
     fig: 'Hình 1 · Một mối quan hệ',
     workEyebrow: 'Dự án tiêu biểu', workTitle: 'Bất động sản chúng tôi vận hành',
@@ -86,7 +86,7 @@ export function AboutPage() {
   const cols = [TEAM_PHOTOS.slice(0, 3), TEAM_PHOTOS.slice(3, 6), TEAM_PHOTOS.slice(6, 9)];
   const places: Place[] = [
     { key: 'qh', name: 'The Quarter House', address: lang === 'vi' ? 'Hoàn Kiếm, Hà Nội' : 'Hoan Kiem, Ha Noi', photo: '/properties/quarter-house/qh-07.webp', to: '/workspace/quarter-house', crop: 'object-[70%_50%]' },
-    ...LOCATIONS.map((loc) => ({ key: loc.id, name: loc.name, address: loc.address, photo: loc.photo, href: `/locations/${loc.id}` })),
+    ...WORKSPACE_LOCATIONS.map((loc) => ({ key: loc.id, name: loc.name, address: loc.address, photo: loc.photo, href: `/locations/${loc.id}` })),
   ];
 
   return (

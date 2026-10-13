@@ -6,12 +6,12 @@ import { PropertyRentalForm } from '../components/PropertyRentalForm';
 import { FAQ } from '../components/FAQ';
 import { AnimatedCounter } from '../components/AnimatedCounter';
 import { HeroBg } from '../components/HeroBg';
-import { LOCATIONS } from '../data/locations';
 import { PARTNERS, ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { Candles } from '../components/Candles';
 import { photo } from '../lib/photo';
+import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 
 const SERVICE_ICONS = [<Users size={28} />, <TrendingUp size={28} />, <Shield size={28} />, <BarChart size={28} />];
 const TYPE_ICONS = [<Home size={26} />, <Building2 size={26} />, <Calendar size={26} />, <Briefcase size={26} />];
@@ -132,7 +132,7 @@ export function PropertyManagementPage() {
   usePageMeta(t.eyebrow, t.meta);
   const metrics = [
     { value: 95, suffix: '%' },
-    { value: LOCATIONS.length, suffix: '' },
+    { value: WORKSPACE_LOCATIONS.length, suffix: '' },
     { value: PARTNERS.length, suffix: '' },
     { value: 24, suffix: '/7' },
   ];

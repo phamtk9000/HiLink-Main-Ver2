@@ -3,7 +3,6 @@ import { ArrowRight, CheckCircle } from 'lucide-react';
 import { Globe, FileCheck, Users, TrendingUp, MapPin, Shield } from '../components/Glyph';
 import { useState } from 'react';
 import { FAQ } from '../components/FAQ';
-import { LOCATIONS } from '../data/locations';
 import { PARTNERS } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
@@ -12,6 +11,7 @@ import { photo } from '../lib/photo';
 import { IsoScene } from '../components/IsoScene';
 import { FigureStack, Statement } from '../components/Figures';
 import { Contours } from '../components/Contours';
+import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 
 const SERVICE_META = [
   { icon: <Globe size={28} />, image: '/photos/hbc-client-meeting.webp' },
@@ -28,23 +28,16 @@ const T = {
     eyebrow: 'Business Consulting', title: "Navigate Vietnam's Business Landscape with Confidence",
     lead: "Expert advisory for international businesses entering or expanding in Vietnam's dynamic market — from strategy through to operational launch.",
     request: 'Request Consultation', explore: 'Explore Services',
-    stats: [['2020', 'Founded in Ha Noi'], [String(LOCATIONS.length), 'HiLink Locations'], [String(PARTNERS.length), 'Partner Companies']],
+    stats: [['2020', 'Founded in Ha Noi'], [String(WORKSPACE_LOCATIONS.length), 'HiLink Locations'], [String(PARTNERS.length), 'Partner Companies']],
     vnEyebrow: 'Vietnam in figures', vnTitle: 'Why companies are coming to Vietnam',
     vnRed: 'Vietnam’s economy grew 8.02% in 2025, and foreign investors disbursed US$27.62 billion — the most in five years.',
     vnInk: 'We help international companies turn that momentum into a licensed, staffed and operating business.',
     vnFigures: [
-      { value: 8.02, decimals: 2, suf: '%', label: 'GDP growth, 2025', note: 1 },
-      { value: 38.42, decimals: 2, pre: 'US$', suf: 'B', label: 'Registered foreign direct investment, 2025', note: 2 },
-      { value: 27.62, decimals: 2, pre: 'US$', suf: 'B', label: 'Disbursed FDI, 2025', note: 2 },
-      { value: 20, suf: '%', label: 'Standard corporate income tax', note: 3 },
+      { value: 8.02, decimals: 2, suf: '%', label: 'GDP growth, 2025' },
+      { value: 38.42, decimals: 2, pre: 'US$', suf: 'B', label: 'Registered foreign direct investment, 2025' },
+      { value: 27.62, decimals: 2, pre: 'US$', suf: 'B', label: 'Disbursed FDI, 2025' },
+      { value: 20, suf: '%', label: 'Standard corporate income tax' },
     ],
-    vnNotes: [
-      'General Statistics Office of Vietnam, estimate for the full year 2025.',
-      'General Statistics Office of Vietnam, full year 2025. Disbursement was the highest in five years.',
-      'Law on Corporate Income Tax No. 67/2025/QH15, in force from 1 October 2025. Lower rates apply to small enterprises and to encouraged sectors and locations.',
-    ],
-    lawLbl: 'Regulatory update',
-    law: 'The Law on Investment 2025 (No. 143/2025/QH15) has been in force since 1 March 2026. Where market-access conditions are met, a foreign investor may now set up the company first and complete investment registration afterwards — we advise on the right sequence for your sector.',
     fields: { fedex: 'Logistics', lianlian: 'Cross-border payments', kosaido: 'Human resources', wts: 'Tax advisory', gp: 'Legal', hicorp: 'Parent group' } as Record<string, string>,
     svcEyebrow: 'What We Do', svcTitle: 'Comprehensive Business Solutions',
     services: [
@@ -81,23 +74,16 @@ const T = {
     eyebrow: 'Tư vấn doanh nghiệp', title: 'Tự tin trên thị trường kinh doanh Việt Nam',
     lead: 'Tư vấn chuyên sâu cho doanh nghiệp quốc tế gia nhập hoặc mở rộng tại thị trường Việt Nam năng động — từ chiến lược đến khi đi vào vận hành.',
     request: 'Yêu cầu tư vấn', explore: 'Khám phá dịch vụ',
-    stats: [['2020', 'Thành lập tại Hà Nội'], [String(LOCATIONS.length), 'Địa điểm HiLink'], [String(PARTNERS.length), 'Doanh nghiệp đối tác']],
+    stats: [['2020', 'Thành lập tại Hà Nội'], [String(WORKSPACE_LOCATIONS.length), 'Địa điểm HiLink'], [String(PARTNERS.length), 'Doanh nghiệp đối tác']],
     vnEyebrow: 'Việt Nam qua số liệu', vnTitle: 'Vì sao doanh nghiệp đến Việt Nam',
     vnRed: 'Kinh tế Việt Nam tăng trưởng 8,02% trong năm 2025, và vốn đầu tư nước ngoài giải ngân đạt 27,62 tỷ USD — mức cao nhất trong năm năm.',
     vnInk: 'Chúng tôi giúp doanh nghiệp quốc tế biến đà tăng trưởng đó thành một doanh nghiệp có giấy phép, có đội ngũ và đi vào vận hành.',
     vnFigures: [
-      { value: 8.02, decimals: 2, suf: '%', label: 'Tăng trưởng GDP năm 2025', note: 1 },
-      { value: 38.42, decimals: 2, suf: ' tỷ USD', label: 'Vốn FDI đăng ký năm 2025', note: 2 },
-      { value: 27.62, decimals: 2, suf: ' tỷ USD', label: 'Vốn FDI giải ngân năm 2025', note: 2 },
-      { value: 20, suf: '%', label: 'Thuế suất thuế thu nhập doanh nghiệp phổ thông', note: 3 },
+      { value: 8.02, decimals: 2, suf: '%', label: 'Tăng trưởng GDP năm 2025' },
+      { value: 38.42, decimals: 2, suf: ' tỷ USD', label: 'Vốn FDI đăng ký năm 2025' },
+      { value: 27.62, decimals: 2, suf: ' tỷ USD', label: 'Vốn FDI giải ngân năm 2025' },
+      { value: 20, suf: '%', label: 'Thuế suất thuế thu nhập doanh nghiệp phổ thông' },
     ],
-    vnNotes: [
-      'Tổng cục Thống kê, số ước tính cả năm 2025.',
-      'Tổng cục Thống kê, cả năm 2025. Vốn giải ngân cao nhất trong năm năm.',
-      'Luật Thuế thu nhập doanh nghiệp số 67/2025/QH15, hiệu lực từ 01/10/2025. Doanh nghiệp nhỏ và các ngành, địa bàn ưu đãi được áp dụng mức thấp hơn.',
-    ],
-    lawLbl: 'Cập nhật pháp lý',
-    law: 'Luật Đầu tư 2025 (số 143/2025/QH15) có hiệu lực từ 01/03/2026. Khi đáp ứng điều kiện tiếp cận thị trường, nhà đầu tư nước ngoài nay có thể thành lập doanh nghiệp trước rồi hoàn tất đăng ký đầu tư sau — chúng tôi tư vấn trình tự phù hợp với ngành của bạn.',
     fields: { fedex: 'Logistics', lianlian: 'Thanh toán xuyên biên giới', kosaido: 'Nhân sự', wts: 'Tư vấn thuế', gp: 'Pháp lý', hicorp: 'Tập đoàn mẹ' } as Record<string, string>,
     svcEyebrow: 'Chúng tôi làm gì', svcTitle: 'Giải pháp doanh nghiệp toàn diện',
     services: [
@@ -185,21 +171,16 @@ export function BusinessConsultingPage() {
         </div>
       </section>
 
-      {/* ── Vietnam in figures (set out after hines.com): a statement beside
-          a stack of sourced figures, and one regulatory note. ── */}
+      {/* ── Vietnam in figures (set out after hines.com): a statement
+          beside four large figures, two to a row. ── */}
       <section className="relative bg-white py-24 lg:py-32">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-14">
-          <div className="lg:col-span-7">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-14 items-center">
+          <div className="lg:col-span-6">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.vnEyebrow}</p>
-            <Statement heading={t.vnTitle} red={t.vnRed} ink={t.vnInk}>
-              <div className="mt-12 border-l-2 border-[#D12126] pl-6">
-                <p className="text-[12px] uppercase tracking-[0.18em] text-[#D12126]">{t.lawLbl}</p>
-                <p className="mt-3 max-w-[62ch] text-[1.0625rem] leading-[1.75] text-[#4A443F]">{t.law}</p>
-              </div>
-            </Statement>
+            <Statement heading={t.vnTitle} red={t.vnRed} ink={t.vnInk} />
           </div>
-          <div className="lg:col-span-4 lg:col-start-9">
-            <FigureStack lang={lang} figures={t.vnFigures} notes={t.vnNotes} pairs={0} />
+          <div className="lg:col-span-6">
+            <FigureStack lang={lang} figures={t.vnFigures} pairs={4} />
           </div>
         </div>
       </section>
@@ -219,7 +200,7 @@ export function BusinessConsultingPage() {
                 <button
                   key={s.title}
                   onClick={() => setActiveService(i)}
-                  className={`w-full text-left px-8 py-6 border-l-[3px] transition-all duration-200 flex items-center justify-between group ${
+                  className={`w-full text-left px-8 py-6 border-l-[3px] transition-all duration-500 ease-out flex items-center justify-between group ${
                     activeService === i
                       ? 'border-[#D12126] bg-[#F4F0EA]'
                       : 'border-transparent hover:border-[#D12126]/40'
@@ -238,20 +219,26 @@ export function BusinessConsultingPage() {
 
             {/* Panel */}
             <div className="bg-white">
-              <div className="relative aspect-[16/9] overflow-hidden rounded-[8px]">
-                <img loading="lazy" decoding="async"
-                  key={activeService}
-                  {...photo(services[activeService].image)}
-                  alt={services[activeService].title}
-                  className="w-full h-full object-cover"
-                />
+              {/* The photographs lie on top of one another and cross-fade; the
+                  words rise in softly each time the tab changes. */}
+              <div className="relative aspect-[16/9] overflow-hidden rounded-[8px] bg-[#2A2623]">
+                {services.map((sv, n) => (
+                  <img
+                    key={sv.image}
+                    loading="lazy"
+                    decoding="async"
+                    {...photo(sv.image, '(min-width: 1024px) 70vw, 100vw')}
+                    alt={n === activeService ? sv.title : ''}
+                    className={`absolute inset-0 w-full h-full object-cover transition-[opacity,transform] duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${n === activeService ? 'opacity-100 scale-100' : 'opacity-0 scale-[1.04]'}`}
+                  />
+                ))}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623]/60 to-transparent" />
-                <div className="absolute bottom-0 left-0 p-8">
+                <div key={activeService} className="hl-fade-up absolute bottom-0 left-0 p-8">
                   <div className="text-[#D12126] mb-3">{services[activeService].icon}</div>
                   <h3 className="serif text-white text-3xl">{services[activeService].title}</h3>
                 </div>
               </div>
-              <div className="p-8 lg:p-10">
+              <div key={`body-${activeService}`} className="hl-fade-up p-8 lg:p-10">
                 <p className="text-[#444] text-[16px] leading-relaxed mb-8">{services[activeService].description}</p>
                 <div className="grid sm:grid-cols-2 gap-3">
                   {services[activeService].points.map((p) => (
@@ -320,7 +307,7 @@ export function BusinessConsultingPage() {
           <ul className="grid grid-cols-2 md:grid-cols-3 border-t border-l border-[#2A2623]/12">
             {PARTNERS.map((p) => (
               <li key={p.id} className="group flex h-36 lg:h-44 flex-col items-center justify-center gap-4 border-b border-r border-[#2A2623]/12 px-6 transition-colors hover:bg-[#FBF8F5]">
-                <img loading="lazy" decoding="async" src={p.src} width={p.w} height={p.h} alt={p.name} className="hl-logo max-h-9 lg:max-h-11 w-auto max-w-[70%] object-contain group-hover:[filter:none]" />
+                <img loading="lazy" decoding="async" src={p.src} width={p.w} height={p.h} alt={p.name} className="hl-logo max-h-9 lg:max-h-11 w-auto max-w-[70%] object-contain" />
                 {t.fields[p.id] && <span className="text-[12px] uppercase tracking-[0.14em] text-[#6B645D]">{t.fields[p.id]}</span>}
               </li>
             ))}

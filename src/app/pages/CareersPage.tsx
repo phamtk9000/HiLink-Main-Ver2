@@ -4,11 +4,11 @@ import { Heart, GraduationCap, Globe2, Mail, Sparkles, Scale, Compass, MapPin, C
 import { motion } from 'motion/react';
 import { HeroBg } from '../components/HeroBg';
 import { CAREERS } from '../data/careersCopy';
-import { LOCATIONS } from '../data/locations';
 import { CONTACT } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { photo } from '../lib/photo';
+import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 
 const VALUE_ICONS = [<Heart size={26} />, <GraduationCap size={26} />, <Globe2 size={26} />, <Sparkles size={26} />, <Scale size={26} />, <Compass size={26} />];
 
@@ -27,7 +27,7 @@ const gallery = [
 const T = {
   en: {
     eyebrow: 'Careers',
-    stats: [[String(LOCATIONS.length), 'HiLink locations'], ['6', 'Open roles'], ['2020', 'Founded in Ha Noi'], ['2', 'Districts · Hoan Kiem & Dong Da']],
+    stats: [[String(WORKSPACE_LOCATIONS.length), 'HiLink locations'], ['6', 'Open roles'], ['2020', 'Founded in Ha Noi'], ['2', 'Districts · Hoan Kiem & Dong Da']],
     lifeEyebrow: 'Life at HiLink', lifeTitle: 'Where we spend our days',
     lifeLead: 'Our teams work from HiLink spaces in the heart of Hanoi — designed to make great work feel effortless.', lifeAlt: 'Life at HiLink',
     whyEyebrow: "What it's like", whyTitle: 'Why join us',
@@ -51,7 +51,7 @@ const T = {
   },
   vi: {
     eyebrow: 'Tuyển dụng',
-    stats: [[String(LOCATIONS.length), 'Địa điểm HiLink'], ['6', 'Vị trí đang tuyển'], ['2020', 'Thành lập tại Hà Nội'], ['2', 'Quận · Hoàn Kiếm & Đống Đa']],
+    stats: [[String(WORKSPACE_LOCATIONS.length), 'Địa điểm HiLink'], ['6', 'Vị trí đang tuyển'], ['2020', 'Thành lập tại Hà Nội'], ['2', 'Quận · Hoàn Kiếm & Đống Đa']],
     lifeEyebrow: 'Cuộc sống tại HiLink', lifeTitle: 'Nơi chúng tôi làm việc mỗi ngày',
     lifeLead: 'Đội ngũ làm việc tại các không gian HiLink giữa trung tâm Hà Nội — được thiết kế để công việc trở nên nhẹ nhàng.', lifeAlt: 'Cuộc sống tại HiLink',
     whyEyebrow: 'Làm việc tại đây', whyTitle: 'Vì sao gia nhập',

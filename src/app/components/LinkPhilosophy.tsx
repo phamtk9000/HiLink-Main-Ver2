@@ -19,11 +19,11 @@
 // stats and captions still work, without the lines.
 import { useEffect, useRef, useState } from 'react';
 import { Moon, MoonStar, Pause, Play, Sun, SunDim, Sunrise, Sunset } from 'lucide-react';
-import { LOCATIONS } from '../data/locations';
 import { PARTNERS } from '../data/site';
 import { useLang } from '../lib/i18n';
 import { LinkField, rgb, type Palette } from '../lib/linkField';
 import { Flag } from './Flag';
+import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 
 type Scene = 0 | 1 | 2 | 3;
 type Tod = 'predawn' | 'sunrise' | 'daytime' | 'dusk' | 'sunset' | 'night';
@@ -37,7 +37,7 @@ const T = {
       { n: String(PARTNERS.length), l: 'partner companies', t: 'Connect', d: 'We bring business people together — in our lounges, at the HiLink Business Club and through the companies we work with.' },
       { n: '1', l: 'point of contact for every client', t: 'Create opportunity', d: 'A good introduction opens doors: a client, a partner, a new hire. We make those introductions part of everyday work.' },
       { n: '2020', l: 'growing with our clients since', t: 'Grow together', d: 'As a business grows, its space and support grow with it — from a business address to a desk, an office, a whole floor.' },
-      { n: String(LOCATIONS.length), l: 'locations in central Hanoi', t: 'Lead to the right place', d: 'We guide every client to the right address and the right solution, across our locations in Hoan Kiem and Dong Da.' },
+      { n: String(WORKSPACE_LOCATIONS.length), l: 'locations in central Hanoi', t: 'Lead to the right place', d: 'We guide every client to the right address and the right solution, across our locations in Hoan Kiem and Dong Da.' },
     ],
     tod: { predawn: 'Pre-dawn', sunrise: 'Sunrise', daytime: 'Daytime', dusk: 'Dusk', sunset: 'Sunset', night: 'Night' },
     todLabel: 'Time of day',
@@ -53,7 +53,7 @@ const T = {
       { n: String(PARTNERS.length), l: 'doanh nghiệp đối tác', t: 'Kết nối', d: 'Chúng tôi đưa doanh nhân đến gần nhau — tại các lounge, tại HiLink Business Club và qua những doanh nghiệp đồng hành.' },
       { n: '1', l: 'đầu mối cho mỗi khách hàng', t: 'Tạo cơ hội', d: 'Một lời giới thiệu đúng mở ra cánh cửa: một khách hàng, một đối tác, một nhân sự mới. Chúng tôi biến điều đó thành việc hằng ngày.' },
       { n: '2020', l: 'cùng khách hàng phát triển từ năm', t: 'Cùng phát triển', d: 'Khi doanh nghiệp lớn lên, không gian và hỗ trợ lớn theo — từ địa chỉ doanh nghiệp đến chỗ ngồi, văn phòng, nguyên sàn.' },
-      { n: String(LOCATIONS.length), l: 'địa điểm giữa trung tâm Hà Nội', t: 'Đưa tới đúng nơi', d: 'Chúng tôi dẫn mỗi khách hàng tới đúng địa chỉ và đúng giải pháp, tại các địa điểm ở Hoàn Kiếm và Đống Đa.' },
+      { n: String(WORKSPACE_LOCATIONS.length), l: 'địa điểm giữa trung tâm Hà Nội', t: 'Đưa tới đúng nơi', d: 'Chúng tôi dẫn mỗi khách hàng tới đúng địa chỉ và đúng giải pháp, tại các địa điểm ở Hoàn Kiếm và Đống Đa.' },
     ],
     tod: { predawn: 'Rạng sáng', sunrise: 'Bình minh', daytime: 'Ban ngày', dusk: 'Chiều muộn', sunset: 'Hoàng hôn', night: 'Ban đêm' },
     todLabel: 'Thời điểm trong ngày',
@@ -140,7 +140,7 @@ export function LinkPhilosophy() {
     if (!canvas || !wrap) return undefined;
     let field: LinkField;
     try {
-      field = new LinkField(canvas, SKIES[DEFAULT_TOD].lines, LOCATIONS.length);
+      field = new LinkField(canvas, SKIES[DEFAULT_TOD].lines, WORKSPACE_LOCATIONS.length);
     } catch {
       setWebgl(false);
       return undefined;

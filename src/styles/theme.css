@@ -260,6 +260,11 @@
 /* The mask is one line box tall, and at the headings' tight line-height the
    serif's descenders (g, p, y, ạ, ợ…) and stacked Vietnamese accents reach
    past it. Padding widens the clip; the negative margin keeps the layout. */
+/* Content that changes in place (a tab's panel) rises in softly. */
+@keyframes hl-fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.hl-fade-up { animation: hl-fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@media (prefers-reduced-motion: reduce) { .hl-fade-up { animation: none; } }
+
 .line-mask__line-mask {
   padding-block: 0.16em 0.24em;
   margin-block: -0.16em -0.24em;
@@ -363,7 +368,7 @@ footer::before {
 /* One quiet tone; the logo's own colours on hover. */
 .hl-logo { filter: brightness(0) opacity(0.42); transition: filter 0.3s ease; }
 .hl-logo--light { filter: brightness(0) invert(1) opacity(0.55); }
-.hl-logo:hover { filter: none; }
+.hl-logo:hover, .group:hover > .hl-logo { filter: none; }
 @media (prefers-reduced-motion: reduce) {
   .hl-marquee { -webkit-mask-image: none; mask-image: none; }
   .hl-marquee__track { animation: none; width: auto; flex-wrap: wrap; justify-content: center; }

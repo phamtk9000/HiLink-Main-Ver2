@@ -6,7 +6,8 @@
 // captioned photographs; the partner network. Copy is the approved text of
 // the Business Club page on HiLink Workspaces; applications are taken there.
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import { MapPin, Clock } from '../components/Glyph';
+import { Link } from 'react-router';
+import { MapPin, Clock, Sparkles, Search, TrendingUp, ClipboardList, Scale, Layers, Users, Truck, Globe, UtensilsCrossed, Bell, Calendar, Plane } from '../components/Glyph';
 import { Candles } from '../components/Candles';
 import { Flag } from '../components/Flag';
 import { Slides } from '../components/Slides';
@@ -26,6 +27,13 @@ const HOUSE_IDS = ['obc', 'club-tqk'];
 const CARDS = ['/brand/card-club.webp', '/brand/card-premier.webp', '/brand/card-executive.webp'];
 // One photograph for each benefit (the order of T.benefits).
 const BENEFIT_PHOTOS = ['/photos/hbc-globe.webp', '/photos/hbc-members.webp', '/photos/hbc-host.webp', '/photos/hbc-client-meeting.webp', '/photos/hbc-mr8.webp', '/photos/hbc-mr10-flowers.webp'];
+// The partner network: a photograph for each group, an icon for each service
+// (the order of T.svc; no glyph twice in a group).
+const SVC_PHOTOS = ['/photos/hbc-advisor.webp', '/photos/hbc-fandb.webp'];
+const SVC_ICONS = [
+  [Sparkles, Search, TrendingUp, ClipboardList, Scale, Layers, Users, Truck, Globe],
+  [UtensilsCrossed, Bell, Sparkles, Calendar, Plane],
+];
 const HBC = 'HiLink Business Club', QC = 'The Quarter Club';
 const SHOWCASE: Shot[] = [
   { src: '/photos/hbc-lounge-3.webp', caption: HBC }, { src: '/photos/qc-bar.webp', caption: QC }, { src: '/photos/hbc-study-2.webp', caption: HBC },
@@ -64,6 +72,7 @@ const T = {
     svcLead: "Members draw on a catalogue of services delivered through the club's network of trusted partners.",
     svc: [['Business support', ['Marketing & Branding', 'Audit', 'Finance', 'Accounting & Tax', 'Legal', 'Insurance', 'Human Resources', 'Logistics', 'Trade']], ['Lifestyle', ['Gastronomy', 'Health & Welfare', 'Entertainment & Leisure', 'Events', 'Transport']]] as [string, string[]][],
     explore: 'Explore', prev: 'Previous photograph', next: 'Next photograph', housesRule: 'The houses',
+    svcRule: 'Business support services', svcMore: 'Concierge services',
     ctaTitle: 'Apply for Membership',
     ctaLead: 'Applications are reviewed by the membership committee, and we come back to every one within two business days.',
   },
@@ -97,13 +106,14 @@ const T = {
     svcLead: 'Hội viên sử dụng danh mục dịch vụ được cung cấp qua mạng lưới đối tác tin cậy của câu lạc bộ.',
     svc: [['Hỗ trợ doanh nghiệp', ['Marketing & Thương hiệu', 'Kiểm toán', 'Tài chính', 'Kế toán & Thuế', 'Pháp lý', 'Bảo hiểm', 'Nhân sự', 'Logistics', 'Thương mại']], ['Phong cách sống', ['Ẩm thực', 'Sức khoẻ & Phúc lợi', 'Giải trí & Thư giãn', 'Sự kiện', 'Di chuyển']]] as [string, string[]][],
     explore: 'Khám phá', prev: 'Ảnh trước', next: 'Ảnh tiếp theo', housesRule: 'Hai ngôi nhà',
+    svcRule: 'Dịch vụ hỗ trợ doanh nghiệp', svcMore: 'Dịch vụ concierge',
     ctaTitle: 'Đăng ký hội viên',
     ctaLead: 'Hồ sơ được hội đồng hội viên xét duyệt và chúng tôi phản hồi mọi hồ sơ trong vòng hai ngày làm việc.',
   },
 };
 
 export function BusinessClubPage() {
-  const { lang } = useLang();
+  const { lang, l } = useLang();
   const t = T[lang];
   usePageMeta('HiLink Business Club', t.meta);
   const applyUrl = ws(lang, '/business-club#apply');
@@ -129,17 +139,9 @@ export function BusinessClubPage() {
         </div>
       </section>
 
-      {/* One centred statement. */}
-      <section className="relative py-24 lg:py-32 bg-white">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <h2 className="serif hl-club-statement text-[#2A2623]">{t.housesTitle}</h2>
-          <p className="mt-8 text-[1.0625rem] leading-[1.8] text-[#4A443F]">{t.housesLead}</p>
-        </div>
-      </section>
-
       {/* The two houses: photographs that turn by themselves beside ruled
           text; the second one mirrored. */}
-      <section className="relative pb-24 lg:pb-32 bg-white hl-no-rule">
+      <section className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1320px] mx-auto px-6 lg:px-12">
           <RuleTitle>{t.housesRule}</RuleTitle>
           <div className="mt-14 lg:mt-20 space-y-20 lg:space-y-28">
@@ -220,20 +222,43 @@ export function BusinessClubPage() {
         </div>
       </section>
 
-      {/* Partner network. */}
+      {/* Business support and lifestyle services, set out as concierge sites
+          do: each group a photograph beside its services, one tile apiece. */}
       <section className="relative pb-24 lg:pb-32 bg-white hl-no-rule">
         <div className="max-w-[1320px] mx-auto px-6 lg:px-12">
-          <RuleTitle>{t.svcEyebrow}</RuleTitle>
-          <div className="mx-auto mt-10 max-w-3xl text-center">
-            <p className="serif hl-club-statement text-[#2A2623]">{t.svcTitle}</p>
-            <p className="mt-6 text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.svcLead}</p>
-          </div>
-          <div className="mx-auto mt-14 max-w-4xl grid sm:grid-cols-2 gap-x-16 gap-y-12">
-            {t.svc.map(([head, items]) => (
-              <div key={head} className="text-center">
-                <p className="text-[12px] uppercase tracking-[0.18em] text-[#D12126]">{head}</p>
-                <ul className="mt-5 border-t border-[#2A2623]/15">
-                  {items.map((it) => <li key={it} className="border-b border-[#2A2623]/15 py-3 text-[1.0625rem] text-[#2A2623]">{it}</li>)}
+          <RuleTitle>{t.svcRule}</RuleTitle>
+          <div className="mt-14 lg:mt-16 space-y-16 lg:space-y-24">
+            {t.svc.map(([head, items], g) => (
+              <div key={head} className="grid lg:grid-cols-12 gap-x-12 gap-y-8 items-stretch">
+                <div className={`lg:col-span-4 relative min-h-[260px] overflow-hidden rounded-[8px] bg-[#2A2623] ${g % 2 ? 'lg:order-2' : ''}`}>
+                  <img loading="lazy" decoding="async" {...photo(SVC_PHOTOS[g], '(min-width: 1024px) 32vw, 100vw')} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-7 text-white">
+                    <p className="serif text-[3rem] leading-none lining-nums">{String(items.length).padStart(2, '0')}</p>
+                    <h3 className="serif hl-club-caption mt-3">{head}</h3>
+                  </div>
+                </div>
+                <ul className="lg:col-span-8 grid grid-cols-2 md:grid-cols-3 border-t border-l border-[#2A2623]/12">
+                  {items.map((it, k) => {
+                    const Icon = SVC_ICONS[g][k];
+                    return (
+                      <li key={it} className="group flex min-h-[132px] flex-col justify-between border-b border-r border-[#2A2623]/12 p-5 lg:p-6 transition-colors duration-300 hover:bg-[#FBF8F5]">
+                        <span className="flex items-start justify-between text-[#D12126]">
+                          <Icon size={24} />
+                          <span className="text-[12px] tabular-nums tracking-[0.08em] text-[#6B645D]">{String(k + 1).padStart(2, '0')}</span>
+                        </span>
+                        <span className="serif mt-6 text-[1.15rem] lg:text-[1.3rem] leading-snug text-[#2A2623] transition-colors group-hover:text-[#D12126]">{it}</span>
+                      </li>
+                    );
+                  })}
+                  {g === 1 && (
+                    <li className="border-b border-r border-[#2A2623]/12">
+                      <Link to={l('/concierge-services')} className="group flex h-full min-h-[132px] flex-col justify-between bg-[#2B3A32] p-5 lg:p-6 text-[#F6EFE6] transition-colors duration-300 hover:bg-[#22302A]">
+                        <ArrowUpRight size={22} className="self-end transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                        <span className="serif mt-6 text-[1.15rem] lg:text-[1.3rem] leading-snug">{t.svcMore}</span>
+                      </Link>
+                    </li>
+                  )}
                 </ul>
               </div>
             ))}

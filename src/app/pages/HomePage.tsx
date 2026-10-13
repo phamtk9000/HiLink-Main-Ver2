@@ -6,7 +6,7 @@ import { AnimatedCounter } from '../components/AnimatedCounter';
 import { LinkPhilosophy } from '../components/LinkPhilosophy';
 import { ForumCarousel } from '../components/ForumCarousel';
 import { useLang, usePageMeta } from '../lib/i18n';
-import { LOCATIONS, WORKSPACE_LINES } from '../data/locations';
+import { WORKSPACE_LINES } from '../data/locations';
 import { SERVICES, ws } from '../data/site';
 import { Flag } from '../components/Flag';
 import { PlaceRail } from '../components/PlaceRail';
@@ -14,6 +14,7 @@ import { ServiceFx, type FxKind } from '../components/ServiceFx';
 import { PartnerMarquee } from '../components/PartnerMarquee';
 import { Candles } from '../components/Candles';
 import { photo } from '../lib/photo';
+import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 
 const IMG = {
   hero: '/photos/f15-lounge-wide-xl.webp',
@@ -44,7 +45,7 @@ const T = {
     ],
     learn: 'Learn More', all: 'All Services', allTitle: 'Explore the full HiLink ecosystem', allCta: 'View All Services',
     prjEyebrow: 'HiLink Workspaces · Ha Noi', prjTitle: 'Our Locations',
-    prjLead: 'Seven HiLink addresses across Hoan Kiem and Dong Da — from a lakeside business club to whole floors high above the city.',
+    prjLead: 'Six HiLink addresses across Hoan Kiem and Dong Da — from a lakeside business club to whole floors high above the city.',
     soon: 'Opening soon', prev: 'Previous', next: 'Next',
     whyEyebrow: 'Why HiLink', whyTitle: 'Trusted by international clients across Asia',
     whyBody: 'We understand the complexities of cross-border investment and the unique needs of international clients. Our bilingual team provides transparent services with a personalised concierge approach.',
@@ -72,7 +73,7 @@ const T = {
     ],
     learn: 'Tìm hiểu thêm', all: 'Tất cả dịch vụ', allTitle: 'Khám phá hệ sinh thái HiLink', allCta: 'Xem tất cả dịch vụ',
     prjEyebrow: 'HiLink Workspaces · Hà Nội', prjTitle: 'Các địa điểm',
-    prjLead: 'Bảy địa chỉ HiLink tại Hoàn Kiếm và Đống Đa — từ câu lạc bộ doanh nhân bên hồ đến những sàn nguyên tầng trên cao.',
+    prjLead: 'Sáu địa chỉ HiLink tại Hoàn Kiếm và Đống Đa — từ câu lạc bộ doanh nhân bên hồ đến những sàn nguyên tầng trên cao.',
     soon: 'Sắp mở', prev: 'Trước', next: 'Sau',
     whyEyebrow: 'Vì sao chọn HiLink', whyTitle: 'Được khách hàng quốc tế khắp châu Á tin tưởng',
     whyBody: 'Chúng tôi thấu hiểu sự phức tạp của đầu tư xuyên biên giới và nhu cầu riêng của khách hàng quốc tế. Đội ngũ song ngữ mang đến dịch vụ minh bạch theo phong cách concierge riêng cho từng khách hàng.',
@@ -170,7 +171,7 @@ export function HomePage() {
           <div className="flex flex-col">
             <div className="bg-[#EDE7DF] px-10 py-10 flex flex-col justify-center gap-8 flex-1">
               {[
-                { end: LOCATIONS.length, label: t.stats[0], duration: 1.6 },
+                { end: WORKSPACE_LOCATIONS.length, label: t.stats[0], duration: 1.6 },
                 { end: Object.keys(WORKSPACE_LINES).length, label: t.stats[1], duration: 1.4 },
                 { end: 9, label: t.stats[2], duration: 1.8 },
               ].map((stat) => (
@@ -242,7 +243,7 @@ export function HomePage() {
           </div>
         </div>
         <PlaceRail
-          items={LOCATIONS.map((loc) => ({ key: loc.id, name: loc.name, address: loc.address, photo: loc.photo, href: `/locations/${loc.id}` }))}
+          items={WORKSPACE_LOCATIONS.map((loc) => ({ key: loc.id, name: loc.name, address: loc.address, photo: loc.photo, href: `/locations/${loc.id}` }))}
           next={t.next}
           prev={t.prev}
         />

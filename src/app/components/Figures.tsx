@@ -57,8 +57,8 @@ export function FigureStack({ figures, notes = [], pairs = 0, lang, dark = false
     <div ref={ref}>
       {single.map((f) => <div key={f.label} className={`border-t ${rule} py-8 text-center lg:text-left`}>{cell(f, true)}</div>)}
       {paired.length > 0 && (
-        <div className={`grid grid-cols-2 border-t ${rule}`}>
-          {paired.map((f, k) => <div key={f.label} className={`py-8 text-center ${k % 2 ? `border-l ${rule}` : ''} ${k > 1 ? `border-t ${rule}` : ''}`}>{cell(f, false)}</div>)}
+        <div className={`grid grid-cols-2 border-t ${single.length === 0 && notes.length === 0 ? 'border-b' : ''} ${rule}`}>
+          {paired.map((f, k) => <div key={f.label} className={`px-3 py-9 lg:py-12 text-center ${k % 2 ? `border-l ${rule}` : ''} ${k > 1 ? `border-t ${rule}` : ''}`}>{cell(f, false)}</div>)}
         </div>
       )}
       {notes.length > 0 && (
