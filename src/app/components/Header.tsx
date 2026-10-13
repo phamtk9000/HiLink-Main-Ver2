@@ -7,6 +7,7 @@ import { CONTACT, SERVICES } from '../data/site';
 
 const MAIN_LINKS = [
   { en: 'Solutions', vi: 'Giải pháp', path: '/solutions' },
+  { en: 'Business Club', vi: 'Business Club', path: '/business-club' },
   { en: 'About', vi: 'Giới thiệu', path: '/about' },
   { en: 'Partners', vi: 'Đối tác', path: '/partners' },
   { en: 'Careers', vi: 'Tuyển dụng', path: '/careers' },

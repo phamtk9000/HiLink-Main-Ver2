@@ -11,14 +11,14 @@ const T = {
     blurb: 'Workspace, property and business services in central Hanoi — under one relationship.',
     group: 'A member of HiCorp Group.',
     solutions: 'Solutions', company: 'Company', contact: 'Contact',
-    comp: ['About Us', 'Partners', 'Careers', 'News', 'All Solutions', 'Contact'],
+    comp: ['About Us', 'Business Club', 'Partners', 'Careers', 'News', 'All Solutions', 'Contact'],
     privacy: 'Privacy Policy', terms: 'Terms and Conditions', code: 'Enterprise code',
   },
   vi: {
     blurb: 'Không gian làm việc, bất động sản và dịch vụ doanh nghiệp giữa trung tâm Hà Nội — trong một mối quan hệ.',
     group: 'Thành viên Tập đoàn HiCorp.',
     solutions: 'Giải pháp', company: 'Công ty', contact: 'Liên hệ',
-    comp: ['Về chúng tôi', 'Đối tác', 'Tuyển dụng', 'Tin tức', 'Tất cả giải pháp', 'Liên hệ'],
+    comp: ['Về chúng tôi', 'Business Club', 'Đối tác', 'Tuyển dụng', 'Tin tức', 'Tất cả giải pháp', 'Liên hệ'],
     privacy: 'Chính sách bảo mật', terms: 'Điều khoản & Điều kiện', code: 'Mã số doanh nghiệp',
   },
 };
@@ -53,7 +53,7 @@ export function Footer() {
           <nav className="md:col-span-2" aria-label={t.company}>
             <p className={head}>{t.company}</p>
             <ul className="space-y-2">
-              {['/about', '/partners', '/careers', '/news', '/solutions', '/contact'].map((to, i) => (
+              {['/about', '/business-club', '/partners', '/careers', '/news', '/solutions', '/contact'].map((to, i) => (
                 <li key={to}><Link to={l(to)} className={link}>{t.comp[i]}</Link></li>
               ))}
             </ul>

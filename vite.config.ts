@@ -21,7 +21,7 @@ function figmaAssetResolver() {
 const SITE_URL = (process.env.SITE_URL || 'https://hi-link-main-ver2.vercel.app').replace(/\/$/, '')
 const PAGES = [
   '', '/about', '/solutions', '/workspace-leasing', '/workspace/quarter-house', '/property-management',
-  '/concierge-services', '/business-services', '/industrial-logistics', '/partners', '/careers', '/news',
+  '/concierge-services', '/business-services', '/industrial-logistics', '/business-club', '/partners', '/careers', '/news',
   '/contact', '/book-consultation', '/privacy-policy', '/terms',
 ]
 function seoFiles() {

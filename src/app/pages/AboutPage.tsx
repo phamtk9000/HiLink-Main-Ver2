@@ -12,7 +12,7 @@ import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Shield, Layers, Target, Mail, MapPin, Calendar } from '../components/Glyph';
 import { ABOUT } from '../data/aboutCopy';
 import { CAREERS } from '../data/careersCopy';
-import { BUSINESS_CLUB_SITE, COMPANY, CONTACT, PARTNERS } from '../data/site';
+import { COMPANY, CONTACT, PARTNERS } from '../data/site';
 import { LOCATIONS } from '../data/locations';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
@@ -71,7 +71,7 @@ const VALUE_ICONS = [Shield, Layers, Target];
 const MAPS = 'https://maps.google.com/?q=60+Ly+Thai+To,+Hoan+Kiem,+Ha+Noi';
 // The ecosystem rows (approved copy, data/aboutCopy.ts "eco"): photo and link.
 const ECO_PHOTOS = ['/photos/f19-window.webp', '/photos/f15-lounge.webp', '/photos/hbc-client-meeting.webp', '/photos/hbc-lounge.webp'];
-const ECO_LINKS = ['/property-management', '/workspace-leasing', '/business-services', ''];
+const ECO_LINKS = ['/property-management', '/workspace-leasing', '/business-services', '/business-club'];
 
 export function AboutPage() {
   const { lang, l } = useLang();
@@ -198,9 +198,7 @@ export function AboutPage() {
                 const to = ECO_LINKS[k];
                 return (
                   <li key={e.t} className="border-b border-[#2A2623]/15">
-                    {to
-                      ? <Link to={l(to)} className={cls} {...on}>{inner}</Link>
-                      : <a href={BUSINESS_CLUB_SITE} target="_blank" rel="noopener noreferrer" className={cls} {...on}>{inner}</a>}
+                    <Link to={l(to)} className={cls} {...on}>{inner}</Link>
                   </li>
                 );
               })}

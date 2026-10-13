@@ -33,6 +33,7 @@ export const router = createBrowserRouter([
       { path: 'concierge-services', lazy: () => import('./pages/ConciergePage').then((m) => ({ Component: m.ConciergePage })) },
       { path: 'business-services', lazy: () => import('./pages/BusinessConsultingPage').then((m) => ({ Component: m.BusinessConsultingPage })) },
       { path: 'industrial-logistics', lazy: () => import('./pages/IndustrialPage').then((m) => ({ Component: m.IndustrialPage })) },
+      { path: 'business-club', lazy: () => import('./pages/BusinessClubPage').then((m) => ({ Component: m.BusinessClubPage })) },
       { path: 'partners', lazy: () => import('./pages/PartnersPage').then((m) => ({ Component: m.PartnersPage })) },
       { path: 'careers', lazy: () => import('./pages/CareersPage').then((m) => ({ Component: m.CareersPage })) },
       { path: 'news', lazy: () => import('./pages/NewsPage').then((m) => ({ Component: m.NewsPage })) },
