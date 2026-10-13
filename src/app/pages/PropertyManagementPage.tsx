@@ -5,13 +5,13 @@ import { motion } from 'motion/react';
 import { PropertyRentalForm } from '../components/PropertyRentalForm';
 import { FAQ } from '../components/FAQ';
 import { AnimatedCounter } from '../components/AnimatedCounter';
+import { HeroBg } from '../components/HeroBg';
 import { LOCATIONS } from '../data/locations';
 import { PARTNERS, ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { Candles } from '../components/Candles';
 import { photo } from '../lib/photo';
-import { IsoScene } from '../components/IsoScene';
 
 const SERVICE_ICONS = [<Users size={28} />, <TrendingUp size={28} />, <Shield size={28} />, <BarChart size={28} />];
 const TYPE_ICONS = [<Home size={26} />, <Building2 size={26} />, <Calendar size={26} />, <Briefcase size={26} />];
@@ -140,11 +140,11 @@ export function PropertyManagementPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-24 pb-64 lg:py-36 bg-[#361716] text-white">
-        <IsoScene kind="towers" />
+      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#2A2623] text-white">
+        <HeroBg image="/photos/f19-room.webp" />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
-            className="max-w-4xl lg:max-w-[40rem]"
+            className="max-w-4xl"
           >
             <p className="text-sm uppercase tracking-wider text-[#F06A6E] mb-8">{t.eyebrow}</p>
             <h1 className="serif text-5xl lg:text-7xl mb-8 leading-tight">

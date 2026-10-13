@@ -43,8 +43,9 @@ type Api = {
   path: (pts: P3[], stroke: string, dash?: number[]) => void;
   draw: (boxes: Box[]) => void;
 };
-// `lift`: how far above the foot of the section the scene sits on phones (px).
-type Scene = { span: P3; scale: number; lift?: number; frame: (t: number, api: Api) => void };
+// `lift`: how far above the foot of the section the scene sits on phones (px);
+// `mx`: where its centre sits across a phone screen (0–1).
+type Scene = { span: P3; scale: number; lift?: number; mx?: number; frame: (t: number, api: Api) => void };
 
 const seeded = (seed: number) => {
   let s = seed;
@@ -192,51 +193,132 @@ function office(): Scene {
 }
 
 // ── Business Services: Vietnam as a landscape of columns ───────────────────
+// A fine grid of slim columns, tallest round the three cities. They rise
+// from north to south; a band of light then travels down the country every
+// few seconds. Each city carries a beam and its name; routes arrive from
+// abroad and run between the cities, a light with a tail along each.
 function market(): Scene {
-  const STEP = 0.56, LON0 = 102.0, LAT0 = 23.6;
-  const cells: { x: number; y: number; h: number; city: number; isle: boolean }[] = [];
+  const STEP = 0.4, LON0 = 102.0, LAT0 = 23.6, COLS = 20, ROWS = 39;
+  const cells: { x: number; y: number; h: number; city: number; isle: boolean; n: number }[] = [];
   const toXY = ([lon, lat]: [number, number]) => [Math.round((lon - LON0) / STEP), Math.round((LAT0 - lat) / STEP)];
   const cityXY = CITIES.map(toXY);
-  const PEAK = [4.6, 2.6, 5.2];
-  for (let gy = 0; gy < 28; gy++) for (let gx = 0; gx < 15; gx++) {
+  const PEAK = [6.6, 3.8, 7.4];
+  const NAMES = ['HÀ NỘI', 'ĐÀ NẴNG', 'TP. HỒ CHÍ MINH'];
+  for (let gy = 0; gy < ROWS; gy++) for (let gx = 0; gx < COLS; gx++) {
     const lon = LON0 + gx * STEP, lat = LAT0 - gy * STEP;
     if (!inside(VN, lon, lat) && !inside(PHU_QUOC, lon, lat)) continue;
-    let h = 0.5 + hash(gx, gy) * 0.6, city = -1;
+    let h = 0.45 + hash(gx, gy) * 0.8, city = -1;
     cityXY.forEach(([cx, cy], k) => {
       const d = Math.hypot(gx - cx, gy - cy);
-      h += PEAK[k] * Math.exp(-(d * d) / 3.2);
-      if (d < 0.5) city = k;
+      h += PEAK[k] * Math.exp(-(d * d) / 5.5) * (0.82 + hash(gx * 3, gy * 7) * 0.36);
     });
-    cells.push({ x: gx, y: gy, h, city, isle: false });
+    cells.push({ x: gx, y: gy, h, city, isle: false, n: hash(gx, gy, 5) });
   }
-  ISLANDS.forEach((p) => { const [x, y] = toXY(p); cells.push({ x, y, h: 0.3, city: -1, isle: true }); });
+  // Each city is the cell nearest to it (the coast is simplified, so the exact
+  // spot may fall just outside the outline).
+  cityXY.forEach(([cx, cy], k) => {
+    const near = cells.reduce((a, b) => (Math.hypot(a.x - cx, a.y - cy) <= Math.hypot(b.x - cx, b.y - cy) ? a : b));
+    near.city = k; near.h = PEAK[k] + 1.2;
+    cityXY[k] = [near.x, near.y];
+  });
+  ISLANDS.forEach((p, k) => { const [x, y] = toXY(p); cells.push({ x, y, h: 0.35, city: -1, isle: true, n: k / 12 }); });
   cells.sort((a, b) => a.x + a.y - (b.x + b.y));
-  const span: P3 = [16, 27, 2];   // the mainland; the islands lie beyond it to the east
+  const span: P3 = [COLS + 2, ROWS, 3];
+  const mix = (l: number, red: boolean, k = 1) => {
+    const a = red ? [150, 22, 30] : [52, 22, 21], b = red ? [255, 96, 88] : [255, 132, 112];
+    const v = clamp01(l);
+    return `rgb(${a.map((c, i) => Math.round((c + (b[i] - c) * v) * k)).join(',')})`;
+  };
+  // Routes: three in from abroad (north-east, east, south-east), three between the cities.
+  const top = (n: number) => PEAK[n] + 1.2;
+  const routes: { at: (p: number) => P3; delay: number }[] = [];
+  [[COLS + 14, -8], [COLS + 16, 14], [COLS + 12, ROWS + 4]].forEach(([fx, fy], k) => {
+    const [cx, cy] = cityXY[k];
+    routes.push({ delay: 2.2 + k * 0.5, at: (p) => [fx + (cx + 0.4 - fx) * p, fy + (cy + 0.4 - fy) * p, 1 + (top(k) - 1) * p + Math.sin(p * Math.PI) * 9] });
+  });
+  [[0, 1], [1, 2]].forEach(([a, b], k) => {
+    const [ax, ay] = cityXY[a], [bx, by] = cityXY[b];
+    routes.push({ delay: 3.6 + k * 0.5, at: (p) => [ax + 0.4 + (bx - ax) * p, ay + 0.4 + (by - ay) * p, top(a) + (top(b) - top(a)) * p + Math.sin(p * Math.PI) * 5] });
+  });
   return {
-    span, scale: 0.72, lift: 330,
-    frame(t, { draw, path, iso, ctx }) {
-      const boxes: Box[] = cells.map((c) => {
-        // rise from north to south, then breathe
-        const grow = ease(clamp01((t * 9 - c.y) / 6));
-        const h = Math.max(0.12, c.h * grow * (1 + 0.05 * Math.sin(t * 0.7 + c.x * 0.8 + c.y * 0.5)));
-        return { x: c.x, y: c.y, z: 0, lx: 0.86, ly: 0.86, lz: h, tone: c.city >= 0 ? 'red' : c.isle ? 'pale' : h > 2.2 ? 'pale' : h > 1.2 ? 'mid' : 'dark', key: (c.x + c.y) * 100 + c.x };
-      });
-      draw(boxes);
-      // routes between the three cities, over the tops
-      [[0, 1], [1, 2], [0, 2]].forEach(([a, b], k) => {
-        const [ax, ay] = cityXY[a], [bx, by] = cityXY[b];
-        const top = (n: number) => PEAK[n] + 1.4;
-        const at = (p: number): P3 => [ax + 0.43 + (bx - ax) * p, ay + 0.43 + (by - ay) * p, top(a) + (top(b) - top(a)) * p + Math.sin(p * Math.PI) * (k === 2 ? 5.5 : 2.6)];
-        const shown = clamp01(t * 0.5 - 1.4 - k * 0.5);
+    span, scale: 0.62, lift: 330, mx: 0.44,
+    frame(t, { iso, ctx, u, path }) {
+      // the sea: a field of faint points on the ground plane
+      ctx.fillStyle = stroke(0.13);
+      for (let gy = -4; gy <= ROWS + 4; gy += 2) for (let gx = -6; gx <= COLS + 16; gx += 2) {
+        const [x, y] = iso(gx, gy, 0);
+        ctx.fillRect(x - 0.6, y - 0.6, 1.2, 1.2);
+      }
+      // a band of light running north to south, every seven seconds
+      const band = ((t - 4) % 7) / 7 * (ROWS + 16) - 8;
+      const tops: P3[] = [];
+      for (const c of cells) {
+        const grow = ease(clamp01((t * 12 - c.y) / 7));
+        const wave = t > 4 ? Math.exp(-(((c.y - band) / 2.6) ** 2)) : 0;
+        const h = Math.max(0.1, (c.h + wave * 0.5) * grow * (1 + 0.035 * Math.sin(t * 0.8 + c.n * 20)));
+        const red = c.city >= 0;
+        // brighter the taller it stands, and under the band of light
+        const l = (c.isle ? 0.2 : 0.02 + Math.min(1, c.h / 7) * 0.56) + wave * 0.42 + (red ? 0.25 : 0);
+        const x = c.x + 0.1, y = c.y + 0.1, x1 = c.x + 0.9, y1 = c.y + 0.9;
+        const a = iso(x, y1, 0), b = iso(x1, y1, 0), e = iso(x1, y, 0);
+        const a1 = iso(x, y1, h), b1 = iso(x1, y1, h), e1 = iso(x1, y, h), d1 = iso(x, y, h);
+        const side = (p: [number, number], q: [number, number], q1: [number, number], p1: [number, number], k: number) => {
+          const g = ctx.createLinearGradient(0, p[1], 0, p1[1]);
+          g.addColorStop(0, mix(l * 0.18, red, k)); g.addColorStop(1, mix(l, red, k));
+          ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo(q[0], q[1]); ctx.lineTo(q1[0], q1[1]); ctx.lineTo(p1[0], p1[1]); ctx.closePath();
+          ctx.fillStyle = g; ctx.fill();
+        };
+        side(a, b, b1, a1, 0.86);
+        side(b, e, e1, b1, 0.58);
+        ctx.beginPath(); ctx.moveTo(a1[0], a1[1]); ctx.lineTo(b1[0], b1[1]); ctx.lineTo(e1[0], e1[1]); ctx.lineTo(d1[0], d1[1]); ctx.closePath();
+        ctx.fillStyle = mix(l + 0.09, red); ctx.fill();
+        ctx.strokeStyle = stroke(0.16 + clamp01(l) * 0.5); ctx.lineWidth = 0.75; ctx.stroke();
+        if (red) tops[c.city] = [c.x + 0.5, c.y + 0.5, h];
+      }
+      ctx.lineWidth = 1;
+      // routes, each with a light and its tail
+      routes.forEach((r, k) => {
+        const shown = clamp01((t - r.delay) * 0.55);
         if (shown <= 0) return;
         const pts: P3[] = [];
-        for (let p = 0; p <= shown + 1e-6; p += 0.04) pts.push(at(p));
-        path(pts, stroke(0.55), [3, 4]);
-        if (shown >= 1) {
-          const [dx, dy] = iso(...at((t * 0.11 + k * 0.31) % 1));
-          ctx.fillStyle = '#FF8A7A';
-          ctx.fillRect(dx - 2.5, dy - 2.5, 5, 5);
+        for (let p = 0; p <= shown + 1e-6; p += 0.025) pts.push(r.at(p));
+        path(pts, stroke(0.3), [2, 5]);
+        if (shown < 1) return;
+        const head = (t * 0.085 + k * 0.23) % 1;
+        for (let n = 0; n < 14; n++) {
+          const p0 = head - n * 0.012, p1 = head - (n + 1) * 0.012;
+          if (p1 < 0) break;
+          path([r.at(p0), r.at(p1)], `rgba(255,170,150,${(1 - n / 14) * 0.95})`);
         }
+        const [hx, hy] = iso(...r.at(head));
+        ctx.fillStyle = '#FFD2C4'; ctx.beginPath(); ctx.arc(hx, hy, 2, 0, Math.PI * 2); ctx.fill();
+      });
+      // the three cities: a beam, a ring breathing on the roof, a name
+      const shownLabels = clamp01((t - 2.4) / 1.2);
+      tops.forEach((p, k) => {
+        if (!p) return;
+        const [x, y] = iso(...p);
+        const beam = ctx.createLinearGradient(0, y, 0, y - 7 * u);
+        beam.addColorStop(0, 'rgba(255,120,104,0.9)'); beam.addColorStop(1, 'rgba(255,120,104,0)');
+        ctx.strokeStyle = beam; ctx.lineWidth = 1.4;
+        ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y - 7 * u * shownLabels); ctx.stroke();
+        ctx.lineWidth = 1;
+        const q = (t * 0.35 + k * 0.33) % 1;
+        const ring: P3[] = [];
+        for (let a = 0; a <= Math.PI * 2 + 0.01; a += Math.PI / 16) ring.push([p[0] + Math.cos(a) * (0.6 + q * 2.6), p[1] + Math.sin(a) * (0.6 + q * 2.6), p[2] + 0.05]);
+        path(ring, `rgba(255,130,116,${(1 - q) * 0.7 * shownLabels})`);
+        ctx.globalAlpha = shownLabels;
+        ctx.fillStyle = '#FFE6DE'; ctx.fillRect(x - 2.5, y - 2.5, 5, 5);
+        // the name, on a short leader to the right
+        const ly = y - 3.2 * u - k * 0.4 * u;
+        ctx.strokeStyle = 'rgba(255,214,203,0.5)';
+        ctx.beginPath(); ctx.moveTo(x, ly); ctx.lineTo(x + 26, ly); ctx.stroke();
+        ctx.font = `500 ${Math.max(9, Math.min(11.5, u * 0.62))}px "Inter Variable", system-ui, sans-serif`;
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = 'rgba(255,232,225,0.92)';
+        let tx = x + 32;
+        for (const ch of NAMES[k]) { ctx.fillText(ch, tx, ly); tx += ctx.measureText(ch).width + 1.6; }
+        ctx.globalAlpha = 1;
       });
     },
   };
@@ -383,7 +465,7 @@ export function IsoScene({ kind, className = '' }: { kind: SceneKind; className?
       // smaller, behind the foot of the copy.
       const wide = w >= 1024;
       u = (wide ? Math.min(34, Math.max(20, w / 52)) : Math.max(11, w / 30)) * scene.scale;
-      const cx = wide ? w * 0.72 : w * 0.56, cy = wide ? h * 0.55 : h - (scene.lift ?? Math.min(190, h * 0.22));
+      const cx = wide ? w * 0.72 : w * (scene.mx ?? 0.56), cy = wide ? h * 0.55 : h - (scene.lift ?? Math.min(190, h * 0.22));
       const [sx, sy, sz] = scene.span;
       ox = cx - (sx / 2 - sy / 2) * C30 * u;
       oy = cy - (sx / 2 + sy / 2) * S30 * u + (sz / 2) * u;
