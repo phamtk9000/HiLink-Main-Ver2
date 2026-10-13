@@ -1,6 +1,6 @@
 // Property Management — rebuilt after how property managers set their pages
 // out (Savills, Hines, Home Made): the promise with its figures up front;
-// what the service covers as a ruled list; the asset classes as tall
+// what the service covers as a grid of photographs; the asset classes as tall
 // photographs that come into focus; who it is for; the four stages along one
 // line; the portfolio as a deck of cards (after augustcollections.com); the
 // rental estimate; questions; and a closing panel set after HiLink
@@ -8,7 +8,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { ArrowRight } from 'lucide-react';
-import { TrendingUp, Users, Shield, BarChart, LayoutDashboard, Coffee, Home, Briefcase, Search, DollarSign, Wrench, ClipboardList, Languages } from '../components/Glyph';
+import { LayoutDashboard, Coffee, Home, Briefcase, Search, DollarSign, Wrench, ClipboardList, Languages } from '../components/Glyph';
 import { PropertyRentalForm } from '../components/PropertyRentalForm';
 import { FAQ } from '../components/FAQ';
 import { AnimatedCounter } from '../components/AnimatedCounter';
@@ -20,7 +20,9 @@ import { photo } from '../lib/photo';
 import { PropertyDeck } from '../components/PropertyDeck';
 import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 
-const SERVICE_ICONS = [<Users size={26} />, <TrendingUp size={26} />, <Shield size={26} />, <BarChart size={26} />];
+// The service grid: the large photograph, then one for each part of the
+// service (the order of T.services). Stock photographs (see PHOTO-CREDITS.md).
+const SERVICE_PHOTOS = ['/photos/stock-skyline.webp', '/photos/stock-keys.webp', '/photos/stock-facade.webp', '/photos/stock-maintenance.webp', '/photos/stock-report.webp'];
 // (no glyph twice: a house, a floor plan, a cup, a stack of plans)
 const TYPE_ICONS = [<Home size={26} />, <LayoutDashboard size={26} />, <Coffee size={26} />, <Briefcase size={26} />];
 // What we do for home owners, one glyph each (the order of T.ownerItems):
@@ -69,6 +71,7 @@ const T = {
       { href: '/locations/ttt-f19', name: 'Floor 19 · 4 Ton That Tung', location: 'Kim Lien, Dong Da, Hanoi', type: 'Private Floor', image: '/photos/f19-window.webp', stats: [['Floor', '19'], ['Leased to', '1 tenant'], ['Team size', '20–60']] },
       { href: '/locations/ttt-f17', name: 'Floor 17 · 4 Ton That Tung', location: 'Kim Lien, Dong Da, Hanoi', type: 'Private Floor', image: '/photos/f15-office-hi11.webp', stats: [['Zones', '2'], ['Zone 17B', 'Let'], ['Zone 17A', 'Available']] },
       { href: '/locations/ttt-f15', name: 'Floor 15 · 4 Ton That Tung', location: 'Kim Lien, Dong Da, Hanoi', type: 'Premium Workspace', image: '/photos/f15-lounge-cabin.webp', stats: [['Offices', '2–12 pax'], ['Meeting rooms', '4–12 pax'], ['Hours', '08:00–20:00']] },
+      { href: '/locations/nha-chung', name: '35 Nha Chung', location: 'Hoan Kiem, Hanoi', type: 'Flex Space', image: '/photos/nc35-room.webp', stats: [['Desks', 'Flex · dedicated'], ['Day pass', 'from ₫130k'], ['Hours', '08:00–19:00']] },
     ],
     resEyebrow: 'Results & Metrics', resTitle: 'Performance That Speaks for Itself',
     resLead: 'Numbers from the portfolio HiLink runs today.',
@@ -126,12 +129,13 @@ const T = {
       ['Báo cáo & tối ưu', 'Báo cáo hàng tháng, đánh giá hiệu quả và liên tục nâng cao lợi suất.'],
     ],
     propTitle: 'Bất động sản chúng tôi quản lý', propLead: 'Tài sản nhà ở và không gian làm việc do HiLink vận hành hằng ngày',
-    view: 'Xem bất động sản',
+    view: 'Xem chi tiết',
     properties: [
       { slug: 'quarter-house', name: 'The Quarter House', location: 'Hoàn Kiếm, Hà Nội', type: 'Nhà phố boutique', image: '/properties/quarter-house/qh-07.webp', stats: [['Số căn', '4'], ['Lấp đầy', '95%'], ['Giá thuê TB', '$4,000/tháng']] },
       { href: '/locations/ttt-f19', name: 'Tầng 19 · 4 Tôn Thất Tùng', location: 'Kim Liên, Đống Đa, Hà Nội', type: 'Sàn riêng', image: '/photos/f19-window.webp', stats: [['Tầng', '19'], ['Cho thuê', '1 khách'], ['Quy mô', '20–60 người']] },
       { href: '/locations/ttt-f17', name: 'Tầng 17 · 4 Tôn Thất Tùng', location: 'Kim Liên, Đống Đa, Hà Nội', type: 'Sàn riêng', image: '/photos/f15-office-hi11.webp', stats: [['Khu', '2'], ['Khu 17B', 'Đã thuê'], ['Khu 17A', 'Còn trống']] },
       { href: '/locations/ttt-f15', name: 'Tầng 15 · 4 Tôn Thất Tùng', location: 'Kim Liên, Đống Đa, Hà Nội', type: 'Premium Workspace', image: '/photos/f15-lounge-cabin.webp', stats: [['Văn phòng', '2–12 người'], ['Phòng họp', '4–12 người'], ['Giờ mở cửa', '08:00–20:00']] },
+      { href: '/locations/nha-chung', name: '35 Nhà Chung', location: 'Hoàn Kiếm, Hà Nội', type: 'Không gian linh hoạt', image: '/photos/nc35-room.webp', stats: [['Chỗ ngồi', 'Flex · cố định'], ['Theo ngày', 'từ ₫130k'], ['Giờ mở cửa', '08:00–19:00']] },
     ],
     resEyebrow: 'Kết quả & số liệu', resTitle: 'Hiệu quả tự nói lên tất cả',
     resLead: 'Số liệu từ danh mục HiLink đang vận hành.',
@@ -200,30 +204,34 @@ export function PropertyManagementPage() {
         </div>
       </section>
 
-      {/* What the service covers: a statement held on the left, the four
-          parts as a ruled list on the right. */}
+      {/* What the service covers, set out like the feature grid on
+          lockeliving.com: one large square photograph beside four small
+          ones, 14px apart, each with its title and a line at the foot. The
+          large one carries the section's heading; the four are the parts of
+          the service. */}
       <section className="relative py-24 lg:py-32 bg-white">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-12">
-          <div className="lg:col-span-5">
-            <div className="lg:sticky lg:top-28">
-              {eyebrow(t.eyebrow)}
-              <h2 className="serif hl-display text-[#2A2623]">{t.svcTitle}</h2>
-              <span className="mt-8 block h-px w-10 bg-[#D12126]" aria-hidden="true" />
-              <p className="serif mt-8 max-w-[30ch] text-[1.35rem] lg:text-[1.6rem] leading-[1.4] text-[#D12126]">{t.svcLead}</p>
-            </div>
-          </div>
-          <dl className="lg:col-span-6 lg:col-start-7 border-t border-[#2A2623]/15">
-            {t.services.map(([title, description], i) => (
-              <div key={title} className="group grid grid-cols-[3rem_1fr] sm:grid-cols-[4.5rem_1fr] gap-x-4 border-b border-[#2A2623]/15 py-8 lg:py-10">
-                <span className="pt-1 text-[#D12126]">{SERVICE_ICONS[i]}</span>
-                <div>
-                  <p className="text-[13px] font-medium tabular-nums tracking-[0.08em] text-[#D12126]">{String(i + 1).padStart(2, '0')}</p>
-                  <dt className="serif hl-card-title mt-2 text-[#2A2623]">{title}</dt>
-                  <dd className="mt-3 max-w-[48ch] text-[1.0625rem] leading-relaxed text-[#6B645D]">{description}</dd>
-                </div>
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+          <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
+            <article className="group relative aspect-square overflow-hidden bg-[#2A2623] text-white sm:col-span-2 sm:row-span-2">
+              <img loading="lazy" decoding="async" {...photo(SERVICE_PHOTOS[0], '(min-width: 1024px) 50vw, 100vw')} alt="" className="absolute inset-0 h-full w-full object-cover transition-[scale] duration-700 ease-out group-hover:scale-[1.04]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" aria-hidden="true" />
+              <div className="absolute inset-x-0 bottom-0 p-7 lg:p-10">
+                <p className="mb-4 flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] text-white/85"><Flag className="text-[#F06A6E]" /> {t.eyebrow}</p>
+                <h2 className="serif hl-card-title text-white">{t.svcTitle}</h2>
+                <p className="mt-3 max-w-[34ch] text-[1rem] leading-[1.45] text-white/90">{t.svcLead}</p>
               </div>
+            </article>
+            {t.services.map(([title, description], i) => (
+              <article key={title} className="group relative aspect-[4/3] overflow-hidden bg-[#2A2623] text-white sm:aspect-square">
+                <img loading="lazy" decoding="async" {...photo(SERVICE_PHOTOS[i + 1], '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw')} alt="" className="absolute inset-0 h-full w-full object-cover transition-[scale] duration-700 ease-out group-hover:scale-[1.06]" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" aria-hidden="true" />
+                <div className="absolute inset-x-0 bottom-0 p-6 lg:p-8">
+                  <h3 className="serif hl-mosaic-title text-white">{title}</h3>
+                  <p className="mt-2 text-[15px] leading-[1.4] text-white/90">{description}</p>
+                </div>
+              </article>
             ))}
-          </dl>
+          </div>
         </div>
       </section>
 
@@ -249,7 +257,7 @@ export function PropertyManagementPage() {
       {/* What we do for home owners, set out after augustcollections.com
           ("Local experts, at your service"): five columns on club green,
           each a fine glyph, a title on two lines and a line of detail. */}
-      <section className="relative py-24 lg:py-28 bg-[#2B3A32] text-[#F6EFE6]">
+      <section className="relative py-24 lg:py-28 bg-[#2E3A33] text-[#F6EFE6]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <p className="text-[12px] uppercase tracking-[0.2em] text-[#E8B9A6] mb-5 flex items-center gap-2.5"><Flag /> {t.ownerEyebrow}</p>
           <h2 className="serif hl-display max-w-[20ch] text-[#F6EFE6]">{t.ownerTitle}</h2>
@@ -330,12 +338,12 @@ export function PropertyManagementPage() {
       />
 
       {/* The closing invitation, built like "Chúng tôi luôn sẵn sàng" on
-          HiLink Workspaces (hilink.vn): an olive panel with round corners set
+          HiLink Workspaces (hilink.vn): a club-green panel with round corners set
           into the page; the words on the left — a label, the heading, a
           line, a pale pill and the hotline — and a photograph on the right
           (beneath, on phones). */}
       <section className="hl-no-rule relative bg-white px-[18px] sm:px-6 lg:px-12 pt-[38px] pb-[52px]">
-        <div className="mx-auto grid max-w-[1320px] items-center gap-x-[58px] gap-y-9 rounded-[16px] bg-[#363D23] p-7 text-[#F8F6F1] sm:p-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)] lg:p-14">
+        <div className="mx-auto grid max-w-[1320px] items-center gap-x-[58px] gap-y-9 rounded-[16px] bg-[#2E3A33] p-7 text-[#F8F6F1] sm:p-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)] lg:p-14">
           <div className="flex flex-col gap-[18px]">
             <p className="text-[12px] font-medium uppercase leading-[1.5] tracking-[0.08em] text-[#F8F6F1]/70">{t.eyebrow}</p>
             <h2 className="serif hl-help-title text-[#F8F6F1]">{t.ctaTitle}</h2>
@@ -345,7 +353,7 @@ export function PropertyManagementPage() {
               <a href={CONTACT.phoneHref} className="text-[14.5px] font-semibold tabular-nums text-[#F8F6F1] underline-offset-4 hover:underline">{t.hotline}: {CONTACT.phone}</a>
             </div>
           </div>
-          <div className="relative aspect-[16/11] overflow-hidden rounded-[12px] bg-[#2C3219]">
+          <div className="relative aspect-[16/11] overflow-hidden rounded-[12px] bg-[#26302A]">
             <img loading="lazy" decoding="async" {...photo('/photos/hbc-desk.webp', '(min-width: 1024px) 600px, 100vw')} alt={t.ctaAlt} className="absolute inset-0 h-full w-full object-cover" />
           </div>
         </div>
