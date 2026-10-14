@@ -77,7 +77,7 @@ export function PropertyStack({ items, view, prev, next }: { items: StackItem[];
               <div className="flex flex-1 flex-col p-5 lg:p-6">
                 <h3 className="serif text-[1.35rem] leading-tight text-[#2A2623]">{it.name}</h3>
                 <p className="mt-1.5 flex items-center gap-1.5 text-[13px] text-[#4A443F]"><MapPin size={13} className="shrink-0 text-[#D12126]" /> {it.location}</p>
-                <dl className="mt-4 grid grid-cols-3 gap-3 border-t border-[#2A2623]/12 pt-4">
+                <dl className="mt-4 flex justify-between gap-4 border-t border-[#2A2623]/12 pt-4">
                   {it.stats.map(([label, value]) => (
                     <div key={label} className="flex min-w-0 flex-col-reverse">
                       <dt className="mt-1 truncate text-[11px] text-[#6B645D]">{label}</dt>

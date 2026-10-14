@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { ClipboardList, Handshake, Settings, LineChart, ServiceIcon } from '../components/Glyph';
 import { motion } from 'motion/react';
+import { HeroBg } from '../components/HeroBg';
 import { PropertyStack } from '../components/PropertyStack';
 import { PROPERTIES } from '../data/managedProperties';
 import { ws } from '../data/site';
@@ -104,11 +105,11 @@ export function SolutionsPage() {
   return (
     <>
       {/* Hero */}
-      {/* Hero: the promise on the left; on the right, cards of the properties
-          HiLink manages and how they are doing, turning one after another. */}
-      <section id="hero" className="relative overflow-hidden bg-[#2A2623] text-white">
-        <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-24 w-full grid lg:grid-cols-12 gap-x-12 gap-y-14 items-center">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="lg:col-span-7">
+      {/* Hero */}
+      <section id="hero" className="relative overflow-hidden min-h-[72vh] flex items-end bg-[#2A2623] text-white">
+        <HeroBg image="/photos/hbc-lounge-xl.webp" />
+        <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28 w-full">
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-4xl">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#F06A6E] mb-7 flex items-center gap-3">
               <Flag className="text-[#F06A6E]" /> {t.eyebrow}
             </p>
@@ -119,14 +120,6 @@ export function SolutionsPage() {
               {t.lead}
             </p>
           </motion.div>
-          <div className="lg:col-span-5">
-            <PropertyStack
-              view={t.stackView}
-              prev={t.stackPrev}
-              next={t.stackNext}
-              items={PROPERTIES[lang].map((p) => ({ ...p, to: p.slug ? l(`/workspace/${p.slug}`) : undefined, href: p.href ? ws(lang, p.href) : undefined, crop: p.slug === 'quarter-house' ? 'left center' : undefined }))}
-            />
-          </div>
         </div>
       </section>
 
@@ -200,9 +193,23 @@ export function SolutionsPage() {
                         {t.explore} {s.title} <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
                       </Link>
                     </div>
-                    <div className="relative min-h-[280px] sm:min-h-[380px] lg:col-span-5 lg:min-h-0">
-                      <img {...photo(s.image, '(min-width: 1024px) 40vw, 100vw')} alt={s.title} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
-                    </div>
+                    {i === 0 ? (
+                      // Property Management: the properties HiLink manages and how they are doing, turning one after another.
+                      <div className="relative flex items-center justify-center bg-[#1B1412] px-6 py-10 sm:px-10 lg:col-span-5 lg:py-12">
+                        <div className="w-full max-w-[360px]">
+                          <PropertyStack
+                            view={t.stackView}
+                            prev={t.stackPrev}
+                            next={t.stackNext}
+                            items={PROPERTIES[lang].map((p) => ({ ...p, to: p.slug ? l(`/workspace/${p.slug}`) : undefined, href: p.href ? ws(lang, p.href) : undefined, crop: p.slug === 'quarter-house' ? 'left center' : undefined }))}
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="relative min-h-[280px] sm:min-h-[380px] lg:col-span-5 lg:min-h-0">
+                        <img {...photo(s.image, '(min-width: 1024px) 40vw, 100vw')} alt={s.title} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
+                      </div>
+                    )}
                   </article>
                 </div>
               </Fragment>
