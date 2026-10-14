@@ -197,7 +197,7 @@ export function HomePage() {
       {/* ── Services ── */}
       <section className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 mb-20">
+          <div className="grid lg:grid-cols-12 gap-12 xl:gap-24 mb-20">
             <div className="lg:col-span-4">
               <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.svcEyebrow}</p>
               <h2 className="serif text-5xl lg:text-6xl">{t.svcTitle}</h2>

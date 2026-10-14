@@ -148,7 +148,7 @@ export function SolutionsPage() {
 
       {/* Intro */}
       <section className="relative py-24 lg:py-32 bg-white">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-12 lg:gap-24">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-12 xl:gap-24">
           <div className="lg:col-span-5">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.introEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl leading-tight">{t.introTitle}</h2>

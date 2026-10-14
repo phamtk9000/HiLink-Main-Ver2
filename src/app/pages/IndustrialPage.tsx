@@ -93,7 +93,7 @@ export function IndustrialPage() {
         <Yard />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
-            className="grid lg:grid-cols-12 gap-12 lg:gap-24"
+            className="grid lg:grid-cols-12 gap-12 xl:gap-24"
           >
             <motion.div className="lg:col-span-6">
               <p className="text-sm uppercase tracking-wider text-[#F06A6E] mb-8">{t.eyebrow}</p>
