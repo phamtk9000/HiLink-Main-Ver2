@@ -74,12 +74,15 @@ function Stat({ n, from = 0, suf = '', l, i, run, still }: { n: number; from?: n
   const v = useCount(n, from, run, still);
   return (
     <div className="px-6 lg:px-8 py-8 lg:py-10">
+      {/* the figure for screen readers sits outside the gradient-clipped one:
+          Safari paints every glyph inside background-clip: text, even hidden ones */}
+      <span className="sr-only">{`${n}${suf}`}</span>
       <div
+        aria-hidden="true"
         className="serif text-[3rem] lg:text-[4.25rem] leading-none lining-nums tabular-nums bg-clip-text text-transparent"
         style={{ backgroundImage: NUM_GRADIENTS[i % NUM_GRADIENTS.length], WebkitBackgroundClip: 'text' }}
       >
-        <span className="sr-only">{`${n}${suf}`}</span>
-        <span aria-hidden="true">{v}{suf}</span>
+        {v}{suf}
       </div>
       <p className="mt-3 text-[15px] text-white/85">{l}</p>
     </div>
