@@ -82,17 +82,15 @@ export function PropertyRentalForm() {
   return (
     <section className="relative overflow-hidden py-24 lg:py-32 bg-[#361716] text-white">
       <Contours />
-      {/* The form keeps to the left half; a photograph of a home stands on the right (above it on phones). */}
-      <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 xl:gap-x-24 gap-y-12">
-        <div className="relative min-h-[260px] overflow-hidden rounded-[8px] bg-[#2B1212] lg:order-last lg:col-span-6 lg:min-h-0">
-          <img loading="lazy" decoding="async" {...photo('/photos/stock-living-room.webp', '(min-width: 1024px) 46vw, 100vw')} alt={lang === 'vi' ? 'Phòng khách của một căn hộ' : 'The living room of an apartment'} className="absolute inset-0 h-full w-full object-cover" />
-        </div>
-        <div className="lg:col-span-6">
+      {/* The heading above; beneath it the form on the left half and a
+          photograph of a home on the right, exactly as tall as the form
+          (above it on phones). */}
+      <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-10"
+          className="mb-10 lg:mb-12"
         >
           <h2 className="serif text-4xl lg:text-5xl mb-5 text-[#E9E3DA]">
             {t('propertyForm.title')}
@@ -101,7 +99,11 @@ export function PropertyRentalForm() {
             {t('propertyForm.subtitle')}
           </p>
         </motion.div>
-
+      <div className="grid lg:grid-cols-12 gap-x-16 xl:gap-x-24 gap-y-10 lg:items-stretch">
+        <div className="relative min-h-[260px] overflow-hidden rounded-[8px] bg-[#2B1212] lg:order-last lg:col-span-6 lg:min-h-[420px]">
+          <img loading="lazy" decoding="async" {...photo('/photos/stock-living-room.webp', '(min-width: 1024px) 46vw, 100vw')} alt={lang === 'vi' ? 'Phòng khách của một căn hộ' : 'The living room of an apartment'} className="absolute inset-0 h-full w-full object-cover" />
+        </div>
+        <div className="lg:col-span-6">
         {showSuccess ? (
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -289,6 +291,7 @@ export function PropertyRentalForm() {
           </motion.form>
         )}
         </div>
+      </div>
       </div>
     </section>
   );
