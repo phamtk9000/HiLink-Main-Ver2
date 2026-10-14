@@ -1,22 +1,33 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import { Factory, ClipboardList, Handshake, Settings, LineChart, ServiceIcon } from '../components/Glyph';
+import { ClipboardList, Handshake, Settings, LineChart, ServiceIcon } from '../components/Glyph';
 import { motion } from 'motion/react';
 import { HeroBg } from '../components/HeroBg';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { Candles } from '../components/Candles';
 import { photo } from '../lib/photo';
+import { PARTNER_FIGURE } from '../data/site';
+import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 
 const META = [
   { icon: <ServiceIcon path="/property-management" size={30} />, path: '/property-management', image: '/photos/f19-window.webp' },
   { icon: <ServiceIcon path="/workspace-leasing" size={30} />, path: '/workspace-leasing', image: '/photos/f15-reception.webp' },
   { icon: <ServiceIcon path="/business-services" size={30} />, path: '/business-services', image: '/photos/hbc-client-meeting.webp' },
   { icon: <ServiceIcon path="/concierge-services" size={30} />, path: '/concierge-services', image: '/photos/hbc-host.webp' },
-  // No HiLink photograph of an industrial site yet — shown as a dark panel.
-  { icon: <ServiceIcon path="/industrial-logistics" size={30} />, path: '/industrial-logistics', image: '' },
+  // No HiLink photograph of an industrial site yet: a stock one (PHOTO-CREDITS.md).
+  { icon: <ServiceIcon path="/industrial-logistics" size={30} />, path: '/industrial-logistics', image: '/photos/stock-port.webp' },
 ];
+// Each solution's card: its ground, and whether the words on it are light.
+const CARDS = [
+  { bg: '#2A2623', light: true }, { bg: '#F4F0EA', light: false }, { bg: '#2E3A33', light: true }, { bg: '#361716', light: true }, { bg: '#1E1614', light: true },
+];
+// One figure for each solution, from what HiLink states elsewhere on the site.
+const FIGS = {
+  en: [['95%', 'occupancy at The Quarter House'], [String(WORKSPACE_LOCATIONS.length), 'addresses in central Hanoi'], [PARTNER_FIGURE, 'partner companies'], ['24/7', 'concierge support'], ['Nationwide', 'warehouses, factories and logistics across Vietnam']],
+  vi: [['95%', 'lấp đầy tại The Quarter House'], [String(WORKSPACE_LOCATIONS.length), 'địa chỉ giữa trung tâm Hà Nội'], [PARTNER_FIGURE, 'doanh nghiệp đối tác'], ['24/7', 'hỗ trợ concierge'], ['Toàn quốc', 'kho bãi, nhà xưởng và logistics khắp Việt Nam']],
+};
 
 const STEP_ICONS = [<ClipboardList size={22} />, <Handshake size={22} />, <Settings size={22} />, <LineChart size={22} />];
 
@@ -74,20 +85,44 @@ export function SolutionsPage() {
   const t = T[lang];
   usePageMeta(t.eyebrow, t.meta);
   const solutions = t.solutions.map((s, i) => ({ ...s, ...META[i] }));
-  // Which solution is being read (the one crossing the middle of the screen), for the quick nav.
+  // Which solution is being read, for the quick nav: the last whose place in
+  // the page has passed the middle of the screen. And, on wide screens, each
+  // card sinks back a little as the next one slides up over it.
   const [active, setActive] = useState(-1);
+  const stack = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const blocks = META.map((_, i) => document.getElementById(`solution-${i}`)).filter((el): el is HTMLElement => !!el);
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        const i = Number(e.target.id.split('-')[1]);
-        if (e.isIntersecting) setActive(i);
-        else setActive((cur) => (cur === i ? -1 : cur));
+    const root = stack.current;
+    if (!root) return undefined;
+    const marks = [...root.querySelectorAll<HTMLElement>('[data-mark]')];
+    const cards = [...root.querySelectorAll<HTMLElement>('[data-stack-card]')];
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const mid = window.innerHeight * 0.5, end = root.getBoundingClientRect().bottom;
+      let at = -1;
+      marks.forEach((m, k) => { if (m.getBoundingClientRect().top < mid) at = k; });
+      setActive(end < mid ? -1 : at);
+      const wide = window.innerWidth >= 1024;
+      cards.forEach((c, k) => {
+        const inner = c.firstElementChild as HTMLElement | null, shade = c.querySelector<HTMLElement>('[data-shade]');
+        const next = cards[k + 1];
+        let p = 0;
+        if (wide && next && !still) {
+          const a = c.getBoundingClientRect(), b = next.getBoundingClientRect();
+          p = Math.min(1, Math.max(0, (a.top + a.height - b.top) / Math.max(1, a.height - 14)));
+        }
+        if (inner) inner.style.transform = p ? `scale(${(1 - 0.05 * p).toFixed(4)})` : '';
+        if (shade) shade.style.opacity = (0.45 * p).toFixed(3);
       });
-    }, { rootMargin: '-45% 0px -54% 0px' });
-    blocks.forEach((b) => io.observe(b));
-    return () => io.disconnect();
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); };
   }, []);
+  const figs = FIGS[lang];
 
   return (
     <>
@@ -147,59 +182,57 @@ export function SolutionsPage() {
         </div>
       </section>
 
-      {/* Detailed solution sections */}
-      <section id="solutions" className="bg-white">
-        {solutions.map((s, i) => (
-          <div
-            id={`solution-${i}`}
-            key={s.path}
-            className="border-t border-[#2A2623]/10 bg-white scroll-mt-[76px] lg:scroll-mt-[168px]"
-          >
-            <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28">
-              <div className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${i % 2 === 1 ? 'lg:[direction:rtl]' : ''}`}>
-                <motion.div
-                  className="relative aspect-[4/3] overflow-hidden rounded-[8px] lg:[direction:ltr]"
-                  initial={{ opacity: 0, scale: 0.98 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.7 }}
-                >
-                  {s.image ? (
-                    <img {...photo(s.image)} alt={s.title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full bg-[#EDE7DF] flex flex-col items-start justify-end p-10 text-[#D12126]">
-                      <Factory size={56} strokeWidth={1} className="mb-6" />
-                      <span className="serif text-3xl lg:text-4xl">{s.title}</span>
+      {/* The solutions as large cards stacked one over another, a pattern
+          from award-winning services pages: on wide screens each stays under
+          the quick nav while the next slides up over it, and the one beneath
+          sinks back a little. Each card: its number, name and promise, what
+          it covers, the way in, and a photograph with one figure on it. */}
+      <section id="solutions" className="relative bg-white pb-24 lg:pb-32">
+        <div ref={stack} className="max-w-[1600px] mx-auto px-6 lg:px-12">
+          {solutions.map((s, i) => {
+            const c = CARDS[i], on = c.light ? 'text-[#F6EFE6]' : 'text-[#2A2623]', soft = c.light ? 'text-[#F6EFE6]/75' : 'text-[#4A443F]', rule = c.light ? 'border-white/15' : 'border-[#2A2623]/12';
+            // marker and card are siblings in one column, so each card can stay put the whole way down
+            return (
+              <Fragment key={s.path}>
+                <div id={`solution-${i}`} data-mark className="scroll-mt-[76px] lg:scroll-mt-[184px]" aria-hidden="true" />
+                <div data-stack-card className={`${i < solutions.length - 1 ? 'mb-6 lg:mb-[12vh]' : ''} lg:sticky`} style={{ top: `calc(184px + ${i * 14}px)` }}>
+                  <article className="relative origin-top overflow-hidden rounded-[20px] [display:grid] lg:grid-cols-12 lg:min-h-[min(640px,calc(100vh-212px))] will-change-transform" style={{ backgroundColor: c.bg }}>
+                    <div className={`relative z-10 flex flex-col p-7 sm:p-10 lg:col-span-7 lg:p-14 ${on}`}>
+                      <div className="flex items-start justify-between gap-6">
+                        <p className="serif lining-nums leading-none text-[3.25rem] lg:text-[4.5rem] text-[#F06A6E]">
+                          {String(i + 1).padStart(2, '0')}<span className={`ml-2 align-top text-[13px] tracking-[0.14em] ${soft}`}>/ {String(solutions.length).padStart(2, '0')}</span>
+                        </p>
+                        <span className={`grid h-14 w-14 shrink-0 place-items-center rounded-full border ${c.light ? 'border-white/25 text-[#F06A6E]' : 'border-[#2A2623]/15 text-[#D12126]'}`}>{s.icon}</span>
+                      </div>
+                      <p className={`mt-8 lg:mt-auto text-[12px] uppercase tracking-[0.2em] ${c.light ? 'text-[#F06A6E]' : 'text-[#D12126]'}`}>{s.tag}</p>
+                      <h3 className={`serif hl-stack-title mt-3 ${on}`}>{s.title}</h3>
+                      <p className={`mt-5 max-w-[58ch] text-[1.0625rem] leading-relaxed ${soft}`}>{s.description}</p>
+                      <ul className={`mt-7 grid sm:grid-cols-2 border-t ${rule}`}>
+                        {s.points.map((pt) => (
+                          <li key={pt} className={`flex items-start gap-3 border-b py-3.5 text-[15px] leading-snug sm:odd:pr-6 ${rule}`}>
+                            <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#F06A6E]" aria-hidden="true" />{pt}
+                          </li>
+                        ))}
+                      </ul>
+                      <Link to={l(s.path)} className={`group mt-8 inline-flex w-fit items-center gap-3 rounded-full px-6 py-3.5 text-[12.5px] font-semibold uppercase tracking-[0.08em] transition-colors ${c.light ? 'bg-[#F6EFE6] text-[#2A2623] hover:bg-white' : 'bg-[#2A2623] text-white hover:bg-[#D12126]'}`}>
+                        {t.explore} {s.title} <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
+                      </Link>
                     </div>
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#2A2623]/30 to-transparent" />
-                  <span className="absolute top-5 left-5 text-[12px] uppercase tracking-[0.2em] bg-[#2A2623]/70 text-[#F06A6E] px-3 py-1.5">0{i + 1}</span>
-                </motion.div>
-
-                <motion.div
-                  className="lg:[direction:ltr]"
-                  initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6 }}
-                >
-                  <div className="text-[#D12126] mb-5">{s.icon}</div>
-                  <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-3">{s.tag}</p>
-                  <h3 className="serif text-3xl lg:text-4xl mb-6">{s.title}</h3>
-                  <p className="text-[#6B645D] leading-relaxed mb-8 text-[17px]">{s.description}</p>
-                  <ul className="grid sm:grid-cols-2 gap-y-3 gap-x-6 mb-10">
-                    {s.points.map((pt) => (
-                      <li key={pt} className="flex items-start gap-3 text-[15px] text-[#2A2623]">
-                        <span className="w-1.5 h-1.5 bg-[#D12126] rounded-full mt-2.5 flex-shrink-0" />
-                        {pt}
-                      </li>
-                    ))}
-                  </ul>
-                  <Link to={l(s.path)} className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.18em] text-[#2A2623] group">
-                    <span className="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#D12126] group-hover:after:w-full after:transition-all after:duration-300">
-                      {t.explore} {s.title}
-                    </span>
-                    <ArrowRight size={15} className="text-[#D12126] group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </motion.div>
-              </div>
-            </div>
-          </div>
-        ))}
+                    <div className="relative min-h-[280px] sm:min-h-[380px] lg:col-span-5 lg:min-h-0">
+                      <img {...photo(s.image, '(min-width: 1024px) 40vw, 100vw')} alt={s.title} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" aria-hidden="true" />
+                      <div className="absolute bottom-5 left-5 right-5 max-w-[320px] rounded-[14px] bg-white/95 px-5 py-4 text-[#2A2623] backdrop-blur-sm lg:bottom-7 lg:left-7">
+                        <p className="serif lining-nums text-[2.25rem] leading-none text-[#D12126]">{figs[i][0]}</p>
+                        <p className="mt-2 text-[13.5px] leading-snug text-[#4A443F]">{figs[i][1]}</p>
+                      </div>
+                    </div>
+                    <div data-shade className="pointer-events-none absolute inset-0 z-20 bg-black opacity-0" aria-hidden="true" />
+                  </article>
+                </div>
+              </Fragment>
+            );
+          })}
+        </div>
       </section>
       </div>
 
