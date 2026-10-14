@@ -54,7 +54,7 @@ export function Header() {
     const focusables = () => [toggleRef.current, ...Array.from(menuRef.current?.querySelectorAll<HTMLElement>('a[href], button') ?? [])].filter(Boolean) as HTMLElement[];
     const first = window.setTimeout(() => focusables()[1]?.focus(), 50);
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { setIsOpen(false); toggleRef.current?.focus(); return; }
+      if (e.key === 'Escape') { setIsOpen(false); toggleRef.current?.focus({ preventScroll: true, focusVisible: false } as FocusOptions); return; }
       if (e.key !== 'Tab') return;
       const els = focusables();
       const i = els.indexOf(document.activeElement as HTMLElement);
@@ -117,7 +117,7 @@ export function Header() {
               <button
                 ref={toggleRef}
                 onClick={() => setIsOpen((o) => !o)}
-                className={`flex items-center gap-3 group text-[#2A2623]`}
+                className="flex items-center gap-3 group text-[#2A2623] outline-none focus-visible:text-[#D12126]"
                 aria-label={isOpen ? t.close : t.toggle}
                 aria-expanded={isOpen}
                 aria-controls="site-menu"
