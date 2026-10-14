@@ -19,6 +19,7 @@ import { Flag } from '../components/Flag';
 import { photo } from '../lib/photo';
 import { PropertyDeck } from '../components/PropertyDeck';
 import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
+import { PROPERTIES } from '../data/managedProperties';
 
 // The service grid: the large photograph, then one for each part of the
 // service (the order of T.services). Stock photographs (see PHOTO-CREDITS.md).
@@ -66,13 +67,6 @@ const T = {
     ],
     propTitle: 'Properties We Manage', propLead: 'Residential and workspace assets run day to day by HiLink',
     view: 'View Property',
-    properties: [
-      { slug: 'quarter-house', name: 'The Quarter House', location: 'Hoan Kiem, Hanoi', type: 'Boutique Townhouse', image: '/properties/quarter-house/qh-07.webp', stats: [['Units', '4'], ['Occupancy', '95%'], ['Avg Rent', '$4,000/mo']] },
-      { href: '/locations/ttt-f19', name: 'Floor 19 · 4 Ton That Tung', location: 'Kim Lien, Dong Da, Hanoi', type: 'Private Floor', image: '/photos/f19-window.webp', stats: [['Floor', '19'], ['Leased to', '1 tenant'], ['Team size', '20–60']] },
-      { href: '/locations/ttt-f17', name: 'Floor 17 · 4 Ton That Tung', location: 'Kim Lien, Dong Da, Hanoi', type: 'Private Floor', image: '/photos/f15-office-hi11.webp', stats: [['Zones', '2'], ['Zone 17B', 'Let'], ['Zone 17A', 'Available']] },
-      { href: '/locations/ttt-f15', name: 'Floor 15 · 4 Ton That Tung', location: 'Kim Lien, Dong Da, Hanoi', type: 'Premium Workspace', image: '/photos/f15-lounge-cabin.webp', stats: [['Offices', '2–12 pax'], ['Meeting rooms', '4–12 pax'], ['Hours', '08:00–20:00']] },
-      { href: '/locations/nha-chung', name: '35 Nha Chung', location: 'Hoan Kiem, Hanoi', type: 'Flex Space', image: '/photos/nc35-room.webp', stats: [['Desks', 'Flex · dedicated'], ['Day pass', 'from ₫130k'], ['Hours', '08:00–19:00']] },
-    ],
     resEyebrow: 'Results & Metrics', resTitle: 'Performance That Speaks for Itself',
     resLead: 'Numbers from the portfolio HiLink runs today.',
     metrics: ['Quarter House Occupancy', 'HiLink Locations', 'Partner Companies', 'Concierge Support'],
@@ -130,13 +124,6 @@ const T = {
     ],
     propTitle: 'Bất động sản chúng tôi quản lý', propLead: 'Tài sản nhà ở và không gian làm việc do HiLink vận hành hằng ngày',
     view: 'Xem chi tiết',
-    properties: [
-      { slug: 'quarter-house', name: 'The Quarter House', location: 'Hoàn Kiếm, Hà Nội', type: 'Nhà phố boutique', image: '/properties/quarter-house/qh-07.webp', stats: [['Số căn', '4'], ['Lấp đầy', '95%'], ['Giá thuê TB', '$4,000/tháng']] },
-      { href: '/locations/ttt-f19', name: 'Tầng 19 · 4 Tôn Thất Tùng', location: 'Kim Liên, Đống Đa, Hà Nội', type: 'Sàn riêng', image: '/photos/f19-window.webp', stats: [['Tầng', '19'], ['Cho thuê', '1 khách'], ['Quy mô', '20–60 người']] },
-      { href: '/locations/ttt-f17', name: 'Tầng 17 · 4 Tôn Thất Tùng', location: 'Kim Liên, Đống Đa, Hà Nội', type: 'Sàn riêng', image: '/photos/f15-office-hi11.webp', stats: [['Khu', '2'], ['Khu 17B', 'Đã thuê'], ['Khu 17A', 'Còn trống']] },
-      { href: '/locations/ttt-f15', name: 'Tầng 15 · 4 Tôn Thất Tùng', location: 'Kim Liên, Đống Đa, Hà Nội', type: 'Premium Workspace', image: '/photos/f15-lounge-cabin.webp', stats: [['Văn phòng', '2–12 người'], ['Phòng họp', '4–12 người'], ['Giờ mở cửa', '08:00–20:00']] },
-      { href: '/locations/nha-chung', name: '35 Nhà Chung', location: 'Hoàn Kiếm, Hà Nội', type: 'Không gian linh hoạt', image: '/photos/nc35-room.webp', stats: [['Chỗ ngồi', 'Flex · cố định'], ['Theo ngày', 'từ ₫130k'], ['Giờ mở cửa', '08:00–19:00']] },
-    ],
     resEyebrow: 'Kết quả & số liệu', resTitle: 'Hiệu quả tự nói lên tất cả',
     resLead: 'Số liệu từ danh mục HiLink đang vận hành.',
     metrics: ['Lấp đầy tại Quarter House', 'Địa điểm HiLink', 'Doanh nghiệp đối tác', 'Hỗ trợ concierge'],
@@ -320,7 +307,7 @@ export function PropertyManagementPage() {
             view={t.view}
             prev={t.prev}
             next={t.next}
-            items={t.properties.map((p) => ({ ...p, to: p.slug ? l(`/workspace/${p.slug}`) : undefined, href: p.href ? ws(lang, p.href) : undefined, crop: p.slug === 'quarter-house' ? 'left center' : undefined }))}
+            items={PROPERTIES[lang].map((p) => ({ ...p, to: p.slug ? l(`/workspace/${p.slug}`) : undefined, href: p.href ? ws(lang, p.href) : undefined, crop: p.slug === 'quarter-house' ? 'left center' : undefined }))}
           />
         </div>
       </section>

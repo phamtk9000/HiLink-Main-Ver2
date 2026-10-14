@@ -3,13 +3,13 @@ import { Link } from 'react-router';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { ClipboardList, Handshake, Settings, LineChart, ServiceIcon } from '../components/Glyph';
 import { motion } from 'motion/react';
-import { HeroBg } from '../components/HeroBg';
+import { PropertyStack } from '../components/PropertyStack';
+import { PROPERTIES } from '../data/managedProperties';
+import { ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { Candles } from '../components/Candles';
 import { photo } from '../lib/photo';
-import { PARTNER_FIGURE } from '../data/site';
-import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 
 const META = [
   { icon: <ServiceIcon path="/property-management" size={30} />, path: '/property-management', image: '/photos/f19-window.webp' },
@@ -23,11 +23,6 @@ const META = [
 const CARDS = [
   { bg: '#2A2623', light: true }, { bg: '#F4F0EA', light: false }, { bg: '#2E3A33', light: true }, { bg: '#361716', light: true }, { bg: '#1B1412', light: true },
 ];
-// One figure for each solution, from what HiLink states elsewhere on the site.
-const FIGS = {
-  en: [['95%', 'occupancy at The Quarter House'], [String(WORKSPACE_LOCATIONS.length), 'addresses in central Hanoi'], [PARTNER_FIGURE, 'partner companies'], ['24/7', 'concierge support'], ['Nationwide', 'warehouses, factories and logistics across Vietnam']],
-  vi: [['95%', 'lấp đầy tại The Quarter House'], [String(WORKSPACE_LOCATIONS.length), 'địa chỉ giữa trung tâm Hà Nội'], [PARTNER_FIGURE, 'doanh nghiệp đối tác'], ['24/7', 'hỗ trợ concierge'], ['Toàn quốc', 'kho bãi, nhà xưởng và logistics khắp Việt Nam']],
-};
 
 const STEP_ICONS = [<ClipboardList size={22} />, <Handshake size={22} />, <Settings size={22} />, <LineChart size={22} />];
 
@@ -35,10 +30,10 @@ const T = {
   en: {
     meta: 'Property management, workspace leasing, business services, concierge and industrial & logistics — one partner across the full property lifecycle.',
     eyebrow: 'Our Solutions', h1a: 'One partner across the', h1b: 'full property lifecycle',
-    lead: 'From management and workspace to advisory and concierge, HiLink brings every solution international clients need to invest, operate, and grow in Vietnam — under one roof.',
+    lead: 'Management, workspace, advisory and concierge — everything you need to invest and grow in Vietnam, under one roof.',
     introEyebrow: 'Everything under one roof', introTitle: 'Five solutions, one standard of excellence',
-    intro: 'Most clients start with a single need — a property to manage, an office to lease, a company to set up. They stay because HiLink can handle everything that comes next. Explore each solution below, or tell us your goals and we will compose the right combination for you.',
-    explore: 'Explore',
+    intro: 'Clients usually start with one need and stay because HiLink can handle what comes next. Explore each solution below.',
+    explore: 'Explore', stackView: 'View property', stackPrev: 'Previous property', stackNext: 'Next property',
     solutions: [
       { title: 'Property Management', tag: 'Own with confidence', description: 'End-to-end management for residential, commercial, hospitality, and short-term rental assets — tenant acquisition, maintenance, rent collection, and transparent owner reporting.', points: ['Residential, commercial & hospitality assets', 'Premium tenant screening & leasing', '24/7 maintenance & concierge support', 'Monthly statements & yield optimisation'] },
       { title: 'Workspace Leasing', tag: 'Work where you thrive', description: 'Premium coworking, private offices and whole floors across six HiLink addresses in central Hanoi — bookable by the hour, day, or month, with everything a modern team needs to do their best work.', points: ['Private offices, desks & meeting rooms', 'Six locations in Hoan Kiem & Dong Da', 'Business addresses with E-office', 'Live availability & booking on hilink.vn'] },
@@ -58,10 +53,10 @@ const T = {
   vi: {
     meta: 'Quản lý bất động sản, cho thuê văn phòng, dịch vụ doanh nghiệp, concierge và công nghiệp & logistics — một đối tác suốt vòng đời bất động sản.',
     eyebrow: 'Giải pháp', h1a: 'Một đối tác suốt', h1b: 'vòng đời bất động sản',
-    lead: 'Từ quản lý tài sản, không gian làm việc đến tư vấn và concierge, HiLink mang đến mọi giải pháp khách hàng quốc tế cần để đầu tư, vận hành và phát triển tại Việt Nam — tại một đầu mối.',
+    lead: 'Quản lý tài sản, không gian làm việc, tư vấn và concierge — mọi điều cần để đầu tư tại Việt Nam, một đầu mối.',
     introEyebrow: 'Tất cả trong một đầu mối', introTitle: 'Năm giải pháp, một tiêu chuẩn xuất sắc',
-    intro: 'Hầu hết khách hàng bắt đầu với một nhu cầu — một tài sản cần quản lý, một văn phòng cần thuê, một công ty cần thành lập. Họ ở lại vì HiLink có thể lo mọi việc tiếp theo. Khám phá từng giải pháp bên dưới, hoặc cho chúng tôi biết mục tiêu để chúng tôi kết hợp giải pháp phù hợp cho bạn.',
-    explore: 'Khám phá',
+    intro: 'Khách hàng thường bắt đầu với một nhu cầu và ở lại vì HiLink lo được mọi việc tiếp theo. Khám phá từng giải pháp bên dưới.',
+    explore: 'Khám phá', stackView: 'Xem chi tiết', stackPrev: 'Bất động sản trước', stackNext: 'Bất động sản tiếp theo',
     solutions: [
       { title: 'Quản lý bất động sản', tag: 'Sở hữu an tâm', description: 'Quản lý trọn gói cho bất động sản nhà ở, thương mại, khách sạn và cho thuê ngắn hạn — tìm khách thuê, bảo trì, thu tiền thuê và báo cáo minh bạch cho chủ sở hữu.', points: ['Bất động sản nhà ở, thương mại & khách sạn', 'Sàng lọc khách thuê & cho thuê', 'Bảo trì & hỗ trợ concierge 24/7', 'Báo cáo hàng tháng & tối ưu lợi suất'] },
       { title: 'Cho thuê văn phòng', tag: 'Làm việc ở nơi bạn phát triển', description: 'Coworking, văn phòng riêng và nguyên sàn tại sáu địa chỉ HiLink giữa trung tâm Hà Nội — đặt theo giờ, ngày hoặc tháng, với mọi thứ một đội ngũ hiện đại cần để làm việc tốt nhất.', points: ['Văn phòng riêng, chỗ ngồi & phòng họp', 'Sáu địa điểm tại Hoàn Kiếm & Đống Đa', 'Địa chỉ doanh nghiệp với E-office', 'Xem phòng trống & đặt chỗ trên hilink.vn'] },
@@ -106,15 +101,14 @@ export function SolutionsPage() {
     update();
     return () => { cancelAnimationFrame(raf); window.removeEventListener('scroll', onScroll); };
   }, []);
-  const figs = FIGS[lang];
-
   return (
     <>
       {/* Hero */}
-      <section id="hero" className="relative overflow-hidden min-h-[72vh] flex items-end bg-[#2A2623] text-white">
-        <HeroBg image="/photos/hbc-lounge-xl.webp" />
-        <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28 w-full">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-4xl">
+      {/* Hero: the promise on the left; on the right, cards of the properties
+          HiLink manages and how they are doing, turning one after another. */}
+      <section id="hero" className="relative overflow-hidden bg-[#2A2623] text-white">
+        <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-24 w-full grid lg:grid-cols-12 gap-x-12 gap-y-14 items-center">
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="lg:col-span-7">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#F06A6E] mb-7 flex items-center gap-3">
               <Flag className="text-[#F06A6E]" /> {t.eyebrow}
             </p>
@@ -125,6 +119,14 @@ export function SolutionsPage() {
               {t.lead}
             </p>
           </motion.div>
+          <div className="lg:col-span-5">
+            <PropertyStack
+              view={t.stackView}
+              prev={t.stackPrev}
+              next={t.stackNext}
+              items={PROPERTIES[lang].map((p) => ({ ...p, to: p.slug ? l(`/workspace/${p.slug}`) : undefined, href: p.href ? ws(lang, p.href) : undefined, crop: p.slug === 'quarter-house' ? 'left center' : undefined }))}
+            />
+          </div>
         </div>
       </section>
 
@@ -167,8 +169,7 @@ export function SolutionsPage() {
       </section>
 
       {/* The solutions as large cards, one after another. Each: its number,
-          name and promise, what it covers, the way in, and a photograph with
-          one figure on it. */}
+          name and promise, what it covers, the way in, and a photograph. */}
       <section id="solutions" className="relative bg-white pb-24 lg:pb-32">
         <div ref={stack} className="max-w-[1600px] mx-auto px-6 lg:px-12">
           {solutions.map((s, i) => {
@@ -201,11 +202,6 @@ export function SolutionsPage() {
                     </div>
                     <div className="relative min-h-[280px] sm:min-h-[380px] lg:col-span-5 lg:min-h-0">
                       <img {...photo(s.image, '(min-width: 1024px) 40vw, 100vw')} alt={s.title} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" aria-hidden="true" />
-                      <div className="absolute bottom-5 left-5 right-5 max-w-[320px] rounded-[14px] bg-white/95 px-5 py-4 text-[#2A2623] backdrop-blur-sm lg:bottom-7 lg:left-7">
-                        <p className="serif lining-nums text-[2.25rem] leading-none text-[#D12126]">{figs[i][0]}</p>
-                        <p className="mt-2 text-[13.5px] leading-snug text-[#4A443F]">{figs[i][1]}</p>
-                      </div>
                     </div>
                   </article>
                 </div>
