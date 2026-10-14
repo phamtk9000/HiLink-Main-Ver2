@@ -15,25 +15,19 @@ import { photo } from '../lib/photo';
 import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 
 const AMENITY_ICONS = [<Wifi size={24} />, <Coffee size={24} />, <Users size={24} />, <Building2 size={24} />, <Calendar size={24} />, <Mail size={24} />];
-// The photographs each location card turns through (the first is its cover).
+// The photograph of each location (the first is shown).
 const LOCATION_PHOTOS: Record<string, string[]> = {
   obc: ['/photos/hbc-lounge.webp', '/photos/hbc-lounge-3.webp', '/photos/hbc-meeting.webp', '/photos/hbc-lounge-4.webp'],
   'nha-chung': ['/photos/nc35-hall.webp', '/photos/nc35-room.webp', '/photos/nc35-desks.webp'],
   'ttt-f15': ['/photos/f15-lounge-cabin.webp', '/photos/f15-lounge.webp', '/photos/f15-office-hi08.webp', '/photos/f15-meeting-pod.webp', '/photos/f15-boardroom.webp'],
   'ttt-f19': ['/photos/f19-window.webp', '/photos/f19-room.webp', '/photos/f19-corridor.webp'],
 };
-// A tag on the photograph, by location.
-const LOCATION_TAGS: Record<string, string> = { 'ttt-f15': 'HiLink Premium Workspace' };
-// The three workspace tiers and the addresses in each; the photograph each
-// is shown with, and the address it was taken at.
+// The three workspace tiers, the addresses in each, and the photograph each is shown with.
 const TIER_LOCATIONS = [['ttt-f17', 'ttt-f19'], ['ttt-f15'], ['nha-chung', 'nq49']];
 const TIER_PHOTOS = ['/photos/f19-window.webp', '/photos/f15-lounge-wide-xl.webp', '/photos/nc35-long.webp'];
-const TIER_PHOTO_AT = ['ttt-f19', 'ttt-f15', 'nha-chung'];
 // One glyph for each plan (the order of T.plans): a desk, a key, two people, an address.
 const PLAN_ICONS = [<ServiceIcon path="/workspace-leasing" size={34} strokeWidth={1.1} />, <Key size={34} strokeWidth={1.1} />, <Users size={34} strokeWidth={1.1} />, <MapPin size={34} strokeWidth={1.1} />];
 const PLAN_SLUGS = ['/solutions/hybrid-work', '/solutions/private-workspaces', '/solutions/corporate-suites', '/solutions/e-office'];
-
-const HOURS_VI: [RegExp, string][] = [[/Mon/g, 'T2'], [/Fri/g, 'T6'], [/Sat/g, 'T7'], [/Sun/g, 'CN'], [/late/g, 'khuya']];
 
 const T = {
   en: {
@@ -55,7 +49,7 @@ const T = {
     live: 'See live availability',
     tiersTitle: 'Workspace tiers',
     tiersLead: 'Three ways to work with HiLink, from a floor of your own to a desk for the day.',
-    tierRows: ['Best for', 'Spaces', 'Addresses', 'Hours'], opening: 'opening soon',
+    tierRows: ['Best for', 'Spaces', 'Addresses', 'Hours'], opening: 'opening soon', more: 'Details',
     tiers: [
       { name: 'Signature', d: 'Whole floors at 4 Ton That Tung, leased to one tenant and built to suit your team, with the building\'s best views over Dong Da.', best: 'Companies that want a floor of their own', spaces: 'Private floors · Enterprise Solutions', note: 'Enterprise Solutions: fit-out and operations to your brief.', hours: 'Mon–Fri · from 08:00' },
       { name: 'Premium Workspaces', d: 'High-floor workspace with skyline views over Dong Da: scalable private offices, lounges, meeting rooms and an event space on one floor.', best: 'Growing teams that need a fitted office and room to scale', spaces: 'Private offices · Hybrid desks · E-office · Meeting rooms · Event space', note: '', hours: 'Mon–Fri · 08:00–20:00' },
@@ -93,7 +87,7 @@ const T = {
     live: 'Xem phòng trống',
     tiersTitle: 'Các hạng Workspace',
     tiersLead: 'Ba cách làm việc cùng HiLink, từ nguyên một sàn riêng đến một chỗ ngồi theo ngày.',
-    tierRows: ['Phù hợp với', 'Không gian', 'Địa chỉ', 'Giờ mở cửa'], opening: 'sắp mở',
+    tierRows: ['Phù hợp với', 'Không gian', 'Địa chỉ', 'Giờ mở cửa'], opening: 'sắp mở', more: 'Chi tiết',
     tiers: [
       { name: 'Signature', d: 'Nguyên sàn tại 4 Tôn Thất Tùng, cho thuê trọn cho một đơn vị và thi công theo nhu cầu của đội bạn, với tầm nhìn đẹp nhất toà nhà ra Đống Đa.', best: 'Doanh nghiệp muốn có một sàn riêng', spaces: 'Sàn riêng · Giải pháp doanh nghiệp', note: 'Giải pháp doanh nghiệp: hoàn thiện và vận hành theo yêu cầu.', hours: 'T2–T6 · từ 08:00' },
       { name: 'Premium Workspaces', d: 'Không gian tầng cao với tầm nhìn toàn cảnh Đống Đa: văn phòng riêng có thể mở rộng, lounge, phòng họp và không gian sự kiện trên cùng một sàn.', best: 'Đội ngũ đang lớn, cần văn phòng đủ nội thất và chỗ để mở rộng', spaces: 'Văn phòng riêng · Chỗ ngồi linh hoạt · E-office · Phòng họp · Không gian sự kiện', note: '', hours: 'T2–T6 · 08:00–20:00' },
@@ -229,9 +223,7 @@ export function WorkspacePage() {
         </div>
       </section>
 
-      {/* Workspace tiers: the three names side by side with who each suits;
-          under them one stage — a photograph and the facts of the tier on
-          show — that moves on by itself until a tier is chosen. */}
+      {/* Workspace tiers: three cards; the details of each slide up on hover. */}
       <section id="tiers" className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="mb-10 lg:mb-14 grid lg:grid-cols-12 gap-x-16 gap-y-6 items-end">
@@ -241,7 +233,7 @@ export function WorkspacePage() {
             </div>
             <p className="lg:col-span-5 text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.tiersLead}</p>
           </div>
-          <TierStage tiers={t.tiers} rows={t.tierRows} opening={t.opening} label={t.tiersTitle} lang={lang} />
+          <TierCards tiers={t.tiers} rows={t.tierRows} opening={t.opening} more={t.more} lang={lang} />
         </div>
       </section>
 
@@ -272,42 +264,32 @@ export function WorkspacePage() {
         </div>
       </section>
 
-      {/* Locations */}
+      {/* Locations, after themalin.co: the title on the left, the row on the right. */}
       <section id="locations" className="py-24 lg:py-32 bg-white">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <motion.div className="text-center mb-16">
-            <h2 className="serif text-4xl lg:text-5xl mb-6">{t.locTitle}</h2>
-            <p className="text-xl text-[#6B645D] max-w-3xl mx-auto">
-              {t.locLead}
-            </p>
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid gap-10 lg:grid-cols-[minmax(0,260px)_minmax(0,1fr)] lg:items-center lg:gap-12 xl:grid-cols-[minmax(0,300px)_minmax(0,1fr)]">
+          <div>
+            <h2 className="serif text-4xl lg:text-5xl">{t.locTitle}</h2>
+            <p className="mt-5 text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.locLead}</p>
             <a
               href={ws(lang, '/locations')}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-8 inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.18em] text-[#D12126] border-b border-[#D12126]/40 pb-1 hover:border-[#D12126] transition-colors"
+              className="mt-7 inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.18em] text-[#D12126] border-b border-[#D12126]/40 pb-1 hover:border-[#D12126] transition-colors"
             >
               {t.live} <ExternalLink size={13} />
             </a>
-          </motion.div>
-
-          <motion.div className="grid md:grid-cols-2 gap-8">
-            {WORKSPACE_LOCATIONS.map((loc, k) => (
-              <LocationCard
-                key={loc.id}
-                href={ws(lang, `/locations/${loc.id}`)}
-                name={loc.name}
-                address={loc.address}
-                city={loc.intro[lang]}
-                type={loc.line ? WORKSPACE_LINES[loc.line].label : 'HiLink'}
-                capacity={lang === 'vi' ? HOURS_VI.reduce((s, [re, v]) => s.replace(re, v), loc.hours) : loc.hours}
-                available={!loc.comingSoon}
-                images={LOCATION_PHOTOS[loc.id] ?? [loc.photo]}
-                tag={LOCATION_TAGS[loc.id]}
-                delay={k * 700}
-                labels={{ available: t.available, soon: t.soon, type: t.type, capacity: t.hours, explore: t.explore }}
-              />
-            ))}
-          </motion.div>
+          </div>
+          <LocationRow
+            label={t.locTitle}
+            items={WORKSPACE_LOCATIONS.map((loc) => ({
+              href: ws(lang, `/locations/${loc.id}`),
+              // "4 Ton That Tung · Floor 15": the street as the name, the floor with the line beneath
+              name: loc.name.split(' · ')[0],
+              place: [loc.name.split(' · ')[1], loc.line ? WORKSPACE_LINES[loc.line].label : 'HiLink'].filter(Boolean).join(' · '),
+              image: (LOCATION_PHOTOS[loc.id] ?? [loc.photo])[0],
+              soon: loc.comingSoon ? t.soon : undefined,
+            }))}
+          />
         </div>
       </section>
 
@@ -362,114 +344,139 @@ type Tier = { name: string; d: string; best: string; spaces: string; note: strin
     facts of the tier on show. It moves on by itself every seven seconds —
     the line over the name fills meanwhile — while it is on screen and the
     pointer is elsewhere, until a tier is chosen by hand. */
-function TierStage({ tiers, rows, opening, label, lang }: { tiers: Tier[]; rows: string[]; opening: string; label: string; lang: 'en' | 'vi' }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [on, setOn] = useState(0);
-  const [auto, setAuto] = useState(true);
-  const [live, setLive] = useState(false);
-  const [held, setHeld] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return undefined;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setAuto(false); return undefined; }
-    const io = new IntersectionObserver(([e]) => setLive(e.isIntersecting), { threshold: 0.3 });
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  const pick = (k: number) => { setOn(k); setAuto(false); };
-  const dt = 'text-[12px] uppercase tracking-[0.14em] text-[#6B645D]';
-  const shotAt = LOCATIONS.find((l) => l.id === TIER_PHOTO_AT[on]);
-
+/** The tiers as three cards, after the Membership cards on themalin.co: a
+    tall photograph over the name and who it suits, in a hairline frame with
+    square corners. Pointing at a card (or focusing into it) slides a panel
+    up over the photograph with the tier's details; on phones a tap on
+    "Details" does the same. */
+function TierCards({ tiers, rows, opening, more, lang }: { tiers: Tier[]; rows: string[]; opening: string; more: string; lang: 'en' | 'vi' }) {
+  const [open, setOpen] = useState(-1);
+  const dt = 'text-[11px] uppercase tracking-[0.16em] text-white/60';
   return (
-    <div ref={ref} onMouseEnter={() => setHeld(true)} onMouseLeave={() => setHeld(false)}>
-      <div role="tablist" aria-label={label} className="flex gap-4 sm:gap-6 lg:gap-10">
-        {tiers.map((tier, k) => (
-          <button
-            key={tier.name}
-            type="button"
-            role="tab"
-            id={`tier-tab-${k}`}
-            aria-selected={k === on}
-            aria-controls={`tier-panel-${k}`}
-            onClick={() => pick(k)}
-            className="group relative flex min-w-0 flex-1 flex-col items-start pt-4 text-left outline-none lg:pt-6"
-          >
-            <span className="absolute inset-x-0 top-0 h-[2px] overflow-hidden bg-[#2A2623]/12" aria-hidden="true">
-              {k === on && (
-                <span
-                  key={auto ? 'run' : 'held'}
-                  className={`absolute inset-0 origin-left bg-[#D12126] ${auto ? 'hl-tier-bar' : ''}`}
-                  style={auto ? { animationPlayState: live && !held ? 'running' : 'paused' } : undefined}
-                  onAnimationEnd={() => setOn((n) => (n + 1) % tiers.length)}
-                />
-              )}
-            </span>
-            <span className={`serif block text-[1.02rem] leading-[1.15] transition-colors duration-300 sm:text-[1.35rem] lg:text-[1.9rem] ${k === on ? 'text-[#2A2623]' : 'text-[#2A2623]/45 group-hover:text-[#2A2623]/80 group-focus-visible:text-[#2A2623]/80'}`}>{tier.name}</span>
-            <span className={`mt-2.5 hidden max-w-[34ch] text-[14.5px] font-normal leading-snug transition-colors duration-300 lg:block ${k === on ? 'text-[#6B645D]' : 'text-[#6B645D]/60'}`}>{tier.best}</span>
-          </button>
-        ))}
-      </div>
-
-      <div className="mt-8 flex flex-col gap-8 lg:mt-12 lg:flex-row lg:items-stretch lg:gap-14 xl:gap-20">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-[12px] bg-[#2A2623] lg:aspect-auto lg:min-h-[540px] lg:w-[56%]">
-          {TIER_PHOTOS.map((src, k) => (
-            <img key={src} loading="lazy" decoding="async" {...photo(src, '(min-width: 1024px) 56vw, 100vw')} alt={k === on ? tiers[k].name : ''} className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1100ms] ease-out ${k === on ? 'opacity-100' : 'opacity-0'}`} />
-          ))}
-          <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/60 to-transparent" aria-hidden="true" />
-          {shotAt && (
-            <p key={shotAt.id} className="hl-fade-up absolute bottom-5 left-5 flex items-center gap-2 text-[13px] leading-none text-white lg:bottom-7 lg:left-7">
-              <MapPin size={14} className="shrink-0" /> {shotAt.name}
-            </p>
-          )}
-        </div>
-
-        <div className="flex-1 [display:grid]">
-          {tiers.map((tier, k) => {
-            const locs = TIER_LOCATIONS[k].map((id) => LOCATIONS.find((l) => l.id === id)!);
-            return (
+    <div data-reveal-group className="grid gap-5 md:grid-cols-3 lg:gap-5">
+      {tiers.map((tier, k) => {
+        const locs = TIER_LOCATIONS[k].map((id) => LOCATIONS.find((l) => l.id === id)!);
+        const on = open === k;
+        return (
+          <article key={tier.name} className="group relative flex flex-col overflow-hidden border border-[#2A2623]/70 bg-white">
+            <div className="relative aspect-[451/600] overflow-hidden bg-[#2A2623]">
+              <img {...photo(TIER_PHOTOS[k], '(min-width: 768px) 33vw, 100vw')} alt={tier.name} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]" />
+              {/* The details, sliding up over the photograph. */}
               <div
-                key={tier.name}
-                role="tabpanel"
-                id={`tier-panel-${k}`}
-                aria-labelledby={`tier-tab-${k}`}
-                aria-hidden={k !== on}
-                className={`[grid-area:1/1] flex flex-col justify-center transition-[opacity,translate,visibility] duration-500 ease-out ${k === on ? 'visible translate-y-0 opacity-100 delay-150' : 'invisible translate-y-3 opacity-0 pointer-events-none'}`}
+                id={`tier-more-${k}`}
+                className={`absolute inset-0 flex flex-col justify-end overflow-y-auto bg-[#1B1412]/92 p-6 text-white transition-transform duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)] lg:p-8 [@media(hover:hover)]:group-hover:translate-y-0 group-focus-within:translate-y-0 ${on ? 'translate-y-0' : 'translate-y-full'}`}
               >
-                <p className="serif text-[1.3rem] leading-[1.42] text-[#2A2623] lg:text-[1.55rem]">{tier.d}</p>
-                <dl className="mt-8 space-y-6 lg:mt-10 lg:space-y-7">
-                  <div className="lg:hidden">
-                    <dt className={dt}>{rows[0]}</dt>
-                    <dd className="mt-2 text-[15px] leading-relaxed text-[#2A2623]">{tier.best}</dd>
-                  </div>
+                <p className="serif text-[1.15rem] leading-[1.45] lg:text-[1.3rem]">{tier.d}</p>
+                <dl className="mt-6 space-y-5">
                   <div>
                     <dt className={dt}>{rows[1]}</dt>
-                    <dd className="mt-3">
-                      <span className="flex flex-wrap gap-2">
-                        {tier.spaces.split(' · ').map((sp) => <span key={sp} className="rounded-full bg-[#F8F6F1] px-3.5 py-1.5 text-[13.5px] leading-[1.4] text-[#2A2623]">{sp}</span>)}
-                      </span>
-                      {tier.note && <span className="mt-3 block text-[14px] leading-relaxed text-[#6B645D]">{tier.note}</span>}
-                    </dd>
+                    <dd className="mt-2 text-[14px] leading-relaxed text-white/90">{tier.spaces}</dd>
                   </div>
                   <div>
                     <dt className={dt}>{rows[2]}</dt>
-                    <dd className="mt-3 flex flex-wrap gap-2">
+                    <dd className="mt-2 flex flex-wrap gap-2">
                       {locs.map((l) => (
-                        <a key={l.id} href={ws(lang, `/locations/${l.id}`)} target="_blank" rel="noopener noreferrer" className="group/loc inline-flex items-center gap-2 rounded-full border border-[#2A2623]/20 py-1.5 pl-3.5 pr-3 text-[13.5px] leading-[1.4] text-[#2A2623] hover:border-[#D12126] hover:text-[#D12126] transition-colors">
-                          {l.name}{l.comingSoon ? ` (${opening})` : ''}
-                          <ArrowUpRight size={14} className="shrink-0 transition-transform group-hover/loc:-translate-y-0.5 group-hover/loc:translate-x-0.5" />
+                        <a key={l.id} href={ws(lang, `/locations/${l.id}`)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-full border border-white/30 py-1 pl-3 pr-2.5 text-[13px] leading-[1.4] hover:border-white transition-colors">
+                          {l.name}{l.comingSoon ? ` (${opening})` : ''} <ArrowUpRight size={13} className="shrink-0" />
                         </a>
                       ))}
                     </dd>
                   </div>
                   <div>
                     <dt className={dt}>{rows[3]}</dt>
-                    <dd className="mt-2 flex items-center gap-2 text-[15px] leading-relaxed text-[#2A2623]"><Clock size={15} className="shrink-0 text-[#D12126]" /> {tier.hours}</dd>
+                    <dd className="mt-2 flex items-center gap-2 text-[14px] text-white/90"><Clock size={14} className="shrink-0 text-[#F06A6E]" /> {tier.hours}</dd>
                   </div>
                 </dl>
               </div>
-            );
-          })}
-        </div>
+            </div>
+            <div className="flex flex-1 flex-col items-center px-6 py-7 text-center lg:py-9">
+              <h3 className="serif hl-tier-name text-[#2A2623]">{tier.name}</h3>
+              <p className="mt-2.5 max-w-[30ch] text-[15px] leading-snug text-[#4A443F]">{tier.best}</p>
+              <button
+                type="button"
+                onClick={() => setOpen(on ? -1 : k)}
+                aria-expanded={on}
+                aria-controls={`tier-more-${k}`}
+                className="mt-5 inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.18em] text-[#D12126] [@media(hover:hover)]:hidden"
+              >
+                {more} <span aria-hidden="true">{on ? '−' : '+'}</span>
+              </button>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  );
+}
+
+/** The locations, after "Our Locations" on themalin.co: the title on the
+    left, and on the right a row of tall photographs, the name under each,
+    four at a time on a laptop. It runs round without end, moving on by
+    itself every five seconds while on screen (it waits under the pointer);
+    the dots, a swipe or a drag move it by hand. */
+function LocationRow({ items, label }: { items: { href: string; name: string; place: string; image: string; soon?: string }[]; label: string }) {
+  const n = items.length;
+  const [i, setI] = useState(n);
+  const [anim, setAnim] = useState(true);
+  const [live, setLive] = useState(false);
+  const [held, setHeld] = useState(false);
+  const box = useRef<HTMLDivElement>(null);
+  const touch = useRef<number | null>(null);
+  useEffect(() => {
+    const el = box.current;
+    if (!el) return undefined;
+    const io = new IntersectionObserver(([e]) => setLive(e.isIntersecting), { threshold: 0.3 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  useEffect(() => {
+    if (!live || held || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const t = window.setTimeout(() => { setAnim(true); setI((v) => v + 1); }, 5000);
+    return () => window.clearTimeout(t);
+  }, [i, live, held]);
+  // Past either copy of the list, jump back to the middle one without motion.
+  const settle = () => { if (i >= 2 * n || i < n) { setAnim(false); setI((v) => ((v % n) + n) % n + n); } };
+  useEffect(() => { if (!anim) { const r = requestAnimationFrame(() => setAnim(true)); return () => cancelAnimationFrame(r); } return undefined; }, [anim]);
+  const go = (d: number) => { setAnim(true); setI((v) => v + d); };
+  const at = ((i % n) + n) % n;
+  return (
+    <div
+      ref={box}
+      onMouseEnter={() => setHeld(true)}
+      onMouseLeave={() => setHeld(false)}
+      onTouchStart={(e) => { touch.current = e.touches[0].clientX; }}
+      onTouchEnd={(e) => { if (touch.current == null) return; const dx = e.changedTouches[0].clientX - touch.current; if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1); touch.current = null; }}
+      role="group"
+      aria-roledescription="carousel"
+      aria-label={label}
+      className="hl-locrow min-w-0"
+    >
+      <div className="overflow-hidden">
+        <ul
+          className="hl-locrow__track flex"
+          style={{ ['--i' as string]: i, transition: anim ? 'transform 0.9s cubic-bezier(0.65, 0, 0.35, 1)' : 'none' }}
+          onTransitionEnd={settle}
+        >
+          {[...items, ...items, ...items].map((it, k) => (
+            <li key={k} className="hl-locrow__cell shrink-0" aria-hidden={k < n || k >= 2 * n}>
+              <a href={it.href} target="_blank" rel="noopener noreferrer" tabIndex={k < n || k >= 2 * n ? -1 : 0} className="group block">
+                <span className="relative block aspect-[276/500] overflow-hidden bg-[#2A2623]">
+                  <img {...photo(it.image, '(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 80vw')} alt="" loading="lazy" decoding="async" draggable={false} className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.05]" />
+                  {it.soon && <span className="absolute left-3 top-3 bg-white px-2.5 py-1 text-[11px] uppercase tracking-[0.14em] text-[#2A2623]">{it.soon}</span>}
+                </span>
+                <span className="mt-4 block text-center text-[14px] font-semibold uppercase tracking-[0.12em] text-[#2A2623] transition-colors group-hover:text-[#D12126]">{it.name}</span>
+                <span className="mt-1 block text-center text-[13px] text-[#6B645D]">{it.place}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="mt-6 flex justify-end gap-1.5">
+        {items.map((it, k) => (
+          <button key={it.name} type="button" onClick={() => go(k - at)} aria-label={it.name} aria-current={k === at ? 'true' : undefined} className="grid h-6 w-5 place-items-center">
+            <span className={`block h-2 w-2 rounded-full border transition-colors ${k === at ? 'border-[#D12126] bg-[#D12126]' : 'border-[#2A2623]/50'}`} />
+          </button>
+        ))}
       </div>
     </div>
   );
@@ -526,98 +533,5 @@ function PlanCard({ name, price, from, period, description, features, popular, h
         </span>
       </div>
     </a>
-  );
-}
-
-function LocationCard({ href, name, address, city, type, capacity, available, images, tag, delay = 0, labels }: {
-  href: string;
-  name: string;
-  address: string;
-  city: string;
-  type: string;
-  capacity: string;
-  available: boolean;
-  images: string[];
-  tag?: string;
-  delay?: number;
-  labels: { available: string; soon: string; type: string; capacity: string; explore: string };
-}) {
-  // The photographs turn by themselves, one every four seconds, while the
-  // card is on screen (each card a beat after the one before it).
-  const [shot, setShot] = useState(0);
-  const cardRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const el = cardRef.current;
-    if (!el || images.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
-    let timer = 0, first = 0;
-    const io = new IntersectionObserver(([e]) => {
-      window.clearInterval(timer); window.clearTimeout(first);
-      if (!e.isIntersecting) return;
-      first = window.setTimeout(() => {
-        setShot((n) => (n + 1) % images.length);
-        timer = window.setInterval(() => setShot((n) => (n + 1) % images.length), 4000);
-      }, 1800 + delay);
-    }, { threshold: 0.35 });
-    io.observe(el);
-    return () => { io.disconnect(); window.clearInterval(timer); window.clearTimeout(first); };
-  }, [images.length, delay]);
-
-  return (
-    <motion.div
-      ref={cardRef}
-      className="group bg-[#F4F0EA] overflow-hidden"
-      whileHover={{ y: -10, boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }}
-    >
-      <a href={href} target="_blank" rel="noopener noreferrer">
-        <div className="relative aspect-[16/10] overflow-hidden rounded-[8px]">
-          {images.map((src, k) => (
-            <img
-              key={src}
-              loading="lazy"
-              decoding="async"
-              {...photo(src, '(min-width: 768px) 50vw, 100vw')}
-              alt={k === 0 ? name : ''}
-              className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-[1400ms] ease-out group-hover:scale-[1.04] ${k === shot ? 'opacity-100' : 'opacity-0'}`}
-            />
-          ))}
-          {tag && <span className="absolute top-6 left-6 px-4 py-2 text-xs uppercase tracking-wider bg-white text-[#2A2623]">{tag}</span>}
-          {images.length > 1 && (
-            <div className="absolute bottom-5 left-6 flex gap-1.5" aria-hidden="true">
-              {images.map((src, k) => <span key={src} className={`h-[3px] rounded-full transition-all duration-500 ${k === shot ? 'w-6 bg-white' : 'w-3 bg-white/50'}`} />)}
-            </div>
-          )}
-          <div className="absolute top-6 right-6">
-            <div className={`px-4 py-2 text-xs uppercase tracking-wider ${
-              available ? 'bg-[#D12126] text-white' : 'bg-[#6B645D] text-white'
-            }`}>
-              {available ? labels.available : labels.soon}
-            </div>
-          </div>
-        </div>
-        <div className="p-8">
-          <div className="text-sm text-[#6B645D] mb-3">{city}</div>
-          <h3 className="serif text-3xl mb-4">{name}</h3>
-          <div className="flex items-start gap-2 text-[#6B645D] mb-4">
-            <MapPin size={16} className="flex-shrink-0 mt-1" />
-            <span className="text-sm">{address}</span>
-          </div>
-          <div className="flex items-center justify-between gap-6 pt-6 border-t border-[#2A2623]/10">
-            <div>
-              <div className="text-xs text-[#6B645D] mb-1">{labels.type}</div>
-              <div className="text-sm">{type}</div>
-            </div>
-            <div className="text-right">
-              <div className="text-xs text-[#6B645D] mb-1">{labels.capacity}</div>
-              <div className="text-sm">{capacity}</div>
-            </div>
-          </div>
-          <div className="mt-6">
-            <div className="inline-flex items-center gap-2 text-sm uppercase tracking-wider text-[#2A2623] group-hover:text-[#D12126] group-hover:gap-4 transition-all">
-              {labels.explore} <ArrowRight size={16} />
-            </div>
-          </div>
-        </div>
-      </a>
-    </motion.div>
   );
 }
