@@ -157,7 +157,7 @@ export function BusinessClubPage() {
             {t.houses.map((hse, k) => {
               const loc = LOCATIONS.find((l) => l.id === HOUSE_IDS[k])!;
               return (
-                <article key={hse.name} className="grid lg:grid-cols-12 gap-y-8 items-center">
+                <article key={hse.name} id={HOUSE_IDS[k]} className="grid lg:grid-cols-12 gap-y-8 items-center">
                   <Slides images={HOUSE_PHOTOS[k]} alt={hse.name} sizes="(min-width: 1024px) 56vw, 100vw" delay={k * 900} className={`aspect-[3/2] lg:aspect-[4/3] lg:col-span-7 ${k % 2 ? 'lg:order-2' : ''}`} />
                   <div className={`lg:col-span-5 ${k % 2 ? 'lg:col-start-1 lg:row-start-1 lg:pr-[88px]' : 'lg:pl-[88px]'}`}>
                     <div className="border-t border-[#2A2623]/25 pt-7">

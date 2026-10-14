@@ -55,6 +55,16 @@ export function scrollTopNow() {
   else window.scrollTo(0, 0);
 }
 
+/** Bring an element to just under the sticky header: eased unless asked not to
+    (or the visitor prefers reduced motion). */
+export function scrollToEl(el: HTMLElement, smooth = true) {
+  const header = document.querySelector('header')?.getBoundingClientRect().height ?? 76;
+  const y = Math.max(0, el.getBoundingClientRect().top + window.scrollY - header - 16);
+  const ease = smooth && !reducedMotion();
+  if (window.__lenis) window.__lenis.scrollTo(y, ease ? { duration: 1.1 } : { immediate: true, force: true });
+  else window.scrollTo({ top: y, behavior: ease ? 'smooth' : 'auto' });
+}
+
 /** Eased page scroll; on the home page it also settles on sections (wheel and trackpad only). */
 export function SmoothScroll() {
   useEffect(() => {
