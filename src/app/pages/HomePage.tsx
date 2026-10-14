@@ -125,7 +125,7 @@ export function HomePage() {
             {t.h1a}<br /><span className="text-[#F06A6E]">{t.h1b}</span> {t.h1c}
           </motion.h1>
           <motion.p
-            className="text-lg md:text-xl text-[#E9E3DA]/90 mb-11 max-w-2xl leading-relaxed"
+            className="text-lg md:text-xl text-[#F8F6F1]/90 mb-11 max-w-2xl leading-relaxed"
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: 0.8 }}
           >
             {t.lead}

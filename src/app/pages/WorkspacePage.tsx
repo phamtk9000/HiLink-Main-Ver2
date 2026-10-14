@@ -168,7 +168,7 @@ export function WorkspacePage() {
             <motion.h1 className="serif text-5xl lg:text-7xl mb-8 leading-tight">
               {t.title}
             </motion.h1>
-            <motion.p className="text-xl text-[#E9E3DA] mb-12 leading-relaxed">
+            <motion.p className="text-xl text-[#F8F6F1] mb-12 leading-relaxed">
               {t.lead}
             </motion.p>
             <motion.div className="flex flex-col sm:flex-row gap-4">

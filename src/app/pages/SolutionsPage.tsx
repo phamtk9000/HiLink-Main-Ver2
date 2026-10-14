@@ -21,7 +21,7 @@ const META = [
 ];
 // Each solution's card: its ground, and whether the words on it are light.
 const CARDS = [
-  { bg: '#2A2623', light: true }, { bg: '#F4F0EA', light: false }, { bg: '#2E3A33', light: true }, { bg: '#361716', light: true }, { bg: '#1E1614', light: true },
+  { bg: '#2A2623', light: true }, { bg: '#F4F0EA', light: false }, { bg: '#2E3A33', light: true }, { bg: '#361716', light: true }, { bg: '#1B1412', light: true },
 ];
 // One figure for each solution, from what HiLink states elsewhere on the site.
 const FIGS = {
@@ -121,7 +121,7 @@ export function SolutionsPage() {
             <h1 className="serif text-5xl lg:text-[5rem] mb-8 leading-[0.98]">
               {t.h1a}<br />{t.h1b}
             </h1>
-            <p className="text-lg md:text-xl text-[#E9E3DA]/90 leading-relaxed max-w-2xl">
+            <p className="text-lg md:text-xl text-[#F8F6F1]/90 leading-relaxed max-w-2xl">
               {t.lead}
             </p>
           </motion.div>
@@ -172,7 +172,7 @@ export function SolutionsPage() {
       <section id="solutions" className="relative bg-white pb-24 lg:pb-32">
         <div ref={stack} className="max-w-[1600px] mx-auto px-6 lg:px-12">
           {solutions.map((s, i) => {
-            const c = CARDS[i], on = c.light ? 'text-[#F6EFE6]' : 'text-[#2A2623]', soft = c.light ? 'text-[#F6EFE6]/75' : 'text-[#4A443F]', rule = c.light ? 'border-white/15' : 'border-[#2A2623]/12';
+            const c = CARDS[i], on = c.light ? 'text-[#F8F6F1]' : 'text-[#2A2623]', soft = c.light ? 'text-[#F8F6F1]/75' : 'text-[#4A443F]', rule = c.light ? 'border-white/15' : 'border-[#2A2623]/12';
             return (
               <Fragment key={s.path}>
                 <div id={`solution-${i}`} data-mark className="scroll-mt-[76px] lg:scroll-mt-[184px]" aria-hidden="true" />
@@ -195,7 +195,7 @@ export function SolutionsPage() {
                           </li>
                         ))}
                       </ul>
-                      <Link to={l(s.path)} className={`group mt-8 inline-flex w-fit items-center gap-3 rounded-full px-6 py-3.5 text-[12.5px] font-semibold uppercase tracking-[0.08em] transition-colors ${c.light ? 'bg-[#F6EFE6] text-[#2A2623] hover:bg-white' : 'bg-[#2A2623] text-white hover:bg-[#D12126]'}`}>
+                      <Link to={l(s.path)} className={`group mt-8 inline-flex w-fit items-center gap-3 rounded-full px-6 py-3.5 text-[12.5px] font-semibold uppercase tracking-[0.08em] transition-colors ${c.light ? 'bg-[#F8F6F1] text-[#2A2623] hover:bg-white' : 'bg-[#2A2623] text-white hover:bg-[#D12126]'}`}>
                         {t.explore} {s.title} <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
                       </Link>
                     </div>

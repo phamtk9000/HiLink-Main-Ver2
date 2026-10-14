@@ -139,7 +139,7 @@ export function BusinessConsultingPage() {
             >
               {t.title}
             </h1>
-            <p className="text-[#E9E3DA] text-lg mb-10 max-w-xl leading-relaxed">
+            <p className="text-[#F8F6F1] text-lg mb-10 max-w-xl leading-relaxed">
               {t.lead}
             </p>
             <div className="flex flex-wrap gap-4">

@@ -100,7 +100,7 @@ export function IndustrialPage() {
               <h1 className="serif text-5xl lg:text-7xl mb-8 leading-tight">
                 {t.title}
               </h1>
-              <p className="text-xl text-[#E9E3DA] mb-12 leading-relaxed">
+              <p className="text-xl text-[#F8F6F1] mb-12 leading-relaxed">
                 {t.lead}
               </p>
               <Link

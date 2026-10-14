@@ -185,7 +185,7 @@ export function PropertyManagementPage() {
           <div className="max-w-4xl">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#F06A6E] mb-7 flex items-center gap-3"><Flag className="text-[#F06A6E]" /> {t.eyebrow}</p>
             <h1 className="serif mb-8">{t.h1[0]}<br />{t.h1[1]}<br />{t.h1[2]}</h1>
-            <p className="text-lg lg:text-xl text-[#E9E3DA] mb-10 leading-relaxed max-w-2xl">{t.lead}</p>
+            <p className="text-lg lg:text-xl text-[#F8F6F1] mb-10 leading-relaxed max-w-2xl">{t.lead}</p>
             <Link to={l('/contact')} className="inline-flex items-center gap-2 px-10 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#A3181C] transition-colors group">
               {t.review}
               <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
@@ -257,18 +257,18 @@ export function PropertyManagementPage() {
       {/* What we do for home owners, set out after augustcollections.com
           ("Local experts, at your service"): five columns on club green,
           each a fine glyph, a title on two lines and a line of detail. */}
-      <section className="relative py-24 lg:py-28 bg-[#2E3A33] text-[#F6EFE6]">
+      <section className="relative py-24 lg:py-28 bg-[#2E3A33] text-[#F8F6F1]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <p className="text-[12px] uppercase tracking-[0.2em] text-[#E8B9A6] mb-5 flex items-center gap-2.5"><Flag /> {t.ownerEyebrow}</p>
-          <h2 className="serif hl-display max-w-[20ch] text-[#F6EFE6]">{t.ownerTitle}</h2>
+          <h2 className="serif hl-display max-w-[20ch] text-[#F8F6F1]">{t.ownerTitle}</h2>
           <ul className="mt-14 lg:mt-16 grid grid-cols-2 lg:grid-cols-5 gap-x-10 gap-y-14">
             {t.ownerItems.map(([title, d], k) => {
               const Icon = OWNER_ICONS[k];
               return (
                 <li key={title.join(' ')}>
-                  <span className="block text-[#F6EFE6]/70"><Icon size={44} strokeWidth={1} /></span>
-                  <h3 className="serif hl-card-title mt-8 text-[#F6EFE6]">{title[0]}<br />{title[1]}</h3>
-                  <p className="mt-5 max-w-[30ch] text-[14px] leading-relaxed text-[#F6EFE6]/80">{d}</p>
+                  <span className="block text-[#F8F6F1]/70"><Icon size={44} strokeWidth={1} /></span>
+                  <h3 className="serif hl-card-title mt-8 text-[#F8F6F1]">{title[0]}<br />{title[1]}</h3>
+                  <p className="mt-5 max-w-[30ch] text-[14px] leading-relaxed text-[#F8F6F1]/80">{d}</p>
                 </li>
               );
             })}
@@ -308,7 +308,7 @@ export function PropertyManagementPage() {
       {/* The portfolio: a row of tall cards the full width of the screen, to
           the measure of augustcollections.com; the one in the middle opens to
           show how the property performs. */}
-      <section className="relative py-24 lg:py-28 bg-[#F7F4EC] overflow-hidden">
+      <section className="relative py-24 lg:py-28 bg-[#F8F6F1] overflow-hidden">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
           <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center justify-center gap-2.5"><Flag /> {t.resEyebrow}</p>
           <h2 className="serif hl-display text-[#2A2623]">{t.propTitle}</h2>

@@ -180,18 +180,18 @@ export function BusinessClubPage() {
       </section>
 
       {/* The showcase (after the Explore gallery on maslows.com). */}
-      <section className="relative py-20 lg:py-28 bg-[#F7F4EC] overflow-hidden">
+      <section className="relative py-20 lg:py-28 bg-[#F8F6F1] overflow-hidden">
         <div className="max-w-[1320px] mx-auto px-6 lg:px-12 mb-12 lg:mb-16"><RuleTitle>{t.explore}</RuleTitle></div>
         <Showcase shots={SHOWCASE} prev={t.prev} next={t.next} />
       </section>
 
       {/* Member privileges: the three cards, on club green. */}
-      <section id="membership" className="relative py-24 lg:py-32 bg-[#2E3A33] text-[#F6EFE6] scroll-mt-24">
+      <section id="membership" className="relative py-24 lg:py-32 bg-[#2E3A33] text-[#F8F6F1] scroll-mt-24">
         <div className="max-w-[1320px] mx-auto px-6 lg:px-12">
           <RuleTitle dark>{t.tiersEyebrow}</RuleTitle>
           <div className="mx-auto mt-10 max-w-3xl text-center">
-            <p className="serif hl-club-statement text-[#F6EFE6]">{t.tiersTitle}</p>
-            <p className="mt-6 text-[1.0625rem] leading-relaxed text-[#F6EFE6]/75">{t.tiersLead}</p>
+            <p className="serif hl-club-statement text-[#F8F6F1]">{t.tiersTitle}</p>
+            <p className="mt-6 text-[1.0625rem] leading-relaxed text-[#F8F6F1]/75">{t.tiersLead}</p>
           </div>
           <div className="mt-16 grid md:grid-cols-3 gap-x-10 gap-y-14">
             {t.tiers.map(([name, d], k) => (
@@ -199,9 +199,9 @@ export function BusinessClubPage() {
                 <div className="relative aspect-[1011/637] overflow-hidden rounded-[12px] shadow-[0_24px_50px_-20px_rgba(0,0,0,0.7)] transition-transform duration-500 group-hover:-translate-y-1.5">
                   <img loading="lazy" decoding="async" src={CARDS[k]} alt={`HiLink Business Club — ${name}`} className="absolute inset-0 h-full w-full object-cover" />
                 </div>
-                <h3 className="serif hl-club-caption mt-8 text-[#F6EFE6]">{name}</h3>
+                <h3 className="serif hl-club-caption mt-8 text-[#F8F6F1]">{name}</h3>
                 <p className="mt-2 text-[12px] uppercase tracking-[0.14em] text-[#E8B9A6]">{t.who}</p>
-                <p className="mt-4 text-[1.0625rem] leading-relaxed text-[#F6EFE6]/80">{d}</p>
+                <p className="mt-4 text-[1.0625rem] leading-relaxed text-[#F8F6F1]/80">{d}</p>
                 {k === 2 && <p className="mx-auto mt-3 max-w-[34ch] text-[14px] leading-relaxed text-[#E8B9A6]">{t.invite}</p>}
               </div>
             ))}
@@ -260,7 +260,7 @@ export function BusinessClubPage() {
                   })}
                   {g === 1 && (
                     <li className="border-b border-r border-[#2A2623]/12">
-                      <Link to={l('/concierge-services')} className="group flex h-full min-h-[148px] flex-col justify-between bg-[#2E3A33] p-5 lg:p-6 text-[#F6EFE6] transition-colors duration-300 hover:bg-[#22302A]">
+                      <Link to={l('/concierge-services')} className="group flex h-full min-h-[148px] flex-col justify-between bg-[#2E3A33] p-5 lg:p-6 text-[#F8F6F1] transition-colors duration-300 hover:bg-[#22302A]">
                         <ArrowUpRight size={22} className="self-end transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                         <span className="serif mt-6 text-[1.15rem] lg:text-[1.3rem] leading-snug">{t.svcMore}</span>
                       </Link>

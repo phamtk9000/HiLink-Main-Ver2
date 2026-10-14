@@ -125,7 +125,7 @@ export function PartnersPage() {
               <Flag className="text-[#F06A6E]" /> {t.eyebrow}
             </p>
             <h1 className="serif text-5xl lg:text-[5rem] mb-8 leading-[0.98]">{t.h1a}<br />{t.h1b}</h1>
-            <p className="text-lg md:text-xl text-[#E9E3DA]/90 leading-relaxed max-w-2xl">{t.lead}</p>
+            <p className="text-lg md:text-xl text-[#F8F6F1]/90 leading-relaxed max-w-2xl">{t.lead}</p>
           </motion.div>
         </div>
       </section>

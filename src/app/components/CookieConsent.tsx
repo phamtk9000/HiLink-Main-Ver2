@@ -39,7 +39,7 @@ export function CookieConsent() {
           transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-[13.5px] text-center md:text-left text-[#E9E3DA]">
+            <p className="text-[13.5px] text-center md:text-left text-[#F8F6F1]">
               {t.text}{' '}
               <Link to={l('/privacy-policy')} className="underline hover:text-white">{t.more}</Link>
             </p>

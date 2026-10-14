@@ -94,7 +94,7 @@ export function CareersPage() {
               <Flag className="text-[#F06A6E]" /> {t.eyebrow}
             </p>
             <h1 className="serif text-5xl lg:text-[5rem] mb-8 leading-[0.98]">{c.heroTitle}</h1>
-            <p className="text-lg md:text-xl text-[#E9E3DA]/90 leading-relaxed max-w-2xl">
+            <p className="text-lg md:text-xl text-[#F8F6F1]/90 leading-relaxed max-w-2xl">
               {c.heroSub}
             </p>
           </motion.div>

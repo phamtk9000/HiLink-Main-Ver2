@@ -168,28 +168,28 @@ export function ConciergePage() {
       </section>
 
       {/* The showcase (after the Explore gallery on maslows.com). */}
-      <section className="relative py-20 lg:py-28 bg-[#F7F4EC] overflow-hidden">
+      <section className="relative py-20 lg:py-28 bg-[#F8F6F1] overflow-hidden">
         <div className="max-w-[1320px] mx-auto px-6 lg:px-12 mb-12 lg:mb-16"><RuleTitle>{t.explore}</RuleTitle></div>
         <Showcase shots={SHOWCASE} prev={t.prev} next={t.next} />
       </section>
 
       {/* What sets it apart, on club green. */}
-      <section className="relative py-24 lg:py-32 bg-[#2E3A33] text-[#F6EFE6]">
+      <section className="relative py-24 lg:py-32 bg-[#2E3A33] text-[#F8F6F1]">
         <div className="max-w-[1320px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-12 items-center">
           <div className="lg:col-span-5 relative aspect-[4/5] overflow-hidden rounded-[8px] bg-[#1B1412]">
             <img loading="lazy" decoding="async" {...photo('/photos/hbc-member.webp', '(min-width: 1024px) 40vw, 100vw')} alt={t.diffAlt} className="absolute inset-0 h-full w-full object-cover" />
           </div>
           <div className="lg:col-span-6 lg:col-start-7">
-            <div className="border-t border-[#F6EFE6]/30 pt-8">
-              <h2 className="serif hl-club-title text-[#F6EFE6]">{t.diffTitle}</h2>
+            <div className="border-t border-[#F8F6F1]/30 pt-8">
+              <h2 className="serif hl-club-title text-[#F8F6F1]">{t.diffTitle}</h2>
             </div>
             <ol className="mt-10 space-y-10">
               {t.diffs.map(([title, d], k) => (
                 <li key={title} className="grid grid-cols-[2.5rem_1fr] gap-x-4">
                   <span className="pt-1.5 text-[13px] font-medium tabular-nums tracking-[0.08em] text-[#E8B9A6]">{String(k + 1).padStart(2, '0')}</span>
                   <div>
-                    <p className="serif text-[1.5rem] lg:text-[1.75rem] leading-snug text-[#F6EFE6]">{title}</p>
-                    <p className="mt-3 text-[1.0625rem] leading-relaxed text-[#F6EFE6]/75">{d}</p>
+                    <p className="serif text-[1.5rem] lg:text-[1.75rem] leading-snug text-[#F8F6F1]">{title}</p>
+                    <p className="mt-3 text-[1.0625rem] leading-relaxed text-[#F8F6F1]/75">{d}</p>
                   </div>
                 </li>
               ))}
@@ -228,7 +228,7 @@ export function ConciergePage() {
         <div className="max-w-[720px] mx-auto px-6 mt-10">
           <p className="mb-12 text-center text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.formLead}</p>
           {sent ? (
-            <div role="status" className="text-center py-12 bg-[#F7F4EC]">
+            <div role="status" className="text-center py-12 bg-[#F8F6F1]">
               <CheckCircle2 size={44} className="mx-auto mb-5 text-[#D12126]" />
               <p className="serif text-3xl text-[#2A2623] mb-3">{t.sentTitle}</p>
               <p className="text-[#6B645D]">{t.formNote}</p>
@@ -238,21 +238,21 @@ export function ConciergePage() {
             <input {...HONEYPOT_PROPS} />
             <div>
               <label htmlFor="cg-name" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.name} *</label>
-              <input id="cg-name" type="text" autoComplete="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-6 py-4 bg-[#F7F4EC] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors" required />
+              <input id="cg-name" type="text" autoComplete="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors" required />
             </div>
             <div className="grid sm:grid-cols-2 gap-5">
               <div>
                 <label htmlFor="cg-email" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.email} *</label>
-                <input id="cg-email" type="email" autoComplete="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-6 py-4 bg-[#F7F4EC] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors" required />
+                <input id="cg-email" type="email" autoComplete="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors" required />
               </div>
               <div>
                 <label htmlFor="cg-phone" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.phone} *</label>
-                <input id="cg-phone" type="tel" autoComplete="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full px-6 py-4 bg-[#F7F4EC] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors" required />
+                <input id="cg-phone" type="tel" autoComplete="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors" required />
               </div>
             </div>
             <div>
               <label htmlFor="cg-message" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.messageLbl} *</label>
-              <textarea id="cg-message" placeholder={t.message} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} rows={6} className="w-full px-6 py-4 bg-[#F7F4EC] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors resize-none" required />
+              <textarea id="cg-message" placeholder={t.message} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} rows={6} className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors resize-none" required />
             </div>
             <button
               type="submit"

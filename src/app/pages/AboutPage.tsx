@@ -212,16 +212,16 @@ export function AboutPage() {
           HiLink link mark, the mission as a quote, and a photograph that
           steps over into the next section. In Club green, from the shutters
           of the HiLink Business Club. */}
-      <section className="bg-[#2E3A33] text-[#F6EFE6] pt-20 lg:pt-28">
+      <section className="bg-[#2E3A33] text-[#F8F6F1] pt-20 lg:pt-28">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
           <svg viewBox="0 0 600 600" className="mx-auto h-20 w-20" aria-hidden="true">
             <path d={LOOP_PATH} fill="none" stroke="currentColor" strokeWidth="26" strokeLinejoin="round" />
           </svg>
           <blockquote className="mx-auto mt-14 max-w-[1000px]">
-            <p className="serif text-[1.55rem] sm:text-[1.9rem] lg:text-[2.125rem] leading-[1.22] text-[#F6EFE6]">{a.mission}</p>
+            <p className="serif text-[1.55rem] sm:text-[1.9rem] lg:text-[2.125rem] leading-[1.22] text-[#F8F6F1]">{a.mission}</p>
             <footer className="mt-10">
-              <p className="text-[13px] uppercase tracking-[0.12em] text-[#F6EFE6]">{t.leaders}</p>
-              <p className="mt-1 text-[13px] text-[#F6EFE6]/75">{t.leadersRole}</p>
+              <p className="text-[13px] uppercase tracking-[0.12em] text-[#F8F6F1]">{t.leaders}</p>
+              <p className="mt-1 text-[13px] text-[#F8F6F1]/75">{t.leadersRole}</p>
             </footer>
           </blockquote>
         </div>

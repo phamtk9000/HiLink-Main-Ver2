@@ -22,7 +22,7 @@ export function LegalPage({ doc, pdf }: { doc: 'privacy' | 'terms'; pdf?: string
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <p className="text-sm uppercase tracking-wider text-[#F06A6E] mb-8">{s.legal}</p>
             <h1 className="serif text-5xl lg:text-6xl mb-6 leading-tight">{d.title}</h1>
-            <p className="text-[#E9E3DA]">
+            <p className="text-[#F8F6F1]">
               {s.updated}: {d.updatedDate}{d.ref ? ` · ${d.ref}` : ''}
               {pdf && <> · <a href={pdf} className="underline hover:text-[#F06A6E]">{s.download}</a></>}
             </p>
