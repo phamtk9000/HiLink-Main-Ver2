@@ -195,13 +195,13 @@ export function SolutionsPage() {
                     </div>
                     {i === 0 ? (
                       // Property Management: the properties HiLink manages and how they are doing, turning one after another.
-                      <div className="relative flex items-center justify-center bg-[#1B1412] px-6 py-10 sm:px-10 lg:col-span-5 lg:py-12">
-                        <div className="w-full max-w-[360px]">
+                      <div className="relative overflow-hidden bg-[#1B1412] px-5 pb-6 pt-4 sm:px-8 lg:col-span-5 lg:px-10 lg:pb-8 lg:pt-6">
+                        <div className="h-full">
                           <PropertyStack
                             view={t.stackView}
                             prev={t.stackPrev}
                             next={t.stackNext}
-                            items={PROPERTIES[lang].map((p) => ({ ...p, to: p.slug ? l(`/workspace/${p.slug}`) : undefined, href: p.href ? ws(lang, p.href) : undefined, crop: p.slug === 'quarter-house' ? 'left center' : undefined }))}
+                            items={PROPERTIES[lang].map((p) => ({ ...p, to: p.slug ? l(`/workspace/${p.slug}`) : undefined, href: p.href ? ws(lang, p.href) : undefined, crop: p.slug === 'quarter-house' ? 'left top' : undefined }))}
                           />
                         </div>
                       </div>
