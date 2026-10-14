@@ -1,7 +1,11 @@
-// "What's happening" — the latest posts from the HiLink forum, laid out like
-// the Stripe homepage carousel: one wide photo and the rest squeezed narrow,
-// with the chosen post's title and a button to read it underneath. The posts
-// live on the HiLink Workspaces site, so every link goes there.
+// "What's happening" — the latest posts from the HiLink forum, set out to the
+// proportions of the carousel on stripe.com (measured at 1440: one photograph
+// 799px wide, then 194, 96 and 48, 16px apart, 460px tall): the chosen post
+// leads on the left and the next ones follow, each half as wide as the one
+// before. The chosen post's title and a button to read it sit on its
+// photograph; every photograph carries the HiLink mark, in white, at its foot
+// on the left. The posts live on the HiLink Workspaces site, so every link
+// goes there.
 import { useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, ChevronRight } from 'lucide-react';
 import { POSTS } from '../data/posts';
@@ -21,8 +25,9 @@ const CATEGORY: Record<string, { en: string; vi: string }> = {
   Neighbourhood: { en: 'Neighbourhood', vi: 'Khu vực' },
 };
 
-// How wide each slide is, by distance from the active one.
-const GROW = [6, 1.1, 0.8, 0.6];
+// How wide each slide is, by its place after the chosen one (share of the row);
+// the chosen one takes what is left. Beyond these, slivers of 8px.
+const WIDTHS = [0, 0.1575, 0.078, 0.039];
 
 export function ForumCarousel() {
   const { lang } = useLang();
@@ -32,7 +37,6 @@ export function ForumCarousel() {
   const n = POSTS.length;
   const go = (i: number) => setActive((i + n) % n);
   const post = POSTS[active];
-  const href = ws(lang, `/forum/${post.slug}`);
 
   return (
     <section className="py-24 lg:py-32 bg-white text-[#2A2623]" aria-roledescription="carousel" aria-label={t.eyebrow}>
@@ -66,9 +70,9 @@ export function ForumCarousel() {
           </div>
         </div>
 
-        {/* The squeeze. */}
+        {/* The row: the chosen post first, the rest after it in turn. */}
         <div
-          className="hl-squeeze flex gap-2 h-[220px] sm:h-[300px] lg:h-[380px]"
+          className="hl-squeeze flex h-[clamp(320px,32vw,460px)]"
           onKeyDown={(e) => {
             if (e.key === 'ArrowRight') { e.preventDefault(); go(active + 1); }
             if (e.key === 'ArrowLeft') { e.preventDefault(); go(active - 1); }
@@ -82,49 +86,64 @@ export function ForumCarousel() {
           }}
         >
           {POSTS.map((p, i) => {
-            const on = i === active;
-            const dist = Math.min(Math.abs(i - active), GROW.length - 1);
-            return (
+            const at = (i - active + n) % n, on = at === 0;
+            const share = WIDTHS[at];
+            const style = on
+              ? { order: 0, flex: '1 1 0%' }
+              : { order: at, flex: `0 0 ${share !== undefined ? `${share * 100}%` : '8px'}`, marginLeft: at <= 3 ? 'var(--sq-gap)' : 'calc(var(--sq-gap) / 2)' };
+            const inner = (
+              <>
+                <img
+                  {...photo(p.photo, on ? '(min-width: 1024px) 860px, 90vw' : '(min-width: 1024px) 200px, 30vw')}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 ${on ? 'scale-100' : 'scale-110 group-hover:scale-105'}`}
+                />
+                <span className={`absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent transition-opacity duration-500 ${on ? 'opacity-100' : 'opacity-0'}`} aria-hidden="true" />
+                <span className={`absolute inset-0 bg-[#2A2623] transition-opacity duration-500 ${on ? 'opacity-0' : 'opacity-15 group-hover:opacity-0'}`} aria-hidden="true" />
+                {/* the mark, white, at the foot on the left of every photograph wide enough to hold it */}
+                {at <= 2 && <img src="/brand/logo-hilink-lockup.svg" alt="" aria-hidden="true" className={`absolute bottom-4 left-4 w-auto [filter:brightness(0)_invert(1)] opacity-90 ${on ? "h-6 lg:bottom-6 lg:left-6 lg:h-8" : "h-4 lg:h-5"}`} />}
+              </>
+            );
+            return on ? (
+              <article key={p.slug} className="relative min-w-0 overflow-hidden rounded-[6px] bg-[#F4F0EA] text-white" style={style}>
+                {inner}
+                <span className="absolute left-4 top-4 lg:left-6 lg:top-6 hidden sm:inline-block rounded-full bg-white/90 px-3 py-1 text-[12px] uppercase tracking-[0.18em] text-[#2A2623]">
+                  {CATEGORY[p.category]?.[lang] ?? p.category}
+                </span>
+                <div key={active} className="absolute inset-x-4 bottom-14 lg:inset-x-6 lg:bottom-20 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between animate-[hl-fade-up_0.5s_ease_both]">
+                  <h3 className="serif hl-post-title max-w-[22ch] line-clamp-4 text-white">{p.title[lang]}</h3>
+                  <a
+                    href={ws(lang, `/forum/${p.slug}`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group/read shrink-0 inline-flex w-fit items-center gap-1 rounded-full bg-white px-5 py-2.5 text-[14px] font-medium text-[#2A2623] hover:bg-[#F8F6F1] transition-colors"
+                  >
+                    {t.read}
+                    <ChevronRight size={16} className="transition-transform group-hover/read:translate-x-0.5" />
+                  </a>
+                </div>
+              </article>
+            ) : (
               <button
                 key={p.slug}
                 type="button"
                 onClick={() => setActive(i)}
                 aria-label={`${t.show}: ${p.title[lang]}`}
-                aria-current={on}
-                className={`group relative min-w-0 basis-0 overflow-hidden rounded-lg bg-[#F4F0EA] ${on ? '' : 'cursor-pointer'}`}
-                style={{ flexGrow: GROW[dist] }}
+                className="group relative min-w-0 overflow-hidden rounded-[6px] bg-[#F4F0EA] cursor-pointer"
+                style={style}
               >
-                <img
-                  {...photo(p.photo, '(min-width: 1024px) 50vw, 80vw')}
-                  alt=""
-                  loading="lazy"
-                  className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 ${on ? 'scale-100' : 'scale-110 group-hover:scale-105'}`}
-                />
-                <span className={`absolute inset-0 bg-[#2A2623] transition-opacity duration-500 ${on ? 'opacity-0' : 'opacity-25 group-hover:opacity-10'}`} />
-                <span className={`absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-[12px] uppercase tracking-[0.18em] text-[#2A2623] transition-opacity duration-500 ${on ? 'opacity-100' : 'opacity-0'}`}>
-                  {CATEGORY[p.category]?.[lang] ?? p.category}
-                </span>
+                {inner}
               </button>
             );
           })}
         </div>
 
-        {/* The chosen post. */}
-        <div className="mt-5 flex flex-col md:flex-row md:items-start md:justify-between gap-6" aria-live="polite">
-          <p key={active} className="max-w-3xl text-[15px] leading-relaxed animate-[hl-fade-up_0.5s_ease_both]">
-            <span className="font-semibold">{post.title[lang]}</span>{' '}
-            <span className="text-[#6B645D]">{post.excerpt[lang]}</span>
-          </p>
-          <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shrink-0 inline-flex items-center gap-1 self-start rounded-full border border-[#2A2623]/20 px-5 py-2.5 text-[14px] font-medium hover:border-[#D12126] hover:text-[#D12126] transition-colors group"
-          >
-            {t.read}
-            <ChevronRight size={16} className="transition-transform group-hover:translate-x-0.5" />
-          </a>
-        </div>
+        {/* What the chosen post is about. */}
+        <p key={active} className="mt-5 max-w-3xl text-[15px] leading-relaxed text-[#6B645D] animate-[hl-fade-up_0.5s_ease_both]" aria-live="polite">
+          {post.excerpt[lang]}
+        </p>
         <a
           href={ws(lang, '/forum')}
           target="_blank"
