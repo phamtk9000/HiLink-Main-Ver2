@@ -14,6 +14,12 @@
   --step-body-sm: 13.5px;
   --step-eyebrow: 12px;
 
+  /* The warm monochrome ramp, cream to near black: a photograph's place is
+     filled with the step nearest its lightness while it loads (data-tone,
+     set by photo() from scripts/photo-variants.py, which keeps the same list). */
+  --tone-0: #F8F6F1; --tone-1: #EDE7DF; --tone-2: #DDD6CE; --tone-3: #C4BBB1; --tone-4: #A69D94;
+  --tone-5: #857C74; --tone-6: #6B645D; --tone-7: #4A443F; --tone-8: #2A2623; --tone-9: #1B1412;
+
   /* Brand colours — red, black, white, from the official HiLink logo (red
      #D12126). Brand red passes 4.5:1 on white but only 3.6:1 on black, so
      small red text on dark backgrounds uses the lighter #F06A6E. */
@@ -182,6 +188,11 @@
   .hl-forum-title { font-size: clamp(2rem, 3.6vw, 3.25rem) !important; line-height: 1.1 !important; }
   .hl-forum-h2 { font-size: clamp(1.4rem, 2vw, 1.75rem) !important; line-height: 1.25 !important; }
   /* The ruled heading over a section of the forum ("Stories" on dwell.com: plain, bold, small). */
+  img[data-tone='0'] { background-color: var(--tone-0); } img[data-tone='1'] { background-color: var(--tone-1); }
+  img[data-tone='2'] { background-color: var(--tone-2); } img[data-tone='3'] { background-color: var(--tone-3); }
+  img[data-tone='4'] { background-color: var(--tone-4); } img[data-tone='5'] { background-color: var(--tone-5); }
+  img[data-tone='6'] { background-color: var(--tone-6); } img[data-tone='7'] { background-color: var(--tone-7); }
+  img[data-tone='8'] { background-color: var(--tone-8); } img[data-tone='9'] { background-color: var(--tone-9); }
   .hl-forum-section { font-family: var(--font-sans); font-size: 0.9375rem !important; font-weight: 600 !important; letter-spacing: 0 !important; line-height: 1.4 !important; }
   /* The title of a post on its photograph (Home, What's happening). */
   .hl-post-title { font-size: clamp(1.15rem, 2.6vw, 2.5rem) !important; line-height: 1.15 !important; }
