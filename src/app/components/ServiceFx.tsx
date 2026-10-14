@@ -70,6 +70,7 @@ export function ServiceFx({ kind, onRed = false }: { kind: FxKind; onRed?: boole
     let map: MapDot[] = [];
     let cities: [number, number][] = [];
     let ht = 0; // seconds of hover, for the market map's sequence
+    let flow = 0; // seconds the picture has been running, for things that travel
 
     const build = () => {
       pts = [];
@@ -118,6 +119,8 @@ export function ServiceFx({ kind, onRed = false }: { kind: FxKind; onRed?: boole
       mouse.y += (mouse.ty - mouse.y) * Math.min(1, dt * 0.008);
       const s = still ? (hovered ? 1 : 0) : strength;
       ht = still ? 6 : ht + dt / 1000;
+      // One steady, slow pace for whatever travels: it does not change with the hover strength.
+      flow += still ? 0 : dt / 1000;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
       const cx = w * 0.68, cy = h * 0.55, R = Math.min(w, h) * 0.36;
@@ -219,7 +222,7 @@ export function ServiceFx({ kind, onRed = false }: { kind: FxKind; onRed?: boole
           ctx.stroke();
         }
       } else if (kind === 'routes') {
-        // Routes from the edges into a hub; goods travel them, faster on hover.
+        // Routes from the edges into a hub; goods travel them slowly, at an even pace.
         const hub = { x: w * 0.8, y: h * 0.5 };
         const starts = [[w * 0.5, h * 1.05], [w * 1.05, h * 0.05], [w * 1.05, h * 0.95], [w * 0.55, -h * 0.05]];
         const curve = (k: number, u: number) => {
@@ -238,18 +241,18 @@ export function ServiceFx({ kind, onRed = false }: { kind: FxKind; onRed?: boole
         ctx.setLineDash([]);
         for (const p of pts) {
           const k = Math.floor(p.a / (Math.PI * 2) * starts.length) % starts.length;
-          const u = (p.r + t * (0.018 + 0.03 * s) * (0.6 + p.z)) % 1;
+          const u = (p.r + flow * 0.02 * (0.75 + 0.5 * p.z)) % 1;
           const [x, y] = curve(k, u);
           dot(x + (p.x - 0.5) * 8, y + (p.y - 0.5) * 8, 1.5 + p.z * 2, (0.3 + 0.6 * u) * s);
         }
-        const pulse = (t * 0.3) % 1;
+        const pulse = (flow * 0.25) % 1;
         ctx.strokeStyle = `rgba(${ramp(0.5, onRed)},${(1 - pulse) * 0.5 * s})`;
         ctx.beginPath(); ctx.arc(hub.x, hub.y, 8 + pulse * 40, 0, Math.PI * 2); ctx.stroke();
         ctx.fillStyle = `rgba(${ramp(0.5, onRed)},${s})`;
         ctx.fillRect(hub.x - 6, hub.y - 6, 12, 12);
       } else if (kind === 'sphere') {
         // A globe of points turning; the pointer tilts it.
-        const spin = t * (0.15 + 0.35 * s);
+        const spin = flow * 0.18;
         const tilt = (mouse.y / h - 0.5) * 0.6 * s;
         const N = pts.length;
         pts.forEach((p, i) => {
