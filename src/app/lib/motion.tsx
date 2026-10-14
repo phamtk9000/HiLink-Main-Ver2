@@ -59,7 +59,9 @@ export function scrollTopNow() {
     (or the visitor prefers reduced motion). */
 export function scrollToEl(el: HTMLElement, smooth = true) {
   const header = document.querySelector('header')?.getBoundingClientRect().height ?? 76;
-  const y = Math.max(0, el.getBoundingClientRect().top + window.scrollY - header - 16);
+  // A target that sets its own scroll margin (to clear a sticky bar under the header) keeps it.
+  const margin = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+  const y = Math.max(0, el.getBoundingClientRect().top + window.scrollY - Math.max(header + 16, margin));
   const ease = smooth && !reducedMotion();
   if (window.__lenis) window.__lenis.scrollTo(y, ease ? { duration: 1.1 } : { immediate: true, force: true });
   else window.scrollTo({ top: y, behavior: ease ? 'smooth' : 'auto' });

@@ -246,6 +246,7 @@ export const LineChart = glyph('rise');
 export const BarChart = glyph('rise');
 export const DollarSign = glyph('rise');
 export const Shield = glyph('arch');
+export const DraftingCompass = glyph('arch');
 export const ShieldCheck = glyph('arch');
 export const Lock = glyph('arch');
 export const Key = glyph('arch');
