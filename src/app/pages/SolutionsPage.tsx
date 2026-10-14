@@ -41,7 +41,7 @@ const T = {
     explore: 'Explore',
     solutions: [
       { title: 'Property Management', tag: 'Own with confidence', description: 'End-to-end management for residential, commercial, hospitality, and short-term rental assets — tenant acquisition, maintenance, rent collection, and transparent owner reporting.', points: ['Residential, commercial & hospitality assets', 'Premium tenant screening & leasing', '24/7 maintenance & concierge support', 'Monthly statements & yield optimisation'] },
-      { title: 'Workspace Leasing', tag: 'Work where you thrive', description: 'Premium coworking, private offices and whole floors across six HiLink addresses in central Hanoi — bookable by the hour, day, or month, with everything a modern team needs to do their best work.', points: ['Private offices, desks & meeting rooms', 'Seven locations in Hoan Kiem & Dong Da', 'Business addresses with E-office', 'Live availability & booking on hilink.vn'] },
+      { title: 'Workspace Leasing', tag: 'Work where you thrive', description: 'Premium coworking, private offices and whole floors across six HiLink addresses in central Hanoi — bookable by the hour, day, or month, with everything a modern team needs to do their best work.', points: ['Private offices, desks & meeting rooms', 'Six locations in Hoan Kiem & Dong Da', 'Business addresses with E-office', 'Live availability & booking on hilink.vn'] },
       { title: 'Business Services', tag: 'Scale in Vietnam', description: 'Market-entry, advisory, and operational support for businesses scaling in Vietnam — from company formation to accounting, legal, and ongoing back-office operations.', points: ['Market entry & company formation', 'Accounting, tax & compliance', 'Legal & licensing advisory', 'Bilingual operational support'] },
       { title: 'Concierge Services', tag: 'The exceptional, handled', description: 'Personal and corporate concierge for clients who expect more — travel, dining, events, lifestyle, and business support delivered by a dedicated team, 24/7.', points: ['Travel, aviation & hospitality', 'Dining & exclusive event access', 'Lifestyle & relocation management', 'Executive & business support'] },
       { title: 'Industrial & Logistics', tag: 'Space that performs', description: 'Warehousing, factory, and logistics property solutions across Vietnam — from site selection and leasing to fit-out coordination and ongoing facilities management.', points: ['Warehouse & factory leasing', 'Site selection & due diligence', 'Fit-out & build-out coordination', 'Facilities & supply-chain support'] },
@@ -64,7 +64,7 @@ const T = {
     explore: 'Khám phá',
     solutions: [
       { title: 'Quản lý bất động sản', tag: 'Sở hữu an tâm', description: 'Quản lý trọn gói cho bất động sản nhà ở, thương mại, khách sạn và cho thuê ngắn hạn — tìm khách thuê, bảo trì, thu tiền thuê và báo cáo minh bạch cho chủ sở hữu.', points: ['Bất động sản nhà ở, thương mại & khách sạn', 'Sàng lọc khách thuê & cho thuê', 'Bảo trì & hỗ trợ concierge 24/7', 'Báo cáo hàng tháng & tối ưu lợi suất'] },
-      { title: 'Cho thuê văn phòng', tag: 'Làm việc ở nơi bạn phát triển', description: 'Coworking, văn phòng riêng và nguyên sàn tại sáu địa chỉ HiLink giữa trung tâm Hà Nội — đặt theo giờ, ngày hoặc tháng, với mọi thứ một đội ngũ hiện đại cần để làm việc tốt nhất.', points: ['Văn phòng riêng, chỗ ngồi & phòng họp', 'Bảy địa điểm tại Hoàn Kiếm & Đống Đa', 'Địa chỉ doanh nghiệp với E-office', 'Xem phòng trống & đặt chỗ trên hilink.vn'] },
+      { title: 'Cho thuê văn phòng', tag: 'Làm việc ở nơi bạn phát triển', description: 'Coworking, văn phòng riêng và nguyên sàn tại sáu địa chỉ HiLink giữa trung tâm Hà Nội — đặt theo giờ, ngày hoặc tháng, với mọi thứ một đội ngũ hiện đại cần để làm việc tốt nhất.', points: ['Văn phòng riêng, chỗ ngồi & phòng họp', 'Sáu địa điểm tại Hoàn Kiếm & Đống Đa', 'Địa chỉ doanh nghiệp với E-office', 'Xem phòng trống & đặt chỗ trên hilink.vn'] },
       { title: 'Dịch vụ doanh nghiệp', tag: 'Phát triển tại Việt Nam', description: 'Hỗ trợ gia nhập thị trường, tư vấn và vận hành cho doanh nghiệp mở rộng tại Việt Nam — từ thành lập công ty đến kế toán, pháp lý và vận hành văn phòng.', points: ['Gia nhập thị trường & thành lập công ty', 'Kế toán, thuế & tuân thủ', 'Tư vấn pháp lý & giấy phép', 'Hỗ trợ vận hành song ngữ'] },
       { title: 'Dịch vụ concierge', tag: 'Mọi điều đặc biệt, đã có người lo', description: 'Concierge cá nhân và doanh nghiệp cho khách hàng mong đợi nhiều hơn — đi lại, ẩm thực, sự kiện, phong cách sống và hỗ trợ công việc do một đội ngũ riêng thực hiện, 24/7.', points: ['Đi lại, hàng không & lưu trú', 'Ẩm thực & sự kiện đặc quyền', 'Phong cách sống & hỗ trợ chuyển đến', 'Hỗ trợ điều hành & công việc'] },
       { title: 'Công nghiệp & logistics', tag: 'Không gian hiệu quả', description: 'Giải pháp bất động sản kho bãi, nhà xưởng và logistics trên khắp Việt Nam — từ chọn địa điểm, cho thuê đến điều phối thi công và quản lý vận hành.', points: ['Cho thuê kho & nhà xưởng', 'Chọn địa điểm & thẩm định', 'Điều phối thi công & hoàn thiện', 'Hỗ trợ vận hành & chuỗi cung ứng'] },
@@ -86,41 +86,25 @@ export function SolutionsPage() {
   usePageMeta(t.eyebrow, t.meta);
   const solutions = t.solutions.map((s, i) => ({ ...s, ...META[i] }));
   // Which solution is being read, for the quick nav: the last whose place in
-  // the page has passed the middle of the screen. And, on wide screens, each
-  // card sinks back a little as the next one slides up over it.
+  // the page has passed the middle of the screen.
   const [active, setActive] = useState(-1);
   const stack = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const root = stack.current;
     if (!root) return undefined;
     const marks = [...root.querySelectorAll<HTMLElement>('[data-mark]')];
-    const cards = [...root.querySelectorAll<HTMLElement>('[data-stack-card]')];
-    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let raf = 0;
     const update = () => {
       raf = 0;
-      const mid = window.innerHeight * 0.5, end = root.getBoundingClientRect().bottom;
+      const mid = window.innerHeight * 0.5;
       let at = -1;
       marks.forEach((m, k) => { if (m.getBoundingClientRect().top < mid) at = k; });
-      setActive(end < mid ? -1 : at);
-      const wide = window.innerWidth >= 1024;
-      cards.forEach((c, k) => {
-        const inner = c.firstElementChild as HTMLElement | null, shade = c.querySelector<HTMLElement>('[data-shade]');
-        const next = cards[k + 1];
-        let p = 0;
-        if (wide && next && !still) {
-          const a = c.getBoundingClientRect(), b = next.getBoundingClientRect();
-          p = Math.min(1, Math.max(0, (a.top + a.height - b.top) / Math.max(1, a.height - 14)));
-        }
-        if (inner) inner.style.transform = p ? `scale(${(1 - 0.05 * p).toFixed(4)})` : '';
-        if (shade) shade.style.opacity = (0.45 * p).toFixed(3);
-      });
+      setActive(root.getBoundingClientRect().bottom < mid ? -1 : at);
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
     update();
-    return () => { cancelAnimationFrame(raf); window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); };
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('scroll', onScroll); };
   }, []);
   const figs = FIGS[lang];
 
@@ -182,21 +166,18 @@ export function SolutionsPage() {
         </div>
       </section>
 
-      {/* The solutions as large cards stacked one over another, a pattern
-          from award-winning services pages: on wide screens each stays under
-          the quick nav while the next slides up over it, and the one beneath
-          sinks back a little. Each card: its number, name and promise, what
-          it covers, the way in, and a photograph with one figure on it. */}
+      {/* The solutions as large cards, one after another. Each: its number,
+          name and promise, what it covers, the way in, and a photograph with
+          one figure on it. */}
       <section id="solutions" className="relative bg-white pb-24 lg:pb-32">
         <div ref={stack} className="max-w-[1600px] mx-auto px-6 lg:px-12">
           {solutions.map((s, i) => {
             const c = CARDS[i], on = c.light ? 'text-[#F6EFE6]' : 'text-[#2A2623]', soft = c.light ? 'text-[#F6EFE6]/75' : 'text-[#4A443F]', rule = c.light ? 'border-white/15' : 'border-[#2A2623]/12';
-            // marker and card are siblings in one column, so each card can stay put the whole way down
             return (
               <Fragment key={s.path}>
                 <div id={`solution-${i}`} data-mark className="scroll-mt-[76px] lg:scroll-mt-[184px]" aria-hidden="true" />
-                <div data-stack-card className={`${i < solutions.length - 1 ? 'mb-6 lg:mb-[12vh]' : ''} lg:sticky`} style={{ top: `calc(184px + ${i * 14}px)` }}>
-                  <article className="relative origin-top overflow-hidden rounded-[20px] [display:grid] lg:grid-cols-12 lg:min-h-[min(640px,calc(100vh-212px))] will-change-transform" style={{ backgroundColor: c.bg }}>
+                <div className={i < solutions.length - 1 ? 'mb-6 lg:mb-8' : ''}>
+                  <article className="relative overflow-hidden rounded-[20px] [display:grid] lg:grid-cols-12 lg:min-h-[600px]" style={{ backgroundColor: c.bg }}>
                     <div className={`relative z-10 flex flex-col p-7 sm:p-10 lg:col-span-7 lg:p-14 ${on}`}>
                       <div className="flex items-start justify-between gap-6">
                         <p className="serif lining-nums leading-none text-[3.25rem] lg:text-[4.5rem] text-[#F06A6E]">
@@ -226,7 +207,6 @@ export function SolutionsPage() {
                         <p className="mt-2 text-[13.5px] leading-snug text-[#4A443F]">{figs[i][1]}</p>
                       </div>
                     </div>
-                    <div data-shade className="pointer-events-none absolute inset-0 z-20 bg-black opacity-0" aria-hidden="true" />
                   </article>
                 </div>
               </Fragment>
