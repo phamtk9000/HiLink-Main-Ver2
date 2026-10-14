@@ -20,8 +20,10 @@ LUM = [0.299 * int(c[1:3], 16) + 0.587 * int(c[3:5], 16) + 0.114 * int(c[5:7], 1
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PUBLIC = os.path.join(ROOT, 'public')
 sizes, tones = {}, {}
+# Only photographs in the repository: files dropped into public/ but not added are left alone.
+TRACKED = set(os.popen(f'git -C "{ROOT}" ls-files public/photos public/properties').read().split())
 for path in sorted(glob.glob(f'{PUBLIC}/photos/*.webp') + glob.glob(f'{PUBLIC}/properties/**/*.webp', recursive=True)):
-    if re.search(r'-(800|1200)\.webp$', path):
+    if re.search(r'-(800|1200)\.webp$', path) or os.path.relpath(path, ROOT) not in TRACKED:
         continue
     im = Image.open(path)
     w, h = im.size
