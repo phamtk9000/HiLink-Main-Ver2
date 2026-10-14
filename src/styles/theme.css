@@ -178,6 +178,11 @@
   /* The page-not-found page (after designhotels.com: heading 48/55px, "continue" 38/46px). */
   .hl-notfound-title { font-size: clamp(2rem, 3.34vw, 3rem) !important; line-height: 1.14 !important; }
   .hl-notfound-go { font-size: clamp(1.75rem, 2.64vw, 2.375rem) !important; line-height: 1.2 !important; }
+  /* The forum: the page title and an article's title; a section heading in an article. */
+  .hl-forum-title { font-size: clamp(2rem, 3.6vw, 3.25rem) !important; line-height: 1.1 !important; }
+  .hl-forum-h2 { font-size: clamp(1.4rem, 2vw, 1.75rem) !important; line-height: 1.25 !important; }
+  /* The ruled heading over a section of the forum ("Stories" on dwell.com: plain, bold, small). */
+  .hl-forum-section { font-family: var(--font-sans); font-size: 0.9375rem !important; font-weight: 600 !important; letter-spacing: 0 !important; line-height: 1.4 !important; }
   /* The title of a post on its photograph (Home, What's happening). */
   .hl-post-title { font-size: clamp(1.15rem, 2.6vw, 2.5rem) !important; line-height: 1.15 !important; }
   /* The name on a solution card (Solutions). */

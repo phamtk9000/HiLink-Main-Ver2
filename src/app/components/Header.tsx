@@ -11,7 +11,7 @@ const MAIN_LINKS = [
   { en: 'About', vi: 'Giới thiệu', path: '/about' },
   { en: 'Partners', vi: 'Đối tác', path: '/partners' },
   { en: 'Careers', vi: 'Tuyển dụng', path: '/careers' },
-  { en: 'News', vi: 'Tin tức', path: '/news' },
+  { en: 'Forum', vi: 'Diễn đàn', path: '/forum' },
   { en: 'Contact', vi: 'Liên hệ', path: '/contact' },
 ];
 
