@@ -50,7 +50,8 @@ export type Shot = { src: string; caption?: string };
  * the arrows. The motion is Flickity's own spring (attraction 0.025,
  * friction 0.28). It runs round without end.
  */
-export function Showcase({ shots, prev, next, className = '' }: { shots: Shot[]; prev: string; next: string; className?: string }) {
+/** With `autoplay` off it moves only when asked (arrows, drag, keys, a click). */
+export function Showcase({ shots, prev, next, className = '', autoplay = true }: { shots: Shot[]; prev: string; next: string; className?: string; autoplay?: boolean }) {
   const box = useRef<HTMLDivElement>(null);
   const cells = useRef<(HTMLDivElement | null)[]>([]);
   const api = useRef<{ go: (d: number) => void; to: (i: number) => void } | null>(null);
@@ -93,7 +94,7 @@ export function Showcase({ shots, prev, next, className = '' }: { shots: Shot[];
     const run = () => { if (!raf) raf = requestAnimationFrame(tick); };
     const auto = () => {
       window.clearInterval(timer);
-      if (still || !visible || hover || drag) return;
+      if (!autoplay || still || !visible || hover || drag) return;
       timer = window.setInterval(() => { target += 1; run(); }, 6000);
     };
     api.current = {
@@ -165,7 +166,7 @@ export function Showcase({ shots, prev, next, className = '' }: { shots: Shot[];
       el.removeEventListener('mouseenter', enter);
       el.removeEventListener('mouseleave', leave);
     };
-  }, [n]);
+  }, [n, autoplay]);
 
   return (
     <div className={className}>

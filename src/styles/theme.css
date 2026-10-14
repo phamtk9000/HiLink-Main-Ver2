@@ -186,6 +186,8 @@
   .hl-help-title { font-size: clamp(1.75rem, 2.9vw, 2.6rem) !important; line-height: 1.24 !important; }
   .hl-club-name { font-size: clamp(1.75rem, 2.7vw, 2.75rem) !important; letter-spacing: 0.07em !important; text-transform: uppercase; line-height: 1.12 !important; }
   .hl-club-caption { font-size: clamp(1.05rem, 1.3vw, 1.25rem) !important; letter-spacing: 0.12em !important; text-transform: uppercase; line-height: 1.35 !important; }
+  /* The line that opens the Concierge page, in italics (44–52px on a laptop). */
+  .hl-statement-lg { font-size: clamp(2rem, 3.4vw, 3.25rem) !important; line-height: 1.15 !important; font-style: italic; }
   .hl-club-statement { font-size: clamp(1.6rem, 3vw, 2.5rem) !important; line-height: 1.25 !important; font-style: italic; }
 
   h1, h2 { overflow-wrap: break-word; }

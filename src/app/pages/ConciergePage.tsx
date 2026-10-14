@@ -1,12 +1,14 @@
 // Concierge Services — laid out after maslows.com and pavilion.club, with the
 // photographs of the two houses where the service is delivered (the HiLink
-// Business Club and The Quarter Club): a hero of fading photographs under a
-// centred title, the six things we arrange as captioned photographs, the
-// showcase, what sets the service apart on a band of club green, the two
-// houses, and the membership enquiry.
+// Business Club and The Quarter Club). In the order a visitor needs it: a
+// hero with the way to send a request; the idea in one line; the six things
+// we arrange; how a request is handled; what sets the service apart, on club
+// green; the gallery (it moves only when asked); the two houses, each with
+// its own way in; and the enquiry.
 import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
+import { scrollToEl } from '../lib/motion';
 import { Mail } from '../components/Glyph';
 import { HeroFade, RuleTitle, Showcase, type Shot } from '../components/Club';
 import { CONTACT } from '../data/site';
@@ -18,20 +20,21 @@ import { photo } from '../lib/photo';
 const HERO = ['/photos/hbc-reception.webp', '/photos/hbc-lounge-5.webp', '/photos/qc-bar-2.webp'];
 // One photograph for each thing we arrange (the order of T.services).
 const SERVICE_PHOTOS = ['/photos/hbc-hostess.webp', '/photos/hbc-fandb.webp', '/photos/qc-bar.webp', '/photos/hbc-study.webp', '/photos/hbc-advisor.webp', '/photos/hbc-host.webp'];
-const HOUSE_PHOTOS = ['/photos/hbc-lounge-3.webp', '/photos/qc-sign.webp'];
+const HOUSE_PHOTOS = ['/photos/hbc-lounge-3.webp', '/photos/qc-lounge.webp'];
+// Each house's own place on the Business Club page.
+const HOUSE_LINKS = ['/business-club#obc', '/business-club#club-tqk'];
 const HBC = 'HiLink Business Club', QC = 'The Quarter Club';
 const SHOWCASE: Shot[] = [
-  { src: '/photos/hbc-lounge-5.webp', caption: HBC }, { src: '/photos/qc-lounge.webp', caption: QC }, { src: '/photos/hbc-members.webp', caption: HBC },
-  { src: '/photos/qc-dining.webp', caption: QC }, { src: '/photos/hbc-globe.webp', caption: HBC }, { src: '/photos/qc-cellar.webp', caption: QC },
-  { src: '/photos/hbc-mr8.webp', caption: HBC }, { src: '/photos/qc-room.webp', caption: QC }, { src: '/photos/hbc-counter.webp', caption: HBC },
+  { src: '/photos/hbc-members.webp', caption: HBC }, { src: '/photos/qc-dining.webp', caption: QC }, { src: '/photos/hbc-globe.webp', caption: HBC },
+  { src: '/photos/qc-cellar.webp', caption: QC }, { src: '/photos/hbc-mr8.webp', caption: HBC }, { src: '/photos/qc-room.webp', caption: QC }, { src: '/photos/hbc-counter.webp', caption: HBC },
 ];
 
 const T = {
   en: {
     meta: 'A dedicated HiLink concierge team for travel, dining, events, lifestyle and business support.',
-    eyebrow: 'Concierge Services', h1: ['Your Life.', 'Perfected.'],
+    eyebrow: 'Concierge Services', label: 'HiLink Private Concierge', h1: ['Your Life.', 'Perfected.'],
     lead: 'A dedicated concierge team at your service, 24/7. From the extraordinary to the everyday, we make the impossible, effortless.',
-    request: 'Request Membership', scroll: 'Scroll to discover',
+    request: 'Send a private request', scroll: 'Scroll to discover',
     philTitle: 'Time is Your Most Valuable Asset',
     phil: 'Your dedicated concierge manages the details, so you can focus on what truly matters. From securing impossible reservations to orchestrating seamless travel, we anticipate your needs before you voice them.',
     arrEyebrow: 'What We Arrange', arrTitle: 'What We Can Arrange', arrLead: 'A selection of our most requested services',
@@ -49,12 +52,19 @@ const T = {
       ['Connected. Not Limited.', 'Our network spans Vietnam and beyond—exclusive access to private clubs, VIP events, and experiences unavailable to the public.'],
       ['Proactive. Not Reactive.', "We don't wait for requests. We know your calendar, understand your preferences, and have everything arranged before you need it."],
     ],
-    formTitle: 'Membership Enquiry', formLead: 'Concierge services are available exclusively to HiLink property clients and select members.',
+    howTitle: 'How it works',
+    steps: [
+      ['Send your request', 'Tell the concierge team what you need — through the form below, by phone or by email.'],
+      ['Consultation & arrangement', 'The team reviews your request, talks the details through with you and proposes suitable arrangements.'],
+      ['Confirmation & support', 'Once you confirm, the concierge team coordinates everything and stays with you throughout.'],
+    ],
+    formTitle: 'Concierge Enquiry', formLead: 'Concierge services are available exclusively to HiLink property clients and select members.',
     name: 'Full Name', email: 'Email Address', phone: 'Phone Number', message: 'Tell us about your needs and how we can assist you...',
-    submit: 'Submit Enquiry', sending: 'Sending…', sentTitle: 'Enquiry received', messageLbl: 'Your request', formNote: 'Your enquiry is handled with complete confidentiality. A member of our team will contact you within 24 hours.',
+    submit: 'Send request', sending: 'Sending…', sentTitle: 'Enquiry received', messageLbl: 'Your request', formNote: 'Your enquiry is handled in complete confidence. A member of our team will be in touch with you.',
+    privacy: ['By sending, you agree to our', 'Privacy Policy'],
     qLbl: 'Questions?', qText: 'Our concierge team is available 24/7',
     explore: 'Explore', prev: 'Previous photograph', next: 'Next photograph',
-    housesTitle: 'Where we host you', housesLink: 'Discover the Business Club',
+    housesTitle: 'Where we host you', houseLinks: ['Explore the Business Club', 'Explore The Quarter Club'],
     houses: [
       ['HiLink Business Club', 'Floor 7, 60 Ly Thai To', 'A lounge for businesspeople, companies and the community — a place to host guests, to meet and to work.'],
       ['The Quarter Club', '204 Tran Quang Khai', 'A private club for individuals, where privacy comes first. Membership is by referral.'],
@@ -62,9 +72,9 @@ const T = {
   },
   vi: {
     meta: 'Đội ngũ concierge riêng của HiLink cho đi lại, ẩm thực, sự kiện, phong cách sống và hỗ trợ công việc.',
-    eyebrow: 'Dịch vụ concierge', h1: ['Cuộc sống của bạn.', 'Trọn vẹn.'],
+    eyebrow: 'Dịch vụ concierge', label: 'HiLink Private Concierge', h1: ['Cuộc sống của bạn.', 'Trọn vẹn.'],
     lead: 'Một đội ngũ concierge riêng phục vụ bạn 24/7. Từ những điều đặc biệt đến việc thường ngày, chúng tôi biến điều khó thành dễ dàng.',
-    request: 'Đăng ký thành viên', scroll: 'Cuộn để khám phá',
+    request: 'Gửi yêu cầu riêng', scroll: 'Cuộn để khám phá',
     philTitle: 'Thời gian là tài sản quý nhất của bạn',
     phil: 'Concierge riêng lo từng chi tiết để bạn tập trung vào điều thật sự quan trọng. Từ những đặt chỗ khó nhất đến hành trình liền mạch, chúng tôi đón trước nhu cầu của bạn.',
     arrEyebrow: 'Chúng tôi sắp xếp', arrTitle: 'Những gì chúng tôi có thể sắp xếp', arrLead: 'Một số dịch vụ được yêu cầu nhiều nhất',
@@ -82,12 +92,19 @@ const T = {
       ['Kết nối. Không giới hạn.', 'Mạng lưới của chúng tôi trải khắp Việt Nam và hơn thế — quyền vào câu lạc bộ riêng, sự kiện VIP và trải nghiệm không mở cho công chúng.'],
       ['Chủ động. Không bị động.', 'Chúng tôi không chờ yêu cầu. Chúng tôi nắm lịch trình, hiểu sở thích và chuẩn bị sẵn mọi thứ trước khi bạn cần.'],
     ],
-    formTitle: 'Đăng ký thành viên', formLead: 'Dịch vụ concierge dành riêng cho khách hàng bất động sản của HiLink và thành viên được chọn.',
+    howTitle: 'Cách concierge làm việc',
+    steps: [
+      ['Gửi yêu cầu', 'Cho đội concierge biết nhu cầu của bạn — qua biểu mẫu bên dưới, điện thoại hoặc email.'],
+      ['Tư vấn & sắp xếp', 'Đội ngũ xem xét yêu cầu, trao đổi chi tiết với bạn và đề xuất phương án phù hợp.'],
+      ['Xác nhận & hỗ trợ', 'Khi bạn xác nhận, đội concierge điều phối mọi việc và đồng hành cùng bạn trong suốt quá trình.'],
+    ],
+    formTitle: 'Gửi yêu cầu Concierge', formLead: 'Dịch vụ concierge dành riêng cho khách hàng bất động sản của HiLink và thành viên được chọn.',
     name: 'Họ và tên', email: 'Địa chỉ email', phone: 'Số điện thoại', message: 'Cho chúng tôi biết nhu cầu của bạn và chúng tôi có thể hỗ trợ thế nào...',
-    submit: 'Gửi yêu cầu', sending: 'Đang gửi…', sentTitle: 'Đã nhận yêu cầu', messageLbl: 'Yêu cầu của bạn', formNote: 'Yêu cầu của bạn được bảo mật tuyệt đối. Một thành viên đội ngũ sẽ liên hệ với bạn trong vòng 24 giờ.',
+    submit: 'Gửi yêu cầu', sending: 'Đang gửi…', sentTitle: 'Đã nhận yêu cầu', messageLbl: 'Yêu cầu của bạn', formNote: 'Yêu cầu của bạn được bảo mật tuyệt đối. Đội ngũ của chúng tôi sẽ liên hệ lại với bạn.',
+    privacy: ['Khi gửi, bạn đồng ý với', 'Chính sách bảo mật'],
     qLbl: 'Câu hỏi?', qText: 'Đội concierge sẵn sàng 24/7',
     explore: 'Khám phá', prev: 'Ảnh trước', next: 'Ảnh tiếp theo',
-    housesTitle: 'Nơi chúng tôi đón tiếp bạn', housesLink: 'Khám phá Business Club',
+    housesTitle: 'Nơi chúng tôi đón tiếp bạn', houseLinks: ['Khám phá Business Club', 'Khám phá Quarter Club'],
     houses: [
       ['HiLink Business Club', 'Tầng 7, 60 Lý Thái Tổ', 'Không gian Lounge cho doanh nhân, doanh nghiệp và cộng đồng — tiếp khách, giao lưu, làm việc.'],
       ['The Quarter Club', '204 Trần Quang Khải', 'Không gian Private Club dành riêng cho cá nhân, ưu tiên sự riêng tư, gia nhập qua giới thiệu.'],
@@ -131,35 +148,39 @@ export function ConciergePage() {
       <section className="relative min-h-[88vh] flex items-center justify-center overflow-hidden bg-[#1B1412] text-white">
         <HeroFade images={HERO} />
         <div className="relative z-10 max-w-3xl mx-auto px-6 py-28 text-center">
-          <p className="mb-8 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.24em] text-white/85"><Flag className="text-[#F06A6E]" /> {t.eyebrow}</p>
+          <p className="mb-8 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] text-white/85"><Flag className="text-[#F06A6E]" /> {t.label}</p>
           <h1 className="serif">{t.h1[0]}<br />{t.h1[1]}</h1>
           <p className="mt-8 text-lg lg:text-xl leading-relaxed text-white/85">{t.lead}</p>
-          <a href="#enquire" className="mt-10 inline-flex items-center justify-center px-10 py-4 border border-white/70 text-white text-[12px] uppercase tracking-[0.2em] hover:bg-white hover:text-[#2A2623] transition-colors">{t.request}</a>
+          <a
+            href="#enquire"
+            onClick={(e) => { const el = document.getElementById('enquire'); if (el) { e.preventDefault(); scrollToEl(el); } }}
+            className="mt-10 inline-flex items-center justify-center px-10 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.2em] hover:bg-[#A3181C] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white transition-colors duration-200"
+          >{t.request}</a>
         </div>
       </section>
 
       {/* The idea, in one centred statement. */}
       <section className="relative py-24 lg:py-32 bg-white">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <h2 className="serif hl-club-statement text-[#2A2623]">{t.philTitle}</h2>
-          <p className="mt-8 text-[1.0625rem] leading-[1.8] text-[#4A443F]">{t.phil}</p>
+        <div className="max-w-[720px] mx-auto px-6 text-center">
+          <h2 className="serif hl-statement-lg text-[#2A2623]">{t.philTitle}</h2>
+          <p className="mt-6 text-[15px] lg:text-[16px] leading-[1.75] text-[#4A443F]">{t.phil}</p>
         </div>
       </section>
 
       {/* What we arrange: six photographs with centred captions. */}
       <section className="relative pb-24 lg:pb-32 bg-white hl-no-rule">
-        <div className="max-w-[1320px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
           <RuleTitle>{t.arrTitle}</RuleTitle>
-          <p className="mt-8 text-center text-[1.0625rem] text-[#6B645D]">{t.arrLead}</p>
-          <div className="mt-14 lg:mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
+          <p className="mt-6 text-center text-[15px] lg:text-[16px] text-[#6B645D]">{t.arrLead}</p>
+          <div className="mt-12 lg:mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 lg:gap-y-14">
             {t.services.map(([title, d], k) => (
-              <figure key={title} className="group text-center">
+              <figure key={title} className="text-center">
                 <div className="relative aspect-[4/5] overflow-hidden rounded-[8px] bg-[#2A2623]">
-                  <img loading="lazy" decoding="async" {...photo(SERVICE_PHOTOS[k], '(min-width: 1024px) 30vw, (min-width: 640px) 46vw, 100vw')} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] group-hover:scale-[1.04]" />
+                  <img loading="lazy" decoding="async" {...photo(SERVICE_PHOTOS[k], '(min-width: 1024px) 30vw, (min-width: 640px) 46vw, 100vw')} alt="" className="absolute inset-0 h-full w-full object-cover" />
                 </div>
-                <figcaption className="mx-auto mt-7 max-w-[34ch]">
-                  <h3 className="serif hl-club-caption text-[#2A2623]">{title}</h3>
-                  <p className="mt-3 text-[15px] leading-relaxed text-[#6B645D]">{d}</p>
+                <figcaption className="mx-auto mt-6 max-w-[34ch]">
+                  <h3 className="serif text-[1.25rem] lg:text-[1.3125rem] leading-[1.25] text-[#2A2623]">{title}</h3>
+                  <p className="mt-2.5 text-[15px] leading-[1.7] text-[#6B645D]">{d}</p>
                 </figcaption>
               </figure>
             ))}
@@ -167,15 +188,25 @@ export function ConciergePage() {
         </div>
       </section>
 
-      {/* The showcase (after the Explore gallery on maslows.com). */}
-      <section className="relative py-20 lg:py-28 bg-[#F8F6F1] overflow-hidden">
-        <div className="max-w-[1320px] mx-auto px-6 lg:px-12 mb-12 lg:mb-16"><RuleTitle>{t.explore}</RuleTitle></div>
-        <Showcase shots={SHOWCASE} prev={t.prev} next={t.next} />
+      {/* How a request is handled: three steps between hairlines. */}
+      <section className="relative pb-24 lg:pb-32 bg-white hl-no-rule">
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+          <RuleTitle>{t.howTitle}</RuleTitle>
+          <ol className="mt-12 lg:mt-14 grid md:grid-cols-3 gap-x-8 gap-y-10">
+            {t.steps.map(([title, d], k) => (
+              <li key={title} className="border-t border-[#2A2623]/15 pt-6">
+                <span className="text-[12px] font-medium tabular-nums tracking-[0.14em] text-[#D12126]">{String(k + 1).padStart(2, '0')}</span>
+                <h3 className="serif mt-3 text-[1.25rem] lg:text-[1.375rem] leading-[1.25] text-[#2A2623]">{title}</h3>
+                <p className="mt-3 max-w-[38ch] text-[15px] leading-[1.7] text-[#4A443F]">{d}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
       </section>
 
       {/* What sets it apart, on club green. */}
       <section className="relative py-24 lg:py-32 bg-[#2E3A33] text-[#F8F6F1]">
-        <div className="max-w-[1320px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-12 items-center">
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-12 items-center">
           <div className="lg:col-span-5 relative aspect-[4/5] overflow-hidden rounded-[8px] bg-[#1B1412]">
             <img loading="lazy" decoding="async" {...photo('/photos/hbc-member.webp', '(min-width: 1024px) 40vw, 100vw')} alt={t.diffAlt} className="absolute inset-0 h-full w-full object-cover" />
           </div>
@@ -189,7 +220,7 @@ export function ConciergePage() {
                   <span className="pt-1.5 text-[13px] font-medium tabular-nums tracking-[0.08em] text-[#E8B9A6]">{String(k + 1).padStart(2, '0')}</span>
                   <div>
                     <p className="serif text-[1.5rem] lg:text-[1.75rem] leading-snug text-[#F8F6F1]">{title}</p>
-                    <p className="mt-3 text-[1.0625rem] leading-relaxed text-[#F8F6F1]/75">{d}</p>
+                    <p className="mt-3 text-[15px] lg:text-[16px] leading-[1.75] text-[#F8F6F1]/85">{d}</p>
                   </div>
                 </li>
               ))}
@@ -198,33 +229,37 @@ export function ConciergePage() {
         </div>
       </section>
 
+      {/* The showcase (after the Explore gallery on maslows.com). */}
+      <section className="relative py-20 lg:py-28 bg-[#F8F6F1] overflow-hidden">
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-12 mb-12 lg:mb-16"><RuleTitle>{t.explore}</RuleTitle></div>
+        <Showcase shots={SHOWCASE} prev={t.prev} next={t.next} autoplay={false} />
+      </section>
+
       {/* The two houses where the service is delivered. */}
       <section className="relative py-24 lg:py-32 bg-white">
-        <div className="max-w-[1320px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
           <RuleTitle>{t.housesTitle}</RuleTitle>
           <div className="mt-14 lg:mt-16 grid md:grid-cols-2 gap-x-10 gap-y-14">
             {t.houses.map(([name, address, line], k) => (
-              <Link key={name} to={l('/business-club')} className="group block">
+              <Link key={name} to={l(HOUSE_LINKS[k])} className="group block outline-none focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-[#D12126]">
                 <div className="relative aspect-[3/2] overflow-hidden rounded-[8px] bg-[#2A2623]">
                   <img loading="lazy" decoding="async" {...photo(HOUSE_PHOTOS[k], '(min-width: 768px) 46vw, 100vw')} alt={name} className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] group-hover:scale-[1.04]" />
                 </div>
-                <p className="mt-6 text-[13px] text-[#6B645D] underline decoration-[#2A2623]/25 underline-offset-4">{address}</p>
-                <h3 className="serif hl-club-caption mt-2 text-[#2A2623] transition-colors group-hover:text-[#D12126]">{name}</h3>
-                <p className="mt-3 max-w-[46ch] text-[15px] leading-relaxed text-[#6B645D]">{line}</p>
+                <p className="mt-6 text-[14px] text-[#6B645D]">{address}</p>
+                <h3 className="serif hl-club-caption mt-2 text-[#2A2623] transition-colors duration-200 group-hover:text-[#D12126]">{name}</h3>
+                <p className="mt-3 max-w-[46ch] text-[15px] leading-[1.7] text-[#4A443F]">{line}</p>
+                <span className="mt-5 inline-flex items-center gap-2 border-b border-[#D12126]/40 pb-1 text-[12px] uppercase tracking-[0.16em] text-[#D12126] transition-colors duration-200 group-hover:border-[#D12126]">
+                  {t.houseLinks[k]} <ArrowUpRight size={14} className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </span>
               </Link>
             ))}
-          </div>
-          <div className="mt-14 text-center">
-            <Link to={l('/business-club')} className="group inline-flex items-center gap-2 border-b border-[#D12126]/40 pb-1 text-[12px] uppercase tracking-[0.18em] text-[#D12126] hover:border-[#D12126] transition-colors">
-              {t.housesLink} <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </Link>
           </div>
         </div>
       </section>
 
       {/* Membership enquiry. */}
       <section id="enquire" className="relative pb-24 lg:pb-32 bg-white hl-no-rule scroll-mt-24">
-        <div className="max-w-[1320px] mx-auto px-6 lg:px-12"><RuleTitle>{t.formTitle}</RuleTitle></div>
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-12"><RuleTitle>{t.formTitle}</RuleTitle></div>
         <div className="max-w-[720px] mx-auto px-6 mt-10">
           <p className="mb-12 text-center text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.formLead}</p>
           {sent ? (
@@ -238,32 +273,33 @@ export function ConciergePage() {
             <input {...HONEYPOT_PROPS} />
             <div>
               <label htmlFor="cg-name" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.name} *</label>
-              <input id="cg-name" type="text" autoComplete="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors" required />
+              <input id="cg-name" type="text" autoComplete="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#2A2623]/20 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] focus:ring-1 focus:ring-[#D12126] user-invalid:border-[#B01B20] transition-colors duration-200" required />
             </div>
             <div className="grid sm:grid-cols-2 gap-5">
               <div>
                 <label htmlFor="cg-email" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.email} *</label>
-                <input id="cg-email" type="email" autoComplete="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors" required />
+                <input id="cg-email" type="email" autoComplete="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#2A2623]/20 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] focus:ring-1 focus:ring-[#D12126] user-invalid:border-[#B01B20] transition-colors duration-200" required />
               </div>
               <div>
                 <label htmlFor="cg-phone" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.phone} *</label>
-                <input id="cg-phone" type="tel" autoComplete="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors" required />
+                <input id="cg-phone" type="tel" autoComplete="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#2A2623]/20 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] focus:ring-1 focus:ring-[#D12126] user-invalid:border-[#B01B20] transition-colors duration-200" required />
               </div>
             </div>
             <div>
               <label htmlFor="cg-message" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.messageLbl} *</label>
-              <textarea id="cg-message" placeholder={t.message} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} rows={6} className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#2A2623]/15 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] transition-colors resize-none" required />
+              <textarea id="cg-message" placeholder={t.message} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} rows={6} className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#2A2623]/20 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] focus:ring-1 focus:ring-[#D12126] user-invalid:border-[#B01B20] transition-colors duration-200 resize-none" required />
             </div>
             <button
               type="submit"
               disabled={sending}
-              className="w-full px-12 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.2em] hover:bg-[#A3181C] transition-colors disabled:opacity-60"
+              aria-busy={sending}
+              className="w-full px-12 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.2em] hover:bg-[#A3181C] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D12126] transition-colors duration-200 disabled:opacity-60"
             >
               {sending ? t.sending : t.submit}
             </button>
             {error && <p role="alert" className="text-[15px] text-[#B01B20] text-center">{error}</p>}
-            <p className="text-sm text-[#6B645D] text-center">
-              {t.formNote}
+            <p className="text-[14px] leading-[1.6] text-[#6B645D] text-center">
+              {t.formNote} {t.privacy[0]} <Link to={l('/privacy-policy')} className="underline decoration-[#2A2623]/30 underline-offset-4 hover:text-[#D12126]">{t.privacy[1]}</Link>.
             </p>
           </form>
           )}
