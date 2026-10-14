@@ -395,13 +395,18 @@ footer::before {
 
 /* Squeezy forum carousel (components/ForumCarousel.tsx): the active slide is
    wide, the rest narrow by distance; flex-grow animates the squeeze. */
-.hl-squeeze { --sq-gap: 8px; }
-@media (min-width: 1024px) { .hl-squeeze { --sq-gap: 16px; } }
-.hl-squeeze > * { transition: flex-basis 0.7s cubic-bezier(0.65, 0, 0.35, 1), flex-grow 0.7s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.5s ease; }
+/* The squeezy row on Home (ForumCarousel, after stripe.com): the cards are
+   placed by script; the white mark and the shade follow the place a card is
+   heading for (data-col: 0 the chosen card, 1–2 the next two). */
+.hl-sq-card .hl-sq-logo { left: 16px; bottom: 16px; height: 18px; opacity: 0; transition: opacity 0.6s ease, height 1s cubic-bezier(0.16, 1, 0.3, 1), left 1s cubic-bezier(0.16, 1, 0.3, 1), bottom 1s cubic-bezier(0.16, 1, 0.3, 1); }
+.hl-sq-card[data-col='0'] .hl-sq-logo { left: 28px; bottom: 28px; height: clamp(40px, 3.9vw, 56px); opacity: 0.95; }
+.hl-sq-card[data-col='1'] .hl-sq-logo, .hl-sq-card[data-col='2'] .hl-sq-logo { opacity: 0.95; }
+.hl-sq-card .hl-sq-shade { opacity: 0; transition: opacity 0.6s ease; }
+.hl-sq-card[data-col='0'] .hl-sq-shade { opacity: 1; }
 
 @media (prefers-reduced-motion: reduce) {
   .hl-flag, .hl-flag polygon { animation: none; }
-  .hl-squeeze > * { transition: none; }
+  .hl-sq-card .hl-sq-logo, .hl-sq-card .hl-sq-shade { transition: none; }
 }
 @keyframes hl-fade-up { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
