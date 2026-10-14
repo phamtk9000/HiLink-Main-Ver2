@@ -44,7 +44,7 @@ export const ABOUT = {
     "complex": "Complex requirements",
     "howEyebrow": "How we work",
     "howTitle": "Your business first. The solution follows.",
-    "howBody": "Every business works differently. We start by understanding your needs, then bring together the right space, services and operational support to build and run a solution around the way your business works — so you can focus on what matters most.",
+    "howBody": "We bring the right space, services and support together around how you work — so you can focus on what matters.",
     "stages": [
       {
         "t": "Understand",
@@ -97,7 +97,7 @@ export const ABOUT = {
   "vi": {
     "heroEyebrow": "Về HiLink",
     "heroTitle": "Giải pháp phía sau những doanh nghiệp vận hành hiệu quả.",
-    "heroLead": "HiLink giúp doanh nghiệp và tài sản phát huy trọn vẹn tiềm năng, mà không phải gánh phần vận hành phía sau.",
+    "heroLead": "HiLink giúp doanh nghiệp và tài sản phát huy trọn tiềm năng, không phải lo phần vận hành.",
     "heroBody": "Chúng tôi kết nối không gian làm việc, quản lý bất động sản và tài sản, dịch vụ doanh nghiệp và hỗ trợ vận hành trong một mối quan hệ duy nhất — để khách hàng tập trung vào những việc chỉ họ mới làm được.",
     "heroCta": "Khám phá giải pháp",
     "whoEyebrow": "Chúng tôi là ai",
@@ -108,7 +108,7 @@ export const ABOUT = {
     "mission": "Chúng tôi lên kế hoạch, xây dựng và vận hành phần hoạt động phía sau doanh nghiệp và tài sản của khách hàng, trong một mối quan hệ và một đầu mối chịu trách nhiệm — để họ tập trung vào những việc chỉ họ mới làm được.",
     "diffEyebrow": "Điều làm nên khác biệt",
     "diffTitle": "Trách nhiệm. Đơn giản. Tin cậy.",
-    "diffLead": "Ba nguyên tắc định hướng cách chúng tôi làm việc, định hình những giải pháp chúng tôi xây dựng và những mối quan hệ chúng tôi tạo dựng.",
+    "diffLead": "Ba nguyên tắc định hướng cách chúng tôi làm việc, những giải pháp và mối quan hệ chúng tôi xây dựng.",
     "diffs": [
       {
         "t": "Trách nhiệm",
@@ -137,7 +137,7 @@ export const ABOUT = {
     "complex": "Nhu cầu phức tạp",
     "howEyebrow": "Cách chúng tôi làm việc",
     "howTitle": "Doanh nghiệp của bạn trước. Giải pháp theo sau.",
-    "howBody": "Mỗi doanh nghiệp vận hành một cách khác nhau. Chúng tôi bắt đầu bằng việc hiểu nhu cầu của bạn, rồi kết hợp đúng không gian, dịch vụ và hỗ trợ vận hành để xây dựng và vận hành một giải pháp quanh cách doanh nghiệp bạn làm việc — để bạn tập trung vào điều quan trọng nhất.",
+    "howBody": "Chúng tôi kết hợp không gian, dịch vụ và hỗ trợ quanh cách bạn làm việc — để bạn tập trung vào điều quan trọng.",
     "stages": [
       {
         "t": "Thấu hiểu",

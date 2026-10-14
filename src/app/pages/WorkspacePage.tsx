@@ -40,7 +40,7 @@ const T = {
     meta: 'Private offices, desks, meeting rooms and business addresses at six HiLink locations in central Hanoi.',
     tour: 'Book a Tour', visit: 'Visit HiLink Workspace', view: 'View Locations',
     eyebrow: 'Workspace Leasing', title: 'Work Where You Thrive',
-    lead: 'Premium flexible workspaces across six Hanoi addresses — from a lakeside business club at 60 Ly Thai To to whole floors high above Dong Da at 4 Ton That Tung. Private offices, desks, meeting rooms and business addresses.',
+    lead: 'Premium flexible workspace across six Hanoi addresses — private offices, desks, meeting rooms and business addresses.',
     whyTitle: 'Why Choose HiLink', whyLead: 'More than just a desk — a complete business ecosystem',
     amenities: [['1 Gbps Fibre Wi-Fi', 'Fast, reliable connection'], ['Pantry', 'Coffee and tea on every floor'], ['Meeting Rooms', 'Rooms for 4–12 people'], ['Staffed Reception', 'Guests welcomed for you'], ['Event Space', 'Lounges for events'], ['Mail Handling', 'Letters and parcels received']],
     pricingTitle: 'Spaces & Pricing', pricingLead: 'Starting prices from HiLink Workspaces — live prices and booking on hilink.vn',
@@ -78,7 +78,7 @@ const T = {
     meta: 'Văn phòng riêng, chỗ ngồi, phòng họp và địa chỉ doanh nghiệp tại sáu địa điểm HiLink giữa trung tâm Hà Nội.',
     tour: 'Đặt lịch tham quan', visit: 'Đến HiLink Workspace', view: 'Xem địa điểm',
     eyebrow: 'Cho thuê văn phòng', title: 'Làm việc ở nơi bạn phát triển',
-    lead: 'Không gian làm việc linh hoạt cao cấp tại sáu địa chỉ ở Hà Nội — từ câu lạc bộ doanh nhân bên hồ tại 60 Lý Thái Tổ đến những sàn nguyên tầng trên cao tại 4 Tôn Thất Tùng. Văn phòng riêng, chỗ ngồi, phòng họp và địa chỉ doanh nghiệp.',
+    lead: 'Không gian làm việc linh hoạt cao cấp tại sáu địa chỉ ở Hà Nội — văn phòng riêng, chỗ ngồi, phòng họp và địa chỉ doanh nghiệp.',
     whyTitle: 'Vì sao chọn HiLink', whyLead: 'Hơn cả một chỗ ngồi — một hệ sinh thái doanh nghiệp trọn vẹn',
     amenities: [['Wi-Fi cáp quang 1 Gbps', 'Kết nối nhanh, ổn định'], ['Pantry', 'Cà phê và trà ở mọi tầng'], ['Phòng họp', 'Phòng cho 4–12 người'], ['Lễ tân trực', 'Đón khách giúp bạn'], ['Không gian sự kiện', 'Lounge cho sự kiện'], ['Nhận thư', 'Nhận thư và bưu phẩm']],
     pricingTitle: 'Không gian & giá', pricingLead: 'Giá khởi điểm của HiLink Workspaces — giá hiện hành và đặt chỗ trên hilink.vn',
@@ -218,7 +218,7 @@ export function WorkspacePage() {
                 className="text-center"
                 whileHover={{ y: -5 }}
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-[#FBECEC] rounded-full text-[#D12126] mb-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-[#F8F6F1] rounded-full text-[#D12126] mb-4">
                   {AMENITY_ICONS[i]}
                 </div>
                 <h3 className="serif text-lg mb-2">{name}</h3>

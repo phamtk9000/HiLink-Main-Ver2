@@ -204,7 +204,7 @@ export const PARTNER_COPY: Record<'en' | 'vi', { heroSub: string; why: string; w
     ]
   },
   "vi": {
-    "heroSub": "Dù bạn mang đến toà nhà, khách hàng hay nguồn vốn, luôn có cách hợp tác cùng HiLink — và cùng định hình cách Việt Nam làm việc.",
+    "heroSub": "Dù bạn mang đến toà nhà, khách hàng hay nguồn vốn, luôn có cách hợp tác cùng HiLink.",
     "why": "Chúng tôi kết hợp thiết kế cao cấp, vận hành kỷ luật và tệp thành viên tăng trưởng nhanh. Đối tác có được thương hiệu uy tín, mô hình đã kiểm chứng và một đội ngũ thực thi.",
     "whyItems": [
       [

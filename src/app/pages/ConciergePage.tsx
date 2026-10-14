@@ -36,7 +36,7 @@ const T = {
     lead: 'A dedicated concierge team at your service, 24/7. From the extraordinary to the everyday, we make the impossible, effortless.',
     request: 'Send a private request', scroll: 'Scroll to discover',
     philTitle: 'Time is Your Most Valuable Asset',
-    phil: 'Your dedicated concierge manages the details, so you can focus on what truly matters. From securing impossible reservations to orchestrating seamless travel, we anticipate your needs before you voice them.',
+    phil: 'Your dedicated concierge manages the details, so you can focus on what matters — and anticipates your needs before you voice them.',
     arrEyebrow: 'What We Arrange', arrTitle: 'What We Can Arrange', arrLead: 'A selection of our most requested services',
     services: [
       ['Travel & Aviation', 'Private jet charters, first-class bookings, luxury hotel reservations, bespoke itineraries'],

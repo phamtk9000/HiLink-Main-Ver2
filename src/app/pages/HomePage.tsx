@@ -31,7 +31,7 @@ const T = {
     lead: 'Bespoke property management, premium workspace, and business advisory for international clients across Vietnam.',
     book: 'Book a Consultation', explore: 'Explore Services',
     aboutEyebrow: 'About the Company', aboutSub: 'Your Solution',
-    aboutBody: 'A member of HiCorp Group, HiLink understands the complexities of cross-border investment and the needs of international clients. Our bilingual team delivers transparent services with a personalised concierge approach across property management, premium workspace, and business advisory.',
+    aboutBody: 'A member of HiCorp Group, HiLink serves international clients with a bilingual, transparent concierge approach.',
     aboutCta: 'Learn More About Us', receptionAlt: 'Reception on Floor 15 at 4 Ton That Tung', panelAlt: 'The glass meeting pod on Floor 15',
     stats: ['HiLink Locations', 'Workspace Brands', 'Partner Companies'], est: 'Established in Ha Noi',
     svcEyebrow: 'What We Do', svcTitle: 'Services',
@@ -45,10 +45,10 @@ const T = {
     ],
     learn: 'Learn More', all: 'All Services', allTitle: 'Explore the full HiLink ecosystem', allCta: 'View All Services',
     prjEyebrow: 'HiLink Workspaces · Ha Noi', prjTitle: 'Our Locations',
-    prjLead: 'Six HiLink addresses across Hoan Kiem and Dong Da — from a lakeside business club to whole floors high above the city.',
+    prjLead: 'Six addresses in Hoan Kiem and Dong Da — from a lakeside club to whole floors above the city.',
     soon: 'Opening soon', prev: 'Previous', next: 'Next',
     whyEyebrow: 'Why HiLink', whyTitle: 'Trusted by international clients across Asia',
-    whyBody: 'We understand the complexities of cross-border investment and the unique needs of international clients. Our bilingual team provides transparent services with a personalised concierge approach.',
+    whyBody: 'We understand cross-border investment, and our bilingual team serves every client transparently and personally.',
     whyCta: 'Learn About Us', loungeAlt: 'The business lounge at the HiLink Business Club',
     ctaTitle: 'Ready to start?', ctaLead: 'Tell us about your needs. Our team will get back to you shortly.',
   },
@@ -59,7 +59,7 @@ const T = {
     lead: 'Quản lý bất động sản theo nhu cầu, không gian làm việc cao cấp và tư vấn doanh nghiệp cho khách hàng quốc tế tại Việt Nam.',
     book: 'Đặt lịch tư vấn', explore: 'Khám phá dịch vụ',
     aboutEyebrow: 'Về công ty', aboutSub: 'Your Solution',
-    aboutBody: 'Là thành viên của Tập đoàn HiCorp, HiLink thấu hiểu sự phức tạp của đầu tư xuyên biên giới và nhu cầu của khách hàng quốc tế. Đội ngũ song ngữ mang đến dịch vụ minh bạch theo phong cách concierge riêng cho từng khách hàng, trong quản lý bất động sản, không gian làm việc cao cấp và tư vấn doanh nghiệp.',
+    aboutBody: 'Thành viên Tập đoàn HiCorp, HiLink đồng hành cùng khách hàng quốc tế bằng dịch vụ song ngữ, minh bạch.',
     aboutCta: 'Tìm hiểu về chúng tôi', receptionAlt: 'Quầy lễ tân tầng 15, 4 Tôn Thất Tùng', panelAlt: 'Phòng họp kính trên tầng 15',
     stats: ['Địa điểm HiLink', 'Dòng sản phẩm', 'Doanh nghiệp đối tác'], est: 'Thành lập tại Hà Nội',
     svcEyebrow: 'Chúng tôi làm gì', svcTitle: 'Dịch vụ',
@@ -73,10 +73,10 @@ const T = {
     ],
     learn: 'Tìm hiểu thêm', all: 'Tất cả dịch vụ', allTitle: 'Khám phá hệ sinh thái HiLink', allCta: 'Xem tất cả dịch vụ',
     prjEyebrow: 'HiLink Workspaces · Hà Nội', prjTitle: 'Các địa điểm',
-    prjLead: 'Sáu địa chỉ HiLink tại Hoàn Kiếm và Đống Đa — từ câu lạc bộ doanh nhân bên hồ đến những sàn nguyên tầng trên cao.',
+    prjLead: 'Sáu địa chỉ tại Hoàn Kiếm và Đống Đa — từ câu lạc bộ bên hồ đến những sàn trên cao.',
     soon: 'Sắp mở', prev: 'Trước', next: 'Sau',
     whyEyebrow: 'Vì sao chọn HiLink', whyTitle: 'Được khách hàng quốc tế khắp châu Á tin tưởng',
-    whyBody: 'Chúng tôi thấu hiểu sự phức tạp của đầu tư xuyên biên giới và nhu cầu riêng của khách hàng quốc tế. Đội ngũ song ngữ mang đến dịch vụ minh bạch theo phong cách concierge riêng cho từng khách hàng.',
+    whyBody: 'Chúng tôi hiểu những phức tạp của đầu tư xuyên biên giới, với đội ngũ song ngữ phục vụ minh bạch, tận tâm.',
     whyCta: 'Tìm hiểu về chúng tôi', loungeAlt: 'Business lounge tại HiLink Business Club',
     ctaTitle: 'Sẵn sàng bắt đầu?', ctaLead: 'Hãy cho chúng tôi biết nhu cầu của bạn. Đội ngũ HiLink sẽ liên hệ lại sớm.',
   },
@@ -250,7 +250,7 @@ export function HomePage() {
       </section>
 
       {/* ── Trust ── */}
-      <section className="relative pt-16 lg:pt-20 pb-24 lg:pb-32 bg-white">
+      <section className="relative pt-16 lg:pt-20 pb-6 lg:pb-8 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             <div>

@@ -22,7 +22,7 @@ const T = {
   en: {
     meta: 'Contact HiLink — email contact@hilink.vn or call (+84) 24 2202 9000.',
     eyebrow: 'Contact', heroA: 'Let’s start a', heroB: 'conversation',
-    heroLead: 'Tell us what you need — a workspace, a property to look after, a company to set up — and the right person will come back to you within one working day.',
+    heroLead: 'Tell us what you need, and the right person will come back to you within one working day.',
     heroCta: 'Make an enquiry', orCall: 'or call',
     title: 'Contact us', sub: 'Make your enquiry',
     lead: "Fill in the details below and we'll put you in touch with the right person. Or give us a call if you prefer, on",
@@ -43,10 +43,10 @@ const T = {
   vi: {
     meta: 'Liên hệ HiLink — email contact@hilink.vn hoặc gọi (+84) 24 2202 9000.',
     eyebrow: 'Liên hệ', heroA: 'Hãy bắt đầu', heroB: 'trao đổi',
-    heroLead: 'Cho chúng tôi biết bạn cần gì — một không gian làm việc, một tài sản cần chăm sóc, một công ty cần thành lập — người phù hợp sẽ phản hồi bạn trong một ngày làm việc.',
+    heroLead: 'Cho chúng tôi biết bạn cần gì — người phụ trách phù hợp sẽ phản hồi bạn trong một ngày làm việc.',
     heroCta: 'Gửi yêu cầu', orCall: 'hoặc gọi',
     title: 'Liên hệ', sub: 'Gửi yêu cầu của bạn',
-    lead: 'Điền thông tin bên dưới, chúng tôi sẽ kết nối bạn với đúng người phụ trách. Hoặc gọi cho chúng tôi nếu bạn muốn, theo số',
+    lead: 'Điền thông tin bên dưới để gặp đúng người phụ trách, hoặc gọi',
     orEmail: 'hoặc viết tới',
     find: 'Tìm giải pháp của bạn tại',
     help: 'Chúng tôi có thể giúp gì?', who: 'Chúng tôi nên liên hệ với ai?',
@@ -156,7 +156,7 @@ export function ContactPage() {
           </h1>
           <p className="mt-8 max-w-[38rem] text-[1.125rem] lg:text-[1.25rem] leading-[1.6] text-white/85">{t.heroLead}</p>
           <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
-            <a href="#enquiry" className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-[15px] font-medium text-[#2A2623] hover:bg-[#FBECEC] transition-colors">
+            <a href="#enquiry" className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-[15px] font-medium text-[#2A2623] hover:bg-[#F8F6F1] transition-colors">
               {t.heroCta} <ChevronRight size={16} className="transition-transform group-hover:translate-x-0.5" />
             </a>
             <span className="text-[15px] text-white/70">

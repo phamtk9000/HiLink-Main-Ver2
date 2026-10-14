@@ -133,7 +133,7 @@ export function AboutPage() {
         </div>
 
         <div className="relative mt-14 lg:mt-20">
-          <div className="absolute inset-x-0 bottom-0 top-[120px] lg:top-[200px] bg-[#FBECEC]" aria-hidden="true" />
+          <div className="absolute inset-x-0 bottom-0 top-[120px] lg:top-[200px] bg-[#F8F6F1]" aria-hidden="true" />
           <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 pb-16 lg:pb-24">
             <div className="grid lg:grid-cols-12 gap-x-16 gap-y-10 items-end">
               <div className="lg:col-span-8 relative aspect-[3/2] overflow-hidden rounded-[8px] bg-[#2A2623]">
@@ -338,7 +338,7 @@ export function AboutPage() {
             <div className="relative ml-12 h-16 w-px bg-[#D12126]" aria-hidden="true">
               <span className="absolute -left-[3px] top-1/2 h-[7px] w-[7px] -translate-y-1/2 rounded-full bg-[#D12126]" />
             </div>
-            <div className="border border-[#D12126]/40 bg-[#FBECEC]/50 p-7 lg:p-9 flex items-center gap-6">
+            <div className="border border-[#D12126]/40 bg-[#F8F6F1]/50 p-7 lg:p-9 flex items-center gap-6">
               <img src="/brand/logo-hilink-lockup.svg" alt="HiLink" className="h-12 w-auto shrink-0" />
               <div>
                 <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126]">{t.groupMember}</p>

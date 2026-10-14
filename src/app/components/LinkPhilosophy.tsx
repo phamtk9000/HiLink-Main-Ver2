@@ -32,7 +32,7 @@ const T = {
   en: {
     eyebrow: 'The HiLink philosophy',
     title: 'Every link creates value.',
-    lead: 'Link is in our name and at the heart of what we do: connecting business people with each other, turning those connections into opportunities, growing together — and bringing every client to the place they need to be.',
+    lead: 'Link is in our name and all we do: connecting people, turning connections into opportunities, bringing every client to the right place.',
     stats: [
       { n: PARTNER_FIGURE, l: 'partner companies', t: 'Connect', d: 'We bring business people together — in our lounges, at the HiLink Business Club and through the companies we work with.' },
       { n: '1', l: 'point of contact for every client', t: 'Create opportunity', d: 'A good introduction opens doors: a client, a partner, a new hire. We make those introductions part of everyday work.' },
@@ -48,7 +48,7 @@ const T = {
   vi: {
     eyebrow: 'Triết lý HiLink',
     title: 'Mỗi kết nối tạo nên giá trị.',
-    lead: 'Link nằm trong tên gọi và là cốt lõi của những gì chúng tôi làm: kết nối doanh nhân với nhau, biến kết nối thành cơ hội, cùng nhau phát triển — và đưa mỗi khách hàng tới đúng nơi họ cần đến.',
+    lead: 'Link nằm trong tên gọi và trong mọi việc chúng tôi làm: kết nối doanh nhân, biến kết nối thành cơ hội và đưa mỗi khách hàng tới đúng nơi.',
     stats: [
       { n: PARTNER_FIGURE, l: 'doanh nghiệp đối tác', t: 'Kết nối', d: 'Chúng tôi đưa doanh nhân đến gần nhau — tại các lounge, tại HiLink Business Club và qua những doanh nghiệp đồng hành.' },
       { n: '1', l: 'đầu mối cho mỗi khách hàng', t: 'Tạo cơ hội', d: 'Một lời giới thiệu đúng mở ra cánh cửa: một khách hàng, một đối tác, một nhân sự mới. Chúng tôi biến điều đó thành việc hằng ngày.' },
@@ -273,7 +273,7 @@ export function LinkPhilosophy() {
                       role="menuitemradio"
                       aria-checked={k === tod}
                       onClick={() => { setTod(k); setMenu(false); }}
-                      className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-[13px] transition-colors ${k === tod ? 'bg-[#FBECEC] text-[#B01B20]' : 'hover:bg-[#F4F0EA]'}`}
+                      className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-[13px] transition-colors ${k === tod ? 'bg-[#F8F6F1] text-[#B01B20]' : 'hover:bg-[#F4F0EA]'}`}
                     >
                       <Icon size={15} /> {t.tod[k]}
                     </button>

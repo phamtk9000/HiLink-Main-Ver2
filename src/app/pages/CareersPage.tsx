@@ -53,7 +53,7 @@ const T = {
     eyebrow: 'Tuyển dụng',
     stats: [[String(WORKSPACE_LOCATIONS.length), 'Địa điểm HiLink'], ['6', 'Vị trí đang tuyển'], ['2020', 'Thành lập tại Hà Nội'], ['2', 'Quận · Hoàn Kiếm & Đống Đa']],
     lifeEyebrow: 'Cuộc sống tại HiLink', lifeTitle: 'Nơi chúng tôi làm việc mỗi ngày',
-    lifeLead: 'Đội ngũ làm việc tại các không gian HiLink giữa trung tâm Hà Nội — được thiết kế để công việc trở nên nhẹ nhàng.', lifeAlt: 'Cuộc sống tại HiLink',
+    lifeLead: 'Đội ngũ làm việc tại các không gian HiLink giữa trung tâm Hà Nội.', lifeAlt: 'Cuộc sống tại HiLink',
     whyEyebrow: 'Làm việc tại đây', whyTitle: 'Vì sao gia nhập',
     values: [
       ['Con người là trên hết', 'Chúng tôi đầu tư cho đội ngũ bằng sự kèm cặp, trao quyền và văn hoá quan tâm thật sự.'],

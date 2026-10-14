@@ -14,7 +14,7 @@ const T = {
   en: {
     meta: 'Warehousing, factory and logistics property solutions across Vietnam — from site selection to facility operations.',
     eyebrow: 'Industrial & Logistics', title: 'Strategic Solutions for Manufacturing & Distribution',
-    lead: 'Specialized warehousing, factory, and logistics property management for businesses with supply chain and manufacturing operations in Vietnam.',
+    lead: 'Warehousing, factory and logistics property for manufacturing and supply-chain businesses in Vietnam.',
     request: 'Request Information',
     svcTitle: 'Comprehensive Industrial Solutions', svcLead: 'End-to-end support for your manufacturing and logistics operations',
     services: [
@@ -48,7 +48,7 @@ const T = {
   vi: {
     meta: 'Giải pháp bất động sản kho bãi, nhà xưởng và logistics trên khắp Việt Nam — từ chọn địa điểm đến vận hành cơ sở.',
     eyebrow: 'Công nghiệp & logistics', title: 'Giải pháp chiến lược cho sản xuất & phân phối',
-    lead: 'Quản lý bất động sản kho bãi, nhà xưởng và logistics chuyên biệt cho doanh nghiệp có hoạt động chuỗi cung ứng và sản xuất tại Việt Nam.',
+    lead: 'Bất động sản kho bãi, nhà xưởng và logistics cho doanh nghiệp sản xuất và chuỗi cung ứng tại Việt Nam.',
     request: 'Yêu cầu thông tin',
     svcTitle: 'Giải pháp công nghiệp toàn diện', svcLead: 'Hỗ trợ trọn gói cho hoạt động sản xuất và logistics của bạn',
     services: [

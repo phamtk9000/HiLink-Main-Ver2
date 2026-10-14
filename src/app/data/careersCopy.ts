@@ -6,7 +6,7 @@ export const CAREERS = {
     "heroSub": "If you want to be part of shaping the future of work, we're always on the lookout for extraordinary people to join our dynamic teams.",
     "aboutE": "About us",
     "aboutT": "Be part of the future of work",
-    "about1": "Working at HiLink is an experience far from ordinary. Everyone here is fuelled by a desire to redefine the workplace of today and empower each other as we fulfil our mission.",
+    "about1": "At HiLink, everyone shares one aim: to redefine today's workplace, together.",
     "about2": "Whether you want to work directly with members in our workspaces, or behind the scenes as part of our head-office teams, there's a role to suit you. And all in a supportive environment, built on creativity, collaboration and success.",
     "join": "Join us",
     "viewVac": "View vacancies",
@@ -60,7 +60,7 @@ export const CAREERS = {
     "growT": "Grow with us",
     "growSub": "We offer an extensive range of learning opportunities to help you build your own path and develop professionally and personally. Here are some of the opportunities on offer:",
     "noRole": "Don't see your role?",
-    "noRoleSub": "We're always glad to meet talented people. Send your CV and a note about how you'd like to contribute.",
+    "noRoleSub": "Send your CV and a note on how you'd like to contribute.",
     "sendCv": "Send your CV",
     "jobs": [
       {
@@ -97,10 +97,10 @@ export const CAREERS = {
   },
   "vi": {
     "heroTitle": "Một nơi làm việc không giống bất kỳ đâu",
-    "heroSub": "Nếu bạn muốn góp phần định hình tương lai của công việc, chúng tôi luôn tìm kiếm những con người xuất sắc để gia nhập đội ngũ năng động của mình.",
+    "heroSub": "Nếu bạn muốn góp phần định hình tương lai của công việc, chúng tôi luôn chào đón những con người xuất sắc.",
     "aboutE": "Về chúng tôi",
     "aboutT": "Trở thành một phần của tương lai công việc",
-    "about1": "Làm việc tại HiLink là một trải nghiệm khác biệt. Mỗi người ở đây đều được thúc đẩy bởi khát khao định nghĩa lại nơi làm việc hôm nay và cùng nhau hoàn thành sứ mệnh.",
+    "about1": "Làm việc tại HiLink là cùng nhau định nghĩa lại nơi làm việc hôm nay.",
     "about2": "Dù bạn muốn làm việc trực tiếp với thành viên tại các không gian, hay phía sau hậu trường trong đội ngũ văn phòng, luôn có một vị trí phù hợp với bạn — trong một môi trường hỗ trợ, xây trên sáng tạo, cộng tác và thành công.",
     "join": "Gia nhập",
     "viewVac": "Xem vị trí tuyển dụng",

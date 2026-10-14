@@ -51,7 +51,7 @@ const T = {
   en: {
     meta: 'A private business club in Hanoi — the Business Club lounge at 60 Ly Thai To and The Quarter Club at 204 Tran Quang Khai. Membership at three levels.',
     eyebrow: 'HiLink Business Club · Hanoi', title: 'The first Business Club in Vietnam',
-    sub: "A private business members' club for executives, accomplished professionals, influential entrepreneurs and leading businesses — inside the HiLink workspace network.",
+    sub: "A private members' club for executives, entrepreneurs and leading businesses — inside the HiLink workspace network.",
     apply: 'Apply for Membership', tour: 'Arrange a viewing',
     housesEyebrow: 'The addresses', housesTitle: 'Two houses, one club.',
     housesLead: 'Membership opens both doors — the club floor on Ly Thai To and the house on Tran Quang Khai.',
@@ -86,7 +86,7 @@ const T = {
   vi: {
     meta: 'Câu lạc bộ doanh nhân riêng tư tại Hà Nội — lounge Business Club tại 60 Lý Thái Tổ và The Quarter Club tại 204 Trần Quang Khải. Ba hạng hội viên.',
     eyebrow: 'HiLink Business Club · Hà Nội', title: 'Business Club đầu tiên tại Việt Nam',
-    sub: 'Câu lạc bộ doanh nhân riêng tư dành cho giới điều hành, chuyên gia, doanh nhân và các doanh nghiệp hàng đầu — trong mạng lưới không gian làm việc HiLink.',
+    sub: 'Câu lạc bộ doanh nhân riêng tư cho giới điều hành, doanh nhân và doanh nghiệp hàng đầu — trong mạng lưới HiLink.',
     apply: 'Đăng ký hội viên', tour: 'Đặt lịch tham quan',
     housesEyebrow: 'Các địa chỉ', housesTitle: 'Hai ngôi nhà, một câu lạc bộ.',
     housesLead: 'Thẻ hội viên mở cả hai cánh cửa — tầng câu lạc bộ trên phố Lý Thái Tổ và ngôi nhà trên phố Trần Quang Khải.',

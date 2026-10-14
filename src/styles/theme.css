@@ -178,6 +178,8 @@
   /* The page-not-found page (after designhotels.com: heading 48/55px, "continue" 38/46px). */
   .hl-notfound-title { font-size: clamp(2rem, 3.34vw, 3rem) !important; line-height: 1.14 !important; }
   .hl-notfound-go { font-size: clamp(1.75rem, 2.64vw, 2.375rem) !important; line-height: 1.2 !important; }
+  /* The title of a post on its photograph (Home, What's happening). */
+  .hl-post-title { font-size: clamp(1.15rem, 2.6vw, 2.5rem) !important; line-height: 1.15 !important; }
   /* The name on a solution card (Solutions). */
   .hl-stack-title { font-size: clamp(2rem, 3.1vw, 3.1rem) !important; line-height: 1.08 !important; }
   /* A title at the foot of a small photograph in a feature grid (Property Management). */
@@ -279,16 +281,23 @@
    past it. Padding widens the clip; the negative margin keeps the layout. */
 /* Content that changes in place (a tab's panel) rises in softly. */
 @keyframes hl-fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+/* The page-not-found mark: the second ring drifts off and comes back. */
+.hl-loose__ring { animation: hl-loose 4.5s ease-in-out infinite; transform-box: fill-box; }
+@keyframes hl-loose { 0%, 18% { transform: none; } 50%, 68% { transform: translate(14px, -3px) rotate(8deg); } 100% { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .hl-loose__ring { animation: none; transform: translate(12px, 0); } }
 .hl-fade-up { animation: hl-fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
 @media (prefers-reduced-motion: reduce) { .hl-fade-up { animation: none; } }
 
 /* The property deck (components/PropertyDeck.tsx). On phones and tablets one
    card stands in the middle with its neighbours running off the edges; from
-   1024px three cards show whole, and from 1280px five — a card is then a
-   fifth of the page (1600px at most) less the gaps. */
-.hl-deck { --gap: 32px; --w: min(310px, 78vw); }
-@media (min-width: 1024px) { .hl-deck { --gap: 22px; --w: min(310px, calc((100vw - 64px - 2 * var(--gap)) / 3)); } }
-@media (min-width: 1280px) { .hl-deck { --w: calc((min(100vw, 1600px) - 64px - 4 * var(--gap)) / 5); } }
+   1024px three cards show whole and from 1280px five, the outer ones 24px
+   from the edges of the screen. A card is at most 360px wide: on a wider
+   screen the gaps open up instead (the deck works out the spacing). The
+   width is measured against the deck's own box (a container). */
+.hl-deck-wrap { container-type: inline-size; }
+.hl-deck { --w: min(310px, 78cqw); }
+@media (min-width: 1024px) { .hl-deck { --w: min(340px, calc((100cqw - 48px - 2 * 28px) / 3)); } }
+@media (min-width: 1280px) { .hl-deck { --w: min(360px, calc((100cqw - 48px - 4 * 28px) / 5)); } }
 
 /* The line over a workspace tier (WorkspacePage): it fills while that tier
    is on show, then the next one takes over. */
@@ -325,7 +334,6 @@ main section.bg-white + section.bg-white:not([class*="border-t"]):not(.hl-no-rul
 }
 
 main section[class*="bg-[#F4F0EA]"],
-main section[class*="bg-[#FBECEC]"],
 footer {
   position: relative;
   isolation: isolate;
@@ -333,12 +341,10 @@ footer {
   --pat-base: 0.075;
   --pat-corner: 100% 0%;
 }
-main section[class*="bg-[#FBECEC]"] { --pat-ink: #D12126; --pat-base: 0.1; --pat-corner: 50% 100%; }
 footer { --pat-ink: #2A2623; --pat-base: 0.07; --pat-corner: 0% 0%; }
 main section[class*="bg-[#F4F0EA]"]:nth-of-type(even) { --pat-corner: 0% 100%; }
 
 main section[class*="bg-[#F4F0EA]"]::before,
-main section[class*="bg-[#FBECEC]"]::before,
 footer::before {
   content: "";
   position: absolute;
@@ -373,7 +379,9 @@ footer::before {
 
 /* Squeezy forum carousel (components/ForumCarousel.tsx): the active slide is
    wide, the rest narrow by distance; flex-grow animates the squeeze. */
-.hl-squeeze > * { transition: flex-grow 0.7s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.5s ease; }
+.hl-squeeze { --sq-gap: 8px; }
+@media (min-width: 1024px) { .hl-squeeze { --sq-gap: 16px; } }
+.hl-squeeze > * { transition: flex-basis 0.7s cubic-bezier(0.65, 0, 0.35, 1), flex-grow 0.7s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.5s ease; }
 
 @media (prefers-reduced-motion: reduce) {
   .hl-flag, .hl-flag polygon { animation: none; }

@@ -26,11 +26,11 @@ const T = {
   en: {
     meta: 'Business advisory for international companies entering or expanding in Vietnam — from strategy through to operational launch.',
     eyebrow: 'Business Consulting', title: "Navigate Vietnam's Business Landscape with Confidence",
-    lead: "Expert advisory for international businesses entering or expanding in Vietnam's dynamic market — from strategy through to operational launch.",
+    lead: "Advisory for international businesses entering or expanding in Vietnam — from strategy to operational launch.",
     request: 'Request Consultation', explore: 'Explore Services',
     stats: [['2020', 'Founded in Ha Noi'], [String(WORKSPACE_LOCATIONS.length), 'HiLink Locations'], [PARTNER_FIGURE, 'Partner Companies']],
     vnEyebrow: 'Vietnam in figures', vnTitle: 'Why companies are coming to Vietnam',
-    vnRed: 'Vietnam’s economy grew 8.02% in 2025, and foreign investors disbursed US$27.62 billion — the most in five years.',
+    vnRed: 'Vietnam grew 8.02% in 2025; foreign investors disbursed US$27.62bn, a five-year high.',
     vnInk: 'We help international companies turn that momentum into a licensed, staffed and operating business.',
     vnFigures: [
       { value: 8.02, decimals: 2, suf: '%', label: 'GDP growth, 2025' },
@@ -72,11 +72,11 @@ const T = {
   vi: {
     meta: 'Tư vấn doanh nghiệp cho công ty quốc tế vào hoặc mở rộng tại Việt Nam — từ chiến lược đến khi đi vào vận hành.',
     eyebrow: 'Tư vấn doanh nghiệp', title: 'Tự tin trên thị trường kinh doanh Việt Nam',
-    lead: 'Tư vấn chuyên sâu cho doanh nghiệp quốc tế gia nhập hoặc mở rộng tại thị trường Việt Nam năng động — từ chiến lược đến khi đi vào vận hành.',
+    lead: 'Tư vấn cho doanh nghiệp quốc tế gia nhập hoặc mở rộng tại Việt Nam — từ chiến lược đến khi đi vào vận hành.',
     request: 'Yêu cầu tư vấn', explore: 'Khám phá dịch vụ',
     stats: [['2020', 'Thành lập tại Hà Nội'], [String(WORKSPACE_LOCATIONS.length), 'Địa điểm HiLink'], [PARTNER_FIGURE, 'Doanh nghiệp đối tác']],
     vnEyebrow: 'Việt Nam qua số liệu', vnTitle: 'Vì sao doanh nghiệp đến Việt Nam',
-    vnRed: 'Kinh tế Việt Nam tăng trưởng 8,02% trong năm 2025, và vốn đầu tư nước ngoài giải ngân đạt 27,62 tỷ USD — mức cao nhất trong năm năm.',
+    vnRed: 'Kinh tế tăng 8,02% năm 2025; FDI giải ngân 27,62 tỷ USD, cao nhất 5 năm.',
     vnInk: 'Chúng tôi giúp doanh nghiệp quốc tế biến đà tăng trưởng đó thành một doanh nghiệp có giấy phép, có đội ngũ và đi vào vận hành.',
     vnFigures: [
       { value: 8.02, decimals: 2, suf: '%', label: 'Tăng trưởng GDP năm 2025' },
