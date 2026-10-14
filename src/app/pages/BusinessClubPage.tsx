@@ -79,6 +79,7 @@ const T = {
     svc: [['Business support', ['Marketing & Branding', 'Audit', 'Finance', 'Accounting & Tax', 'Legal', 'Insurance', 'Human Resources', 'Logistics', 'Trade']], ['Lifestyle', ['Gastronomy', 'Health & Welfare', 'Entertainment & Leisure', 'Events', 'Transport']]] as [string, string[]][],
     explore: 'Explore', prev: 'Previous photograph', next: 'Next photograph', housesRule: 'The houses',
     svcRule: 'Business support services', svcMore: 'Concierge services',
+    svcLeads: ['A full business-support network from trusted partners.', 'A range of services and privileges designed around your every need.'],
     ctaTitle: 'Apply for Membership',
     ctaLead: 'Applications are reviewed by the membership committee, and we come back to every one within two business days.',
   },
@@ -113,6 +114,7 @@ const T = {
     svc: [['Hỗ trợ doanh nghiệp', ['Marketing & Thương hiệu', 'Kiểm toán', 'Tài chính', 'Kế toán & Thuế', 'Pháp lý', 'Bảo hiểm', 'Nhân sự', 'Logistics', 'Thương mại']], ['Phong cách sống', ['Ẩm thực', 'Sức khoẻ & Phúc lợi', 'Giải trí & Thư giãn', 'Sự kiện', 'Di chuyển']]] as [string, string[]][],
     explore: 'Khám phá', prev: 'Ảnh trước', next: 'Ảnh tiếp theo', housesRule: 'Hai ngôi nhà',
     svcRule: 'Dịch vụ hỗ trợ doanh nghiệp', svcMore: 'Dịch vụ concierge',
+    svcLeads: ['Mạng lưới hỗ trợ doanh nghiệp toàn diện từ các đối tác tin cậy.', 'Tận hưởng loạt dịch vụ và đặc quyền thiết kế riêng cho mọi nhu cầu của bạn.'],
     ctaTitle: 'Đăng ký hội viên',
     ctaLead: 'Hồ sơ được hội đồng hội viên xét duyệt và chúng tôi phản hồi mọi hồ sơ trong vòng hai ngày làm việc.',
   },
@@ -145,25 +147,27 @@ export function BusinessClubPage() {
         </div>
       </section>
 
-      {/* The two houses: photographs that turn by themselves beside ruled
-          text; the second one mirrored. */}
+      {/* The two houses, laid out alike: the photograph over seven columns,
+          the words over five and centred on it, 88px between; the second one
+          mirrored. */}
       <section className="relative py-24 lg:py-32 bg-white">
-        <div className="max-w-[1320px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
           <RuleTitle>{t.housesRule}</RuleTitle>
-          <div className="mt-14 lg:mt-20 space-y-20 lg:space-y-28">
+          <div className="mt-14 lg:mt-20 space-y-20 lg:space-y-[clamp(120px,10vw,160px)]">
             {t.houses.map((hse, k) => {
               const loc = LOCATIONS.find((l) => l.id === HOUSE_IDS[k])!;
               return (
-                <article key={hse.name} className="grid lg:grid-cols-12 gap-x-16 gap-y-8 items-center">
-                  <Slides images={HOUSE_PHOTOS[k]} alt={hse.name} sizes="(min-width: 1024px) 56vw, 100vw" delay={k * 900} className={`aspect-[3/2] lg:col-span-7 ${k % 2 ? 'lg:order-2' : ''}`} />
-                  <div className={`lg:col-span-4 ${k % 2 ? 'lg:col-start-1' : 'lg:col-start-9'}`}>
+                <article key={hse.name} className="grid lg:grid-cols-12 gap-y-8 items-center">
+                  <Slides images={HOUSE_PHOTOS[k]} alt={hse.name} sizes="(min-width: 1024px) 56vw, 100vw" delay={k * 900} className={`aspect-[3/2] lg:aspect-[4/3] lg:col-span-7 ${k % 2 ? 'lg:order-2' : ''}`} />
+                  <div className={`lg:col-span-5 ${k % 2 ? 'lg:col-start-1 lg:row-start-1 lg:pr-[88px]' : 'lg:pl-[88px]'}`}>
                     <div className="border-t border-[#2A2623]/25 pt-7">
-                      <p className="text-[12px] uppercase tracking-[0.18em] text-[#D12126]">{hse.kind}</p>
-                      <h3 className="serif hl-club-name mt-4 text-[#2A2623]">{hse.name}</h3>
+                      <p className="text-[12px] uppercase tracking-[0.14em] text-[#D12126]">{hse.kind}</p>
+                      {/* the last word on a line of its own, so both names sit on two lines */}
+                      <h3 className="serif hl-house-name mt-4 text-[#2A2623]"><span className="lg:whitespace-nowrap">{hse.name.split(' ').slice(0, -1).join(' ')}</span> <br className="hidden lg:block" />{hse.name.split(' ').slice(-1)[0]}</h3>
                       <span className="mt-6 block h-[2px] w-12 bg-[#D12126]" aria-hidden="true" />
                     </div>
-                    <p className="serif mt-6 text-[1.3rem] leading-[1.4] italic text-[#2A2623]">{hse.line}</p>
-                    <p className="mt-5 text-[15px] leading-[1.8] text-[#4A443F]">{hse.body}</p>
+                    <p className="serif mt-6 text-[1.25rem] lg:text-[1.375rem] leading-[1.45] italic text-[#2A2623]">{hse.line}</p>
+                    <p className="mt-5 text-[15px] lg:text-[16px] leading-[1.75] text-[#4A443F]">{hse.body}</p>
                     <dl className="mt-7 space-y-2.5 text-[14px] text-[#4A443F]">
                       <div className="flex items-start gap-3"><MapPin size={15} className="mt-0.5 shrink-0 text-[#D12126]" /> {loc.address}</div>
                       <div className="flex items-start gap-3"><Clock size={15} className="mt-0.5 shrink-0 text-[#D12126]" /> {hours(loc.hours)}</div>
@@ -234,27 +238,25 @@ export function BusinessClubPage() {
       <section className="relative pb-24 lg:pb-32 bg-white hl-no-rule">
         <div className="max-w-[1320px] mx-auto px-6 lg:px-12">
           <RuleTitle>{t.svcRule}</RuleTitle>
-          <div className="mt-14 lg:mt-16 space-y-16 lg:space-y-24">
+          <div className="mt-14 lg:mt-16 space-y-20 lg:space-y-24">
             {t.svc.map(([head, items], g) => (
-              <div key={head} className="grid lg:grid-cols-12 gap-x-12 gap-y-8 items-stretch">
+              <div key={head}>
+              <div className="mb-8 lg:mb-10 grid lg:grid-cols-12 gap-x-12 gap-y-3 items-end">
+                <h3 className="serif hl-group-title lg:col-span-5 text-[#2A2623]">{head}</h3>
+                <p className="lg:col-span-6 lg:col-start-7 text-[15px] leading-[1.7] text-[#4A443F]">{t.svcLeads[g]}</p>
+              </div>
+              <div className="grid lg:grid-cols-12 gap-x-12 gap-y-8 items-stretch">
                 <div className={`lg:col-span-4 relative min-h-[260px] overflow-hidden rounded-[8px] bg-[#2A2623] ${g % 2 ? 'lg:order-2' : ''}`}>
                   <img loading="lazy" decoding="async" {...photo(SVC_PHOTOS[g], '(min-width: 1024px) 32vw, 100vw')} alt="" className="absolute inset-0 h-full w-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 p-7 text-white">
-                    <h3 className="serif hl-club-caption">{head}</h3>
-                  </div>
                 </div>
                 <ul className="lg:col-span-8 grid grid-cols-2 md:grid-cols-3 border-t border-l border-[#2A2623]/12">
                   {items.map((it, k) => {
                     const Icon = SVC_ICONS[g][k];
                     return (
-                      <li key={it} data-fx-root tabIndex={0} className="group relative flex min-h-[148px] flex-col justify-between overflow-hidden border-b border-r border-[#2A2623]/12 p-5 lg:p-6 outline-none transition-colors duration-500 hover:bg-[#FBF8F5] focus-visible:bg-[#FBF8F5]">
+                      <li key={it} data-fx-root tabIndex={0} className="group relative flex min-h-[148px] flex-col justify-between overflow-hidden border-b border-r border-[#2A2623]/12 bg-white p-5 lg:p-6 outline-none transition-[background-color,box-shadow] duration-300 hover:bg-[#F8F6F1] hover:shadow-[inset_0_0_0_1px_#D12126] focus-visible:bg-[#F8F6F1] focus-visible:shadow-[inset_0_0_0_1px_#D12126]">
                         <TileFx kind={SVC_FX[g][k]} />
-                        <span className="relative flex items-start justify-between text-[#D12126]">
-                          <Icon size={24} />
-                          <span className="text-[12px] tabular-nums tracking-[0.08em] text-[#6B645D] transition-opacity duration-300 group-hover:opacity-0">{String(k + 1).padStart(2, '0')}</span>
-                        </span>
-                        <span className="serif relative mt-6 sm:max-w-[58%] text-[1.15rem] lg:text-[1.3rem] leading-snug text-[#2A2623] transition-colors group-hover:text-[#D12126]">{it}</span>
+                        <span className="relative text-[#D12126]"><Icon size={24} /></span>
+                        <span className="serif relative mt-6 sm:max-w-[58%] text-[1.15rem] lg:text-[1.3rem] leading-snug text-[#2A2623] transition-colors group-hover:text-[#D12126] group-focus-visible:text-[#D12126]">{it}</span>
                       </li>
                     );
                   })}
@@ -267,6 +269,7 @@ export function BusinessClubPage() {
                     </li>
                   )}
                 </ul>
+              </div>
               </div>
             ))}
           </div>

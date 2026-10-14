@@ -169,7 +169,10 @@
 
   /* The club pages (Business Club, Concierge): section titles in spaced
      capitals between hairlines, and a centred statement in italics. */
-  .hl-club-title { font-size: clamp(1.1rem, 1.7vw, 1.6rem) !important; letter-spacing: 0.14em !important; text-transform: uppercase; line-height: 1.3 !important; }
+  .hl-club-title { font-size: clamp(1.25rem, 2.1vw, 1.875rem) !important; letter-spacing: 0.14em !important; text-transform: uppercase; line-height: 1.3 !important; }
+  /* The name of a house on Business Club (44–52px on a laptop) and the title of a group of services. */
+  .hl-house-name { font-size: clamp(2.1rem, 3.3vw, 3.125rem) !important; letter-spacing: 0.04em !important; text-transform: uppercase; line-height: 1.1 !important; }
+  .hl-group-title { font-size: clamp(1.6rem, 2.2vw, 2.25rem) !important; line-height: 1.12 !important; }
   /* The name on a card of the property deck (Property Management). */
   .hl-deck-title { font-size: min(1.25rem, 7.7cqw) !important; line-height: 1.5rem !important; }
   /* The page-not-found page (after designhotels.com: heading 48/55px, "continue" 38/46px). */
