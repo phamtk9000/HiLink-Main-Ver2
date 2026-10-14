@@ -269,17 +269,17 @@ export function PartnersPage() {
           <div className="lg:col-span-6 lg:col-start-7">
             {eyebrow(t.whyEyebrow)}
             <h2 className="serif text-4xl lg:text-5xl mb-10 leading-tight">{t.whyTitle}</h2>
-            <dl className="border-t border-[#2A2623]/15">
+            <ul className="border-t border-[#2A2623]/15">
               {t.benefits.map(([title, desc], i) => (
-                <div key={title} className="grid grid-cols-[2.5rem_1fr] gap-x-4 border-b border-[#2A2623]/15 py-6">
+                <li key={title} className="grid grid-cols-[2.5rem_1fr] gap-x-4 border-b border-[#2A2623]/15 py-6">
                   <span className="pt-1 text-[#D12126]">{BENEFIT_ICONS[i]}</span>
                   <div>
-                    <dt className="serif text-[1.35rem] text-[#2A2623]">{title}</dt>
-                    <dd className="mt-1.5 text-[15px] leading-relaxed text-[#6B645D]">{desc}</dd>
+                    <p className="serif text-[1.35rem] text-[#2A2623]">{title}</p>
+                    <p className="mt-1.5 text-[15px] leading-relaxed text-[#6B645D]">{desc}</p>
                   </div>
-                </div>
+                </li>
               ))}
-            </dl>
+            </ul>
           </div>
         </div>
       </section>

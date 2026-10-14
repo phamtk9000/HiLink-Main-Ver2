@@ -33,7 +33,8 @@ export function AnimatedCounter({ end, duration = 1.6, suffix = '', prefix = '' 
   }, []);
 
   return (
-    <span ref={ref} className="inline-flex items-baseline" aria-label={`${prefix}${end}${suffix}`}>
+    <span ref={ref} className="inline-flex items-baseline">
+      <span className="sr-only">{`${prefix}${end}${suffix}`}</span>
       {prefix && <span aria-hidden="true">{prefix}</span>}
       {digits.map((d, i) => {
         const n = Number(d);

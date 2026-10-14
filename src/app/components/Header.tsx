@@ -98,9 +98,9 @@ export function Header() {
             <div className="flex items-center gap-3.5 sm:gap-7">
               {/* Language */}
               <div className={`flex items-center gap-1 text-[12px] font-medium uppercase tracking-[0.14em] text-[#2A2623]`}>
-                <Link to={switchTo('en')} className={`transition-colors ${lang === 'en' ? 'text-[#D12126]' : 'opacity-45 hover:opacity-100'}`}>EN</Link>
+                <Link to={switchTo('en')} className={`transition-colors ${lang === 'en' ? 'text-[#D12126]' : 'text-[#6B645D] hover:text-[#2A2623]'}`}>EN</Link>
                 <span className="opacity-30">/</span>
-                <Link to={switchTo('vi')} className={`transition-colors ${lang === 'vi' ? 'text-[#D12126]' : 'opacity-45 hover:opacity-100'}`}>VI</Link>
+                <Link to={switchTo('vi')} className={`transition-colors ${lang === 'vi' ? 'text-[#D12126]' : 'text-[#6B645D] hover:text-[#2A2623]'}`}>VI</Link>
               </div>
 
               {/* Consultation — a short label on phones; hidden when the overlay is open */}

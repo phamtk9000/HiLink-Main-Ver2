@@ -77,9 +77,9 @@ function Stat({ n, from = 0, suf = '', l, i, run, still }: { n: number; from?: n
       <div
         className="serif text-[3rem] lg:text-[4.25rem] leading-none lining-nums tabular-nums bg-clip-text text-transparent"
         style={{ backgroundImage: NUM_GRADIENTS[i % NUM_GRADIENTS.length], WebkitBackgroundClip: 'text' }}
-        aria-label={`${n}${suf}`}
       >
-        {v}{suf}
+        <span className="sr-only">{`${n}${suf}`}</span>
+        <span aria-hidden="true">{v}{suf}</span>
       </div>
       <p className="mt-3 text-[15px] text-white/85">{l}</p>
     </div>

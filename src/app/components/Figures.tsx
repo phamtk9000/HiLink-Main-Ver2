@@ -44,10 +44,13 @@ export function FigureStack({ figures, notes = [], pairs = 0, lang, dark = false
   const num = dark ? 'text-[#FF8A7A]' : 'text-[#D12126]';
   const cell = (f: Figure, big: boolean) => (
     <>
-      <div className={`serif leading-none lining-nums tabular-nums ${num} ${big ? 'text-[3.25rem] sm:text-[4.25rem] lg:text-[4.75rem]' : 'text-[2.75rem] lg:text-[3.5rem]'}`} aria-label={`${f.pre ?? ''}${f.value}${f.suf ?? ''}`}>
-        {f.pre && <span className="mr-1.5 align-top text-[0.36em] leading-[1.9] tracking-[0.04em]">{f.pre}</span>}
-        {typeof f.value === 'number' ? <Count to={f.value} decimals={f.decimals} run={seen} comma={lang === 'vi'} /> : f.value}
-        {f.suf && <span className="ml-1 text-[0.5em]">{f.suf}</span>}
+      <div className={`serif leading-none lining-nums tabular-nums ${num} ${big ? 'text-[3.25rem] sm:text-[4.25rem] lg:text-[4.75rem]' : 'text-[2.75rem] lg:text-[3.5rem]'}`}>
+        <span className="sr-only">{`${f.pre ?? ''}${f.value}${f.suf ?? ''}`}</span>
+        <span aria-hidden="true">
+          {f.pre && <span className="mr-1.5 align-top text-[0.36em] leading-[1.9] tracking-[0.04em]">{f.pre}</span>}
+          {typeof f.value === 'number' ? <Count to={f.value} decimals={f.decimals} run={seen} comma={lang === 'vi'} /> : f.value}
+          {f.suf && <span className="ml-1 text-[0.5em]">{f.suf}</span>}
+        </span>
       </div>
       <p className={`mt-3 text-[14px] leading-snug ${ink}`}>{f.label}{f.note ? <sup className="ml-0.5 text-[10px]">{f.note}</sup> : null}</p>
     </>

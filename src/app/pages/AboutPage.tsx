@@ -238,7 +238,7 @@ export function AboutPage() {
       <section className="relative bg-white pt-16 pb-20 lg:pt-20 lg:pb-28">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-8">
           <p className="lg:col-span-3 flex items-baseline gap-4 text-[12px] uppercase tracking-[0.2em] text-[#D12126]">
-            <span className="serif text-[2.5rem] leading-none tracking-normal text-[#D12126]/25">01</span>
+            <span className="serif text-[2.5rem] leading-none tracking-normal text-[#D12126]/25" aria-hidden="true">01</span>
             {a.visionLbl}
           </p>
           <p className="serif lg:col-span-8 lg:col-start-5 text-[1.55rem] lg:text-[2.2rem] leading-[1.28] text-[#2A2623]">{a.vision}</p>
@@ -264,7 +264,7 @@ export function AboutPage() {
               return (
                 <div key={title} className="hl-rule relative pt-8">
                   <div className="flex items-start justify-between">
-                    <span className="serif text-[3.5rem] leading-none text-[#2A2623]/[0.08]">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="serif text-[3.5rem] leading-none text-[#2A2623]/[0.08]" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                     <span className="text-[#D12126]"><Icon size={30} /></span>
                   </div>
                   <h3 className="serif mt-6 text-[#2A2623]">{title}</h3>

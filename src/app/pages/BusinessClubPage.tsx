@@ -168,10 +168,10 @@ export function BusinessClubPage() {
                     </div>
                     <p className="serif mt-6 text-[1.25rem] lg:text-[1.375rem] leading-[1.45] italic text-[#2A2623]">{hse.line}</p>
                     <p className="mt-5 text-[15px] lg:text-[16px] leading-[1.75] text-[#4A443F]">{hse.body}</p>
-                    <dl className="mt-7 space-y-2.5 text-[14px] text-[#4A443F]">
-                      <div className="flex items-start gap-3"><MapPin size={15} className="mt-0.5 shrink-0 text-[#D12126]" /> {loc.address}</div>
-                      <div className="flex items-start gap-3"><Clock size={15} className="mt-0.5 shrink-0 text-[#D12126]" /> {hours(loc.hours)}</div>
-                    </dl>
+                    <ul className="mt-7 space-y-2.5 text-[14px] text-[#4A443F]">
+                      <li className="flex items-start gap-3"><MapPin size={15} className="mt-0.5 shrink-0 text-[#D12126]" /> {loc.address}</li>
+                      <li className="flex items-start gap-3"><Clock size={15} className="mt-0.5 shrink-0 text-[#D12126]" /> {hours(loc.hours)}</li>
+                    </ul>
                     <a href={ws(lang, `/locations/${loc.id}`)} target="_blank" rel="noopener noreferrer" className="group mt-8 inline-flex items-center gap-2 border-b border-[#D12126]/40 pb-1 text-[12px] uppercase tracking-[0.18em] text-[#D12126] hover:border-[#D12126] transition-colors">
                       {t.view} <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </a>

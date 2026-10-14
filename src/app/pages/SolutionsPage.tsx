@@ -172,7 +172,7 @@ export function SolutionsPage() {
       <section id="solutions" className="relative bg-white pb-24 lg:pb-32">
         <div ref={stack} className="max-w-[1600px] mx-auto px-6 lg:px-12">
           {solutions.map((s, i) => {
-            const c = CARDS[i], on = c.light ? 'text-[#F8F6F1]' : 'text-[#2A2623]', soft = c.light ? 'text-[#F8F6F1]/75' : 'text-[#4A443F]', rule = c.light ? 'border-white/15' : 'border-[#2A2623]/12';
+            const c = CARDS[i], on = c.light ? 'text-[#F8F6F1]' : 'text-[#2A2623]', soft = c.light ? 'text-[#F8F6F1]/85' : 'text-[#4A443F]', rule = c.light ? 'border-white/15' : 'border-[#2A2623]/12';
             return (
               <Fragment key={s.path}>
                 <div id={`solution-${i}`} data-mark className="scroll-mt-[76px] lg:scroll-mt-[184px]" aria-hidden="true" />
@@ -180,12 +180,12 @@ export function SolutionsPage() {
                   <article className="relative overflow-hidden rounded-[20px] [display:grid] lg:grid-cols-12 lg:min-h-[600px]" style={{ backgroundColor: c.bg }}>
                     <div className={`relative z-10 flex flex-col p-7 sm:p-10 lg:col-span-7 lg:p-14 ${on}`}>
                       <div className="flex items-start justify-between gap-6">
-                        <p className="serif lining-nums leading-none text-[3.25rem] lg:text-[4.5rem] text-[#F06A6E]">
+                        <p className={`serif lining-nums leading-none text-[3.25rem] lg:text-[4.5rem] ${c.light ? 'text-[#F06A6E]' : 'text-[#D12126]'}`}>
                           {String(i + 1).padStart(2, '0')}<span className={`ml-2 align-top text-[13px] tracking-[0.14em] ${soft}`}>/ {String(solutions.length).padStart(2, '0')}</span>
                         </p>
                         <span className={`grid h-14 w-14 shrink-0 place-items-center rounded-full border ${c.light ? 'border-white/25 text-[#F06A6E]' : 'border-[#2A2623]/15 text-[#D12126]'}`}>{s.icon}</span>
                       </div>
-                      <p className={`mt-8 lg:mt-auto text-[12px] uppercase tracking-[0.2em] ${c.light ? 'text-[#F06A6E]' : 'text-[#D12126]'}`}>{s.tag}</p>
+                      <p className={`mt-8 lg:mt-auto text-[12px] uppercase tracking-[0.2em] ${c.light ? 'text-[#F8F6F1]/80' : 'text-[#D12126]'}`}>{s.tag}</p>
                       <h3 className={`serif hl-stack-title mt-3 ${on}`}>{s.title}</h3>
                       <p className={`mt-5 max-w-[58ch] text-[1.0625rem] leading-relaxed ${soft}`}>{s.description}</p>
                       <ul className={`mt-7 grid sm:grid-cols-2 border-t ${rule}`}>
@@ -228,7 +228,7 @@ export function SolutionsPage() {
               <div key={title} className="bg-white p-8 lg:p-10">
                 <div className="flex items-center justify-between mb-6">
                   <span className="text-[#D12126]">{STEP_ICONS[i]}</span>
-                  <span className="serif text-3xl text-[#2A2623]/20">0{i + 1}</span>
+                  <span className="serif text-3xl text-[#2A2623]/20" aria-hidden="true">0{i + 1}</span>
                 </div>
                 <h3 className="serif text-xl mb-3">{title}</h3>
                 <p className="text-[#6B645D] text-[14px] leading-relaxed">{desc}</p>

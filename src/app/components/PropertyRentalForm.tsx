@@ -146,6 +146,7 @@ export function PropertyRentalForm() {
                 <div className="flex items-center justify-between px-4 py-3 bg-transparent border border-white/40">
                   <button
                     type="button"
+                    aria-label={lang === 'vi' ? 'Bớt một phòng ngủ' : 'One fewer bedroom'}
                     onClick={() => setBedrooms(Math.max(0, bedrooms - 1))}
                     className="text-white hover:text-[#F8F6F1] transition-colors"
                   >
@@ -154,6 +155,7 @@ export function PropertyRentalForm() {
                   <span className="text-lg">{bedrooms}</span>
                   <button
                     type="button"
+                    aria-label={lang === 'vi' ? 'Thêm một phòng ngủ' : 'One more bedroom'}
                     onClick={() => setBedrooms(bedrooms + 1)}
                     className="text-white hover:text-[#F8F6F1] transition-colors"
                   >
@@ -170,6 +172,7 @@ export function PropertyRentalForm() {
                 <div className="flex items-center justify-between px-4 py-3 bg-transparent border border-white/40">
                   <button
                     type="button"
+                    aria-label={lang === 'vi' ? 'Bớt một phòng tắm' : 'One fewer bathroom'}
                     onClick={() => setBathrooms(Math.max(0, bathrooms - 1))}
                     className="text-white hover:text-[#F8F6F1] transition-colors"
                   >
@@ -178,6 +181,7 @@ export function PropertyRentalForm() {
                   <span className="text-lg">{bathrooms}</span>
                   <button
                     type="button"
+                    aria-label={lang === 'vi' ? 'Thêm một phòng tắm' : 'One more bathroom'}
                     onClick={() => setBathrooms(bathrooms + 1)}
                     className="text-white hover:text-[#F8F6F1] transition-colors"
                   >
@@ -188,10 +192,11 @@ export function PropertyRentalForm() {
 
               {/* Utility */}
               <div>
-                <label className="block text-[12.5px] mb-2 uppercase tracking-wider">
+                <span id="rf-utility-label" className="block text-[12.5px] mb-2 uppercase tracking-wider">
                   {t('propertyForm.utility')} <span className="text-red-400">*</span>
-                </label>
+                </span>
                 <Select
+                  aria-labelledby="rf-utility-label"
                   value={utility}
                   onChange={setUtility}
                   options={UTILITIES.map((u, k) => ({ value: String(k), label: u[lang] }))}
