@@ -2,14 +2,13 @@
 // proportions of the carousel on stripe.com (measured at 1440: one photograph
 // 799px wide, then 194, 96 and 48, 16px apart, 460px tall): the chosen post
 // leads on the left and the next ones follow, each half as wide as the one
-// before. The chosen post's title and a button to read it sit on its
-// photograph; every photograph carries the HiLink mark, in white, at its foot
-// on the left. The posts live on the HiLink Workspaces site, so every link
-// goes there.
+// before. The chosen post carries its section, the HiLink mark (large, white,
+// at its foot on the left; the next two carry it small) and a button to read
+// it; its line sits below. The ten newest posts of this site's forum (/forum).
 import { useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight, ArrowUpRight, ChevronRight } from 'lucide-react';
-import { POSTS } from '../data/posts';
-import { ws } from '../data/site';
+import { ArrowLeft, ArrowRight, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router';
+import { FORUM_CATEGORIES, FORUM_POSTS as POSTS } from '../data/forum';
 import { useLang } from '../lib/i18n';
 import { Flag } from './Flag';
 import { photo } from '../lib/photo';
@@ -19,18 +18,15 @@ const T = {
   vi: { eyebrow: 'Diễn đàn HiLink', title: 'Có gì mới.', sub: 'Tin mới nhất từ HiLink.', read: 'Đọc bài viết', all: 'Vào diễn đàn', prev: 'Bài trước', next: 'Bài sau', show: 'Xem bài' },
 };
 
-const CATEGORY: Record<string, { en: string; vi: string }> = {
-  Guide: { en: 'Guide', vi: 'Cẩm nang' },
-  Design: { en: 'Design', vi: 'Thiết kế' },
-  Neighbourhood: { en: 'Neighbourhood', vi: 'Khu vực' },
-};
+const CATEGORY = Object.fromEntries(FORUM_CATEGORIES.map((c) => [c.id, c])) as Record<string, { en: string; vi: string }>;
 
 // How wide each slide is, by its place after the chosen one (share of the row);
-// the chosen one takes what is left. Beyond these, slivers of 8px.
+// the chosen one takes what is left. Beyond these, slivers of 8px (none on a
+// phone, where only the next two show).
 const WIDTHS = [0, 0.1575, 0.078, 0.039];
 
 export function ForumCarousel() {
-  const { lang } = useLang();
+  const { lang, l } = useLang();
   const t = T[lang];
   const [active, setActive] = useState(0);
   const touch = useRef<number | null>(null);
@@ -51,14 +47,12 @@ export function ForumCarousel() {
             </h2>
           </div>
           <div className="flex items-center gap-5">
-            <a
-              href={ws(lang, '/forum')}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.2em] text-[#2A2623] hover:text-[#D12126] transition-colors"
+            <Link
+              to={l('/forum')}
+              className="hidden sm:inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.2em] text-[#2A2623] hover:text-[#D12126] transition-colors"
             >
-              {t.all} <ArrowUpRight size={14} />
-            </a>
+              {t.all} <ArrowRight size={14} />
+            </Link>
             <div className="flex gap-2">
               <button type="button" onClick={() => go(active - 1)} aria-label={t.prev} className="grid h-11 w-11 place-items-center rounded-full border border-[#2A2623]/15 hover:border-[#D12126] hover:text-[#D12126] transition-colors">
                 <ArrowLeft size={16} />
@@ -94,7 +88,7 @@ export function ForumCarousel() {
             const inner = (
               <>
                 <img
-                  {...photo(p.photo, on ? '(min-width: 1024px) 860px, 90vw' : '(min-width: 1024px) 200px, 30vw')}
+                  {...photo(p.image, on ? '(min-width: 1024px) 860px, 90vw' : '(min-width: 1024px) 200px, 30vw')}
                   alt=""
                   loading="lazy"
                   decoding="async"
@@ -103,7 +97,7 @@ export function ForumCarousel() {
                 <span className={`absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent transition-opacity duration-500 ${on ? 'opacity-100' : 'opacity-0'}`} aria-hidden="true" />
                 <span className={`absolute inset-0 bg-[#2A2623] transition-opacity duration-500 ${on ? 'opacity-0' : 'opacity-15 group-hover:opacity-0'}`} aria-hidden="true" />
                 {/* the mark, white, at the foot on the left of every photograph wide enough to hold it */}
-                {at <= 2 && <img src="/brand/logo-hilink-lockup.svg" alt="" aria-hidden="true" className={`absolute bottom-4 left-4 w-auto [filter:brightness(0)_invert(1)] opacity-90 ${on ? "h-6 lg:bottom-6 lg:left-6 lg:h-8" : "h-4 lg:h-5"}`} />}
+                {at <= 2 && <img src="/brand/logo-hilink-lockup.svg" alt="" aria-hidden="true" className={`absolute bottom-4 left-4 w-auto [filter:brightness(0)_invert(1)] opacity-95 ${on ? "h-8 sm:h-10 lg:bottom-7 lg:left-7 lg:h-14" : "h-4 lg:h-5"}`} />}
               </>
             );
             return on ? (
@@ -112,17 +106,14 @@ export function ForumCarousel() {
                 <span className="absolute left-4 top-4 lg:left-6 lg:top-6 hidden sm:inline-block rounded-full bg-white/90 px-3 py-1 text-[12px] uppercase tracking-[0.18em] text-[#2A2623]">
                   {CATEGORY[p.category]?.[lang] ?? p.category}
                 </span>
-                <div key={active} className="absolute inset-x-4 bottom-14 lg:inset-x-6 lg:bottom-20 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between animate-[hl-fade-up_0.5s_ease_both]">
-                  <h3 className="serif hl-post-title max-w-[22ch] line-clamp-4 text-white">{p.title[lang]}</h3>
-                  <a
-                    href={ws(lang, `/forum/${p.slug}`)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group/read shrink-0 inline-flex w-fit items-center gap-1 rounded-full bg-white px-5 py-2.5 text-[14px] font-medium text-[#2A2623] hover:bg-[#F8F6F1] transition-colors"
+                <div key={active} className="absolute bottom-4 right-4 lg:bottom-7 lg:right-7 flex animate-[hl-fade-up_0.5s_ease_both]">
+                  <Link
+                    to={l(`/forum/${p.slug}`)}
+                    className="group/read shrink-0 inline-flex w-fit items-center gap-1 whitespace-nowrap rounded-full bg-white px-4 py-2 text-[13px] sm:px-5 sm:py-2.5 sm:text-[14px] font-medium text-[#2A2623] hover:bg-[#F8F6F1] transition-colors"
                   >
                     {t.read}
                     <ChevronRight size={16} className="transition-transform group-hover/read:translate-x-0.5" />
-                  </a>
+                  </Link>
                 </div>
               </article>
             ) : (
@@ -131,7 +122,7 @@ export function ForumCarousel() {
                 type="button"
                 onClick={() => setActive(i)}
                 aria-label={`${t.show}: ${p.title[lang]}`}
-                className="group relative min-w-0 overflow-hidden rounded-[6px] bg-[#F4F0EA] cursor-pointer"
+                className={`group relative min-w-0 overflow-hidden rounded-[6px] bg-[#F4F0EA] cursor-pointer ${at > 2 ? 'max-sm:hidden' : ''}`}
                 style={style}
               >
                 {inner}
@@ -144,14 +135,12 @@ export function ForumCarousel() {
         <p key={active} className="mt-5 max-w-3xl text-[15px] leading-relaxed text-[#6B645D] animate-[hl-fade-up_0.5s_ease_both]" aria-live="polite">
           {post.excerpt[lang]}
         </p>
-        <a
-          href={ws(lang, '/forum')}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Link
+          to={l('/forum')}
           className="sm:hidden mt-6 inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.2em] text-[#2A2623]"
         >
-          {t.all} <ArrowUpRight size={14} />
-        </a>
+          {t.all} <ArrowRight size={14} />
+        </Link>
       </div>
     </section>
   );
