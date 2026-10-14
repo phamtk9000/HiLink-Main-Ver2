@@ -88,6 +88,14 @@ export function PropertyRentalForm() {
       <div className="relative grid lg:grid-cols-2">
         <div className="relative h-[300px] sm:h-[380px] overflow-hidden bg-[#2B1212] lg:order-last lg:h-auto">
           <img loading="lazy" decoding="async" {...photo('/photos/stock-living-room.webp', '(min-width: 1024px) 50vw, 100vw')} alt={lang === 'vi' ? 'Phòng khách của một căn hộ' : 'The living room of an apartment'} className="absolute inset-0 h-full w-full object-cover" />
+          {/* A quiet signature at the foot of the photograph: the mark in white and the page's promise. */}
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/55 via-black/15 to-transparent" aria-hidden="true" />
+          <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between gap-6 lg:bottom-10 lg:left-10 lg:right-10">
+            <p className="serif max-w-[22ch] text-[1.05rem] lg:text-[1.25rem] italic leading-snug text-white/90">
+              {lang === 'vi' ? 'Tài sản của bạn. Tâm huyết của chúng tôi.' : 'Your property. Our passion.'}
+            </p>
+            <img src="/brand/logo-hilink-lockup.svg" alt="HiLink" className="h-9 lg:h-11 w-auto shrink-0 [filter:brightness(0)_invert(1)] opacity-90" />
+          </div>
         </div>
         <div className="px-6 py-12 lg:py-16 lg:pl-[max(48px,calc((100vw-1600px)/2+48px))] lg:pr-16 xl:pr-24">
         <motion.div

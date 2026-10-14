@@ -34,8 +34,14 @@ export function PropertyDeck({ items, view, prev, next }: { items: DeckItem[]; v
     if (!el || n < 2) return undefined;
     let pos = 0, vel = 0, target = 0, raf = 0;
     let drag: { x: number; pos: number; moved: number; last: number; lastT: number; v: number } | null = null;
-    const gap = () => parseFloat(getComputedStyle(el).getPropertyValue('--gap')) || 32;
-    const pitch = () => (cells.current[0]?.offsetWidth ?? 310) + gap();
+    // From one card to the next: on a laptop the cards spread so the outer
+    // ones stand 24px from the edges (five from 1280px, three from 1024px);
+    // on a phone, 32px apart.
+    const span = () => { const cw = el.clientWidth; return cw >= 1280 ? 5 : cw >= 1024 ? 3 : 0; };
+    const pitch = () => {
+      const w = cells.current[0]?.offsetWidth ?? 310, n = span();
+      return n ? (el.clientWidth - 48 - w) / (n - 1) : w + 32;
+    };
     const wrap = (d: number) => ((((d + total / 2) % total) + total) % total) - total / 2;
 
     const render = () => {
@@ -44,7 +50,7 @@ export function PropertyDeck({ items, view, prev, next }: { items: DeckItem[]; v
       // there is room for any, only whole cards show: the next one fades in
       // as it arrives. On a phone there is none, and the neighbours run off
       // the edges instead.
-      const whole = Math.floor((el.clientWidth - (w - gap())) / (2 * w));
+      const whole = span() ? (span() - 1) / 2 : 0;
       const reach = whole > 0 ? whole + 0.7 : el.clientWidth / 2 / w + 0.6;
       cells.current.forEach((c, i) => {
         if (!c) return;
@@ -128,7 +134,7 @@ export function PropertyDeck({ items, view, prev, next }: { items: DeckItem[]; v
   const arrow = 'grid h-10 w-10 place-items-center text-[#2A2623] border border-transparent hover:border-[#2A2623]/40 focus-visible:border-[#D12126] outline-none transition-colors';
   const link = 'mt-auto flex h-9 w-full shrink-0 items-center justify-center whitespace-nowrap border border-[#2A2623] px-3 text-[12px] uppercase tracking-[0.2em] text-[#2A2623] hover:bg-[#2A2623] hover:text-white transition-colors';
   return (
-    <div>
+    <div className="hl-deck-wrap">
       {/* 40px of air above and below: the card in the middle grows into it */}
       <div
         ref={box}
