@@ -19,7 +19,7 @@
 // stats and captions still work, without the lines.
 import { useEffect, useRef, useState } from 'react';
 import { Moon, MoonStar, Pause, Play, Sun, SunDim, Sunrise, Sunset } from 'lucide-react';
-import { PARTNERS } from '../data/site';
+import { PARTNER_FIGURE } from '../data/site';
 import { useLang } from '../lib/i18n';
 import { LinkField, rgb, type Palette } from '../lib/linkField';
 import { Flag } from './Flag';
@@ -34,7 +34,7 @@ const T = {
     title: 'Every link creates value.',
     lead: 'Link is in our name and at the heart of what we do: connecting business people with each other, turning those connections into opportunities, growing together — and bringing every client to the place they need to be.',
     stats: [
-      { n: String(PARTNERS.length), l: 'partner companies', t: 'Connect', d: 'We bring business people together — in our lounges, at the HiLink Business Club and through the companies we work with.' },
+      { n: PARTNER_FIGURE, l: 'partner companies', t: 'Connect', d: 'We bring business people together — in our lounges, at the HiLink Business Club and through the companies we work with.' },
       { n: '1', l: 'point of contact for every client', t: 'Create opportunity', d: 'A good introduction opens doors: a client, a partner, a new hire. We make those introductions part of everyday work.' },
       { n: '2020', l: 'growing with our clients since', t: 'Grow together', d: 'As a business grows, its space and support grow with it — from a business address to a desk, an office, a whole floor.' },
       { n: String(WORKSPACE_LOCATIONS.length), l: 'locations in central Hanoi', t: 'Lead to the right place', d: 'We guide every client to the right address and the right solution, across our locations in Hoan Kiem and Dong Da.' },
@@ -50,7 +50,7 @@ const T = {
     title: 'Mỗi kết nối tạo nên giá trị.',
     lead: 'Link nằm trong tên gọi và là cốt lõi của những gì chúng tôi làm: kết nối doanh nhân với nhau, biến kết nối thành cơ hội, cùng nhau phát triển — và đưa mỗi khách hàng tới đúng nơi họ cần đến.',
     stats: [
-      { n: String(PARTNERS.length), l: 'doanh nghiệp đối tác', t: 'Kết nối', d: 'Chúng tôi đưa doanh nhân đến gần nhau — tại các lounge, tại HiLink Business Club và qua những doanh nghiệp đồng hành.' },
+      { n: PARTNER_FIGURE, l: 'doanh nghiệp đối tác', t: 'Kết nối', d: 'Chúng tôi đưa doanh nhân đến gần nhau — tại các lounge, tại HiLink Business Club và qua những doanh nghiệp đồng hành.' },
       { n: '1', l: 'đầu mối cho mỗi khách hàng', t: 'Tạo cơ hội', d: 'Một lời giới thiệu đúng mở ra cánh cửa: một khách hàng, một đối tác, một nhân sự mới. Chúng tôi biến điều đó thành việc hằng ngày.' },
       { n: '2020', l: 'cùng khách hàng phát triển từ năm', t: 'Cùng phát triển', d: 'Khi doanh nghiệp lớn lên, không gian và hỗ trợ lớn theo — từ địa chỉ doanh nghiệp đến chỗ ngồi, văn phòng, nguyên sàn.' },
       { n: String(WORKSPACE_LOCATIONS.length), l: 'địa điểm giữa trung tâm Hà Nội', t: 'Đưa tới đúng nơi', d: 'Chúng tôi dẫn mỗi khách hàng tới đúng địa chỉ và đúng giải pháp, tại các địa điểm ở Hoàn Kiếm và Đống Đa.' },

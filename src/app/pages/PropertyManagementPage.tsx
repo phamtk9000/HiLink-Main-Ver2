@@ -13,7 +13,7 @@ import { PropertyRentalForm } from '../components/PropertyRentalForm';
 import { FAQ } from '../components/FAQ';
 import { AnimatedCounter } from '../components/AnimatedCounter';
 import { HeroBg } from '../components/HeroBg';
-import { CONTACT, PARTNERS, ws } from '../data/site';
+import { CONTACT, PARTNER_COUNT, ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { photo } from '../lib/photo';
@@ -169,7 +169,7 @@ export function PropertyManagementPage() {
   const metrics = [
     { value: 95, suffix: '%' },
     { value: WORKSPACE_LOCATIONS.length, suffix: '' },
-    { value: PARTNERS.length, suffix: '' },
+    { value: PARTNER_COUNT, suffix: '+' },
     { value: 24, suffix: '/7' },
   ];
   const eyebrow = (text: string) => (

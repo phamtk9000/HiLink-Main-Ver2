@@ -14,7 +14,7 @@ import { Contours } from '../components/Contours';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { PARTNER_COPY } from '../data/partnerCopy';
-import { PARTNERS, ws } from '../data/site';
+import { PARTNERS, PARTNER_COUNT, PARTNER_FIGURE, ws } from '../data/site';
 import { photo } from '../lib/photo';
 import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 
@@ -145,7 +145,7 @@ export function PartnersPage() {
               lang={lang}
               pairs={2}
               figures={[
-                { value: PARTNERS.length, label: t.figures[0] },
+                { value: PARTNER_COUNT, suf: '+', label: t.figures[0] },
                 { value: WORKSPACE_LOCATIONS.length, label: t.figures[1] },
                 { value: pc.paths.length, label: t.figures[2] },
                 { value: '24h', label: t.figures[3], note: 1 },
@@ -292,7 +292,7 @@ export function PartnersPage() {
               {eyebrow(t.stripLbl)}
               <h2 className="serif text-4xl lg:text-5xl">{t.stripTitle}</h2>
             </div>
-            <p className="serif text-[2.75rem] lg:text-[3.5rem] leading-none lining-nums text-[#D12126]">{PARTNERS.length}</p>
+            <p className="serif text-[2.75rem] lg:text-[3.5rem] leading-none lining-nums text-[#D12126]">{PARTNER_FIGURE}</p>
           </div>
           <ul className="grid grid-cols-2 md:grid-cols-3 border-t border-l border-[#2A2623]/12">
             {PARTNERS.map((p) => (

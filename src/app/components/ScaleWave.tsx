@@ -10,7 +10,7 @@
 // pointer. Without WebGL2, fine light lines on a 2D canvas stand in.
 // Reduced motion: a still frame and the final numbers.
 import { useEffect, useRef, useState } from 'react';
-import { PARTNERS, SERVICES } from '../data/site';
+import { PARTNER_COUNT, SERVICES } from '../data/site';
 import { useLang } from '../lib/i18n';
 import { Flag } from './Flag';
 import { createStripeSilk, STRIPE_HERO, type SilkConfig } from '../lib/stripeSilk';
@@ -24,7 +24,7 @@ const T = {
     lead: 'From a business address to a whole floor, HiLink grows with the companies it serves — across central Hanoi, under one relationship.',
     stats: [
       { n: WORKSPACE_LOCATIONS.length, l: 'locations in central Hanoi' },
-      { n: PARTNERS.length, l: 'partner companies' },
+      { n: PARTNER_COUNT, suf: '+', l: 'partner companies' },
       { n: SERVICES.length, l: 'service lines, one point of contact' },
       { n: 2020, from: 2010, l: 'serving businesses since' },
     ],
@@ -36,7 +36,7 @@ const T = {
     lead: 'Từ địa chỉ doanh nghiệp đến nguyên một sàn, HiLink lớn lên cùng các doanh nghiệp đồng hành — giữa trung tâm Hà Nội, trong một mối quan hệ duy nhất.',
     stats: [
       { n: WORKSPACE_LOCATIONS.length, l: 'địa điểm giữa trung tâm Hà Nội' },
-      { n: PARTNERS.length, l: 'doanh nghiệp đối tác' },
+      { n: PARTNER_COUNT, suf: '+', l: 'doanh nghiệp đối tác' },
       { n: SERVICES.length, l: 'mảng dịch vụ, một đầu mối' },
       { n: 2020, from: 2010, l: 'đồng hành cùng doanh nghiệp từ' },
     ],
@@ -70,16 +70,16 @@ function useCount(to: number, from: number, run: boolean, still: boolean) {
   return v;
 }
 
-function Stat({ n, from = 0, l, i, run, still }: { n: number; from?: number; l: string; i: number; run: boolean; still: boolean }) {
+function Stat({ n, from = 0, suf = '', l, i, run, still }: { n: number; from?: number; suf?: string; l: string; i: number; run: boolean; still: boolean }) {
   const v = useCount(n, from, run, still);
   return (
     <div className="px-6 lg:px-8 py-8 lg:py-10">
       <div
         className="serif text-[3rem] lg:text-[4.25rem] leading-none lining-nums tabular-nums bg-clip-text text-transparent"
         style={{ backgroundImage: NUM_GRADIENTS[i % NUM_GRADIENTS.length], WebkitBackgroundClip: 'text' }}
-        aria-label={String(n)}
+        aria-label={`${n}${suf}`}
       >
-        {v}
+        {v}{suf}
       </div>
       <p className="mt-3 text-[15px] text-white/85">{l}</p>
     </div>
@@ -228,7 +228,7 @@ export function ScaleWave() {
 
           <div className="relative grid grid-cols-2 lg:grid-cols-4 border-t border-white/10">
             {t.stats.map((s, i) => (
-              <Stat key={s.l} i={i} n={s.n} from={'from' in s ? s.from : 0} l={s.l} run={counted} still={still} />
+              <Stat key={s.l} i={i} n={s.n} from={'from' in s ? s.from : 0} suf={'suf' in s ? s.suf : ''} l={s.l} run={counted} still={still} />
             ))}
           </div>
         </div>

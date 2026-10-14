@@ -12,7 +12,7 @@ import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Shield, Layers, Target, Mail, MapPin, Calendar } from '../components/Glyph';
 import { ABOUT } from '../data/aboutCopy';
 import { CAREERS } from '../data/careersCopy';
-import { COMPANY, CONTACT, PARTNERS } from '../data/site';
+import { COMPANY, CONTACT, PARTNER_FIGURE } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { PartnerMarquee } from '../components/PartnerMarquee';
@@ -26,7 +26,7 @@ import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 const T = {
   en: {
     est: 'Est. 2020 · Ha Noi, Vietnam', scroll: 'Scroll to discover',
-    facts: [['2020', 'Year Founded'], ['Ha Noi', 'Headquarters'], [`${WORKSPACE_LOCATIONS.length} Locations`, 'HiLink Workspaces'], [`${PARTNERS.length} Partners`, 'Companies we work with']],
+    facts: [['2020', 'Year Founded'], ['Ha Noi', 'Headquarters'], [`${WORKSPACE_LOCATIONS.length} Locations`, 'HiLink Workspaces'], [`${PARTNER_FIGURE} Partners`, 'Companies we work with']],
     storyAlt: 'A client at work in a private office at the HiLink Business Club',
     fig: 'Figure 1 · One relationship',
     workEyebrow: 'Selected work', workTitle: 'Properties we run',
@@ -46,7 +46,7 @@ const T = {
   },
   vi: {
     est: 'Thành lập 2020 · Hà Nội, Việt Nam', scroll: 'Cuộn để khám phá',
-    facts: [['2020', 'Năm thành lập'], ['Hà Nội', 'Trụ sở'], [`${WORKSPACE_LOCATIONS.length} địa điểm`, 'HiLink Workspaces'], [`${PARTNERS.length} đối tác`, 'Doanh nghiệp đồng hành']],
+    facts: [['2020', 'Năm thành lập'], ['Hà Nội', 'Trụ sở'], [`${WORKSPACE_LOCATIONS.length} địa điểm`, 'HiLink Workspaces'], [`${PARTNER_FIGURE} đối tác`, 'Doanh nghiệp đồng hành']],
     storyAlt: 'Khách hàng làm việc trong văn phòng riêng tại HiLink Business Club',
     fig: 'Hình 1 · Một mối quan hệ',
     workEyebrow: 'Dự án tiêu biểu', workTitle: 'Bất động sản chúng tôi vận hành',

@@ -102,6 +102,11 @@ export const wsSolutionUrl = (lang: Lang, s: { slug: string; path?: string }) =>
   ws(lang, s.path ?? `/solutions/${s.slug}`);
 
 // Logos supplied by HiLink (same files as hilink.vn/public/partners).
+// How many companies HiLink works with, as HiLink states it (the logos in
+// PARTNERS are a selection of them).
+export const PARTNER_COUNT = 100;
+export const PARTNER_FIGURE = `${PARTNER_COUNT}+`;
+
 export const PARTNERS = [
   { id: 'fedex', name: 'FedEx', src: '/partners/fedex.webp', w: 430, h: 132 },
   { id: 'lianlian', name: 'LianLian Global', src: '/partners/lianlian.webp', w: 480, h: 52 },
