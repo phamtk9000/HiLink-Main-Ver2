@@ -89,17 +89,17 @@ export function PropertyRentalForm() {
         <div className="relative h-[300px] sm:h-[380px] overflow-hidden bg-[#2B1212] lg:order-last lg:h-auto">
           <img loading="lazy" decoding="async" {...photo('/photos/stock-living-room.webp', '(min-width: 1024px) 50vw, 100vw')} alt={lang === 'vi' ? 'Phòng khách của một căn hộ' : 'The living room of an apartment'} className="absolute inset-0 h-full w-full object-cover" />
         </div>
-        <div className="px-6 py-16 lg:py-24 lg:pl-[max(48px,calc((100vw-1600px)/2+48px))] lg:pr-16 xl:pr-24">
+        <div className="px-6 py-12 lg:py-16 lg:pl-[max(48px,calc((100vw-1600px)/2+48px))] lg:pr-16 xl:pr-24">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-10 lg:mb-12"
+          className="mb-8"
         >
-          <h2 className="serif text-4xl lg:text-5xl mb-5 text-[#E9E3DA]">
+          <h2 className="serif text-4xl lg:text-[2.75rem] mb-3 text-[#F8F6F1]">
             {t('propertyForm.title')}
           </h2>
-          <p className="text-lg text-[#E9E3DA]/80">
+          <p className="text-lg text-[#F8F6F1]/80">
             {t('propertyForm.subtitle')}
           </p>
         </motion.div>
@@ -110,7 +110,7 @@ export function PropertyRentalForm() {
             className="text-center py-16 bg-[#361716] rounded-lg"
           >
             <div className="text-3xl mb-4">✓</div>
-            <p className="text-2xl text-[#E9E3DA]">{t('propertyForm.success')}</p>
+            <p className="text-2xl text-[#F8F6F1]">{t('propertyForm.success')}</p>
           </motion.div>
         ) : (
           <motion.form
@@ -122,8 +122,8 @@ export function PropertyRentalForm() {
           >
             <input {...HONEYPOT_PROPS} />
             {/* Location */}
-            <div className="mb-6">
-              <label className="block text-[13px] mb-2.5 uppercase tracking-wider">
+            <div className="mb-4">
+              <label className="block text-[12.5px] mb-2 uppercase tracking-wider">
                 {t('propertyForm.location')} <span className="text-red-400">*</span>
               </label>
               <input
@@ -132,22 +132,22 @@ export function PropertyRentalForm() {
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder={t('propertyForm.locationPlaceholder')}
                 required
-                className="w-full px-5 py-3.5 bg-transparent border border-white/40 text-white placeholder:text-white/50 focus:border-[#E9E3DA] focus:outline-none transition-colors"
+                className="w-full px-4 py-3 bg-transparent border border-white/40 text-white placeholder:text-white/50 focus:border-[#F8F6F1] focus:outline-none transition-colors"
               />
             </div>
 
             {/* Bedroom, Bathroom, Utility */}
-            <div className="grid grid-cols-2 gap-5 mb-6">
+            <div className="grid grid-cols-2 gap-4 mb-4">
               {/* Bedroom */}
               <div>
-                <label className="block text-[13px] mb-2.5 uppercase tracking-wider">
+                <label className="block text-[12.5px] mb-2 uppercase tracking-wider">
                   {t('propertyForm.bedroom')} <span className="text-red-400">*</span>
                 </label>
-                <div className="flex items-center justify-between px-5 py-3.5 bg-transparent border border-white/40">
+                <div className="flex items-center justify-between px-4 py-3 bg-transparent border border-white/40">
                   <button
                     type="button"
                     onClick={() => setBedrooms(Math.max(0, bedrooms - 1))}
-                    className="text-white hover:text-[#E9E3DA] transition-colors"
+                    className="text-white hover:text-[#F8F6F1] transition-colors"
                   >
                     <Minus size={20} />
                   </button>
@@ -155,7 +155,7 @@ export function PropertyRentalForm() {
                   <button
                     type="button"
                     onClick={() => setBedrooms(bedrooms + 1)}
-                    className="text-white hover:text-[#E9E3DA] transition-colors"
+                    className="text-white hover:text-[#F8F6F1] transition-colors"
                   >
                     <Plus size={20} />
                   </button>
@@ -164,14 +164,14 @@ export function PropertyRentalForm() {
 
               {/* Bathroom */}
               <div>
-                <label className="block text-[13px] mb-2.5 uppercase tracking-wider">
+                <label className="block text-[12.5px] mb-2 uppercase tracking-wider">
                   {t('propertyForm.bathroom')} <span className="text-red-400">*</span>
                 </label>
-                <div className="flex items-center justify-between px-5 py-3.5 bg-transparent border border-white/40">
+                <div className="flex items-center justify-between px-4 py-3 bg-transparent border border-white/40">
                   <button
                     type="button"
                     onClick={() => setBathrooms(Math.max(0, bathrooms - 1))}
-                    className="text-white hover:text-[#E9E3DA] transition-colors"
+                    className="text-white hover:text-[#F8F6F1] transition-colors"
                   >
                     <Minus size={20} />
                   </button>
@@ -179,7 +179,7 @@ export function PropertyRentalForm() {
                   <button
                     type="button"
                     onClick={() => setBathrooms(bathrooms + 1)}
-                    className="text-white hover:text-[#E9E3DA] transition-colors"
+                    className="text-white hover:text-[#F8F6F1] transition-colors"
                   >
                     <Plus size={20} />
                   </button>
@@ -187,8 +187,8 @@ export function PropertyRentalForm() {
               </div>
 
               {/* Utility */}
-              <div className="col-span-2">
-                <label className="block text-[13px] mb-2.5 uppercase tracking-wider">
+              <div>
+                <label className="block text-[12.5px] mb-2 uppercase tracking-wider">
                   {t('propertyForm.utility')} <span className="text-red-400">*</span>
                 </label>
                 <Select
@@ -196,40 +196,40 @@ export function PropertyRentalForm() {
                   onChange={setUtility}
                   options={UTILITIES.map((u, k) => ({ value: String(k), label: u[lang] }))}
                   tone="dark"
-                  className="w-full px-5 py-3.5 bg-transparent border border-white/40 text-white focus:border-[#E9E3DA] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-transparent border border-white/40 text-white focus:border-[#F8F6F1] focus:outline-none transition-colors"
                 />
+              </div>
+              {/* Property Image */}
+              <div>
+                <label className="block text-[12.5px] mb-2 uppercase tracking-wider">
+                  {t('propertyForm.apartmentImage')}
+                </label>
+                <div className="relative">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="hidden"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="w-full px-4 py-3 bg-transparent border border-white/40 text-white text-left hover:border-[#F8F6F1] transition-colors flex items-center justify-between"
+                  >
+                    <span className={imageName ? 'text-white' : 'text-white/50'}>
+                      {imageName || t('propertyForm.chooseImage')}
+                    </span>
+                    <Upload size={20} />
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* Property Image */}
-            <div className="mb-6">
-              <label className="block text-[13px] mb-2.5 uppercase tracking-wider">
-                {t('propertyForm.apartmentImage')}
-              </label>
-              <div className="relative">
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="hidden"
-                />
-                <button
-                  type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="w-full px-5 py-3.5 bg-transparent border border-white/40 text-white text-left hover:border-[#E9E3DA] transition-colors flex items-center justify-between"
-                >
-                  <span className={imageName ? 'text-white' : 'text-white/50'}>
-                    {imageName || t('propertyForm.chooseImage')}
-                  </span>
-                  <Upload size={20} />
-                </button>
-              </div>
-            </div>
-
-            {/* Full Name */}
-            <div className="mb-6">
-              <label className="block text-[13px] mb-2.5 uppercase tracking-wider">
+            {/* Name, email, phone, and the button beside the phone */}
+            <div className="grid sm:grid-cols-2 gap-4 items-end">
+            <div>
+              <label className="block text-[12.5px] mb-2 uppercase tracking-wider">
                 {t('propertyForm.fullName')} <span className="text-red-400">*</span>
               </label>
               <input
@@ -238,15 +238,13 @@ export function PropertyRentalForm() {
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder={t('propertyForm.fullNamePlaceholder')}
                 required
-                className="w-full px-5 py-3.5 bg-transparent border border-white/40 text-white placeholder:text-white/50 focus:border-[#E9E3DA] focus:outline-none transition-colors"
+                className="w-full px-4 py-3 bg-transparent border border-white/40 text-white placeholder:text-white/50 focus:border-[#F8F6F1] focus:outline-none transition-colors"
               />
             </div>
 
-            {/* Email and Phone */}
-            <div className="grid sm:grid-cols-2 gap-5 mb-7">
               {/* Email */}
               <div>
-                <label className="block text-[13px] mb-2.5 uppercase tracking-wider">
+                <label className="block text-[12.5px] mb-2 uppercase tracking-wider">
                   {t('propertyForm.email')} <span className="text-red-400">*</span>
                 </label>
                 <input
@@ -255,13 +253,13 @@ export function PropertyRentalForm() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t('propertyForm.emailPlaceholder')}
                   required
-                  className="w-full px-5 py-3.5 bg-transparent border border-white/40 text-white placeholder:text-white/50 focus:border-[#E9E3DA] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-transparent border border-white/40 text-white placeholder:text-white/50 focus:border-[#F8F6F1] focus:outline-none transition-colors"
                 />
               </div>
 
               {/* Phone */}
               <div>
-                <label className="block text-[13px] mb-2.5 uppercase tracking-wider">
+                <label className="block text-[12.5px] mb-2 uppercase tracking-wider">
                   {t('propertyForm.phone')}
                 </label>
                 <input
@@ -269,24 +267,24 @@ export function PropertyRentalForm() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder={t('propertyForm.phonePlaceholder')}
-                  className="w-full px-5 py-3.5 bg-transparent border border-white/40 text-white placeholder:text-white/50 focus:border-[#E9E3DA] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-transparent border border-white/40 text-white placeholder:text-white/50 focus:border-[#F8F6F1] focus:outline-none transition-colors"
                 />
               </div>
-            </div>
 
-            {/* Submit Button */}
-            {error && <p role="alert" className="mb-4 text-right text-[15px] text-[#F7B4B6]">{error}</p>}
-            <div className="flex justify-end">
-              <motion.button
-                type="submit"
-                disabled={isSubmitting}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full sm:w-auto px-14 py-4 bg-[#D12126] text-white text-sm uppercase tracking-wider hover:bg-[#A3181C] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? t('propertyForm.submitting') : t('propertyForm.sendNow')}
-              </motion.button>
+              {/* Submit Button */}
+              <div>
+                <motion.button
+                  type="submit"
+                  disabled={isSubmitting}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full px-8 py-3.5 bg-[#D12126] text-white text-sm uppercase tracking-wider hover:bg-[#A3181C] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? t('propertyForm.submitting') : t('propertyForm.sendNow')}
+                </motion.button>
+              </div>
             </div>
+            {error && <p role="alert" className="mt-4 text-right text-[15px] text-[#F7B4B6]">{error}</p>}
           </motion.form>
         )}
         </div>
