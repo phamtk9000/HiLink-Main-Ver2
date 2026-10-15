@@ -6,11 +6,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import { Handshake, Layers, Globe, ShieldCheck, HeartHandshake } from '../components/Glyph';
+import { Layers, Globe, ShieldCheck, HeartHandshake } from '../components/Glyph';
 import { motion } from 'motion/react';
 import { HeroBg } from '../components/HeroBg';
-import { FigureStack, Statement } from '../components/Figures';
-import { Contours } from '../components/Contours';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { PARTNER_COPY } from '../data/partnerCopy';
@@ -49,7 +47,7 @@ const T = {
       ['Agreement', 'A transparent partnership agreement with clear terms and expectations.'],
       ['Collaboration', 'We onboard, integrate, and start delivering together.'],
     ],
-    withTitle: 'Partner with us', withAlt: 'The HiLink Business Club boardroom',
+    withTitle: 'Partner with us', withAlt: 'A meeting room at the HiLink Business Club',
     withBody: 'Own property, run a complementary service or represent international clients? Let\'s find a way to work together.',
     lookFor: 'What we look for',
     lookItems: ['A shared commitment to quality and transparency', 'Proven reliability and professional standards', 'Alignment with our international client base', 'Long-term, relationship-driven collaboration'],
@@ -87,7 +85,7 @@ const T = {
       ['Thoả thuận', 'Thoả thuận hợp tác minh bạch với điều khoản và kỳ vọng rõ ràng.'],
       ['Hợp tác', 'Chúng tôi tiếp nhận, kết nối và bắt đầu cùng triển khai.'],
     ],
-    withTitle: 'Hợp tác cùng chúng tôi', withAlt: 'Phòng họp lớn tại HiLink Business Club',
+    withTitle: 'Hợp tác cùng chúng tôi', withAlt: 'Phòng họp tại HiLink Business Club',
     withBody: 'Dù bạn sở hữu bất động sản, cung cấp dịch vụ hay đại diện khách hàng quốc tế — hãy cùng tìm cách hợp tác.',
     lookFor: 'Điều chúng tôi tìm kiếm',
     lookItems: ['Cùng cam kết về chất lượng và minh bạch', 'Độ tin cậy và tiêu chuẩn chuyên nghiệp đã được chứng minh', 'Phù hợp với tệp khách hàng quốc tế của chúng tôi', 'Hợp tác lâu dài, dựa trên quan hệ'],
@@ -131,29 +129,35 @@ export function PartnersPage() {
         </div>
       </section>
 
-      {/* The network in a statement and four figures. */}
+      {/* The network: the title and its line side by side, the two paragraphs
+          beneath in two columns, then the four figures in one ruled row. */}
       <section className="relative py-24 lg:py-32 bg-white">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-14">
-          <div className="lg:col-span-7">
-            {eyebrow(t.introEyebrow)}
-            <Statement heading={t.introTitle} red={pc.heroSub}>
-              <p className="mt-8 text-[1.0625rem] leading-[1.8] text-[#4A443F]">{t.intro}</p>
-              <p className="mt-5 text-[1.0625rem] leading-[1.8] text-[#4A443F]">{pc.why}</p>
-            </Statement>
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+          <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-7">
+              {eyebrow(t.introEyebrow)}
+              <h2 className="serif text-4xl lg:text-5xl leading-[1.1] text-[#2A2623]">{t.introTitle}</h2>
+            </div>
+            <p className="serif text-[1.3rem] leading-[1.45] text-[#4A443F] lg:col-span-5 lg:text-[1.5rem]">{pc.heroSub}</p>
           </div>
-          <div className="lg:col-span-4 lg:col-start-9">
-            <FigureStack
-              lang={lang}
-              pairs={2}
-              figures={[
-                { value: PARTNER_COUNT, suf: '+', label: t.figures[0] },
-                { value: WORKSPACE_LOCATIONS.length, label: t.figures[1] },
-                { value: pc.paths.length, label: t.figures[2] },
-                { value: '24h', label: t.figures[3], note: 1 },
-              ]}
-              notes={[t.figureNote]}
-            />
+          <div className="mt-12 grid gap-6 text-[1.0625rem] leading-[1.8] text-[#4A443F] lg:mt-14 lg:grid-cols-2 lg:gap-16">
+            <p>{t.intro}</p>
+            <p>{pc.why}</p>
           </div>
+          <dl className="mt-14 grid grid-cols-2 border-t border-[#2A2623]/20 lg:mt-20 lg:grid-cols-4">
+            {[
+              [`${PARTNER_COUNT}+`, t.figures[0], 0],
+              [String(WORKSPACE_LOCATIONS.length), t.figures[1], 0],
+              [String(pc.paths.length), t.figures[2], 0],
+              ['24h', t.figures[3], 1],
+            ].map(([value, label, note], k) => (
+              <div key={String(label)} className={`flex flex-col-reverse border-b border-[#2A2623]/20 py-7 lg:py-9 ${k % 2 ? 'pl-6 border-l' : 'pr-6'} ${k > 0 ? 'lg:border-l lg:pl-8' : ''} border-[#2A2623]/20`}>
+                <dt className="mt-3 text-[14px] leading-snug text-[#6B645D]">{label}{note ? <sup className="ml-0.5 text-[10px]">{note}</sup> : null}</dt>
+                <dd className="serif lining-nums text-[2.75rem] leading-none text-[#2A2623] lg:text-[3.5rem]">{value}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="mt-4 text-[12.5px] text-[#6B645D]"><sup className="mr-1">1</sup>{t.figureNote}</p>
         </div>
       </section>
 
@@ -165,7 +169,7 @@ export function PartnersPage() {
             <h2 className="serif text-4xl lg:text-5xl">{t.waysTitle}</h2>
           </div>
           <div className="grid lg:grid-cols-12 gap-x-16 gap-y-8">
-            <div role="tablist" aria-label={t.waysTitle} className="lg:col-span-4 flex lg:block gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-6 px-6 lg:mx-0 lg:px-0 lg:border-t lg:border-[#2A2623]/15">
+            <div role="tablist" aria-label={t.waysTitle} className="lg:col-span-4 lg:sticky lg:top-[100px] lg:self-start flex lg:block gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-6 px-6 lg:mx-0 lg:px-0 lg:border-t lg:border-[#2A2623]/15">
               {pc.paths.map((p, k) => (
                 <button
                   key={p.id}
@@ -191,7 +195,13 @@ export function PartnersPage() {
               {cur.line && <p className="serif mt-8 text-[1.45rem] lg:text-[1.75rem] leading-[1.3] text-[#2A2623]">{cur.line}</p>}
               <p className="mt-5 max-w-[68ch] text-[1.0625rem] leading-[1.8] text-[#4A443F]">{cur.lead ?? fallback}</p>
 
-              {cur.stats && (
+              {cur.stats && cur.stats.length === 1 && (
+                <dl className="mt-10 flex items-baseline gap-5 border-y border-[#2A2623]/15 py-6">
+                  <dd className="serif text-[2.5rem] lg:text-[3rem] leading-none lining-nums text-[#2A2623]">{cur.stats[0][0]}</dd>
+                  <dt className="text-[14px] leading-snug text-[#4A443F]">{cur.stats[0][1]}</dt>
+                </dl>
+              )}
+              {cur.stats && cur.stats.length > 1 && (
                 <dl className="mt-10 grid grid-cols-3 border-y border-[#2A2623]/15">
                   {cur.stats.map(([n, label], k) => (
                     <div key={label} className={`py-7 text-center ${k ? 'border-l border-[#2A2623]/15' : ''}`}>
@@ -306,50 +316,42 @@ export function PartnersPage() {
         </div>
       </section>
 
-      {/* How partnership works: the four steps as a list, on a dark band. */}
-      <section className="relative overflow-hidden py-24 lg:py-32 bg-[#361716] text-white">
-        <Contours />
-        <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-10">
-          <div className="lg:col-span-5">
-            {eyebrow(t.howEyebrow, true)}
-            <h2 className="serif text-4xl lg:text-5xl leading-tight">{t.howTitle}</h2>
+      {/* Partner with us: one section — the photograph down one side, and on
+          the other the invitation, the four steps of becoming a partner, what
+          HiLink looks for, and the way in. */}
+      <section id="partner-with-us" className="relative overflow-hidden bg-white text-[#2A2623] border-t border-[#2A2623]/10">
+        <div className="[display:grid] grid-cols-[minmax(0,1fr)] lg:grid-cols-12">
+          <div className="relative min-h-[360px] overflow-hidden lg:col-span-5 lg:min-h-0">
+            <img loading="lazy" decoding="async" {...photo('/photos/hbc-mr8.webp', '(min-width: 1024px) 42vw, 100vw')} alt={t.withAlt} className="absolute inset-0 h-full w-full object-cover" />
           </div>
-          <ol className="lg:col-span-7 border-t border-white/20">
-            {t.steps.map(([title, desc], i) => (
-              <li key={title} className="grid grid-cols-[3rem_1fr] sm:grid-cols-[4rem_14rem_1fr] gap-x-4 gap-y-1 border-b border-white/20 py-6 lg:py-7">
-                <span className="pt-1.5 text-[13px] font-medium tabular-nums tracking-[0.08em] text-[#F06A6E]">{String(i + 1).padStart(2, '0')}</span>
-                <p className="serif text-[1.4rem] lg:text-[1.6rem] leading-snug">{title}</p>
-                <p className="col-start-2 sm:col-start-3 text-[15px] leading-relaxed text-white/75">{desc}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+          <div className="px-6 py-16 sm:px-10 lg:col-span-7 lg:px-20 lg:py-24 xl:px-28">
+            {eyebrow(t.howEyebrow)}
+            <h2 className="serif text-4xl lg:text-5xl leading-tight">{t.withTitle}</h2>
+            <p className="mt-5 max-w-[56ch] text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.withBody}</p>
 
-      {/* Partner with us — feature */}
-      <section id="partner-with-us" className="relative overflow-hidden bg-white text-[#2A2623]">
-        <div className="grid lg:grid-cols-2">
-          <div className="relative min-h-[360px] lg:min-h-0 overflow-hidden">
-            <img loading="lazy" decoding="async" {...photo('/photos/hbc-boardroom.webp')} alt={t.withAlt} className="absolute inset-0 w-full h-full object-cover" />
-          </div>
-          <div className="px-8 lg:px-16 py-20 lg:py-28">
-            <div className="text-[#D12126] mb-6"><Handshake size={40} /></div>
-            <h2 className="serif text-4xl lg:text-5xl mb-8">{t.withTitle}</h2>
-            <p className="text-lg text-[#6B645D] leading-relaxed mb-8">{t.withBody}</p>
-            <div className="border-t border-[#2A2623]/15 mb-10">
-              <h3 className="serif text-xl pt-6 mb-2">{t.lookFor}</h3>
-              <ul>
-                {t.lookItems.map((item) => (
-                  <li key={item} className="flex items-start gap-3 border-b border-[#2A2623]/10 py-3.5">
-                    <div className="w-1.5 h-1.5 bg-[#D12126] rounded-full mt-2.5 flex-shrink-0" />
-                    <span className="text-[#2A2623] text-[15px]">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <Link to={l('/contact')} className="group inline-flex items-center gap-2 px-10 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#A3181C] transition-colors">
+            <p className="mt-12 text-[12px] uppercase tracking-[0.18em] text-[#6B645D]">{t.howTitle}</p>
+            <ol className="mt-4 border-t border-[#2A2623]/15">
+              {t.steps.map(([title, desc], i) => (
+                <li key={title} className="grid grid-cols-[2.5rem_1fr] gap-x-4 gap-y-1 border-b border-[#2A2623]/15 py-5 sm:grid-cols-[2.5rem_10rem_1fr]">
+                  <span className="pt-1 text-[13px] font-medium tabular-nums tracking-[0.08em] text-[#D12126]">{String(i + 1).padStart(2, '0')}</span>
+                  <p className="serif text-[1.25rem] leading-snug">{title}</p>
+                  <p className="col-start-2 text-[15px] leading-relaxed text-[#6B645D] sm:col-start-3">{desc}</p>
+                </li>
+              ))}
+            </ol>
+
+            <p className="mt-10 text-[12px] uppercase tracking-[0.18em] text-[#6B645D]">{t.lookFor}</p>
+            <ul className="mt-4 grid gap-x-10 sm:grid-cols-2">
+              {t.lookItems.map((item) => (
+                <li key={item} className="flex items-start gap-3 border-b border-[#2A2623]/10 py-3.5 text-[15px] text-[#2A2623]">
+                  <span className="mt-[9px] h-px w-3 shrink-0 bg-[#D12126]" aria-hidden="true" />{item}
+                </li>
+              ))}
+            </ul>
+
+            <Link to={l('/contact')} className="group mt-10 inline-flex items-center gap-2 bg-[#2A2623] px-9 py-4 text-[12px] uppercase tracking-[0.16em] text-white hover:bg-[#D12126] transition-colors">
               {t.start}
-              <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+              <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
         </div>
