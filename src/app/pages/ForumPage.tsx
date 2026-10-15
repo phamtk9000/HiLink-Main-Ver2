@@ -19,13 +19,13 @@ const T = {
     meta: 'Guides, design notes and neighbourhood stories from HiLink workspaces in Hanoi.',
     eyebrow: 'HiLink Forum', title: 'Insights on workspace, Hanoi and how teams work',
     lead: 'Guides, design notes and stories from the HiLink workspaces.',
-    stories: 'stories', story: 'story', sections: 'Forum sections', min: 'min read', coverAlt: 'The lounge at the HiLink Business Club',
+    stories: 'stories', story: 'story', sections: 'Forum sections', min: 'min read', coverAlt: 'HiLink wallpaper and an arched mirror onto the Business Club lounge',
   },
   vi: {
     meta: 'Cẩm nang, câu chuyện thiết kế và khu phố từ các không gian HiLink tại Hà Nội.',
     eyebrow: 'Diễn đàn HiLink', title: 'Góc nhìn về không gian làm việc, Hà Nội và cách đội ngũ làm việc',
     lead: 'Cẩm nang, câu chuyện thiết kế và khu phố từ các không gian HiLink.',
-    stories: 'bài viết', story: 'bài viết', sections: 'Các mục của diễn đàn', min: 'phút đọc', coverAlt: 'Lounge tại HiLink Business Club',
+    stories: 'bài viết', story: 'bài viết', sections: 'Các mục của diễn đàn', min: 'phút đọc', coverAlt: 'Giấy dán tường HiLink và khung gương vòm nhìn vào lounge Business Club',
   },
 };
 
@@ -36,39 +36,30 @@ const ICONS = { Guide: ClipboardList, Design: DraftingCompass, Neighbourhood: Ma
 export const postDate = (iso: string, lang: 'en' | 'vi') =>
   new Date(`${iso}T00:00:00`).toLocaleDateString(lang === 'vi' ? 'vi-VN' : 'en-GB', { day: 'numeric', month: lang === 'vi' ? '2-digit' : 'short', year: 'numeric' });
 
-// The wallpaper: rings linked in pairs, with a small diamond between rows.
-const WALLPAPER = `url("data:image/svg+xml,${encodeURIComponent(
-  '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">'
-  + '<g stroke="#F06A6E" stroke-opacity=".32" stroke-width="1"><circle cx="24" cy="18" r="9"/><circle cx="36" cy="18" r="9"/></g>'
-  + '<path d="M32 44l4 4-4 4-4-4z" fill="#F06A6E" fill-opacity=".28"/>'
-  + '<path d="M0 50l2 2-2 2M64 50l-2 2 2 2" stroke="#F06A6E" stroke-opacity=".2"/></svg>',
-)}")`;
-
-/** The signature cover: masthead, a framed photograph on HiLink's wallpaper, and the sections as cover lines. */
+/** The signature cover: a generated picture of HiLink's own wallpaper (rings
+    linked in pairs) with an arched brass mirror onto the Business Club lounge
+    (PHOTO-CREDITS.md); the masthead, the sections as cover lines, and the
+    count of stories are set over it as text. */
 function Cover({ lang, count }: { lang: 'en' | 'vi'; count: number }) {
   const t = T[lang];
   return (
-    <div className="relative aspect-[4/5] lg:aspect-[3/4] overflow-hidden bg-[#361716] text-[#F8F6F1]" style={{ backgroundImage: WALLPAPER, backgroundSize: '64px 64px' }}>
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_55%,transparent_35%,rgba(27,20,18,0.55)_100%)]" aria-hidden="true" />
-      <div className="relative flex h-full flex-col p-6 lg:p-7">
-        <div className="flex items-start justify-between gap-4">
-          <p className="serif text-[3.25rem] lg:text-[3.75rem] leading-[0.9] tracking-[-0.01em]">HiLink</p>
-          <ul className="pt-2 text-right text-[10px] uppercase leading-[1.6] tracking-[0.16em] text-[#F8F6F1]/80">
-            {FORUM_CATEGORIES.map((c) => <li key={c.id}>{c[lang]}</li>)}
-          </ul>
-        </div>
-        <p className="mt-2 text-[11px] uppercase tracking-[0.24em] text-[#F06A6E]">{t.eyebrow}</p>
-        {/* the photograph, hung on the wall in an arched frame */}
-        <div className="relative mx-auto mt-6 w-[68%] flex-1 min-h-0">
-          <div className="absolute inset-0 overflow-hidden rounded-t-[999px] border border-[#F8F6F1]/60 p-[6px]">
-            <div className="h-full w-full overflow-hidden rounded-t-[999px]">
-              <img {...photo('/photos/hbc-lounge-3.webp', '(min-width: 1024px) 260px, 60vw')} alt={t.coverAlt} className="h-full w-full object-cover" />
-            </div>
+    <div className="relative aspect-[4/5] lg:aspect-[3/4] overflow-hidden bg-[#361716] text-[#F8F6F1]">
+      <img {...photo('/photos/ai-cover-forum.webp', '(min-width: 1024px) 400px, 90vw')} alt={t.coverAlt} className="absolute inset-0 h-full w-full object-cover" />
+      <div className="absolute inset-x-0 top-0 h-[30%] bg-gradient-to-b from-[#1B1412]/70 to-transparent" aria-hidden="true" />
+      <div className="absolute inset-x-0 bottom-0 h-[22%] bg-gradient-to-t from-[#1B1412]/75 to-transparent" aria-hidden="true" />
+      <div className="relative flex h-full flex-col justify-between p-6 lg:p-7">
+        <div>
+          <div className="flex items-start justify-between gap-4">
+            <p className="serif text-[3.25rem] lg:text-[3.75rem] leading-[0.9] tracking-[-0.01em]">HiLink</p>
+            <ul className="pt-2 text-right text-[10px] uppercase leading-[1.6] tracking-[0.16em] text-[#F8F6F1]/85">
+              {FORUM_CATEGORIES.map((c) => <li key={c.id}>{c[lang]}</li>)}
+            </ul>
           </div>
+          <p className="mt-2 text-[11px] uppercase tracking-[0.24em] text-[#F06A6E]">{t.eyebrow}</p>
         </div>
-        <div className="mt-6 flex items-end justify-between gap-4">
+        <div className="flex items-end justify-between gap-4">
           <p className="serif text-[1.6rem] lg:text-[1.8rem] italic leading-none">{lang === 'vi' ? 'Diễn đàn' : 'Forum'}</p>
-          <p className="text-[11px] uppercase tracking-[0.16em] text-[#F8F6F1]/80">{count} {t.stories}</p>
+          <p className="text-[11px] uppercase tracking-[0.16em] text-[#F8F6F1]/85">{count} {t.stories}</p>
         </div>
       </div>
     </div>

@@ -34,7 +34,9 @@ references, so the rooms match the real ones; the people are generated.
 | --- | --- |
 | `ai-club-lounge`, `ai-club-networking`, `ai-club-concierge`, `ai-club-reciprocal`, `ai-club-advisor`, `ai-event-dinner` | Business Club — "What membership includes" (one per benefit) |
 | `ai-club-support`, `ai-club-dining` | Business Club — business support and lifestyle services |
-| `ai-sepia-travel`, `ai-sepia-dining`, `ai-sepia-events`, `ai-sepia-lifestyle`, `ai-sepia-business`, `ai-sepia-bespoke` | Concierge — "What we can arrange" (warm sepia, seen from above, after a reference the user gave; lettering on two plaques and a car door painted out by hand; left ungraded) |
+| `ai-cc-travel`, `ai-cc-dining`, `ai-event-reception` | Concierge — the first three things we arrange (kept as before at the user's request) |
+| `ai-sepia-lifestyle`, `ai-sepia-business`, `ai-sepia-bespoke` | Concierge — the last three (warm sepia, seen from above, after a reference the user gave) |
+| `ai-cover-forum` | Forum — the signature cover (GPT Image 2.5 from a photograph of the Business Club lounge; the masthead and cover lines are set over it as text; left ungraded) |
 | `ai-cc-lifestyle` | Concierge — beside the enquiry form (heritage Indochine hotel style) |
 | `ai-team-property`, `ai-team-community`, `ai-team-advisory`, `ai-team-studio` | Careers — the four teams |
 | `ai-partner-landlords`, `ai-partner-brokers`, `ai-partner-enterprises`, `ai-partner-developers`, `ai-partner-services` | Partners — the five ways to partner (GPT Image 2.5) |
