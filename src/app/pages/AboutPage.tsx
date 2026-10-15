@@ -70,8 +70,10 @@ const TEAM_PHOTOS = ['/photos/hbc-team.webp', '/photos/hbc-host.webp', '/photos/
 const VALUE_ICONS = [Shield, Layers, Target];
 const MAPS = 'https://maps.google.com/?q=60+Ly+Thai+To,+Hoan+Kiem,+Ha+Noi';
 // The ecosystem rows (approved copy, data/aboutCopy.ts "eco"): photo and link.
-// Property Management is shown with a generated photograph of a handover (PHOTO-CREDITS.md).
-const ECO_PHOTOS = ['/photos/ai-about-property.webp', '/photos/f15-lounge.webp', '/photos/hbc-client-meeting.webp', '/photos/hbc-lounge.webp'];
+// Property Management is shown with The Quarter House, a property HiLink manages;
+// kept to its left side so the HiHomes mark in its corner shows whole.
+const ECO_CROP = ['left center', 'center', 'center', 'center'];
+const ECO_PHOTOS = ['/properties/quarter-house/qh-07.webp', '/photos/f15-lounge.webp', '/photos/hbc-client-meeting.webp', '/photos/hbc-lounge.webp'];
 const ECO_LINKS = ['/property-management', '/workspace-leasing', '/business-services', '/business-club'];
 
 export function AboutPage() {
@@ -172,7 +174,7 @@ export function AboutPage() {
               <p className="mt-6 max-w-[44ch] text-[1.0625rem] leading-[1.75] text-[#4A443F]">{a.ecoTitle}</p>
               <div className="relative mt-10 hidden lg:block aspect-[4/3] overflow-hidden rounded-[8px] bg-[#2A2623]">
                 {ECO_PHOTOS.map((src, k) => (
-                  <img key={src} loading="lazy" decoding="async" {...photo(src, '(min-width: 1024px) 38vw, 100vw')} alt="" className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-700 ${k === eco ? 'opacity-100 scale-100' : 'opacity-0 scale-[1.03]'}`} />
+                  <img key={src} loading="lazy" decoding="async" {...photo(src, '(min-width: 1024px) 38vw, 100vw')} alt="" className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-700 ${k === eco ? 'opacity-100 scale-100' : 'opacity-0 scale-[1.03]'}`} style={{ objectPosition: ECO_CROP[k] }} />
                 ))}
               </div>
             </div>
@@ -184,7 +186,7 @@ export function AboutPage() {
                   <>
                     <span className={`absolute left-0 top-[-1px] hidden lg:block h-[2px] w-full origin-left bg-[#D12126] transition-transform duration-700 ${k === eco ? 'scale-x-100' : 'scale-x-0'}`} aria-hidden="true" />
                     <div className="relative col-span-3 mb-6 aspect-[3/2] overflow-hidden rounded-[8px] bg-[#2A2623] lg:hidden">
-                      <img loading="lazy" decoding="async" {...photo(ECO_PHOTOS[k], '100vw')} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                      <img loading="lazy" decoding="async" {...photo(ECO_PHOTOS[k], '100vw')} alt="" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: ECO_CROP[k] }} />
                     </div>
                     <span className="pt-2 text-[13px] font-medium tabular-nums tracking-[0.08em] text-[#D12126]">{String(k + 1).padStart(2, '0')}</span>
                     <div>
@@ -211,8 +213,7 @@ export function AboutPage() {
 
       {/* A word from the leadership, after foraspace.com/about-fora: the
           HiLink link mark, the mission as a quote, and a photograph that
-          steps over into the next section (HiLink in numbers, so its lower
-          half stands on that section's wine ground). In Club green, from the shutters
+          steps over into white, with white space beneath it. In Club green, from the shutters
           of the HiLink Business Club. */}
       <section className="bg-[#2E3A33] text-[#F8F6F1] pt-20 lg:pt-28">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
@@ -227,13 +228,14 @@ export function AboutPage() {
             </footer>
           </blockquote>
         </div>
-        <div className="mt-20 lg:mt-24 bg-[linear-gradient(to_bottom,#2E3A33_50%,#241010_50%)]">
+        <div className="mt-20 lg:mt-24 bg-[linear-gradient(to_bottom,#2E3A33_50%,#FFFFFF_50%)]">
           <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
             <div className="relative mx-auto max-w-[1232px] aspect-[16/9] overflow-hidden rounded-[8px] bg-[#2A2623]">
               <img loading="lazy" decoding="async" {...photo('/photos/hbc-lounge-xl.webp', '(min-width: 1280px) 1232px, 100vw')} alt={t.quoteAlt} className="absolute inset-0 h-full w-full object-cover" />
             </div>
           </div>
         </div>
+        <div className="h-20 bg-white lg:h-28" aria-hidden="true" />
       </section>
 
       {/* HiLink in numbers. */}

@@ -209,14 +209,14 @@ export function ScaleWave() {
     <section ref={sectionRef} className="relative overflow-hidden bg-[#241010] text-white" aria-labelledby="hl-scale-title">
       <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12">
         <div className="relative border-x border-white/10">
-          <div className="border-b border-white/10 h-8 lg:h-10" aria-hidden="true" />
+          <div className="border-b border-white/10 h-16 lg:h-20" aria-hidden="true" />
           <div className="relative">
             {/* The silk, behind the copy, clipped by the frame. */}
             <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
               <canvas ref={canvasRef} className="absolute inset-0 opacity-0 transition-opacity duration-700" />
             </div>
 
-            <div className="relative px-6 lg:px-8 pt-10 lg:pt-14">
+            <div className="relative px-6 lg:px-8 pt-14 lg:pt-20">
               <p className="mb-6 inline-flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] text-[#FF9A8B]">
                 <Flag /> {t.eyebrow}
               </p>
