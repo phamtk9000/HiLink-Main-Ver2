@@ -24,7 +24,11 @@ The files named `public/photos/ai-*.webp` were generated with Higgsfield
 describes, not real HiLink events, staff, members or rooms, so they are never
 used to stand for a named HiLink place. Replace them with HiLink's own
 photographs when those exist. Graded with the other photographs by
-scripts/photo-grade.py (club, space or city).
+scripts/photo-grade.py (club, space or city). Those set in a HiLink interior
+(club concierge, networking and support, the private dinner, concierge dining,
+the forum coffee, three careers teams) were made with GPT Image 2.5 from
+photographs of the HiLink Business Club, The Quarter Club and Floor 15 as
+references, so the rooms match the real ones; the people are generated.
 
 | Files | Used on |
 | --- | --- |
