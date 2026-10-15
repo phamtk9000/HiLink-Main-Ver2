@@ -20,10 +20,6 @@ const META = [
   // No HiLink photograph of an industrial site yet: a stock one (PHOTO-CREDITS.md).
   { icon: <ServiceIcon path="/industrial-logistics" size={30} />, path: '/industrial-logistics', image: '/photos/stock-port.webp' },
 ];
-// Each solution's card: its ground, and whether the words on it are light.
-const CARDS = [
-  { bg: '#2A2623', light: true }, { bg: '#F4F0EA', light: false }, { bg: '#2E3A33', light: true }, { bg: '#361716', light: true }, { bg: '#1B1412', light: true },
-];
 
 const STEP_ICONS = [<ClipboardList size={22} />, <Handshake size={22} />, <Settings size={22} />, <LineChart size={22} />];
 
@@ -34,7 +30,7 @@ const T = {
     lead: 'Management, workspace, advisory and concierge — everything you need to invest and grow in Vietnam, under one roof.',
     introEyebrow: 'Everything under one roof', introTitle: 'Five solutions, one standard of excellence',
     intro: 'Clients usually start with one need and stay because HiLink can handle what comes next. Explore each solution below.',
-    explore: 'Explore', stackView: 'View property', stackPrev: 'Previous property', stackNext: 'Next property',
+    explore: 'Explore', stackLabel: 'Properties HiLink manages',
     solutions: [
       { title: 'Property Management', tag: 'Own with confidence', description: 'End-to-end management for residential, commercial, hospitality, and short-term rental assets — tenant acquisition, maintenance, rent collection, and transparent owner reporting.', points: ['Residential, commercial & hospitality assets', 'Premium tenant screening & leasing', '24/7 maintenance & concierge support', 'Monthly statements & yield optimisation'] },
       { title: 'Workspace Leasing', tag: 'Work where you thrive', description: 'Premium coworking, private offices and whole floors across six HiLink addresses in central Hanoi — bookable by the hour, day, or month, with everything a modern team needs to do their best work.', points: ['Private offices, desks & meeting rooms', 'Six locations in Hoan Kiem & Dong Da', 'Business addresses with E-office', 'Live availability & booking on hilink.vn'] },
@@ -57,7 +53,7 @@ const T = {
     lead: 'Quản lý tài sản, không gian làm việc, tư vấn và concierge — mọi điều cần để đầu tư tại Việt Nam, một đầu mối.',
     introEyebrow: 'Tất cả trong một đầu mối', introTitle: 'Năm giải pháp, một tiêu chuẩn xuất sắc',
     intro: 'Khách hàng thường bắt đầu với một nhu cầu và ở lại vì HiLink lo được mọi việc tiếp theo. Khám phá từng giải pháp bên dưới.',
-    explore: 'Khám phá', stackView: 'Xem chi tiết', stackPrev: 'Bất động sản trước', stackNext: 'Bất động sản tiếp theo',
+    explore: 'Khám phá', stackLabel: 'Bất động sản HiLink quản lý',
     solutions: [
       { title: 'Quản lý bất động sản', tag: 'Sở hữu an tâm', description: 'Quản lý trọn gói cho bất động sản nhà ở, thương mại, khách sạn và cho thuê ngắn hạn — tìm khách thuê, bảo trì, thu tiền thuê và báo cáo minh bạch cho chủ sở hữu.', points: ['Bất động sản nhà ở, thương mại & khách sạn', 'Sàng lọc khách thuê & cho thuê', 'Bảo trì & hỗ trợ concierge 24/7', 'Báo cáo hàng tháng & tối ưu lợi suất'] },
       { title: 'Cho thuê văn phòng', tag: 'Làm việc ở nơi bạn phát triển', description: 'Coworking, văn phòng riêng và nguyên sàn tại sáu địa chỉ HiLink giữa trung tâm Hà Nội — đặt theo giờ, ngày hoặc tháng, với mọi thứ một đội ngũ hiện đại cần để làm việc tốt nhất.', points: ['Văn phòng riêng, chỗ ngồi & phòng họp', 'Sáu địa điểm tại Hoàn Kiếm & Đống Đa', 'Địa chỉ doanh nghiệp với E-office', 'Xem phòng trống & đặt chỗ trên hilink.vn'] },
@@ -161,57 +157,50 @@ export function SolutionsPage() {
         </div>
       </section>
 
-      {/* The solutions as large cards, one after another. Each: its number,
-          name and promise, what it covers, the way in, and a photograph. */}
-      <section id="solutions" className="relative bg-white pb-24 lg:pb-32">
-        <div ref={stack} className="max-w-[1600px] mx-auto px-6 lg:px-12">
+      {/* The solutions, after the workspace page on neuehouse.com: a row for
+          each, between hairlines that run the width of the page — the
+          photograph over two thirds (Property Management: the managed
+          properties, stacked and turning), the words over one third, ruled
+          off; the photograph changes sides from one row to the next. */}
+      <section id="solutions" className="relative bg-white pb-24 lg:pb-32 hl-no-rule">
+        <div ref={stack} className="border-t border-[#2A2623]/25">
           {solutions.map((s, i) => {
-            const c = CARDS[i], on = c.light ? 'text-[#F8F6F1]' : 'text-[#2A2623]', soft = c.light ? 'text-[#F8F6F1]/85' : 'text-[#4A443F]', rule = c.light ? 'border-white/15' : 'border-[#2A2623]/12';
+            const flip = i % 2 === 1;
             return (
               <Fragment key={s.path}>
                 <div id={`solution-${i}`} data-mark className="scroll-mt-[76px] lg:scroll-mt-[184px]" aria-hidden="true" />
-                <div className={i < solutions.length - 1 ? 'mb-6 lg:mb-8' : ''}>
-                  <article className="relative overflow-hidden rounded-[20px] [display:grid] lg:grid-cols-12 lg:min-h-[600px]" style={{ backgroundColor: c.bg }}>
-                    <div className={`relative z-10 flex flex-col p-7 sm:p-10 lg:col-span-7 lg:p-14 ${on}`}>
-                      <div className="flex items-start justify-between gap-6">
-                        <p className={`serif lining-nums leading-none text-[3.25rem] lg:text-[4.5rem] ${c.light ? 'text-[#F06A6E]' : 'text-[#D12126]'}`}>
-                          {String(i + 1).padStart(2, '0')}<span className={`ml-2 align-top text-[13px] tracking-[0.14em] ${soft}`}>/ {String(solutions.length).padStart(2, '0')}</span>
-                        </p>
-                        <span className={`grid h-14 w-14 shrink-0 place-items-center rounded-full border ${c.light ? 'border-white/25 text-[#F06A6E]' : 'border-[#2A2623]/15 text-[#D12126]'}`}>{s.icon}</span>
-                      </div>
-                      <p className={`mt-8 lg:mt-auto text-[12px] uppercase tracking-[0.2em] ${c.light ? 'text-[#F8F6F1]/80' : 'text-[#D12126]'}`}>{s.tag}</p>
-                      <h3 className={`serif hl-stack-title mt-3 ${on}`}>{s.title}</h3>
-                      <p className={`mt-5 max-w-[58ch] text-[1.0625rem] leading-relaxed ${soft}`}>{s.description}</p>
-                      <ul className={`mt-7 grid sm:grid-cols-2 border-t ${rule}`}>
-                        {s.points.map((pt) => (
-                          <li key={pt} className={`flex items-start gap-3 border-b py-3.5 text-[15px] leading-snug sm:odd:pr-6 ${rule}`}>
-                            <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#F06A6E]" aria-hidden="true" />{pt}
-                          </li>
-                        ))}
-                      </ul>
-                      <Link to={l(s.path)} className={`group mt-8 inline-flex w-fit items-center gap-3 rounded-full px-6 py-3.5 text-[12.5px] font-semibold uppercase tracking-[0.08em] transition-colors ${c.light ? 'bg-[#F8F6F1] text-[#2A2623] hover:bg-white' : 'bg-[#2A2623] text-white hover:bg-[#D12126]'}`}>
-                        {t.explore} {s.title} <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
-                      </Link>
-                    </div>
+                <article className="[display:grid] grid-cols-[minmax(0,1fr)] border-b border-[#2A2623]/25 lg:grid-cols-3">
+                  <div className={`p-4 sm:p-6 lg:col-span-2 lg:p-[25px] ${flip ? 'lg:order-2' : ''}`}>
                     {i === 0 ? (
-                      // Property Management: the properties HiLink manages and how they are doing, turning one after another.
-                      <div className="relative overflow-hidden bg-[#1B1412] px-5 pb-6 pt-4 sm:px-8 lg:col-span-5 lg:px-10 lg:pb-8 lg:pt-6">
-                        <div className="h-full">
-                          <PropertyStack
-                            view={t.stackView}
-                            prev={t.stackPrev}
-                            next={t.stackNext}
-                            items={PROPERTIES[lang].map((p) => ({ ...p, to: p.slug ? l(`/workspace/${p.slug}`) : undefined, href: p.href ? ws(lang, p.href) : undefined, crop: p.slug === 'quarter-house' ? 'left top' : undefined }))}
-                          />
-                        </div>
+                      <div className="aspect-[4/5] sm:aspect-[4/3] lg:aspect-[910/576]">
+                        <PropertyStack
+                          label={t.stackLabel}
+                          items={PROPERTIES[lang].map((p) => ({ ...p, to: p.slug ? l(`/workspace/${p.slug}`) : undefined, href: p.href ? ws(lang, p.href) : undefined, crop: p.slug === 'quarter-house' ? 'left top' : undefined }))}
+                        />
                       </div>
                     ) : (
-                      <div className="relative min-h-[280px] sm:min-h-[380px] lg:col-span-5 lg:min-h-0">
-                        <img {...photo(s.image, '(min-width: 1024px) 40vw, 100vw')} alt={s.title} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
+                      <div className="relative aspect-[910/576] overflow-hidden bg-[#2A2623]">
+                        <img {...photo(s.image, '(min-width: 1024px) 64vw, 100vw')} alt={s.title} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
                       </div>
                     )}
-                  </article>
-                </div>
+                  </div>
+                  <div className={`flex flex-col justify-center border-[#2A2623]/25 px-6 pb-12 pt-2 sm:px-10 lg:px-[54px] lg:pb-[60px] lg:pt-[30px] ${flip ? 'lg:order-1 lg:border-r' : 'lg:border-l'}`}>
+                    <span className="text-[#D12126]" aria-hidden="true">{s.icon}</span>
+                    <h3 className="serif hl-stack-title mt-5 text-[#2A2623]">{s.title}</h3>
+                    <p className="mt-3 text-[18px] leading-snug text-[#2A2623]">{s.tag}</p>
+                    <p className="mt-5 text-[16px] leading-[1.7] text-[#4A443F]">{s.description}</p>
+                    <ul className="mt-6 space-y-2">
+                      {s.points.map((pt) => (
+                        <li key={pt} className="flex items-start gap-3 text-[14.5px] leading-snug text-[#4A443F]">
+                          <span className="mt-[9px] h-px w-3 shrink-0 bg-[#D12126]" aria-hidden="true" />{pt}
+                        </li>
+                      ))}
+                    </ul>
+                    <Link to={l(s.path)} aria-label={`${t.explore} ${s.title}`} className="mt-9 inline-flex h-[42px] w-fit items-center gap-2 border border-[#2A2623]/45 px-[25px] text-[15px] text-[#2A2623] hover:border-[#2A2623] hover:bg-[#2A2623] hover:text-white transition-colors">
+                      {t.explore} <ArrowRight size={15} />
+                    </Link>
+                  </div>
+                </article>
               </Fragment>
             );
           })}

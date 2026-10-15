@@ -1,25 +1,24 @@
-// Cards of the properties HiLink manages, stacked: the one in front fills
-// the panel it is set in (Solutions, the first card) and shows the
-// photograph, the place and how it is doing; the next two stand behind it,
-// their top edges showing above. Every few seconds the front card slides
-// away and the next comes forward. It waits while the pointer is over it or
-// it is off screen; the arrows (or a swipe) move it on by hand; reduced
-// motion shows the first card, still.
+// Cards of the properties HiLink manages, stacked (Solutions, the first
+// solution). The card in front is all photograph — its type, name, place and
+// how it is doing laid over the foot of it — and the next two stand behind,
+// their top edges showing. Every 2.2 seconds the front card slides away and
+// the next comes forward, by itself: there are no buttons (a swipe still
+// moves it on). It waits while off screen; reduced motion shows the first
+// card, still.
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
-import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { MapPin } from './Glyph';
 import { photo } from '../lib/photo';
 
 export type StackItem = { name: string; location: string; type: string; image: string; stats: string[][]; to?: string; href?: string; crop?: string };
 
 const EASE = 'cubic-bezier(0.65, 0, 0.35, 1)';
+const EVERY = 2200;
 
-export function PropertyStack({ items, view, prev, next }: { items: StackItem[]; view: string; prev: string; next: string }) {
+export function PropertyStack({ items, label }: { items: StackItem[]; label: string }) {
   const n = items.length;
   const [front, setFront] = useState(0);
   const [live, setLive] = useState(false);
-  const [held, setHeld] = useState(false);
   const box = useRef<HTMLDivElement>(null);
   const touch = useRef<number | null>(null);
   const go = (d: number) => setFront((f) => (f + d + n) % n);
@@ -32,16 +31,14 @@ export function PropertyStack({ items, view, prev, next }: { items: StackItem[];
     return () => io.disconnect();
   }, []);
   useEffect(() => {
-    if (!live || held || n < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
-    const timer = window.setTimeout(() => go(1), 4500);
+    if (!live || n < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const timer = window.setTimeout(() => go(1), EVERY);
     return () => window.clearTimeout(timer);
-  }, [front, live, held, n]);
+  }, [front, live, n]);
 
   return (
     <div
       ref={box}
-      onMouseEnter={() => setHeld(true)}
-      onMouseLeave={() => setHeld(false)}
       onTouchStart={(e) => { touch.current = e.touches[0].clientX; }}
       onTouchEnd={(e) => {
         if (touch.current == null) return;
@@ -51,56 +48,47 @@ export function PropertyStack({ items, view, prev, next }: { items: StackItem[];
       }}
       role="group"
       aria-roledescription="carousel"
-      className="flex h-full flex-col"
+      aria-label={label}
+      className="relative h-full min-h-[340px] overflow-hidden pt-6"
     >
       {/* room above for the edges of the cards behind */}
-      <div className="relative min-h-[460px] flex-1 mt-7">
+      <div className="relative h-full">
         {items.map((it, i) => {
           const d = (i - front + n) % n;
           const on = d === 0, leaving = d === n - 1 && n > 3;
-          // behind: 14px higher and 5% narrower for each place back, from the top edge
+          // behind: 12px higher and 4% narrower for each place back, from the top edge
           const style: React.CSSProperties = on
             ? { transform: 'translate(0,0) scale(1)', opacity: 1, zIndex: n + 1 }
             : leaving
-              ? { transform: 'translate(-18%, 2%) rotate(-4deg) scale(0.97)', opacity: 0, zIndex: n + 2 }
+              ? { transform: 'translate(-14%, 2%) rotate(-3deg) scale(0.97)', opacity: 0, zIndex: n + 2 }
               : d <= 2
-                ? { transform: `translateY(${-d * 14}px) scale(${1 - d * 0.05})`, opacity: 1 - d * 0.3, zIndex: n - d }
-                : { transform: 'translateY(-42px) scale(0.85)', opacity: 0, zIndex: 0 };
-          const link = 'group/v inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.18em] text-[#D12126] hover:text-[#A3181C]';
-          return (
-            <article
-              key={it.name}
-              aria-hidden={!on}
-              className="absolute inset-0 flex flex-col overflow-hidden bg-white text-[#2A2623] shadow-[0_30px_60px_-30px_rgba(0,0,0,0.55)]"
-              style={{ ...style, transformOrigin: '50% 0%', transition: `transform 0.9s ${EASE}, opacity 0.9s ${EASE}` }}
-            >
-              <div className="relative min-h-0 flex-1 overflow-hidden bg-[#2A2623]">
-                <img {...photo(it.image, '(min-width: 1024px) 560px, 90vw')} alt={on ? it.name : ''} loading={i < 2 ? 'eager' : 'lazy'} decoding="async" className="h-full w-full object-cover" style={{ objectPosition: it.crop ?? 'center' }} />
-                <span className="absolute bottom-3 left-3 bg-white/90 px-2.5 py-1 text-[10.5px] uppercase leading-[14px] tracking-[0.14em] text-[#2A2623]">{it.type}</span>
-              </div>
-              <div className="flex shrink-0 flex-col p-5 lg:p-7">
-                <h3 className="serif hl-stack-name text-[#2A2623]">{it.name}</h3>
-                <p className="mt-1.5 flex items-center gap-1.5 text-[13px] text-[#4A443F]"><MapPin size={13} className="shrink-0 text-[#D12126]" /> {it.location}</p>
-                <dl className="mt-4 flex justify-between gap-4 border-t border-[#2A2623]/12 pt-4 lg:mt-5 lg:pt-5">
+                ? { transform: `translateY(${-d * 12}px) scale(${1 - d * 0.04})`, opacity: 1 - d * 0.25, zIndex: n - d }
+                : { transform: 'translateY(-36px) scale(0.88)', opacity: 0, zIndex: 0 };
+          const inner = (
+            <>
+              <img {...photo(it.image, '(min-width: 1024px) 60vw, 100vw')} alt="" loading={i < 2 ? 'eager' : 'lazy'} decoding="async" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: it.crop ?? 'center' }} />
+              <span className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" aria-hidden="true" />
+              <span className="absolute left-4 top-4 bg-white/90 px-2.5 py-1 text-[10.5px] uppercase leading-[14px] tracking-[0.14em] text-[#2A2623] lg:left-5 lg:top-5">{it.type}</span>
+              <span className="absolute inset-x-0 bottom-0 p-5 text-white lg:p-7">
+                <span className="serif hl-stack-name block">{it.name}</span>
+                <span className="mt-1.5 flex items-center gap-1.5 text-[13px] text-white/85"><MapPin size={13} className="shrink-0" /> {it.location}</span>
+                <span className="mt-4 flex gap-6 border-t border-white/25 pt-4 sm:gap-10">
                   {it.stats.map(([label, value]) => (
-                    <div key={label} className="flex min-w-0 flex-col-reverse">
-                      <dt className="mt-1 truncate text-[11px] text-[#6B645D]">{label}</dt>
-                      <dd className="serif lining-nums truncate text-[1rem] sm:text-[1.25rem] leading-none text-[#2A2623]">{value}</dd>
-                    </div>
+                    <span key={label} className="flex min-w-0 flex-col">
+                      <span className="serif lining-nums truncate text-[1.05rem] leading-none sm:text-[1.3rem]">{value}</span>
+                      <span className="mt-1 truncate text-[11px] text-white/75">{label}</span>
+                    </span>
                   ))}
-                </dl>
-                {it.to
-                  ? <Link to={it.to} tabIndex={on ? 0 : -1} className={`${link} mt-5`}>{view} <ArrowRight size={14} className="transition-transform group-hover/v:translate-x-0.5" /></Link>
-                  : <a href={it.href} target="_blank" rel="noopener noreferrer" tabIndex={on ? 0 : -1} className={`${link} mt-5`}>{view} <ArrowUpRight size={14} /></a>}
-              </div>
-            </article>
+                </span>
+              </span>
+            </>
           );
+          const cls = 'absolute inset-0 block overflow-hidden rounded-[6px] bg-[#2A2623] shadow-[0_24px_50px_-28px_rgba(0,0,0,0.6)]';
+          const motion = { ...style, transformOrigin: '50% 0%', transition: `transform 0.9s ${EASE}, opacity 0.9s ${EASE}` };
+          return it.to
+            ? <Link key={it.name} to={it.to} aria-hidden={!on} tabIndex={on ? 0 : -1} aria-label={on ? it.name : undefined} className={cls} style={motion}>{inner}</Link>
+            : <a key={it.name} href={it.href} target="_blank" rel="noopener noreferrer" aria-hidden={!on} tabIndex={on ? 0 : -1} aria-label={on ? it.name : undefined} className={cls} style={motion}>{inner}</a>;
         })}
-      </div>
-      <div className="mt-6 flex items-center justify-center gap-4 text-white">
-        <button type="button" onClick={() => go(-1)} aria-label={prev} className="grid h-10 w-10 place-items-center rounded-full border border-white/30 hover:border-white transition-colors"><ArrowLeft size={16} /></button>
-        <p className="min-w-[4rem] text-center text-[13px] tabular-nums tracking-[0.14em] text-white/80" aria-live="polite">{front + 1} / {n}</p>
-        <button type="button" onClick={() => go(1)} aria-label={next} className="grid h-10 w-10 place-items-center rounded-full border border-white/30 hover:border-white transition-colors"><ArrowRight size={16} /></button>
       </div>
     </div>
   );
