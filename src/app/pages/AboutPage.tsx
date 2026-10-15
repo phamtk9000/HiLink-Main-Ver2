@@ -70,7 +70,8 @@ const TEAM_PHOTOS = ['/photos/hbc-team.webp', '/photos/hbc-host.webp', '/photos/
 const VALUE_ICONS = [Shield, Layers, Target];
 const MAPS = 'https://maps.google.com/?q=60+Ly+Thai+To,+Hoan+Kiem,+Ha+Noi';
 // The ecosystem rows (approved copy, data/aboutCopy.ts "eco"): photo and link.
-const ECO_PHOTOS = ['/photos/f19-window.webp', '/photos/f15-lounge.webp', '/photos/hbc-client-meeting.webp', '/photos/hbc-lounge.webp'];
+// Property Management is shown with a generated photograph of a handover (PHOTO-CREDITS.md).
+const ECO_PHOTOS = ['/photos/ai-about-property.webp', '/photos/f15-lounge.webp', '/photos/hbc-client-meeting.webp', '/photos/hbc-lounge.webp'];
 const ECO_LINKS = ['/property-management', '/workspace-leasing', '/business-services', '/business-club'];
 
 export function AboutPage() {
@@ -210,7 +211,8 @@ export function AboutPage() {
 
       {/* A word from the leadership, after foraspace.com/about-fora: the
           HiLink link mark, the mission as a quote, and a photograph that
-          steps over into the next section. In Club green, from the shutters
+          steps over into the next section (HiLink in numbers, so its lower
+          half stands on that section's wine ground). In Club green, from the shutters
           of the HiLink Business Club. */}
       <section className="bg-[#2E3A33] text-[#F8F6F1] pt-20 lg:pt-28">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
@@ -225,23 +227,12 @@ export function AboutPage() {
             </footer>
           </blockquote>
         </div>
-        <div className="mt-20 lg:mt-24 bg-[linear-gradient(to_bottom,#2E3A33_50%,#FFFFFF_50%)]">
+        <div className="mt-20 lg:mt-24 bg-[linear-gradient(to_bottom,#2E3A33_50%,#241010_50%)]">
           <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
             <div className="relative mx-auto max-w-[1232px] aspect-[16/9] overflow-hidden rounded-[8px] bg-[#2A2623]">
               <img loading="lazy" decoding="async" {...photo('/photos/hbc-lounge-xl.webp', '(min-width: 1280px) 1232px, 100vw')} alt={t.quoteAlt} className="absolute inset-0 h-full w-full object-cover" />
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Vision: the mission is the quote above, so the vision stands alone. */}
-      <section className="relative bg-white pt-16 pb-20 lg:pt-20 lg:pb-28">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-8">
-          <p className="lg:col-span-3 flex items-baseline gap-4 text-[12px] uppercase tracking-[0.2em] text-[#D12126]">
-            <span className="serif text-[2.5rem] leading-none tracking-normal text-[#D12126]/25" aria-hidden="true">01</span>
-            {a.visionLbl}
-          </p>
-          <p className="serif lg:col-span-8 lg:col-start-5 text-[1.55rem] lg:text-[2.2rem] leading-[1.28] text-[#2A2623]">{a.vision}</p>
         </div>
       </section>
 

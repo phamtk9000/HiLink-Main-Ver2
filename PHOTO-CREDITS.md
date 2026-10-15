@@ -36,3 +36,4 @@ references, so the rooms match the real ones; the people are generated.
 | `ai-team-property`, `ai-team-community`, `ai-team-advisory`, `ai-team-studio` | Careers — the four teams; community, property and advisory also on Property Management ("Full-Service Management") |
 | `ai-partner-landlords`, `ai-partner-brokers`, `ai-partner-enterprises`, `ai-partner-developers`, `ai-partner-services` | Partners — the five ways to partner (GPT Image 2.5); landlords and brokers also on Property Management |
 | `ai-forum-*` (10) | Forum — the cover of each article (Home carousel, forum list, article page) |
+| `ai-about-property` | About — Property Management in the ecosystem (Soul 2.0; a film border cropped off) |
