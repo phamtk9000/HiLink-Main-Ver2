@@ -23,7 +23,10 @@ import { PROPERTIES } from '../data/managedProperties';
 
 // The service grid: the large photograph, then one for each part of the
 // service (the order of T.services). Stock photographs (see PHOTO-CREDITS.md).
-const SERVICE_PHOTOS = ['/photos/stock-skyline.webp', '/photos/stock-keys.webp', '/photos/stock-facade.webp', '/photos/stock-maintenance.webp', '/photos/stock-report.webp'];
+// One set, alike in people, light and grade (generated; PHOTO-CREDITS.md):
+// owner and operator on an empty floor, a welcome at reception, a broker
+// showing an office, a building check, advisers over the figures.
+const SERVICE_PHOTOS = ['/photos/ai-partner-landlords.webp', '/photos/ai-team-community.webp', '/photos/ai-partner-brokers.webp', '/photos/ai-team-property.webp', '/photos/ai-team-advisory.webp'];
 // (no glyph twice: a house, a floor plan, a cup, a stack of plans)
 const TYPE_ICONS = [<Home size={26} />, <LayoutDashboard size={26} />, <Coffee size={26} />, <Briefcase size={26} />];
 // What we do for home owners, one glyph each (the order of T.ownerItems):
