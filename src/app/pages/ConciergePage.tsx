@@ -5,7 +5,7 @@
 // we arrange; how a request is handled; what sets the service apart, on club
 // green; the gallery (it moves only when asked); the two houses, each with
 // its own way in; and the enquiry.
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { scrollToEl } from '../lib/motion';
@@ -15,6 +15,7 @@ import { FormSent } from '../components/FormSent';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { HONEYPOT_PROPS, honeypot, leadError, sendLead } from '../lib/lead';
 import { Flag } from '../components/Flag';
+import { HeritageCorners } from '../components/HeritageCorners';
 import { photo } from '../lib/photo';
 
 const HERO = ['/photos/hbc-reception.webp', '/photos/hbc-lounge-5.webp', '/photos/qc-bar-2.webp'];
@@ -24,7 +25,7 @@ const FORM_PHOTO = '/photos/ai-cc-lifestyle.webp';
 // generated (PHOTO-CREDITS.md); lifestyle in warm sepia seen from above,
 // after a reference the user gave.
 const SERVICE_PHOTOS = ['/photos/ai-cc-travel.webp', '/photos/ai-cc-dining.webp', '/photos/ai-event-reception.webp', '/photos/ai-sepia-lifestyle.webp', '/photos/ai-cc-assistant.webp', '/photos/ai-cc-bespoke.webp'];
-const HOUSE_PHOTOS = ['/photos/hbc-lounge-3.webp', '/photos/qc-lounge.webp'];
+const HOUSE_PHOTOS = ['/photos/hbc-lounge-3.webp', '/photos/qc-room-2.webp'];
 // Each house's own place on the Business Club page.
 const HOUSE_LINKS = ['/business-club#obc', '/business-club#club-tqk'];
 const HBC = 'HiLink Business Club', QC = 'The Quarter Club';
@@ -163,9 +164,10 @@ export function ConciergePage() {
         </div>
       </section>
 
-      {/* The idea, in one centred statement. */}
-      <section className="relative py-24 lg:py-32 bg-white">
-        <div className="max-w-[720px] mx-auto px-6 text-center">
+      {/* The idea, in one centred statement, between two corner ornaments. */}
+      <section className="relative py-28 lg:py-40 bg-white">
+        <HeritageCorners />
+        <div className="relative max-w-[720px] mx-auto px-10 sm:px-6 text-center">
           <h2 className="serif hl-statement-lg text-[#2A2623]">{t.philTitle}</h2>
           <p className="mt-6 text-[15px] lg:text-[16px] leading-[1.75] text-[#4A443F]">{t.phil}</p>
         </div>
@@ -239,21 +241,28 @@ export function ConciergePage() {
         <Showcase shots={SHOWCASE} prev={t.prev} next={t.next} autoplay={false} />
       </section>
 
-      {/* The two houses where the service is delivered. */}
+      {/* The two houses where the service is delivered, as on foraspace.com
+          (About): two photographs side by side with no gap, rounded at the
+          outer corners only, each with its name, a line and the way in laid
+          over the foot of it in light type. One above the other on phones. */}
       <section className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
           <RuleTitle>{t.housesTitle}</RuleTitle>
-          <div className="mt-14 lg:mt-16 grid md:grid-cols-2 gap-x-10 gap-y-14">
-            {t.houses.map(([name, address, line], k) => (
-              <Link key={name} to={l(HOUSE_LINKS[k])} className="group block outline-none focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-[#D12126]">
-                <div className="relative aspect-[3/2] overflow-hidden rounded-[8px] bg-[#2A2623]">
-                  <img loading="lazy" decoding="async" {...photo(HOUSE_PHOTOS[k], '(min-width: 768px) 46vw, 100vw')} alt={name} className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] group-hover:scale-[1.04]" />
-                </div>
-                <p className="mt-6 text-[14px] text-[#6B645D]">{address}</p>
-                <h3 className="serif hl-club-caption mt-2 text-[#2A2623] transition-colors duration-200 group-hover:text-[#D12126]">{name}</h3>
-                <p className="mt-3 max-w-[46ch] text-[15px] leading-[1.7] text-[#4A443F]">{line}</p>
-                <span className="mt-5 inline-flex items-center gap-2 border-b border-[#D12126]/40 pb-1 text-[12px] uppercase tracking-[0.16em] text-[#D12126] transition-colors duration-200 group-hover:border-[#D12126]">
-                  {t.houseLinks[k]} <ArrowUpRight size={14} className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          <div className="mx-auto mt-14 flex max-w-[1152px] flex-col md:flex-row lg:mt-16">
+            {t.houses.map(([name, , line], k) => (
+              <Link
+                key={name}
+                to={l(HOUSE_LINKS[k])}
+                className={`group relative block h-[440px] overflow-hidden bg-[#2A2623] outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D12126] md:h-[460px] md:flex-1 lg:h-[530px] ${k === 0 ? 'rounded-t-[8px] md:rounded-r-none md:rounded-l-[8px]' : 'rounded-b-[8px] md:rounded-l-none md:rounded-r-[8px]'}`}
+              >
+                <img loading="lazy" decoding="async" {...photo(HOUSE_PHOTOS[k], '(min-width: 768px) 576px, 100vw')} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] group-hover:scale-[1.03]" />
+                <span className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent" aria-hidden="true" />
+                <span className="absolute inset-x-0 bottom-0 px-6 pb-8 text-[#F3F0E7] sm:px-10 lg:px-20 lg:pb-10">
+                  <span className="block text-[1.5rem] leading-[1.25] lg:text-[1.7rem]">{name}</span>
+                  <span className="mt-3.5 block max-w-[416px] text-[14px] leading-[1.5] text-[#F3F0E7]/90">{line}</span>
+                  <span className="mt-4 inline-flex items-center gap-3 text-[15px] lg:text-[16px]">
+                    {t.houseLinks[k]} <ArrowRight size={18} strokeWidth={1.5} className="transition-transform duration-300 group-hover:translate-x-1" />
+                  </span>
                 </span>
               </Link>
             ))}

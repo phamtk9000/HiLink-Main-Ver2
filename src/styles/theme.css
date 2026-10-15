@@ -569,6 +569,22 @@ main section[class*="bg-[#F4F0EA]"]::before {
   .hl-sent__in { animation: none; }
 }
 
+/* Corner ornaments (components/HeritageCorners.tsx): in from the corner, then
+   the rules draw, slowly and evenly; the red points last. */
+.hl-corner { position: absolute; width: 92px; height: 92px; opacity: 0; transform: translate(-14px, -14px); transition: opacity 1.4s ease, transform 1.8s cubic-bezier(0.65, 0, 0.35, 1); }
+@media (min-width: 1024px) { .hl-corner { width: 148px; height: 148px; } }
+.hl-corner--end { transform: translate(14px, 14px); transition-delay: 0.35s; }
+.hl-corner__line { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 2.4s cubic-bezier(0.65, 0, 0.35, 1) 0.2s; }
+.hl-corner--end .hl-corner__line { transition-delay: 0.55s; }
+.hl-corner__gem { opacity: 0; transition: opacity 0.8s ease 1.9s; }
+.hl-corner--end .hl-corner__gem { transition-delay: 2.25s; }
+.is-in > .hl-corner { opacity: 1; transform: none; }
+.is-in .hl-corner__line { stroke-dashoffset: 0; }
+.is-in .hl-corner__gem { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .hl-corner, .hl-corner__line, .hl-corner__gem { transition: none; }
+}
+
 /* A page arriving (RootLayout): it fades in. */
 .hl-page-in { animation: hl-page-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
 @keyframes hl-page-in { from { opacity: 0; } to { opacity: 1; } }
