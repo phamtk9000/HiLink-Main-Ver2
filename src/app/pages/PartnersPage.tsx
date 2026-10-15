@@ -177,7 +177,7 @@ export function PartnersPage() {
                   type="button"
                   aria-selected={k === path}
                   onClick={() => setPath(k)}
-                  className={`group shrink-0 lg:w-full text-left flex items-center justify-between gap-4 px-5 py-3 lg:px-6 lg:py-6 border lg:border-0 lg:border-b border-[#2A2623]/15 transition-colors ${k === path ? 'border-[#2A2623] bg-[#2A2623] text-white lg:bg-[#F8F6F1] lg:text-[#2A2623] lg:shadow-[inset_2px_0_0_#D12126]' : 'text-[#6B645D] hover:text-[#2A2623] lg:hover:bg-[#F8F6F1]/60'}`}
+                  className={`group shrink-0 lg:w-full text-left flex items-center justify-between gap-4 px-5 py-3 lg:px-6 lg:py-6 border lg:border-0 lg:border-b border-[#2A2623]/15 transition-all duration-500 ease-out ${k === path ? 'border-[#2A2623] bg-[#2A2623] text-white lg:bg-[#F8F6F1] lg:text-[#2A2623] lg:shadow-[inset_2px_0_0_#D12126]' : 'text-[#6B645D] hover:text-[#2A2623] lg:hover:bg-[#F8F6F1]/60'}`}
                 >
                   <span>
                     <span className={`hidden lg:block text-[12px] uppercase tracking-[0.18em] mb-1.5 ${k === path ? 'text-[#D12126]' : 'text-[#6B645D]/80'}`}>{p.tag}</span>
@@ -188,83 +188,97 @@ export function PartnersPage() {
               ))}
             </div>
 
-            <div role="tabpanel" key={cur.id} className="lg:col-span-8">
+            {/* As on Business Services: the photographs lie on top of one
+                another and cross-fade, and the words rise in softly each time
+                the tab changes. */}
+            <div role="tabpanel" className="lg:col-span-8">
               <div className="relative aspect-[2/1] overflow-hidden rounded-[8px] bg-[#2A2623]">
-                <img loading="lazy" decoding="async" {...photo(PATH_PHOTOS[path], '(min-width: 1024px) 62vw, 100vw')} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                {PATH_PHOTOS.map((src, n) => (
+                  <img
+                    key={src}
+                    loading="lazy"
+                    decoding="async"
+                    {...photo(src, '(min-width: 1024px) 62vw, 100vw')}
+                    alt=""
+                    className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${n === path ? 'opacity-100 scale-100' : 'opacity-0 scale-[1.04]'}`}
+                  />
+                ))}
               </div>
-              {cur.line && <p className="serif mt-8 text-[1.45rem] lg:text-[1.75rem] leading-[1.3] text-[#2A2623]">{cur.line}</p>}
-              <p className="mt-5 max-w-[68ch] text-[1.0625rem] leading-[1.8] text-[#4A443F]">{cur.lead ?? fallback}</p>
+              <div key={cur.id} className="hl-fade-up">
+                {cur.line && <p className="serif mt-8 text-[1.45rem] lg:text-[1.75rem] leading-[1.3] text-[#2A2623]">{cur.line}</p>}
+                <p className="mt-5 max-w-[68ch] text-[1.0625rem] leading-[1.8] text-[#4A443F]">{cur.lead ?? fallback}</p>
 
-              {cur.stats && cur.stats.length === 1 && (
-                <dl className="mt-10 flex items-baseline gap-5 border-y border-[#2A2623]/15 py-6">
-                  <dd className="serif text-[2.5rem] lg:text-[3rem] leading-none lining-nums text-[#2A2623]">{cur.stats[0][0]}</dd>
-                  <dt className="text-[14px] leading-snug text-[#4A443F]">{cur.stats[0][1]}</dt>
-                </dl>
-              )}
-              {cur.stats && cur.stats.length > 1 && (
-                <dl className="mt-10 grid grid-cols-3 border-y border-[#2A2623]/15">
-                  {cur.stats.map(([n, label], k) => (
-                    <div key={label} className={`py-7 text-center ${k ? 'border-l border-[#2A2623]/15' : ''}`}>
-                      <dd className="serif text-[2rem] sm:text-[2.75rem] lg:text-[3.25rem] leading-none lining-nums text-[#2A2623]">{n}</dd>
-                      <dt className="mt-3 px-2 text-[12px] sm:text-[13px] leading-snug text-[#2A2623]">{label}</dt>
-                    </div>
-                  ))}
-                </dl>
-              )}
-
-              {cur.props && (
-                <div className="mt-10">
-                  <p className="text-[12px] uppercase tracking-[0.18em] text-[#6B645D]">{t.whyLbl}</p>
-                  <dl className="mt-4 grid sm:grid-cols-2 gap-x-12 border-t border-[#2A2623]/15">
-                    {cur.props.map(([title, d]) => (
-                      <div key={title} className="border-b border-[#2A2623]/15 py-5">
-                        <dt className="serif text-[1.2rem] text-[#2A2623]">{title}</dt>
-                        <dd className="mt-1.5 text-[15px] leading-relaxed text-[#6B645D]">{d}</dd>
-                      </div>
-                    ))}
+                {cur.stats && cur.stats.length === 1 && (
+                  <dl className="mt-10 flex items-baseline gap-5 border-y border-[#2A2623]/15 py-6">
+                    <dd className="serif text-[2.5rem] lg:text-[3rem] leading-none lining-nums text-[#2A2623]">{cur.stats[0][0]}</dd>
+                    <dt className="text-[14px] leading-snug text-[#4A443F]">{cur.stats[0][1]}</dt>
                   </dl>
-                </div>
-              )}
-
-              {cur.steps && (
-                <div className="mt-10">
-                  <p className="text-[12px] uppercase tracking-[0.18em] text-[#6B645D]">{t.howLbl}</p>
-                  <ol className="mt-4 grid sm:grid-cols-3 gap-x-8 gap-y-6">
-                    {cur.steps.map(([title, d], k) => (
-                      <li key={title} className="border-t border-[#2A2623]/20 pt-4">
-                        <span className="text-[13px] font-medium tabular-nums tracking-[0.08em] text-[#D12126]">{String(k + 1).padStart(2, '0')}</span>
-                        <p className="serif mt-1 text-[1.2rem] text-[#2A2623]">{title}</p>
-                        <p className="mt-1.5 text-[15px] leading-relaxed text-[#6B645D]">{d}</p>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              )}
-
-              {cur.table && (
-                <div className="mt-10">
-                  <p className="text-[12px] uppercase tracking-[0.18em] text-[#6B645D]">{cur.table.title}</p>
-                  <p className="mt-2 max-w-[68ch] text-[15px] leading-relaxed text-[#6B645D]">{cur.table.lead}</p>
-                  <dl className="mt-4 border-t border-[#2A2623]/15">
-                    {cur.table.rows.map(([label, value]) => (
-                      <div key={label} className="grid sm:grid-cols-[12rem_1fr] gap-x-8 gap-y-1 border-b border-[#2A2623]/15 py-4">
-                        <dt className="serif text-[1.1rem] text-[#2A2623]">{label}</dt>
-                        <dd className="text-[15px] leading-relaxed text-[#4A443F]">{value}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              )}
-
-              <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
-                <Link to={l('/contact')} className="group inline-flex items-center gap-2 px-8 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#A3181C] transition-colors">
-                  {t.talk} <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
-                {cur.href && (
-                  <a href={ws(lang, cur.href)} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 border-b border-[#D12126]/40 pb-1 text-[12px] uppercase tracking-[0.18em] text-[#D12126] hover:border-[#D12126] transition-colors">
-                    {t.more} <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </a>
                 )}
+                {cur.stats && cur.stats.length > 1 && (
+                  <dl className="mt-10 grid grid-cols-3 border-y border-[#2A2623]/15">
+                    {cur.stats.map(([n, label], k) => (
+                      <div key={label} className={`py-7 text-center ${k ? 'border-l border-[#2A2623]/15' : ''}`}>
+                        <dd className="serif text-[2rem] sm:text-[2.75rem] lg:text-[3.25rem] leading-none lining-nums text-[#2A2623]">{n}</dd>
+                        <dt className="mt-3 px-2 text-[12px] sm:text-[13px] leading-snug text-[#2A2623]">{label}</dt>
+                      </div>
+                    ))}
+                  </dl>
+                )}
+
+                {cur.props && (
+                  <div className="mt-10">
+                    <p className="text-[12px] uppercase tracking-[0.18em] text-[#6B645D]">{t.whyLbl}</p>
+                    <dl className="mt-4 grid sm:grid-cols-2 gap-x-12 border-t border-[#2A2623]/15">
+                      {cur.props.map(([title, d]) => (
+                        <div key={title} className="border-b border-[#2A2623]/15 py-5">
+                          <dt className="serif text-[1.2rem] text-[#2A2623]">{title}</dt>
+                          <dd className="mt-1.5 text-[15px] leading-relaxed text-[#6B645D]">{d}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                )}
+
+                {cur.steps && (
+                  <div className="mt-10">
+                    <p className="text-[12px] uppercase tracking-[0.18em] text-[#6B645D]">{t.howLbl}</p>
+                    <ol className="mt-4 grid sm:grid-cols-3 gap-x-8 gap-y-6">
+                      {cur.steps.map(([title, d], k) => (
+                        <li key={title} className="border-t border-[#2A2623]/20 pt-4">
+                          <span className="text-[13px] font-medium tabular-nums tracking-[0.08em] text-[#D12126]">{String(k + 1).padStart(2, '0')}</span>
+                          <p className="serif mt-1 text-[1.2rem] text-[#2A2623]">{title}</p>
+                          <p className="mt-1.5 text-[15px] leading-relaxed text-[#6B645D]">{d}</p>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                )}
+
+                {cur.table && (
+                  <div className="mt-10">
+                    <p className="text-[12px] uppercase tracking-[0.18em] text-[#6B645D]">{cur.table.title}</p>
+                    <p className="mt-2 max-w-[68ch] text-[15px] leading-relaxed text-[#6B645D]">{cur.table.lead}</p>
+                    <dl className="mt-4 border-t border-[#2A2623]/15">
+                      {cur.table.rows.map(([label, value]) => (
+                        <div key={label} className="grid sm:grid-cols-[12rem_1fr] gap-x-8 gap-y-1 border-b border-[#2A2623]/15 py-4">
+                          <dt className="serif text-[1.1rem] text-[#2A2623]">{label}</dt>
+                          <dd className="text-[15px] leading-relaxed text-[#4A443F]">{value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                )}
+
+                <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+                  <Link to={l('/contact')} className="group inline-flex items-center gap-2 px-8 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#A3181C] transition-colors">
+                    {t.talk} <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                  {cur.href && (
+                    <a href={ws(lang, cur.href)} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 border-b border-[#D12126]/40 pb-1 text-[12px] uppercase tracking-[0.18em] text-[#D12126] hover:border-[#D12126] transition-colors">
+                      {t.more} <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           </div>
