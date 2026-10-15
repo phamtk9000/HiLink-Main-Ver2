@@ -5,9 +5,14 @@ import { CONTACT } from '../data/site';
 
 export type LeadKind = 'contact' | 'consultation' | 'rental' | 'concierge';
 
+// The hidden anti-spam field. Its name means nothing to a browser, so autofill
+// leaves it empty. One called "website" could be filled with a saved URL; the
+// endpoint would then take the visitor for a bot, answer "sent" and send nothing.
+const TRAP = 'hl_ref_code';
+
 /** Value of the hidden anti-spam field, if a bot filled it. */
 export const honeypot = (form: HTMLFormElement | null | undefined) =>
-  (form?.elements.namedItem('website') as HTMLInputElement | null)?.value ?? '';
+  (form?.elements.namedItem(TRAP) as HTMLInputElement | null)?.value ?? '';
 
 const toBase64 = (file: File) =>
   new Promise<string>((resolve, reject) => {
@@ -41,9 +46,11 @@ export const leadError = (lang: 'en' | 'vi') =>
 /** Hidden field people never see or fill; bots usually do. */
 export const HONEYPOT_PROPS = {
   type: 'text',
-  name: 'website',
+  name: TRAP,
   tabIndex: -1,
   autoComplete: 'off',
+  'data-1p-ignore': true,
+  'data-lpignore': 'true',
   'aria-hidden': true,
   className: 'absolute -left-[9999px] h-0 w-0 opacity-0',
 } as const;
