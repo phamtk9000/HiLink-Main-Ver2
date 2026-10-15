@@ -45,7 +45,6 @@ const T = {
     ],
     learn: 'Learn More', all: 'All Services', allTitle: 'Explore the full HiLink ecosystem', allCta: 'View All Services',
     prjEyebrow: 'HiLink Workspaces · Ha Noi', prjTitle: 'Our Locations',
-    prjLead: 'Six addresses in Hoan Kiem and Dong Da — from a lakeside club to whole floors above the city.',
     soon: 'Opening soon', prev: 'Previous', next: 'Next',
     whyEyebrow: 'Why HiLink', whyTitle: 'Trusted by international clients across Asia',
     whyBody: 'We understand cross-border investment, and our bilingual team serves every client transparently and personally.',
@@ -73,7 +72,6 @@ const T = {
     ],
     learn: 'Tìm hiểu thêm', all: 'Tất cả dịch vụ', allTitle: 'Khám phá hệ sinh thái HiLink', allCta: 'Xem tất cả dịch vụ',
     prjEyebrow: 'HiLink Workspaces · Hà Nội', prjTitle: 'Các địa điểm',
-    prjLead: 'Sáu địa chỉ tại Hoàn Kiếm và Đống Đa — từ câu lạc bộ bên hồ đến những sàn trên cao.',
     soon: 'Sắp mở', prev: 'Trước', next: 'Sau',
     whyEyebrow: 'Vì sao chọn HiLink', whyTitle: 'Được khách hàng quốc tế khắp châu Á tin tưởng',
     whyBody: 'Chúng tôi hiểu những phức tạp của đầu tư xuyên biên giới, với đội ngũ song ngữ phục vụ minh bạch, tận tâm.',
@@ -237,9 +235,6 @@ export function HomePage() {
               </p>
               <h2 className="serif text-4xl lg:text-6xl leading-none">{t.prjTitle}</h2>
             </div>
-            <p className="max-w-sm text-[#6B645D] leading-relaxed text-[15px]">
-              {t.prjLead}
-            </p>
           </div>
         </div>
         <PlaceRail
