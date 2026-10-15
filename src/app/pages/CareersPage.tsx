@@ -9,21 +9,14 @@ import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { photo } from '../lib/photo';
 import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
+import { LifeCollage } from '../components/LifeCollage';
+import { ValueTiles } from '../components/ValueTiles';
 
 const VALUE_ICONS = [<Heart size={26} />, <GraduationCap size={26} />, <Globe2 size={26} />, <Sparkles size={26} />, <Scale size={26} />, <Compass size={26} />];
 
 // One photograph per team (Teams at HiLink).
 // Generated photographs of the kind of work each team does (PHOTO-CREDITS.md).
 const TEAM_PHOTOS = ['/photos/ai-team-property.webp', '/photos/ai-team-community.webp', '/photos/ai-team-advisory.webp', '/photos/ai-team-studio.webp'];
-
-const gallery = [
-  '/photos/hbc-lounge-2.webp',
-  '/photos/f15-lounge.webp',
-  '/photos/hbc-host.webp',
-  '/photos/f15-meeting-pod.webp',
-  '/photos/hbc-reception.webp',
-  '/photos/nc35-room.webp',
-];
 
 const T = {
   en: {
@@ -114,47 +107,17 @@ export function CareersPage() {
         </div>
       </section>
 
-      {/* Life at HiLink — gallery */}
-      <section className="relative py-24 lg:py-32 bg-white">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-14">
-            <div>
-              <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.lifeEyebrow}</p>
-              <h2 className="serif text-4xl lg:text-5xl leading-tight">{t.lifeTitle}</h2>
-            </div>
-            <p className="text-[15px] text-[#6B645D] max-w-sm">
-              {t.lifeLead}
-            </p>
-          </div>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-            {gallery.map((src, i) => (
-              <div
-                key={src}
-                className={`relative overflow-hidden rounded-[8px] ${i === 0 ? 'col-span-2 lg:col-span-2 aspect-[16/10]' : 'aspect-[4/3]'}`}
-              >
-                <img {...photo(src)} alt={t.lifeAlt} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Life at HiLink — the scattered collage (LifeCollage). */}
+      <LifeCollage eyebrow={t.lifeEyebrow} title={t.lifeTitle} lead={t.lifeLead} alt={t.lifeAlt} />
 
-      {/* Why join — values */}
+      {/* Why join — values; each tile fills with an abstract ground under the pointer (ValueTiles). */}
       <section id="why-join" className="py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="text-center mb-16">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.whyEyebrow}</p>
             <h2 className="serif text-4xl lg:text-5xl">{t.whyTitle}</h2>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#2A2623]/10">
-            {t.values.map(([title, description], i) => (
-              <div key={title} className="bg-white p-8 lg:p-10 hover:bg-[#F4F0EA] transition-colors">
-                <div className="text-[#D12126] mb-5">{VALUE_ICONS[i]}</div>
-                <h3 className="serif text-2xl mb-3">{title}</h3>
-                <p className="text-[#6B645D] leading-relaxed text-[15px]">{description}</p>
-              </div>
-            ))}
-          </div>
+          <ValueTiles items={t.values as [string, string][]} icons={VALUE_ICONS} />
         </div>
       </section>
 

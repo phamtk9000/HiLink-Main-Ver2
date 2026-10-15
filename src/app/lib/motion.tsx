@@ -37,7 +37,7 @@ type MotionLibs = {
 const RISE = 'hlRise';
 const FADE = 'hlFade';
 let libs: Promise<MotionLibs> | null = null;
-const loadMotion = () =>
+export const loadMotion = () =>
   (libs ??= Promise.all([import('gsap'), import('gsap/ScrollTrigger'), import('gsap/SplitText'), import('lenis'), import('gsap/CustomEase')]).then(
     ([g, st, sp, l, ce]) => {
       g.gsap.registerPlugin(st.ScrollTrigger, sp.SplitText, ce.CustomEase);
