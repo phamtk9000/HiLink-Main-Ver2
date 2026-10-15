@@ -9,6 +9,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { FORUM_CATEGORIES, FORUM_POSTS } from '../data/forum';
+import { glideTo } from '../lib/motion';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { ClipboardList, DraftingCompass, Handshake, MapPin } from '../components/Glyph';
@@ -71,7 +72,11 @@ export function ForumPage() {
   const t = T[lang];
   usePageMeta(t.eyebrow, t.meta);
   // The section being read: the last whose heading has passed 40% of the screen.
-  const [active, setActive] = useState(-1);
+  const [scrolled, setActive] = useState(-1);
+  // While gliding to a section chosen in the bar, its tab stays lit.
+  const [heading, setHeading] = useState(-1);
+  const headingTimer = useRef(0);
+  const active = heading >= 0 ? heading : scrolled;
   const list = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const root = list.current;
@@ -112,6 +117,7 @@ export function ForumPage() {
                   <a
                     key={c.id}
                     href={`#${c.id.toLowerCase()}`}
+                    onClick={(e) => { const ms = glideTo(e, c.id.toLowerCase()); if (ms) { setHeading(k); window.clearTimeout(headingTimer.current); headingTimer.current = window.setTimeout(() => setHeading(-1), ms); } }}
                     aria-current={on ? 'true' : undefined}
                     className={`group relative flex min-w-[8.5rem] flex-1 flex-col items-center gap-2 px-4 pb-4 pt-5 text-center transition-colors duration-300 ${on ? 'text-[#D12126]' : 'text-[#4A443F] hover:text-[#2A2623]'}`}
                   >

@@ -568,3 +568,8 @@ main section[class*="bg-[#F4F0EA]"]::before {
   .hl-sent__ring, .hl-sent__tick { animation: none; stroke-dashoffset: 0; }
   .hl-sent__in { animation: none; }
 }
+
+/* A page arriving (RootLayout): it fades in. */
+.hl-page-in { animation: hl-page-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes hl-page-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .hl-page-in { animation: none; } }

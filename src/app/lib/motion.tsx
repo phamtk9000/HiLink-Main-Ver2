@@ -63,8 +63,26 @@ export function scrollToEl(el: HTMLElement, smooth = true) {
   const margin = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
   const y = Math.max(0, el.getBoundingClientRect().top + window.scrollY - Math.max(header + 16, margin));
   const ease = smooth && !reducedMotion();
-  if (window.__lenis) window.__lenis.scrollTo(y, ease ? { duration: 1.1 } : { immediate: true, force: true });
+  // An even glide (ease in and out), longer for a longer way, 0.8–1.6s.
+  const duration = Math.min(1.6, Math.max(0.8, 0.7 + Math.abs(y - window.scrollY) / 4000));
+  const easing = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  if (window.__lenis) window.__lenis.scrollTo(y, ease ? { duration, easing, force: true } : { immediate: true, force: true });
   else window.scrollTo({ top: y, behavior: ease ? 'smooth' : 'auto' });
+}
+
+/** A click on an in-page link (a quick nav): glide to its target once, and
+    put the hash in the address without a second jump. Returns the time the
+    glide takes, in ms. */
+export function glideTo(e: { preventDefault(): void; stopPropagation(): void }, id: string) {
+  const el = document.getElementById(id);
+  if (!el) return 0;
+  e.preventDefault();
+  e.stopPropagation(); // the smooth-scroll library would otherwise start its own scroll to the anchor
+  const before = window.scrollY;
+  scrollToEl(el);
+  window.history.replaceState(window.history.state, '', `#${id}`);
+  const header = document.querySelector('header')?.getBoundingClientRect().height ?? 76;
+  return Math.min(1600, Math.max(800, 700 + Math.abs(el.getBoundingClientRect().top + before - header - before) / 4)) + 150;
 }
 
 /** Eased page scroll; on the home page it also settles on sections (wheel and trackpad only). */

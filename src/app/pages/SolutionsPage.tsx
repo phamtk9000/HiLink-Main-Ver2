@@ -7,6 +7,7 @@ import { HeroBg } from '../components/HeroBg';
 import { PropertyStack } from '../components/PropertyStack';
 import { PROPERTIES } from '../data/managedProperties';
 import { ws } from '../data/site';
+import { glideTo } from '../lib/motion';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
 import { Candles } from '../components/Candles';
@@ -79,7 +80,12 @@ export function SolutionsPage() {
   const solutions = t.solutions.map((s, i) => ({ ...s, ...META[i] }));
   // Which solution is being read, for the quick nav: the last whose place in
   // the page has passed the middle of the screen.
-  const [active, setActive] = useState(-1);
+  const [scrolled, setActive] = useState(-1);
+  // While gliding to a solution chosen in the nav, its tab stays lit (the
+  // line does not run through every tab on the way).
+  const [heading, setHeading] = useState(-1);
+  const headingTimer = useRef(0);
+  const active = heading >= 0 ? heading : scrolled;
   const stack = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const root = stack.current;
@@ -131,6 +137,7 @@ export function SolutionsPage() {
             <a
               key={s.path}
               href={`#solution-${i}`}
+              onClick={(e) => { const ms = glideTo(e, `solution-${i}`); if (ms) { setHeading(i); window.clearTimeout(headingTimer.current); headingTimer.current = window.setTimeout(() => setHeading(-1), ms); } }}
               aria-current={i === active ? 'true' : undefined}
               className={`group relative flex min-w-[9.5rem] flex-1 flex-col items-center gap-2.5 px-4 pb-[18px] pt-5 text-center transition-colors duration-300 ${i === active ? 'text-[#D12126]' : 'text-[#4A443F] hover:text-[#2A2623]'}`}
             >
