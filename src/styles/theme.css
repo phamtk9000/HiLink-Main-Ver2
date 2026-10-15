@@ -611,13 +611,7 @@ main section[class*="bg-[#F4F0EA]"]::before {
   .hl-tile__ground { transition: clip-path 0.01s; }
 }
 
-/* A handwritten line (components/LifeCollage.tsx): each line is drawn out
-   from the left, slowly, then the red stroke beneath it. */
-.hl-hand { font-family: 'Dancing Script Variable', cursive; font-weight: 500; line-height: 1.15; color: #2A2623; rotate: -3deg; }
-.hl-hand__line { clip-path: inset(-25% 100% -35% -6%); transition: clip-path 1.6s cubic-bezier(0.45, 0, 0.25, 1); }
-.hl-hand.is-in .hl-hand__line { clip-path: inset(-25% -8% -35% -6%); }
-.hl-hand__stroke { stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; transition: stroke-dashoffset 0.9s cubic-bezier(0.45, 0, 0.25, 1), opacity 0s; }
-.hl-hand.is-in .hl-hand__stroke { stroke-dashoffset: 0; opacity: 1; transition-property: stroke-dashoffset, opacity; }
-@media (prefers-reduced-motion: reduce) {
-  .hl-hand__line, .hl-hand__stroke { transition: none; }
-}
+/* A typed line's caret (components/LifeCollage.tsx). */
+.hl-caret { display: inline-block; width: 2px; height: 0.95em; margin-left: 3px; vertical-align: -0.1em; background: #D12126; animation: hl-caret 1s steps(1) infinite; }
+@keyframes hl-caret { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .hl-caret { animation: none; } }

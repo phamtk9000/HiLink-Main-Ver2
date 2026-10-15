@@ -109,7 +109,7 @@ export function CareersPage() {
       </section>
 
       {/* Life at HiLink — the scattered collage (LifeCollage), with HiLink's line
-          (approved, from the About copy) written in by hand. */}
+          (approved, from the About copy) typed out in the corner. */}
       <LifeCollage eyebrow={t.lifeEyebrow} title={t.lifeTitle} lead={t.lifeLead} alt={t.lifeAlt} quote={ABOUT[lang].howTitle} />
 
       {/* Why join — values; each tile fills with an abstract ground under the pointer (ValueTiles). */}

@@ -8,12 +8,10 @@
 // On phones the pictures stack in two columns instead (the scattered field
 // would make them too small to see).
 // The ground is a warm sand (white and the dark ground were both turned
-// down). In the empty lower right corner HiLink's line is written by hand
-// as it comes into view — each line drawn out from the left, then a red
-// stroke under it — in Dancing Script, the one handwritten face on the site
-// (it carries Vietnamese). Reduced motion keeps everything still.
+// down). In the empty lower right corner HiLink's line types itself out,
+// letter by letter behind a red caret, as it comes into view — level, in the
+// site's serif. Reduced motion keeps everything still and shows the line whole.
 import { useEffect, useRef, useState } from 'react';
-import '@fontsource-variable/dancing-script/wght.css';
 import { photo } from '../lib/photo';
 import { loadMotion } from '../lib/motion';
 import { Flag } from './Flag';
@@ -45,26 +43,35 @@ const NINE_PHOTOS = [
   '/photos/qc-dining.webp', '/photos/f19-window.webp', '/photos/f15-lounge-cabin.webp',
 ];
 
-// The line, handwritten: written out when it comes into view.
-function Handwritten({ text, className = '' }: { text: string; className?: string }) {
+// The line, typed out when it comes into view. The whole line is laid out
+// unseen underneath, so nothing moves as the letters arrive; screen readers
+// get it whole at once.
+function Typed({ text, className = '' }: { text: string; className?: string }) {
   const ref = useRef<HTMLQuoteElement>(null);
-  const [on, setOn] = useState(false);
+  const [start, setStart] = useState(false);
+  const [n, setN] = useState(0);
+  const full = text.replace(/(?<=\.)\s+/g, '\n');
   useEffect(() => {
     const el = ref.current;
     if (!el) return undefined;
-    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setOn(true); io.disconnect(); } }, { threshold: 0.6 });
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setStart(true); io.disconnect(); } }, { threshold: 0.6 });
     io.observe(el);
     return () => io.disconnect();
   }, []);
-  const lines = text.split(/(?<=\.)\s+/);
+  useEffect(() => {
+    if (!start || n >= full.length) return undefined;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setN(full.length); return undefined; }
+    // a beat longer after a full stop, as a typist would
+    const t = window.setTimeout(() => setN((k) => k + 1), n === 0 ? 300 : full[n - 1] === '\n' ? 420 : 62);
+    return () => window.clearTimeout(t);
+  }, [start, n, full]);
   return (
-    <blockquote ref={ref} className={`hl-hand ${on ? 'is-in' : ''} ${className}`}>
-      {lines.map((line, k) => (
-        <span key={line} className="hl-hand__line block" style={{ transitionDelay: `${0.2 + k * 1.5}s` }}>{line}</span>
-      ))}
-      <svg viewBox="0 0 220 14" className="mt-1 w-[62%]" fill="none" aria-hidden="true">
-        <path className="hl-hand__stroke" style={{ transitionDelay: `${0.2 + lines.length * 1.5}s` }} d="M3 9c34-6 70-7 108-4s72 4 106-3" stroke="#D12126" strokeWidth="2.4" strokeLinecap="round" pathLength={1} />
-      </svg>
+    <blockquote ref={ref} aria-label={text} className={`serif relative whitespace-pre-line leading-[1.3] text-[#2A2623] ${className}`}>
+      <span className="invisible" aria-hidden="true">{full}</span>
+      <span className="absolute inset-0" aria-hidden="true">
+        {full.slice(0, n)}
+        <span className={`hl-caret ${start ? '' : 'opacity-0'}`} />
+      </span>
     </blockquote>
   );
 }
@@ -116,7 +123,7 @@ export function LifeCollage({ eyebrow, title, lead, alt, quote }: { eyebrow: str
             <div style={{ aspectRatio: String(s.r) }}>{pic(s.src, `${Math.round(s.w)}vw`)}</div>
           </div>
         ))}
-        <Handwritten text={quote} className="absolute left-[67%] top-[85%] w-[30%] text-[clamp(1.6rem,2.35vw,2.6rem)]" />
+        <Typed text={quote} className="absolute left-[67%] top-[85%] w-[30%] text-[clamp(1.35rem,1.9vw,2.1rem)]" />
         <div data-depth={NINE.d} className="absolute" style={place(NINE)}>
           <div className="[display:grid] grid-cols-3 gap-[2px]" style={{ aspectRatio: String(NINE.r) }}>
             {NINE_PHOTOS.map((src) => <div key={src} className="min-h-0 overflow-hidden">{pic(src, '7vw')}</div>)}
@@ -132,7 +139,7 @@ export function LifeCollage({ eyebrow, title, lead, alt, quote }: { eyebrow: str
           </li>
         ))}
       </ul>
-      <Handwritten text={quote} className="mx-auto mt-12 w-fit px-6 text-[1.9rem] md:hidden" />
+      <Typed text={quote} className="mx-6 mt-12 text-[1.55rem] md:hidden" />
     </section>
   );
 }
