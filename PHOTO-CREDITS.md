@@ -33,9 +33,9 @@ references, so the rooms match the real ones; the people are generated.
 | Files | Used on |
 | --- | --- |
 | `ai-club-lounge`, `ai-club-networking`, `ai-club-concierge`, `ai-club-reciprocal`, `ai-club-advisor`, `ai-event-dinner` | Business Club — "What membership includes" (one per benefit) |
-| `ai-club-support`, `ai-club-dining` | Business Club — business support and lifestyle services |
-| `ai-cc-travel`, `ai-cc-dining`, `ai-event-reception` | Concierge — the first three things we arrange (kept as before at the user's request) |
-| `ai-sepia-lifestyle`, `ai-sepia-business`, `ai-sepia-bespoke` | Concierge — the last three (warm sepia, seen from above, after a reference the user gave) |
+| `ai-club-support`, `ai-cc-dining` | Business Club — business support and lifestyle services |
+| `ai-cc-travel`, `ai-cc-dining`, `ai-event-reception`, `ai-cc-assistant`, `ai-cc-bespoke` | Concierge — travel, dining, events, business support, bespoke requests |
+| `ai-sepia-lifestyle` | Concierge — lifestyle (warm sepia, seen from above, after a reference the user gave) |
 | `ai-cover-forum` | Forum — the signature cover (GPT Image 2.5 from a photograph of the Business Club lounge; the masthead and cover lines are set over it as text; left ungraded) |
 | `ai-cc-lifestyle` | Concierge — beside the enquiry form (heritage Indochine hotel style) |
 | `ai-team-property`, `ai-team-community`, `ai-team-advisory`, `ai-team-studio` | Careers — the four teams |

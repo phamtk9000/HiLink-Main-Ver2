@@ -5,12 +5,13 @@
 // we arrange; how a request is handled; what sets the service apart, on club
 // green; the gallery (it moves only when asked); the two houses, each with
 // its own way in; and the enquiry.
-import { ArrowRight, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { scrollToEl } from '../lib/motion';
 import { HeroFade, RuleTitle, Showcase, type Shot } from '../components/Club';
 import { CONTACT } from '../data/site';
+import { FormSent } from '../components/FormSent';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { HONEYPOT_PROPS, honeypot, leadError, sendLead } from '../lib/lead';
 import { Flag } from '../components/Flag';
@@ -20,10 +21,9 @@ const HERO = ['/photos/hbc-reception.webp', '/photos/hbc-lounge-5.webp', '/photo
 // The photograph beside the enquiry form.
 const FORM_PHOTO = '/photos/ai-cc-lifestyle.webp';
 // One photograph for each thing we arrange (the order of T.services), all
-// generated (PHOTO-CREDITS.md): the first three as before, at the user's
-// request; the last three in warm sepia seen from above, after a reference
-// the user gave.
-const SERVICE_PHOTOS = ['/photos/ai-cc-travel.webp', '/photos/ai-cc-dining.webp', '/photos/ai-event-reception.webp', '/photos/ai-sepia-lifestyle.webp', '/photos/ai-sepia-business.webp', '/photos/ai-sepia-bespoke.webp'];
+// generated (PHOTO-CREDITS.md); lifestyle in warm sepia seen from above,
+// after a reference the user gave.
+const SERVICE_PHOTOS = ['/photos/ai-cc-travel.webp', '/photos/ai-cc-dining.webp', '/photos/ai-event-reception.webp', '/photos/ai-sepia-lifestyle.webp', '/photos/ai-cc-assistant.webp', '/photos/ai-cc-bespoke.webp'];
 const HOUSE_PHOTOS = ['/photos/hbc-lounge-3.webp', '/photos/qc-lounge.webp'];
 // Each house's own place on the Business Club page.
 const HOUSE_LINKS = ['/business-club#obc', '/business-club#club-tqk'];
@@ -277,10 +277,8 @@ export function ConciergePage() {
             <h2 className="serif hl-club-title mt-4 text-[#2A2623]">{t.formTitle}</h2>
             <p className="mt-5 max-w-[52ch] text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.formLead}</p>
             {sent ? (
-              <div role="status" className="mt-12 border-t border-[#2A2623]/15 pt-10">
-                <CheckCircle2 size={36} className="mb-4 text-[#D12126]" />
-                <p className="serif text-3xl text-[#2A2623] mb-3">{t.sentTitle}</p>
-                <p className="text-[#6B645D]">{t.formNote}</p>
+              <div className="mt-12 border-t border-[#2A2623]/15 pt-10">
+                <FormSent title={t.sentTitle} body={t.formNote} onAgain={() => { setFormData({ name: '', email: '', phone: '', message: '' }); setSent(false); }} />
               </div>
             ) : (
             <form onSubmit={handleSubmit} className="relative mt-12 max-w-[640px] space-y-9">
