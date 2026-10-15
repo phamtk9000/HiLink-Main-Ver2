@@ -15,3 +15,18 @@ HiLink property; replace them with HiLink photographs when suitable ones exist.
 | `public/photos/stock-maintenance.webp` | Property Management — "Asset Protection" | https://images.unsplash.com/photo-1623161551727-54c918bdcec1 |
 | `public/photos/stock-report.webp` | Property Management — "Transparent Reporting" | https://images.unsplash.com/photo-1711097383282-28097ae16b1d |
 | `public/photos/stock-port.webp` | Solutions — Industrial & Logistics | https://images.unsplash.com/photo-1494412651409-8963ce7935a7 |
+
+## Generated photographs
+
+The files below were generated with Higgsfield (Soul 2.0; the dinner photograph
+then edited with GPT Image 2.5 to remove a stray label) on 15/10/2026 at the
+user's request. They show events in general, not real HiLink events or
+people, so they are used only where a page describes a kind of experience,
+never to stand for a named HiLink place. Replace them with photographs of
+HiLink's own events when those exist.
+
+| File | Used on |
+| --- | --- |
+| `public/photos/ai-event-networking.webp` | Business Club — "Networking opportunities" |
+| `public/photos/ai-event-dinner.webp` | Business Club — "Private hires" |
+| `public/photos/ai-event-reception.webp` | Concierge — "Events & Experiences" |

@@ -27,7 +27,8 @@ const HOUSE_PHOTOS = [
 const HOUSE_IDS = ['obc', 'club-tqk'];
 const CARDS = ['/brand/card-club.webp', '/brand/card-premier.webp', '/brand/card-executive.webp'];
 // One photograph for each benefit (the order of T.benefits).
-const BENEFIT_PHOTOS = ['/photos/hbc-globe.webp', '/photos/hbc-members.webp', '/photos/hbc-host.webp', '/photos/hbc-client-meeting.webp', '/photos/hbc-mr8.webp', '/photos/hbc-mr10-flowers.webp'];
+// Networking and private hires are shown with generated event photographs (PHOTO-CREDITS.md).
+const BENEFIT_PHOTOS = ['/photos/hbc-globe.webp', '/photos/ai-event-networking.webp', '/photos/hbc-host.webp', '/photos/hbc-client-meeting.webp', '/photos/hbc-mr8.webp', '/photos/ai-event-dinner.webp'];
 // The partner network: a photograph for each group, an icon for each service
 // (the order of T.svc; no glyph twice in a group).
 const SVC_PHOTOS = ['/photos/hbc-advisor.webp', '/photos/hbc-fandb.webp'];

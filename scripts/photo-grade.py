@@ -11,7 +11,8 @@ target, all three leaning warm the same way, lighter than The Malin's to sit
 on a white page:
 
   space — the workspaces and properties HiLink runs
-  club  — the Business Club and The Quarter Club: richer and a little darker
+  club  — the Business Club, The Quarter Club and the (generated) event
+          photographs: richer and a little darker
   city  — the city and illustrative photographs: lighter and softer
 
 Each photograph is moved STRENGTH of the way from where it is to its group's
@@ -39,7 +40,7 @@ TARGETS = {
     'city':  (0.50, 0.08, 0.87, 0.28, 0.08, 0.030),
 }
 GROUPS = [
-    ('club', ('hbc-', 'qc-', 'quarter-club-')),
+    ('club', ('hbc-', 'qc-', 'quarter-club-', 'ai-event-')),
     ('city', ('stock-', 'blog-dong-da', 'forum-dong-da-', 'forum-quan-dong-da')),
     ('space', ('f15-', 'f19-', 'nc35-', 'qh-', 'blog-', 'forum-')),
 ]
