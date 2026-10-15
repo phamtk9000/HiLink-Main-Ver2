@@ -8,9 +8,9 @@
 // The office's live opening status in Hanoi time sits under the logo.
 import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react';
 import { Link } from 'react-router';
-import { ArrowRight, CheckCircle, ChevronRight } from 'lucide-react';
-import { motion } from 'motion/react';
+import { ArrowRight, ChevronRight } from 'lucide-react';
 import { CONTACT, SERVICES } from '../data/site';
+import { FormSent } from '../components/FormSent';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Select } from '../components/Select';
 import { HONEYPOT_PROPS, honeypot, leadError, sendLead } from '../lib/lead';
@@ -199,11 +199,9 @@ export function ContactPage() {
             </p>
 
             {sent ? (
-              <motion.div className="mt-14 border-t border-[#2A2623]/15 pt-14" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} role="status">
-                <CheckCircle size={40} className="text-[#D12126]" />
-                <p className="serif mt-6 text-[2rem] text-[#2A2623]">{t.sentTitle}</p>
-                <p className="mt-2 text-[15px] text-[#6B645D]">{t.sentBody}</p>
-              </motion.div>
+              <div className="mt-14 border-t border-[#2A2623]/15 pt-14">
+                <FormSent title={t.sentTitle} body={t.sentBody} onAgain={() => { setForm({ topic: '', message: '', name: '', company: '', email: '', phone: '' }); setSent(false); }} />
+              </div>
             ) : (
               <form onSubmit={onSubmit} className="relative mt-12 border-t border-[#2A2623]/15 pt-12">
                 <input {...HONEYPOT_PROPS} />

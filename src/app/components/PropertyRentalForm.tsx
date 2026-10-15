@@ -6,6 +6,7 @@ import { translations } from '../translations';
 import { Contours } from './Contours';
 import { Select } from './Select';
 import { photo } from '../lib/photo';
+import { FormSent } from './FormSent';
 import { HONEYPOT_PROPS, honeypot, leadError, sendLead } from '../lib/lead';
 
 const UTILITIES = [
@@ -63,20 +64,19 @@ export function PropertyRentalForm() {
 
     setIsSubmitting(false);
     setShowSuccess(true);
-
-    // Reset form
-    setTimeout(() => {
-      setShowSuccess(false);
-      setBedrooms(0);
-      setBathrooms(0);
-      setUtility('0');
-      setLocation('');
-      setFullName('');
-      setEmail('');
-      setPhone('');
-      setImage(null);
-      setImageName('');
-    }, 3000);
+  };
+  // Back to an empty form, from the confirmation.
+  const again = () => {
+    setShowSuccess(false);
+    setBedrooms(0);
+    setBathrooms(0);
+    setUtility('0');
+    setLocation('');
+    setFullName('');
+    setEmail('');
+    setPhone('');
+    setImage(null);
+    setImageName('');
   };
 
   return (
@@ -112,14 +112,9 @@ export function PropertyRentalForm() {
           </p>
         </motion.div>
         {showSuccess ? (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="text-center py-16 bg-[#361716] rounded-lg"
-          >
-            <div className="text-3xl mb-4">✓</div>
-            <p className="text-2xl text-[#F8F6F1]">{t('propertyForm.success')}</p>
-          </motion.div>
+          <div className="py-6">
+            <FormSent tone="dark" title={lang === 'vi' ? 'Cảm ơn bạn' : 'Thank you'} body={t('propertyForm.success')} onAgain={again} />
+          </div>
         ) : (
           <motion.form
             onSubmit={handleSubmit}

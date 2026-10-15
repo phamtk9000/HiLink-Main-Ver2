@@ -37,7 +37,7 @@ export const translations = {
       phonePlaceholder: 'Your Phone Number',
       sendNow: 'Send Now',
       submitting: 'Submitting...',
-      success: 'Thank you! We will contact you soon.',
+      success: 'We have the details of your property and will be in touch soon.',
       required: 'Required field',
     },
     common: {
@@ -84,7 +84,7 @@ export const translations = {
       phonePlaceholder: 'Số điện thoại của bạn',
       sendNow: 'Gửi Ngay',
       submitting: 'Đang gửi...',
-      success: 'Cảm ơn! Chúng tôi sẽ liên hệ với bạn sớm.',
+      success: 'Chúng tôi đã nhận thông tin bất động sản của bạn và sẽ liên hệ lại sớm.',
       required: 'Trường bắt buộc',
     },
     common: {
