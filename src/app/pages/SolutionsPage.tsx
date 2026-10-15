@@ -125,13 +125,13 @@ export function SolutionsPage() {
         </div>
       </section>
 
-      {/* Quick nav, after the tab bar on HiLink Workspaces: a pale strip
+      {/* Quick nav, after the tab bar on HiLink Workspaces: a white strip
           between hairlines, each solution a glyph over its name; the one
           being read is picked out in red with a line beneath. On wide
           screens it stays under the header while the solutions are on
           screen; on phones it is a row to swipe. */}
       <div>
-      <nav aria-label={t.eyebrow} className="z-40 border-y border-[#2A2623]/12 bg-[#F8F6F1] lg:sticky lg:top-[76px]">
+      <nav aria-label={t.eyebrow} className="z-40 border-y border-[#2A2623]/15 bg-white lg:sticky lg:top-[76px]">
         <div className="max-w-[1600px] mx-auto lg:px-12 flex overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {solutions.map((s, i) => (
             <a

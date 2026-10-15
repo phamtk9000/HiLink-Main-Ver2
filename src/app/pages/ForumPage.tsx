@@ -109,7 +109,7 @@ export function ForumPage() {
           <p className="mb-5 flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] text-[#D12126]"><Flag /> {t.eyebrow}</p>
           <h1 className="serif hl-forum-title text-[#2A2623]">{t.title}</h1>
           <p className="mt-5 max-w-[60ch] text-[16px] leading-[1.7] text-[#4A443F]">{t.lead}</p>
-          <nav aria-label={t.sections} className="z-30 mt-9 -mx-6 border-y border-[#2A2623]/12 bg-[#F8F6F1] sm:mx-0 lg:sticky lg:top-[76px]">
+          <nav aria-label={t.sections} className="z-30 mt-9 -mx-6 border-y border-[#2A2623]/15 bg-white sm:mx-0 lg:sticky lg:top-[76px]">
             <div className="flex overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {FORUM_CATEGORIES.map((c, k) => {
                 const Icon = ICONS[c.id], count = FORUM_POSTS.filter((p) => p.category === c.id).length, on = k === active;
