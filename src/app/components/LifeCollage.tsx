@@ -1,6 +1,6 @@
 // Life at HiLink (Careers), after the "The work" collage on hipress.vercel.app
 // (About): photographs of HiLink's own rooms and people, of every size,
-// scattered on a dark ground close enough to overlap at the corners, with
+// scattered on the page's white ground close enough to overlap at the corners, with
 // one tile of nine details. Each sits at its own depth — some drift up past
 // the others as the page scrolls, some hang back — and comes up from slightly
 // small as it arrives. Placed by hand on a field 100 units wide (x, y and the
@@ -68,12 +68,12 @@ export function LifeCollage({ eyebrow, title, lead, alt }: { eyebrow: string; ti
   );
 
   return (
-    <section className="relative overflow-hidden bg-[#1B1412] py-24 text-[#F8F6F1] lg:py-32">
+    <section className="relative overflow-hidden bg-white py-24 text-[#2A2623] lg:py-32">
       <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-        <p className="mb-5 flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] text-[#F06A6E]"><Flag /> {eyebrow}</p>
+        <p className="mb-5 flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] text-[#D12126]"><Flag /> {eyebrow}</p>
         <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <h2 className="serif max-w-[18ch] text-4xl leading-tight lg:text-5xl">{title}</h2>
-          <p className="max-w-sm text-[15px] leading-relaxed text-[#F8F6F1]/70">{lead}</p>
+          <p className="max-w-sm text-[15px] leading-relaxed text-[#6B645D]">{lead}</p>
         </div>
       </div>
 
