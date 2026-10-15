@@ -1,7 +1,7 @@
 // The footer, after themalin.co (29px in from the edge, columns 320px apart,
-// bold capital headings, 28px social icons, the mark 125px tall), given more
-// height at the user's request so nothing is pressed together: links every
-// 34px, more room above, below and between the columns and the foot.
+// bold capital headings, 28px social icons, the mark 108px tall), given more
+// height at the user's request so nothing is pressed together (then made a
+// little smaller again): links every 30px, a little more room around them.
 // On a plain cream ground (no pattern), columns under bold capital headings,
 // the longest first: the company (with the privacy policy and terms), the
 // solutions, the sections of the forum. Then the social links, the address
@@ -32,12 +32,12 @@ export function Footer() {
   const { lang, l } = useLang();
   const t = T[lang];
 
-  const link = 'block text-[15px] leading-[34px] text-[#2A2623]/85 hover:text-[#D12126] transition-colors';
-  const head = 'mb-3 text-[15px] font-bold uppercase leading-[22px] tracking-[0.02em] text-[#2A2623]';
+  const link = 'block text-[15px] leading-[30px] text-[#2A2623]/85 hover:text-[#D12126] transition-colors';
+  const head = 'mb-2 text-[15px] font-bold uppercase leading-[22px] tracking-[0.02em] text-[#2A2623]';
 
   return (
     <footer className="bg-[#F8F6F1] text-[#2A2623]">
-      <div className="px-6 pt-14 pb-12 lg:px-[29px] lg:pt-[64px] lg:pb-[48px]">
+      <div className="px-6 pt-12 pb-10 lg:px-[29px] lg:pt-[44px] lg:pb-[36px]">
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 lg:flex lg:gap-x-0 [&>*]:lg:w-[320px]">
           <nav aria-label={t.company}>
             <p className={head}>{t.company}</p>
@@ -65,7 +65,7 @@ export function Footer() {
           </nav>
         </div>
 
-        <div className="mt-14 flex flex-col gap-10 lg:mt-20 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mt-12 flex flex-col gap-8 lg:mt-12 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <div className="flex gap-[10px]">
               {socials.map(({ label, href, Icon }) => (
@@ -74,10 +74,10 @@ export function Footer() {
                 </a>
               ))}
             </div>
-            <address className="mt-6 not-italic text-[15px] font-bold uppercase leading-[24px] tracking-[0.01em] text-[#2A2623]">{CONTACT.address[lang]}</address>
-            <p className="mt-3 text-[12px] leading-[18px] text-[#6B645D]">© {currentYear} HiLink</p>
+            <address className="mt-5 not-italic text-[15px] font-bold uppercase leading-[24px] tracking-[0.01em] text-[#2A2623]">{CONTACT.address[lang]}</address>
+            <p className="mt-2 text-[12px] leading-[18px] text-[#6B645D]">© {currentYear} HiLink</p>
           </div>
-          <img src="/brand/logo-hilink-lockup.svg" alt="HiLink — Your Solution" className="h-20 w-auto self-start sm:h-24 lg:h-[125px] lg:self-end" />
+          <img src="/brand/logo-hilink-lockup.svg" alt="HiLink — Your Solution" className="h-[72px] w-auto self-start sm:h-20 lg:h-[108px] lg:self-end" />
         </div>
       </div>
     </footer>

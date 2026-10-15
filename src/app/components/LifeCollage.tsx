@@ -6,7 +6,9 @@
 // small as it arrives. Placed by hand on a field 100 units wide (x, y and the
 // width w in those units, r the picture's aspect, d its depth from -1 to 1).
 // On phones the pictures stack in two columns instead (the scattered field
-// would make them too small to see). Reduced motion keeps everything still.
+// would make them too small to see).
+// The ground is a warm sand (white and the dark ground were both turned
+// down). Reduced motion keeps everything still.
 import { useEffect, useRef } from 'react';
 import { photo } from '../lib/photo';
 import { loadMotion } from '../lib/motion';
@@ -40,19 +42,21 @@ const NINE_PHOTOS = [
 ];
 
 export function LifeCollage({ eyebrow, title, lead, alt }: { eyebrow: string; title: string; lead: string; alt: string }) {
+  const sec = useRef<HTMLElement>(null);
   const field = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const root = field.current;
+    const root = sec.current;
     if (!root || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
     let ctx: { revert(): void } | undefined;
     let gone = false;
     loadMotion().then(({ gsap }) => {
       if (gone) return;
       ctx = gsap.context(() => {
-        root.querySelectorAll<HTMLElement>('[data-depth]').forEach((el) => {
+        // the pictures, each at its depth
+        field.current?.querySelectorAll<HTMLElement>('[data-depth]').forEach((el) => {
           const d = Number(el.dataset.depth);
-          gsap.fromTo(el, { yPercent: d * 22 }, { yPercent: -d * 22, ease: 'none', scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: true } });
+          gsap.fromTo(el, { yPercent: d * 22 }, { yPercent: -d * 22, ease: 'none', scrollTrigger: { trigger: el.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } });
           gsap.from(el.firstElementChild, { scale: 0.86, autoAlpha: 0, duration: 1.1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 92%', once: true } });
         });
       }, root);
@@ -68,7 +72,7 @@ export function LifeCollage({ eyebrow, title, lead, alt }: { eyebrow: string; ti
   );
 
   return (
-    <section className="relative overflow-hidden bg-white py-24 text-[#2A2623] lg:py-32">
+    <section ref={sec} className="relative overflow-hidden bg-[#EFE8DD] py-24 text-[#2A2623] lg:py-32">
       <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
         <p className="mb-5 flex items-center gap-2.5 text-[12px] uppercase tracking-[0.2em] text-[#D12126]"><Flag /> {eyebrow}</p>
         <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
