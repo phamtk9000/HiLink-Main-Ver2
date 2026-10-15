@@ -42,7 +42,7 @@ const T = {
       { t: 'Visit us', d: '' , cta: 'Get directions' },
       { t: 'Book a consultation', d: 'Tell us what you need and an advisor will be in touch.', cta: 'Book now' },
     ],
-    steps: 'Step', leaders: 'HiLink leadership', leadersRole: 'Our mission', quoteAlt: 'The lounge at the HiLink Business Club', next: 'Next properties', prev: 'Previous properties',
+    leaders: 'HiLink leadership', leadersRole: 'Our mission', quoteAlt: 'The lounge at the HiLink Business Club', next: 'Next properties', prev: 'Previous properties',
   },
   vi: {
     est: 'Thành lập 2020 · Hà Nội, Việt Nam', scroll: 'Cuộn để khám phá',
@@ -62,7 +62,7 @@ const T = {
       { t: 'Ghé thăm', d: '', cta: 'Chỉ đường' },
       { t: 'Đặt lịch tư vấn', d: 'Cho chúng tôi biết nhu cầu, một chuyên viên sẽ liên hệ với bạn.', cta: 'Đặt lịch' },
     ],
-    steps: 'Bước', leaders: 'Ban lãnh đạo HiLink', leadersRole: 'Sứ mệnh', quoteAlt: 'Lounge tại HiLink Business Club', next: 'Bất động sản tiếp theo', prev: 'Bất động sản trước',
+    leaders: 'Ban lãnh đạo HiLink', leadersRole: 'Sứ mệnh', quoteAlt: 'Lounge tại HiLink Business Club', next: 'Bất động sản tiếp theo', prev: 'Bất động sản trước',
   },
 };
 
@@ -241,9 +241,7 @@ export function AboutPage() {
       {/* HiLink in numbers. */}
       <ScaleWave />
 
-      {/* What makes HiLink different and how it works, as one section: the
-          three principles under drawn rules, then the way of working as a
-          line that fills as you read, ending in the outcome. */}
+      {/* What makes HiLink different: the three principles under drawn rules. */}
       <section className="bg-white py-20 lg:py-28">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-12 gap-8 items-end">
@@ -269,36 +267,6 @@ export function AboutPage() {
             })}
           </div>
 
-          <div className="mt-16 lg:mt-20 rounded-[16px] bg-[#F8F6F1] px-6 py-10 sm:px-10 lg:px-14 lg:py-14">
-            <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-end">
-              <div className="lg:col-span-6">
-                {eyebrow(a.howEyebrow)}
-                <h3 className="serif hl-group-title text-[#2A2623]">{a.howTitle}</h3>
-              </div>
-              <p className="lg:col-span-5 lg:col-start-8 text-[16px] leading-relaxed text-[#6B645D]">{a.howBody}</p>
-            </div>
-            <div className="relative mt-10 lg:mt-12">
-            <div className="absolute left-[7px] top-0 bottom-0 w-px bg-[#2A2623]/15 lg:left-0 lg:right-0 lg:top-[7px] lg:bottom-auto lg:h-px lg:w-auto" aria-hidden="true" />
-            <div data-scroll-progress className="absolute left-[7px] top-0 bottom-0 w-px origin-top bg-[#D12126] lg:left-0 lg:right-0 lg:top-[7px] lg:bottom-auto lg:h-[2px] lg:w-auto lg:origin-left" aria-hidden="true" />
-            <ol className="relative grid gap-10 lg:grid-cols-5 lg:gap-8">
-              {a.stages.map(({ t: title, s }, i) => (
-                <li key={title} className="relative pl-10 lg:pl-0">
-                  <span className="absolute left-0 lg:static grid h-[15px] w-[15px] place-items-center rounded-full border border-[#D12126] bg-[#F8F6F1]" aria-hidden="true">
-                    <span className="h-[5px] w-[5px] rounded-full bg-[#D12126]" />
-                  </span>
-                  <p className="lg:mt-8 text-[12px] uppercase tracking-[0.2em] text-[#6B645D]">{t.steps} {String(i + 1).padStart(2, '0')}</p>
-                  <h3 className="serif mt-2 text-[#2A2623]">{title}</h3>
-                  <p className="mt-1 text-[15px] text-[#6B645D]">{s}</p>
-                </li>
-              ))}
-              <li className="relative pl-10 lg:pl-0">
-                <span className="absolute left-0 lg:static block h-[15px] w-[15px] rounded-full bg-[#D12126]" aria-hidden="true" />
-                <p className="lg:mt-8 text-[12px] uppercase tracking-[0.2em] text-[#D12126]">→</p>
-                <p className="serif mt-2 text-[1.45rem] leading-snug text-[#D12126]">{a.performs}</p>
-              </li>
-            </ol>
-          </div>
-          </div>
         </div>
       </section>
 
