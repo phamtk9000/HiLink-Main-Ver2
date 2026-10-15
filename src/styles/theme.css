@@ -321,13 +321,12 @@
 
 /* The line over a workspace tier (WorkspacePage): it fills while that tier
    is on show, then the next one takes over. */
-/* Workspace locations (after themalin.co): a looping row, four whole cells
-   from 1280px, three from 1024px, two on a tablet, one and a bit on a phone,
-   10px apart. */
-.hl-locrow { container-type: inline-size; --per: 1.25; --gap: 10px; }
+/* Workspace locations (after themalin.co): a looping row, three whole cells
+   on a laptop (the user asked for larger cards than The Malin's four), two
+   on a tablet, one and a bit on a phone, 12px apart. */
+.hl-locrow { container-type: inline-size; --per: 1.25; --gap: 12px; }
 @media (min-width: 640px) { .hl-locrow { --per: 2; } }
 @media (min-width: 1024px) { .hl-locrow { --per: 3; } }
-@media (min-width: 1280px) { .hl-locrow { --per: 4; } }
 .hl-locrow__cell { width: calc((100cqw - (var(--per) - 1) * var(--gap)) / var(--per)); margin-right: var(--gap); }
 .hl-locrow__track { transform: translateX(calc(var(--i) * -1 * ((100cqw - (var(--per) - 1) * var(--gap)) / var(--per) + var(--gap)))); }
 

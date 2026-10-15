@@ -266,7 +266,7 @@ export function WorkspacePage() {
 
       {/* Locations, after themalin.co: the title on the left, the row on the right. */}
       <section id="locations" className="py-24 lg:py-32 bg-white">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid gap-10 lg:grid-cols-[minmax(0,260px)_minmax(0,1fr)] lg:items-center lg:gap-12 xl:grid-cols-[minmax(0,300px)_minmax(0,1fr)]">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid gap-10 lg:grid-cols-[minmax(0,240px)_minmax(0,1fr)] lg:items-center lg:gap-12 xl:grid-cols-[minmax(0,280px)_minmax(0,1fr)]">
           <div>
             <h2 className="serif text-4xl lg:text-5xl">{t.locTitle}</h2>
             <p className="mt-5 text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.locLead}</p>
@@ -411,7 +411,7 @@ function TierCards({ tiers, rows, opening, more, lang }: { tiers: Tier[]; rows: 
 
 /** The locations, after "Our Locations" on themalin.co: the title on the
     left, and on the right a row of tall photographs, the name under each,
-    four at a time on a laptop. It runs round without end, moving on by
+    three at a time on a laptop. It runs round without end, moving on by
     itself every five seconds while on screen (it waits under the pointer);
     the dots, a swipe or a drag move it by hand. */
 function LocationRow({ items, label }: { items: { href: string; name: string; place: string; image: string; soon?: string }[]; label: string }) {
@@ -461,7 +461,7 @@ function LocationRow({ items, label }: { items: { href: string; name: string; pl
             <li key={k} className="hl-locrow__cell shrink-0" aria-hidden={k < n || k >= 2 * n}>
               <a href={it.href} target="_blank" rel="noopener noreferrer" tabIndex={k < n || k >= 2 * n ? -1 : 0} className="group block">
                 <span className="relative block aspect-[276/500] overflow-hidden bg-[#2A2623]">
-                  <img {...photo(it.image, '(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 80vw')} alt="" loading="lazy" decoding="async" draggable={false} className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.05]" />
+                  <img {...photo(it.image, '(min-width: 1024px) 28vw, (min-width: 640px) 45vw, 80vw')} alt="" loading="lazy" decoding="async" draggable={false} className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.05]" />
                   {it.soon && <span className="absolute left-3 top-3 bg-white px-2.5 py-1 text-[11px] uppercase tracking-[0.14em] text-[#2A2623]">{it.soon}</span>}
                 </span>
                 <span className="mt-4 block text-center text-[14px] font-semibold uppercase tracking-[0.12em] text-[#2A2623] transition-colors group-hover:text-[#D12126]">{it.name}</span>
