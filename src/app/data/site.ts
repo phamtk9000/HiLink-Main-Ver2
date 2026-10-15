@@ -34,7 +34,7 @@ export const SOCIAL = [
 // booking, forum). This site links there instead of copying data that changes
 // daily. Production deployment of the workspace site; switch to the final
 // domain (hilink.vn) here once it points at that deployment.
-export const WORKSPACE_SITE = 'https://hilink-wsp-2408.vercel.app';
+export const WORKSPACE_SITE = 'https://workspace.hilink.vn';
 export const BUSINESS_CLUB_SITE = 'https://businessclub.hilink.vn';
 
 export const ws = (lang: Lang, path = '') => `${WORKSPACE_SITE}/${lang}${path}`;
