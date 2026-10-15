@@ -342,7 +342,7 @@
    around the pointer, and drifts slowly against the scroll.
 
    Applied by selector, so pages need no extra markup: stone sections, the
-   pale-red call to action, and the footer. White sections stay clean.
+   pale-red call to action. White sections and the footer stay clean.
 --------------------------------------------------------------------------- */
 :root { --pat-drift: 0px; }
 
@@ -359,19 +359,16 @@ main section.bg-white + section.bg-white:not([class*="border-t"]):not(.hl-no-rul
   main section.bg-white + section.bg-white:not([class*="border-t"]):not(.hl-no-rule) { background-size: calc(min(100%, 1600px) - 96px) 1px; }
 }
 
-main section[class*="bg-[#F4F0EA]"],
-footer {
+main section[class*="bg-[#F4F0EA]"] {
   position: relative;
   isolation: isolate;
   --pat-ink: #2A2623;
   --pat-base: 0.075;
   --pat-corner: 100% 0%;
 }
-footer { --pat-ink: #2A2623; --pat-base: 0.07; --pat-corner: 0% 0%; }
 main section[class*="bg-[#F4F0EA]"]:nth-of-type(even) { --pat-corner: 0% 100%; }
 
-main section[class*="bg-[#F4F0EA]"]::before,
-footer::before {
+main section[class*="bg-[#F4F0EA]"]::before {
   content: "";
   position: absolute;
   inset: 0;
