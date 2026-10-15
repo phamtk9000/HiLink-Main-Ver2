@@ -30,6 +30,7 @@ scripts/photo-grade.py (club, space or city).
 | --- | --- |
 | `ai-club-lounge`, `ai-club-networking`, `ai-club-concierge`, `ai-club-reciprocal`, `ai-club-advisor`, `ai-event-dinner` | Business Club — "What membership includes" (one per benefit) |
 | `ai-club-support`, `ai-club-dining` | Business Club — business support and lifestyle services |
-| `ai-cc-travel`, `ai-cc-dining`, `ai-event-reception`, `ai-cc-lifestyle`, `ai-cc-assistant`, `ai-cc-bespoke` | Concierge — "What we can arrange" (one per service) |
+| `ai-cc-travel`, `ai-cc-dining`, `ai-event-reception`, `ai-cc-lifestyle`, `ai-cc-assistant`, `ai-cc-bespoke` | Concierge — "What we can arrange" (one per service; lifestyle and business support redone in the style of a heritage Indochine hotel at the user's request) |
 | `ai-team-property`, `ai-team-community`, `ai-team-advisory`, `ai-team-studio` | Careers — the four teams |
+| `ai-partner-landlords`, `ai-partner-brokers`, `ai-partner-enterprises`, `ai-partner-developers`, `ai-partner-services` | Partners — the five ways to partner (GPT Image 2.5) |
 | `ai-forum-*` (10) | Forum — the cover of each article (Home carousel, forum list, article page) |

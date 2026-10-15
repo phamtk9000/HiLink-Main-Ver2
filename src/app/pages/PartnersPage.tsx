@@ -19,7 +19,8 @@ import { photo } from '../lib/photo';
 import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 
 const BENEFIT_ICONS = [<Layers size={24} />, <Globe size={24} />, <ShieldCheck size={24} />, <HeartHandshake size={24} />];
-const PATH_PHOTOS = ['/photos/f19-window.webp', '/photos/f15-lounge-cabin.webp', '/photos/f15-office-hi11.webp', '/photos/f19-room.webp', '/photos/hbc-client-meeting.webp'];
+// Generated photographs, one for each way to partner (PHOTO-CREDITS.md).
+const PATH_PHOTOS = ['/photos/ai-partner-landlords.webp', '/photos/ai-partner-brokers.webp', '/photos/ai-partner-enterprises.webp', '/photos/ai-partner-developers.webp', '/photos/ai-partner-services.webp'];
 
 const T = {
   en: {
@@ -172,29 +173,29 @@ export function PartnersPage() {
                   type="button"
                   aria-selected={k === path}
                   onClick={() => setPath(k)}
-                  className={`group shrink-0 lg:w-full text-left flex items-center justify-between gap-4 px-5 py-3 lg:px-0 lg:py-6 border lg:border-0 lg:border-b border-[#2A2623]/15 transition-colors ${k === path ? 'border-[#D12126] bg-[#D12126] text-white lg:bg-transparent lg:text-[#D12126]' : 'text-[#2A2623] hover:text-[#D12126]'}`}
+                  className={`group shrink-0 lg:w-full text-left flex items-center justify-between gap-4 px-5 py-3 lg:px-6 lg:py-6 border lg:border-0 lg:border-b border-[#2A2623]/15 transition-colors ${k === path ? 'border-[#2A2623] bg-[#2A2623] text-white lg:bg-[#F8F6F1] lg:text-[#2A2623] lg:shadow-[inset_2px_0_0_#D12126]' : 'text-[#6B645D] hover:text-[#2A2623] lg:hover:bg-[#F8F6F1]/60'}`}
                 >
                   <span>
-                    <span className={`hidden lg:block text-[12px] uppercase tracking-[0.18em] mb-1.5 ${k === path ? 'text-[#D12126]' : 'text-[#6B645D]'}`}>{String(k + 1).padStart(2, '0')} · {p.tag}</span>
+                    <span className={`hidden lg:block text-[12px] uppercase tracking-[0.18em] mb-1.5 ${k === path ? 'text-[#D12126]' : 'text-[#6B645D]/80'}`}>{p.tag}</span>
                     <span className="serif text-[1.05rem] lg:text-[1.5rem] leading-snug whitespace-nowrap lg:whitespace-normal">{p.title}</span>
                   </span>
-                  <ArrowRight size={18} className={`hidden lg:block shrink-0 transition-transform ${k === path ? 'translate-x-1' : 'opacity-0 group-hover:opacity-60'}`} />
+                  <ArrowRight size={18} className={`hidden lg:block shrink-0 transition-transform ${k === path ? 'translate-x-1 text-[#2A2623]' : 'opacity-0 group-hover:opacity-60'}`} />
                 </button>
               ))}
             </div>
 
             <div role="tabpanel" key={cur.id} className="lg:col-span-8">
-              <div className="relative aspect-[16/7] overflow-hidden rounded-[8px] bg-[#2A2623]">
+              <div className="relative aspect-[2/1] overflow-hidden rounded-[8px] bg-[#2A2623]">
                 <img loading="lazy" decoding="async" {...photo(PATH_PHOTOS[path], '(min-width: 1024px) 62vw, 100vw')} alt="" className="absolute inset-0 h-full w-full object-cover" />
               </div>
-              {cur.line && <p className="serif mt-8 text-[1.5rem] lg:text-[1.9rem] leading-[1.3] text-[#D12126]">{cur.line}</p>}
+              {cur.line && <p className="serif mt-8 text-[1.45rem] lg:text-[1.75rem] leading-[1.3] text-[#2A2623]">{cur.line}</p>}
               <p className="mt-5 max-w-[68ch] text-[1.0625rem] leading-[1.8] text-[#4A443F]">{cur.lead ?? fallback}</p>
 
               {cur.stats && (
                 <dl className="mt-10 grid grid-cols-3 border-y border-[#2A2623]/15">
                   {cur.stats.map(([n, label], k) => (
                     <div key={label} className={`py-7 text-center ${k ? 'border-l border-[#2A2623]/15' : ''}`}>
-                      <dd className="serif text-[2rem] sm:text-[2.75rem] lg:text-[3.25rem] leading-none lining-nums text-[#D12126]">{n}</dd>
+                      <dd className="serif text-[2rem] sm:text-[2.75rem] lg:text-[3.25rem] leading-none lining-nums text-[#2A2623]">{n}</dd>
                       <dt className="mt-3 px-2 text-[12px] sm:text-[13px] leading-snug text-[#2A2623]">{label}</dt>
                     </div>
                   ))}
@@ -220,7 +221,7 @@ export function PartnersPage() {
                   <p className="text-[12px] uppercase tracking-[0.18em] text-[#6B645D]">{t.howLbl}</p>
                   <ol className="mt-4 grid sm:grid-cols-3 gap-x-8 gap-y-6">
                     {cur.steps.map(([title, d], k) => (
-                      <li key={title} className="border-t-2 border-[#D12126] pt-4">
+                      <li key={title} className="border-t border-[#2A2623]/20 pt-4">
                         <span className="text-[13px] font-medium tabular-nums tracking-[0.08em] text-[#D12126]">{String(k + 1).padStart(2, '0')}</span>
                         <p className="serif mt-1 text-[1.2rem] text-[#2A2623]">{title}</p>
                         <p className="mt-1.5 text-[15px] leading-relaxed text-[#6B645D]">{d}</p>

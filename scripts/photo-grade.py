@@ -42,7 +42,7 @@ TARGETS = {
 GROUPS = [
     ('club', ('hbc-', 'qc-', 'quarter-club-', 'ai-event-', 'ai-club-', 'ai-cc-')),
     ('city', ('stock-', 'blog-dong-da', 'forum-dong-da-', 'forum-quan-dong-da', 'ai-forum-')),
-    ('space', ('f15-', 'f19-', 'nc35-', 'qh-', 'blog-', 'forum-', 'ai-team-')),
+    ('space', ('f15-', 'f19-', 'nc35-', 'qh-', 'blog-', 'forum-', 'ai-team-', 'ai-partner-')),
 ]
 
 
