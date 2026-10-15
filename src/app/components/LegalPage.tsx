@@ -16,7 +16,7 @@ export function LegalPage({ doc, pdf }: { doc: 'privacy' | 'terms'; pdf?: string
 
   return (
     <>
-      <section id="hero" className="relative overflow-hidden py-20 lg:py-28 bg-[#361716] text-white">
+      <section id="hero" className="relative overflow-hidden py-14 sm:py-20 lg:py-28 bg-[#361716] text-white">
         <Candles />
         <div className="relative max-w-[900px] mx-auto px-6 lg:px-12">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
@@ -30,7 +30,7 @@ export function LegalPage({ doc, pdf }: { doc: 'privacy' | 'terms'; pdf?: string
         </div>
       </section>
 
-      <section className="py-20 lg:py-28 bg-white">
+      <section className="py-14 sm:py-20 lg:py-28 bg-white">
         <div className="max-w-[900px] mx-auto px-6 lg:px-12">
           <p className="text-lg text-[#6B645D] leading-relaxed mb-6">
             {d.intro}

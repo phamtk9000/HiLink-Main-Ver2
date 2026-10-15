@@ -228,7 +228,7 @@ export function ForumCarousel() {
   };
 
   return (
-    <section className="py-24 lg:py-32 bg-white text-[#2A2623]" aria-roledescription="carousel" aria-label={t.eyebrow}>
+    <section className="py-16 sm:py-24 lg:py-32 bg-white text-[#2A2623]" aria-roledescription="carousel" aria-label={t.eyebrow}>
       <div className="max-w-[1328px] mx-auto px-6 lg:px-12">
         <div className="flex flex-wrap items-end justify-between gap-6 mb-10 lg:mb-16">
           <div>

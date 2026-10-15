@@ -149,11 +149,11 @@ export function HomePage() {
       {/* ── About — editorial three-column ── */}
       <section className="relative w-full bg-white">
         <div className="grid lg:grid-cols-[30%_1fr_28%] min-h-[680px]">
-          <div className="relative overflow-hidden min-h-[400px] lg:min-h-0 group">
+          <div className="relative overflow-hidden min-h-[280px] sm:min-h-[400px] lg:min-h-0 group">
             <img loading="lazy" decoding="async" {...photo(IMG.reception)} alt={t.receptionAlt} className="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-105" />
           </div>
 
-          <div className="px-10 lg:px-16 py-16 lg:py-20 flex flex-col justify-center">
+          <div className="px-6 sm:px-10 lg:px-16 py-12 sm:py-16 lg:py-20 flex flex-col justify-center">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-10 flex items-center gap-2.5"><Flag /> {t.aboutEyebrow}</p>
             <h2 className="serif text-[#D12126] mb-6 leading-none" style={{ fontSize: 'clamp(3rem, 5vw, 5rem)', fontWeight: 400, letterSpacing: '0.06em' }}>HILINK</h2>
             <p className="text-[18px] uppercase tracking-[0.08em] text-[#2A2623] mb-6">{t.aboutSub}</p>
@@ -168,17 +168,17 @@ export function HomePage() {
           </div>
 
           <div className="flex flex-col">
-            <div className="bg-[#EDE7DF] px-10 py-10 flex flex-col justify-center gap-8 flex-1">
+            <div className="bg-[#EDE7DF] px-6 py-7 sm:px-10 sm:py-10 [display:grid] grid-cols-3 gap-4 lg:flex lg:flex-col lg:justify-center lg:gap-8 flex-1">
               {[
                 { end: WORKSPACE_LOCATIONS.length, label: t.stats[0], duration: 1.6 },
                 { end: Object.keys(WORKSPACE_LINES).length, label: t.stats[1], duration: 1.4 },
                 { end: 9, label: t.stats[2], duration: 1.8 },
               ].map((stat) => (
                 <div key={stat.label} className="border-t border-[#D12126]/30 pt-5">
-                  <div className="serif text-[40px] font-light text-[#D12126] leading-none mb-2">
+                  <div className="serif text-[30px] lg:text-[40px] font-light text-[#D12126] leading-none mb-2">
                     <AnimatedCounter end={stat.end} duration={stat.duration} />
                   </div>
-                  <div className="text-[12px] uppercase tracking-[0.2em] text-[#555]">{stat.label}</div>
+                  <div className="text-[10.5px] lg:text-[12px] uppercase tracking-[0.12em] lg:tracking-[0.2em] leading-snug text-[#555]">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -194,7 +194,7 @@ export function HomePage() {
       </section>
 
       {/* ── Services ── */}
-      <section className="relative py-24 lg:py-32 bg-white">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-12 gap-12 xl:gap-24 mb-20">
             <div className="lg:col-span-4">
@@ -227,7 +227,7 @@ export function HomePage() {
       </section>
 
       {/* ── Locations (HiLink Workspaces) ── */}
-      <section className="pt-24 lg:pt-32 pb-14 lg:pb-16 bg-white text-[#2A2623] overflow-hidden">
+      <section className="pt-16 sm:pt-24 lg:pt-32 pb-14 lg:pb-16 bg-white text-[#2A2623] overflow-hidden">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="flex flex-wrap items-end justify-between gap-8 mb-10 lg:mb-12">
             <div>
@@ -274,7 +274,7 @@ export function HomePage() {
       <ForumCarousel />
 
       {/* ── CTA ── */}
-      <section className="relative py-28 lg:py-36 bg-[#361716] text-white overflow-hidden">
+      <section className="relative py-20 sm:py-28 lg:py-36 bg-[#361716] text-white overflow-hidden">
         <Candles />
         <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
           <h2 className="serif text-4xl lg:text-6xl mb-8">{t.ctaTitle}</h2>

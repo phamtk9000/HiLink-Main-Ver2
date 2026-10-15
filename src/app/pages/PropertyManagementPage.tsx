@@ -199,7 +199,7 @@ export function PropertyManagementPage() {
           ones, 14px apart, each with its title and a line at the foot. The
           large one carries the section's heading; the four are the parts of
           the service. */}
-      <section className="relative py-24 lg:py-32 bg-white">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
             <article className="group relative aspect-square overflow-hidden bg-[#2A2623] text-white sm:col-span-2 sm:row-span-2">
@@ -227,7 +227,7 @@ export function PropertyManagementPage() {
 
       {/* What we manage: four tall photographs, soft and dim until one is
           under the pointer (or, on a phone, in the middle of the screen). */}
-      <section className="relative py-24 lg:py-32 bg-white">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="mb-12 lg:mb-16 grid lg:grid-cols-12 gap-x-16 gap-y-6 items-end">
             <div className="lg:col-span-7">
@@ -247,7 +247,7 @@ export function PropertyManagementPage() {
       {/* What we do for home owners, set out after augustcollections.com
           ("Local experts, at your service"): five columns on club green,
           each a fine glyph, a title on two lines and a line of detail. */}
-      <section className="relative py-24 lg:py-28 bg-[#2E3A33] text-[#F8F6F1]">
+      <section className="relative py-16 sm:py-24 lg:py-28 bg-[#2E3A33] text-[#F8F6F1]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <p className="text-[12px] uppercase tracking-[0.2em] text-[#E8B9A6] mb-5 flex items-center gap-2.5"><Flag /> {t.ownerEyebrow}</p>
           <h2 className="serif hl-display max-w-[20ch] text-[#F8F6F1]">{t.ownerTitle}</h2>
@@ -267,7 +267,7 @@ export function PropertyManagementPage() {
       </section>
 
       {/* How it works: four stages along one line that fills as you read. */}
-      <section className="relative py-24 lg:py-32 bg-white">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-12 gap-x-16 gap-y-6 items-end">
             <div className="lg:col-span-7">
@@ -298,7 +298,7 @@ export function PropertyManagementPage() {
       {/* The portfolio: a row of tall cards the full width of the screen, to
           the measure of augustcollections.com; the one in the middle opens to
           show how the property performs. */}
-      <section className="relative py-24 lg:py-28 bg-[#F8F6F1] overflow-hidden">
+      <section className="relative py-16 sm:py-24 lg:py-28 bg-[#F8F6F1] overflow-hidden">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
           <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center justify-center gap-2.5"><Flag /> {t.resEyebrow}</p>
           <h2 className="serif hl-display text-[#2A2623]">{t.propTitle}</h2>

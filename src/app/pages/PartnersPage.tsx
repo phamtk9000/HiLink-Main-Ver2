@@ -118,7 +118,7 @@ export function PartnersPage() {
       {/* Hero */}
       <section id="hero" className="relative overflow-hidden min-h-[72vh] flex items-end bg-[#2A2623] text-white">
         <HeroBg image="/photos/hbc-meeting.webp" />
-        <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28 w-full">
+        <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-14 sm:py-20 lg:py-28 w-full">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-4xl">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#F06A6E] mb-7 flex items-center gap-3">
               <Flag className="text-[#F06A6E]" /> {t.eyebrow}
@@ -131,7 +131,7 @@ export function PartnersPage() {
 
       {/* The network: the title and its line side by side, the two paragraphs
           beneath in two columns, then the four figures in one ruled row. */}
-      <section className="relative py-24 lg:py-32 bg-white">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-7">
@@ -162,7 +162,7 @@ export function PartnersPage() {
       </section>
 
       {/* The five ways to partner: a tab for each, its facts in the panel. */}
-      <section id="our-partners" className="relative py-24 lg:py-32 bg-white scroll-mt-24">
+      <section id="our-partners" className="relative py-16 sm:py-24 lg:py-32 bg-white scroll-mt-24">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="mb-12 lg:mb-16">
             {eyebrow(t.waysEyebrow)}
@@ -286,7 +286,7 @@ export function PartnersPage() {
       </section>
 
       {/* Why partner — benefits + feature image */}
-      <section className="relative py-24 lg:py-32 bg-white text-[#2A2623]">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white text-[#2A2623]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-12 items-center">
           <div className="lg:col-span-5 relative aspect-[4/5] overflow-hidden rounded-[8px]">
             <img loading="lazy" decoding="async" {...photo('/photos/hbc-lounge-2.webp', '(min-width: 1024px) 40vw, 100vw')} alt={t.whyAlt} className="w-full h-full object-cover" />
@@ -310,7 +310,7 @@ export function PartnersPage() {
       </section>
 
       {/* The companies HiLink works with, each with its field where it has one. */}
-      <section className="relative py-24 lg:py-28 bg-white">
+      <section className="relative py-16 sm:py-24 lg:py-28 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
             <div>

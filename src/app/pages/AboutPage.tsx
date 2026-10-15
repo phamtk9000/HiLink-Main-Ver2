@@ -165,7 +165,7 @@ export function AboutPage() {
           heading and one photograph hold still on the left while the rows
           run on the right; the photograph is the row under the pointer (or
           in focus). On narrow screens each row carries its own photograph. */}
-      <section className="bg-white py-20 lg:py-28">
+      <section className="bg-white py-14 sm:py-20 lg:py-28">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-12">
           <div className="lg:col-span-5">
             <div className="lg:sticky lg:top-28">
@@ -242,7 +242,7 @@ export function AboutPage() {
       <ScaleWave />
 
       {/* What makes HiLink different: the three principles under drawn rules. */}
-      <section className="bg-white py-20 lg:py-28">
+      <section className="bg-white py-14 sm:py-20 lg:py-28">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-12 gap-8 items-end">
             <div className="lg:col-span-6">
@@ -319,7 +319,7 @@ export function AboutPage() {
       </section>
 
       {/* The team: three columns of photographs drifting in opposite directions. */}
-      <section className="bg-white py-20 lg:py-28 overflow-hidden">
+      <section className="bg-white py-14 sm:py-20 lg:py-28 overflow-hidden">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           <div className="lg:col-span-4">
             {eyebrow(c.aboutE)}

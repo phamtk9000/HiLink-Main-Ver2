@@ -152,7 +152,7 @@ export function BusinessClubPage() {
       {/* The two houses, laid out alike: the photograph over seven columns,
           the words over five and centred on it, 88px between; the second one
           mirrored. */}
-      <section className="relative py-24 lg:py-32 bg-white">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
           <RuleTitle>{t.housesRule}</RuleTitle>
           <div className="mt-14 lg:mt-20 space-y-20 lg:space-y-[clamp(120px,10vw,160px)]">
@@ -186,13 +186,13 @@ export function BusinessClubPage() {
       </section>
 
       {/* The showcase (after the Explore gallery on maslows.com). */}
-      <section className="relative py-20 lg:py-28 bg-[#F8F6F1] overflow-hidden">
+      <section className="relative py-14 sm:py-20 lg:py-28 bg-[#F8F6F1] overflow-hidden">
         <div className="max-w-[1320px] mx-auto px-6 lg:px-12 mb-12 lg:mb-16"><RuleTitle>{t.explore}</RuleTitle></div>
         <Showcase shots={SHOWCASE} prev={t.prev} next={t.next} />
       </section>
 
       {/* Member privileges: the three cards, on club green. */}
-      <section id="membership" className="relative py-24 lg:py-32 bg-[#2E3A33] text-[#F8F6F1] scroll-mt-24">
+      <section id="membership" className="relative py-16 sm:py-24 lg:py-32 bg-[#2E3A33] text-[#F8F6F1] scroll-mt-24">
         <div className="max-w-[1320px] mx-auto px-6 lg:px-12">
           <RuleTitle dark>{t.tiersEyebrow}</RuleTitle>
           <div className="mx-auto mt-10 max-w-3xl text-center">
@@ -216,7 +216,7 @@ export function BusinessClubPage() {
       </section>
 
       {/* What membership includes: six photographs with centred captions. */}
-      <section className="relative py-24 lg:py-32 bg-white">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white">
         <div className="max-w-[1320px] mx-auto px-6 lg:px-12">
           <RuleTitle>{t.incTitle}</RuleTitle>
           <div className="mt-14 lg:mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
@@ -237,7 +237,7 @@ export function BusinessClubPage() {
 
       {/* Business support and lifestyle services, set out as concierge sites
           do: each group a photograph beside its services, one tile apiece. */}
-      <section className="relative pb-24 lg:pb-32 bg-white hl-no-rule">
+      <section className="relative pb-16 sm:pb-24 lg:pb-32 bg-white hl-no-rule">
         <div className="max-w-[1320px] mx-auto px-6 lg:px-12">
           <RuleTitle>{t.svcRule}</RuleTitle>
           <div className="mt-14 lg:mt-16 space-y-20 lg:space-y-24">
@@ -279,7 +279,7 @@ export function BusinessClubPage() {
       </section>
 
       {/* Apply. */}
-      <section className="relative overflow-hidden py-24 lg:py-28 bg-[#361716] text-white">
+      <section className="relative overflow-hidden py-16 sm:py-24 lg:py-28 bg-[#361716] text-white">
         <Candles />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
           <h2 className="serif mb-6">{t.ctaTitle}</h2>

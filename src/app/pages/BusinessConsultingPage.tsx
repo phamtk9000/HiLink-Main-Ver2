@@ -174,7 +174,7 @@ export function BusinessConsultingPage() {
 
       {/* ── Vietnam in figures (set out after hines.com): a statement
           beside four large figures, two to a row. ── */}
-      <section className="relative bg-white py-24 lg:py-32">
+      <section className="relative bg-white py-16 sm:py-24 lg:py-32">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-14 items-center">
           <div className="lg:col-span-6">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.vnEyebrow}</p>
@@ -256,7 +256,7 @@ export function BusinessConsultingPage() {
       </section>
 
       {/* ── Process: the four stages as a list on a dark band ── */}
-      <section className="relative overflow-hidden bg-[#361716] py-24 lg:py-32 text-white">
+      <section className="relative overflow-hidden bg-[#361716] py-16 sm:py-24 lg:py-32 text-white">
         <Contours />
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-10">
           <div className="lg:col-span-5">
@@ -276,7 +276,7 @@ export function BusinessConsultingPage() {
       </section>
 
       {/* ── Sector expertise: the six sectors as ruled rows ── */}
-      <section className="relative bg-white py-24 lg:py-32 text-[#2A2623]">
+      <section className="relative bg-white py-16 sm:py-24 lg:py-32 text-[#2A2623]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-10">
           <div className="lg:col-span-4">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.secEyebrow}</p>

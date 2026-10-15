@@ -111,7 +111,7 @@ export function SolutionsPage() {
       {/* Hero */}
       <section id="hero" className="relative overflow-hidden min-h-[72vh] flex items-end bg-[#2A2623] text-white">
         <HeroBg image="/photos/hbc-lounge-xl.webp" />
-        <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28 w-full">
+        <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-14 sm:py-20 lg:py-28 w-full">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-4xl">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#F06A6E] mb-7 flex items-center gap-3">
               <Flag className="text-[#F06A6E]" /> {t.eyebrow}
@@ -140,10 +140,10 @@ export function SolutionsPage() {
               href={`#solution-${i}`}
               onClick={(e) => { const ms = glideTo(e, `solution-${i}`); if (ms) { setHeading(i); window.clearTimeout(headingTimer.current); headingTimer.current = window.setTimeout(() => setHeading(-1), ms); } }}
               aria-current={i === active ? 'true' : undefined}
-              className={`group relative flex min-w-[9.5rem] flex-1 flex-col items-center gap-2.5 px-4 pb-[18px] pt-5 text-center transition-colors duration-300 ${i === active ? 'text-[#D12126]' : 'text-[#4A443F] hover:text-[#2A2623]'}`}
+              className={`group relative flex shrink-0 flex-col items-center gap-2 px-5 pb-4 pt-4 lg:min-w-[9.5rem] lg:flex-1 lg:shrink lg:gap-2.5 lg:px-4 lg:pb-[18px] lg:pt-5 text-center transition-colors duration-300 ${i === active ? 'text-[#D12126]' : 'text-[#4A443F] hover:text-[#2A2623]'}`}
             >
               <ServiceIcon path={s.path} size={26} strokeWidth={1.3} />
-              <span className={`whitespace-nowrap text-[15px] font-medium leading-[1.3] ${i === active ? 'text-[#2A2623]' : ''}`}>{s.title}</span>
+              <span className={`whitespace-nowrap text-[14px] lg:text-[15px] font-medium leading-[1.3] ${i === active ? 'text-[#2A2623]' : ''}`}>{s.title}</span>
               <span className={`absolute inset-x-0 bottom-[-1px] h-[2px] origin-left bg-[#D12126] transition-transform duration-500 ease-out ${i === active ? 'scale-x-100' : 'scale-x-0'}`} aria-hidden="true" />
             </a>
           ))}
@@ -151,7 +151,7 @@ export function SolutionsPage() {
       </nav>
 
       {/* Intro */}
-      <section className="relative py-24 lg:py-32 bg-white">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-12 xl:gap-24">
           <div className="lg:col-span-5">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.introEyebrow}</p>
@@ -170,7 +170,7 @@ export function SolutionsPage() {
           photograph over two thirds (Property Management: the managed
           properties, stacked and turning), the words over one third, ruled
           off; the photograph changes sides from one row to the next. */}
-      <section id="solutions" className="relative bg-white pb-24 lg:pb-32 hl-no-rule">
+      <section id="solutions" className="relative bg-white pb-16 sm:pb-24 lg:pb-32 hl-no-rule">
         <div ref={stack} className="border-t border-[#2A2623]/25">
           {solutions.map((s, i) => {
             const flip = i % 2 === 1;
@@ -217,7 +217,7 @@ export function SolutionsPage() {
       </div>
 
       {/* How we work together */}
-      <section className="relative py-24 lg:py-32 bg-white text-[#2A2623]">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white text-[#2A2623]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="mb-14 max-w-2xl">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.howEyebrow}</p>
@@ -239,7 +239,7 @@ export function SolutionsPage() {
       </section>
 
       {/* CTA */}
-      <section id="cta" className="relative py-24 lg:py-32 bg-[#361716] text-white overflow-hidden">
+      <section id="cta" className="relative py-16 sm:py-24 lg:py-32 bg-[#361716] text-white overflow-hidden">
         <Candles />
         <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
           <h2 className="serif text-4xl lg:text-5xl mb-8">{t.ctaTitle}</h2>

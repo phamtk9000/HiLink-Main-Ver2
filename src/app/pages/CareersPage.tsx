@@ -83,7 +83,7 @@ export function CareersPage() {
       {/* Hero */}
       <section id="hero" className="relative overflow-hidden min-h-[72vh] flex items-end bg-[#2A2623] text-white">
         <HeroBg image="/photos/f15-logo.webp" />
-        <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-20 lg:py-28 w-full">
+        <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-12 py-14 sm:py-20 lg:py-28 w-full">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-4xl">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#F06A6E] mb-7 flex items-center gap-3">
               <Flag className="text-[#F06A6E]" /> {t.eyebrow}
@@ -113,7 +113,7 @@ export function CareersPage() {
       <LifeCollage eyebrow={t.lifeEyebrow} title={t.lifeTitle} lead={t.lifeLead} alt={t.lifeAlt} quote={ABOUT[lang].howTitle} />
 
       {/* Why join — values; each tile fills with an abstract ground under the pointer (ValueTiles). */}
-      <section id="why-join" className="py-24 lg:py-32 bg-white">
+      <section id="why-join" className="py-16 sm:py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="text-center mb-16">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.whyEyebrow}</p>
@@ -124,7 +124,7 @@ export function CareersPage() {
       </section>
 
       {/* Benefits + feature image */}
-      <section className="relative py-24 lg:py-32 bg-white text-[#2A2623]">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white text-[#2A2623]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className="relative aspect-[4/3] overflow-hidden rounded-[8px]">
             <img loading="lazy" decoding="async" {...photo('/photos/hbc-team.webp')} alt={t.teamAlt} className="w-full h-full object-cover" />
@@ -147,7 +147,7 @@ export function CareersPage() {
       {/* Teams: four photographs side by side; the one in hand opens out and
           shows what the team does. Hover or focus on wide screens, tap on
           phones (where the panels stack and the open one grows taller). */}
-      <section className="relative py-24 lg:py-32 bg-white">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="mb-12 lg:mb-14">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-5 flex items-center gap-2.5"><Flag /> {t.teamsEyebrow}</p>
@@ -183,7 +183,7 @@ export function CareersPage() {
       </section>
 
       {/* Open positions: one row per role, the same columns in every row. */}
-      <section id="open-positions" className="relative py-24 lg:py-32 bg-white text-[#2A2623]">
+      <section id="open-positions" className="relative py-16 sm:py-24 lg:py-32 bg-white text-[#2A2623]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="mb-10 lg:mb-14 flex flex-wrap items-end justify-between gap-x-16 gap-y-6">
             <div>

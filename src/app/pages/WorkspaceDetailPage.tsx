@@ -295,17 +295,17 @@ export function WorkspaceDetailPage() {
             {/* Left column */}
             <div>
               {/* Stats row */}
-              <div className="grid grid-cols-3 gap-px bg-[#2A2623]/10 mb-12">
+              <div className="grid grid-cols-3 gap-px bg-[#2A2623]/10 mb-10 sm:mb-12">
                 {[
                   { icon: <Building2 size={20} />, label: t.units, value: property.units },
                   { icon: <TrendingUp size={20} />, label: t.occ, value: `${property.occupancy}%` },
                   { icon: <DollarSign size={20} />, label: t.rent, value: property.avgRent },
                 ].map(({ icon, label, value }) => (
-                  <div key={label} className="bg-white px-8 py-6 flex items-center gap-4">
+                  <div key={label} className="min-w-0 bg-white px-3 py-4 sm:px-8 sm:py-6 flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:gap-4">
                     <div className="text-[#D12126]">{icon}</div>
                     <div>
-                      <div className="text-xs uppercase tracking-wider text-[#6B645D] mb-1">{label}</div>
-                      <div className="serif text-2xl">{value}</div>
+                      <div className="text-[10.5px] sm:text-xs uppercase tracking-wider text-[#6B645D] mb-1">{label}</div>
+                      <div className="serif text-xl sm:text-2xl">{value}</div>
                     </div>
                   </div>
                 ))}

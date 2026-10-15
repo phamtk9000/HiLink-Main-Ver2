@@ -117,13 +117,23 @@ export function WorkspacePage() {
 
   useEffect(() => {
     // Shown once past the hero, and put away again when the footer comes
-    // into view, so it never sits over the HiLink mark there.
+    // into view, so it never sits over the HiLink mark there. On phones it
+    // also steps aside while the visitor scrolls down to read, and comes
+    // back as soon as they scroll up.
+    let last = window.scrollY;
+    let down = false;
+    const phone = window.matchMedia('(max-width: 767px)');
     const handleScroll = () => {
+      const y = window.scrollY;
+      // the direction changes only on a real move (repeat events at rest keep it)
+      if (y > last + 2) down = true;
+      else if (y < last - 2) down = false;
+      if (Math.abs(y - last) > 2) last = y;
       const foot = [...document.querySelectorAll('footer')].pop();
       const atFoot = !!foot && foot.getBoundingClientRect().top < window.innerHeight - 40;
-      setShowCTA(window.scrollY > 300 && !atFoot);
+      setShowCTA(y > 300 && !atFoot && !(phone.matches && down));
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -134,13 +144,13 @@ export function WorkspacePage() {
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: showCTA ? 0 : 100, opacity: showCTA ? 1 : 0 }}
         transition={{ duration: 0.3 }}
-        className={`fixed bottom-8 right-8 z-50 ${showCTA ? '' : 'pointer-events-none'}`}
+        className={`fixed bottom-[max(16px,env(safe-area-inset-bottom))] left-4 right-4 z-50 md:bottom-8 md:left-auto md:right-8 ${showCTA ? '' : 'pointer-events-none'}`}
       >
         <a
           href={tourUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 px-8 py-4 bg-[#D12126] text-white text-sm uppercase tracking-wider hover:bg-[#A3181C] transition-colors shadow-2xl"
+          className="flex items-center justify-center gap-2 px-8 py-3.5 md:py-4 bg-[#D12126] text-white text-[13px] md:text-sm uppercase tracking-wider hover:bg-[#A3181C] transition-colors shadow-2xl"
         >
           <Calendar size={18} />
           {t.tour}
@@ -202,7 +212,7 @@ export function WorkspacePage() {
       {/* What comes with a HiLink workspace, after "Included in all
           memberships" on themalin.co: a plain list in three ruled columns
           (left, centre and right aligned), each a fact HiLink states. */}
-      <section className="relative py-24 lg:py-32 bg-white">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
             <h2 className="serif text-4xl lg:col-span-7 lg:text-5xl">{t.whyTitle}</h2>
@@ -223,7 +233,7 @@ export function WorkspacePage() {
       </section>
 
       {/* Workspace tiers: three cards; the details of each slide up on hover. */}
-      <section id="tiers" className="relative py-24 lg:py-32 bg-white">
+      <section id="tiers" className="relative py-16 sm:py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="mb-10 lg:mb-14 grid lg:grid-cols-12 gap-x-16 gap-y-6 items-end">
             <div className="lg:col-span-7">
@@ -238,7 +248,7 @@ export function WorkspacePage() {
 
       {/* Plans: four soft panels, the price in large figures; the popular one
           in club green and a little taller. On phones they sit in a row to swipe. */}
-      <section className="py-24 lg:py-32 bg-white">
+      <section className="py-16 sm:py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div className="text-center mb-12 lg:mb-16">
             <h2 className="serif text-4xl lg:text-5xl mb-6">{t.pricingTitle}</h2>
@@ -264,7 +274,7 @@ export function WorkspacePage() {
       </section>
 
       {/* Locations, after themalin.co: the title on the left, the row on the right. */}
-      <section id="locations" className="py-24 lg:py-32 bg-white">
+      <section id="locations" className="py-16 sm:py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid gap-10 lg:grid-cols-[minmax(0,240px)_minmax(0,1fr)] lg:items-center lg:gap-12 xl:grid-cols-[minmax(0,280px)_minmax(0,1fr)]">
           <div>
             <h2 className="serif text-4xl lg:text-5xl">{t.locTitle}</h2>
@@ -312,7 +322,7 @@ export function WorkspacePage() {
       />
 
       {/* CTA Section */}
-      <section className="relative py-24 lg:py-32 bg-[#361716] text-white overflow-hidden">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-[#361716] text-white overflow-hidden">
         <Contours />
         <motion.div className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center">
           <h2 className="serif text-4xl lg:text-5xl mb-8">

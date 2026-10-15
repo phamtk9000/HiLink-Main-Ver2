@@ -174,7 +174,7 @@ export function ConciergePage() {
       </section>
 
       {/* What we arrange: six photographs with centred captions. */}
-      <section className="relative pb-24 lg:pb-32 bg-white hl-no-rule">
+      <section className="relative pb-16 sm:pb-24 lg:pb-32 bg-white hl-no-rule">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
           <RuleTitle>{t.arrTitle}</RuleTitle>
           <p className="mt-6 text-center text-[15px] lg:text-[16px] text-[#6B645D]">{t.arrLead}</p>
@@ -195,7 +195,7 @@ export function ConciergePage() {
       </section>
 
       {/* How a request is handled: three steps between hairlines. */}
-      <section className="relative pb-24 lg:pb-32 bg-white hl-no-rule">
+      <section className="relative pb-16 sm:pb-24 lg:pb-32 bg-white hl-no-rule">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
           <RuleTitle>{t.howTitle}</RuleTitle>
           <ol className="mt-12 lg:mt-14 grid md:grid-cols-3 gap-x-8 gap-y-10">
@@ -211,7 +211,7 @@ export function ConciergePage() {
       </section>
 
       {/* What sets it apart, on club green. */}
-      <section className="relative py-24 lg:py-32 bg-[#2E3A33] text-[#F8F6F1]">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-[#2E3A33] text-[#F8F6F1]">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-x-16 gap-y-12 items-center">
           <div className="lg:col-span-5 relative aspect-[4/5] overflow-hidden rounded-[8px] bg-[#1B1412]">
             <img loading="lazy" decoding="async" {...photo('/photos/hbc-member.webp', '(min-width: 1024px) 40vw, 100vw')} alt={t.diffAlt} className="absolute inset-0 h-full w-full object-cover" />
@@ -236,7 +236,7 @@ export function ConciergePage() {
       </section>
 
       {/* The showcase (after the Explore gallery on maslows.com). */}
-      <section className="relative py-20 lg:py-28 bg-[#F8F6F1] overflow-hidden">
+      <section className="relative py-14 sm:py-20 lg:py-28 bg-[#F8F6F1] overflow-hidden">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-12 mb-12 lg:mb-16"><RuleTitle>{t.explore}</RuleTitle></div>
         <Showcase shots={SHOWCASE} prev={t.prev} next={t.next} autoplay={false} />
       </section>
@@ -246,7 +246,7 @@ export function ConciergePage() {
           by side with no gap, rounded at the outer corners only, each with
           its name (in the site's serif), a line and the way in laid over the
           foot of it in light type. One above the other on phones. */}
-      <section className="relative py-24 lg:py-32 bg-white">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <RuleTitle>{t.housesTitle}</RuleTitle>
           <div className="mt-14 flex flex-col md:flex-row lg:mt-16">

@@ -117,7 +117,7 @@ export function IndustrialPage() {
       </section>
 
       {/* Services Overview */}
-      <section className="relative py-24 lg:py-32 bg-white">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="text-center mb-16"
@@ -139,7 +139,7 @@ export function IndustrialPage() {
       </section>
 
       {/* Industrial Parks */}
-      <section className="py-24 lg:py-32 bg-white">
+      <section className="py-16 sm:py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="text-center mb-16"
@@ -161,7 +161,7 @@ export function IndustrialPage() {
       </section>
 
       {/* Facility Types */}
-      <section className="relative py-24 lg:py-32 bg-white">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="text-center mb-16"
@@ -180,7 +180,7 @@ export function IndustrialPage() {
       </section>
 
       {/* Value Proposition */}
-      <section className="py-24 lg:py-32 bg-white">
+      <section className="py-16 sm:py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <motion.div
             className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center"
@@ -196,7 +196,7 @@ export function IndustrialPage() {
               </div>
             </motion.div>
             <motion.div
-              className="relative aspect-[4/3] overflow-hidden rounded-[8px] bg-[#EDE7DF] flex items-center justify-center text-[#D12126]"
+              className="relative hidden aspect-[4/3] overflow-hidden rounded-[8px] bg-[#EDE7DF] sm:flex items-center justify-center text-[#D12126]"
             >
               <Warehouse size={120} strokeWidth={0.8} />
             </motion.div>
@@ -205,7 +205,7 @@ export function IndustrialPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative py-24 lg:py-32 bg-[#361716] text-white overflow-hidden">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-[#361716] text-white overflow-hidden">
         <Contours />
         <motion.div
           className="max-w-[1600px] mx-auto px-6 lg:px-12 text-center"
@@ -256,7 +256,7 @@ function IndustrialParkCard({ name, location, features, icon }: {
     <motion.div
       className="bg-white overflow-hidden"
     >
-      <div className="relative aspect-[16/9] overflow-hidden rounded-[8px] bg-[#EDE7DF] flex items-center justify-center text-[#D12126]">
+      <div className="relative aspect-[3/1] sm:aspect-[16/9] overflow-hidden rounded-[8px] bg-[#EDE7DF] flex items-center justify-center text-[#D12126]">
         {icon}
       </div>
       <div className="p-8">
