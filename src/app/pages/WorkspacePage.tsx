@@ -5,7 +5,7 @@ import { Users, Calendar, MapPin, Key, Clock, ServiceIcon } from '../components/
 import { motion } from 'motion/react';
 import { useState, useEffect, useRef } from 'react';
 import { FAQ } from '../components/FAQ';
-import { LOCATIONS, WORKSPACE_LINES } from '../data/locations';
+import { LOCATIONS, floorOf } from '../data/locations';
 import { ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Flag } from '../components/Flag';
@@ -281,9 +281,9 @@ export function WorkspacePage() {
             label={t.locTitle}
             items={WORKSPACE_LOCATIONS.map((loc) => ({
               href: ws(lang, `/locations/${loc.id}`),
-              // "4 Ton That Tung · Floor 15": the street as the name, the floor with the line beneath
-              name: loc.name.split(' · ')[0],
-              place: [loc.name.split(' · ')[1], loc.line ? WORKSPACE_LINES[loc.line].label : 'HiLink'].filter(Boolean).join(' · '),
+              // the name, and beneath it the start of the address (which floor, which street)
+              name: loc.name,
+              place: loc.address.split(', ').slice(0, 2).join(', '),
               image: (LOCATION_PHOTOS[loc.id] ?? [loc.photo])[0],
               soon: loc.comingSoon ? t.soon : undefined,
             }))}
@@ -375,7 +375,7 @@ function TierCards({ tiers, rows, opening, more, lang }: { tiers: Tier[]; rows: 
                     <dd className="mt-2 flex flex-wrap gap-2">
                       {locs.map((l) => (
                         <a key={l.id} href={ws(lang, `/locations/${l.id}`)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-full border border-white/30 py-1 pl-3 pr-2.5 text-[13px] leading-[1.4] hover:border-white transition-colors">
-                          {l.name}{l.comingSoon ? ` (${opening})` : ''} <ArrowUpRight size={13} className="shrink-0" />
+                          {l.name}{floorOf(l) ? ` · ${floorOf(l)}` : ''}{l.comingSoon ? ` (${opening})` : ''} <ArrowUpRight size={13} className="shrink-0" />
                         </a>
                       ))}
                     </dd>
@@ -471,7 +471,7 @@ function LocationRow({ items, label }: { items: { href: string; name: string; pl
       </div>
       <div className="mt-6 flex justify-end gap-1.5">
         {items.map((it, k) => (
-          <button key={it.name} type="button" onClick={() => go(k - at)} aria-label={it.name} aria-current={k === at ? 'true' : undefined} className="grid h-6 w-5 place-items-center">
+          <button key={k} type="button" onClick={() => go(k - at)} aria-label={`${it.name}, ${it.place}`} aria-current={k === at ? 'true' : undefined} className="grid h-6 w-5 place-items-center">
             <span className={`block h-2 w-2 rounded-full border transition-colors ${k === at ? 'border-[#D12126] bg-[#D12126]' : 'border-[#2A2623]/50'}`} />
           </button>
         ))}

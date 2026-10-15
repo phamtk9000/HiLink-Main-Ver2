@@ -24,7 +24,7 @@ export type LineCode = keyof typeof WORKSPACE_LINES;
 export const LOCATIONS: { id: string; name: string; line: LineCode | null; ward: string; address: string; hours: string; comingSoon: boolean; solutions: string[]; intro: { en: string; vi: string }; photo: string }[] = [
   {
     "id": "obc",
-    "name": "60 Ly Thai To",
+    "name": "HiLink Business Club",
     "line": "HBC",
     "ward": "Ly Thai To",
     "address": "Floor 7, 60 Ly Thai To, P. Ly Thai To, Ha Noi",
@@ -100,7 +100,7 @@ export const LOCATIONS: { id: string; name: string; line: LineCode | null; ward:
   },
   {
     "id": "ttt-f15",
-    "name": "4 Ton That Tung · Floor 15",
+    "name": "HiLink Premium Workspace CNC Tower",
     "line": "HPW",
     "ward": "Kim Lien",
     "address": "Floor 15, 4 Ton That Tung, Kim Lien, Ha Noi",
@@ -122,7 +122,7 @@ export const LOCATIONS: { id: string; name: string; line: LineCode | null; ward:
   },
   {
     "id": "ttt-f17",
-    "name": "4 Ton That Tung · Floor 17",
+    "name": "HiLink Workspace CNC Tower",
     "line": "HW",
     "ward": "Kim Lien",
     "address": "Floor 17, 4 Ton That Tung, Kim Lien, Ha Noi",
@@ -140,7 +140,7 @@ export const LOCATIONS: { id: string; name: string; line: LineCode | null; ward:
   },
   {
     "id": "ttt-f19",
-    "name": "4 Ton That Tung · Floor 19",
+    "name": "HiLink Workspace CNC Tower",
     "line": "HW",
     "ward": "Kim Lien",
     "address": "Floor 19, 4 Ton That Tung, Kim Lien, Ha Noi",
@@ -157,3 +157,6 @@ export const LOCATIONS: { id: string; name: string; line: LineCode | null; ward:
     "photo": "/photos/f19-window.webp"
   }
 ];
+
+/** The floor of an address ("Floor 17"), to tell apart locations that share a name. */
+export const floorOf = (l: { address: string }) => (/^Floor \d+/.exec(l.address)?.[0] ?? '');
