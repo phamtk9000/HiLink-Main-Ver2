@@ -242,23 +242,24 @@ export function ConciergePage() {
       </section>
 
       {/* The two houses where the service is delivered, as on foraspace.com
-          (About): two photographs side by side with no gap, rounded at the
-          outer corners only, each with its name, a line and the way in laid
-          over the foot of it in light type. One above the other on phones. */}
+          (About), spread to the full width of the page: two photographs side
+          by side with no gap, rounded at the outer corners only, each with
+          its name (in the site's serif), a line and the way in laid over the
+          foot of it in light type. One above the other on phones. */}
       <section className="relative py-24 lg:py-32 bg-white">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <RuleTitle>{t.housesTitle}</RuleTitle>
-          <div className="mx-auto mt-14 flex max-w-[1152px] flex-col md:flex-row lg:mt-16">
+          <div className="mt-14 flex flex-col md:flex-row lg:mt-16">
             {t.houses.map(([name, , line], k) => (
               <Link
                 key={name}
                 to={l(HOUSE_LINKS[k])}
-                className={`group relative block h-[440px] overflow-hidden bg-[#2A2623] outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D12126] md:h-[460px] md:flex-1 lg:h-[530px] ${k === 0 ? 'rounded-t-[8px] md:rounded-r-none md:rounded-l-[8px]' : 'rounded-b-[8px] md:rounded-l-none md:rounded-r-[8px]'}`}
+                className={`group relative block h-[440px] overflow-hidden bg-[#2A2623] outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D12126] md:h-[460px] md:flex-1 lg:h-[560px] ${k === 0 ? 'rounded-t-[8px] md:rounded-r-none md:rounded-l-[8px]' : 'rounded-b-[8px] md:rounded-l-none md:rounded-r-[8px]'}`}
               >
-                <img loading="lazy" decoding="async" {...photo(HOUSE_PHOTOS[k], '(min-width: 768px) 576px, 100vw')} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] group-hover:scale-[1.03]" />
+                <img loading="lazy" decoding="async" {...photo(HOUSE_PHOTOS[k], '(min-width: 768px) 50vw, 100vw')} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] group-hover:scale-[1.03]" />
                 <span className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent" aria-hidden="true" />
                 <span className="absolute inset-x-0 bottom-0 px-6 pb-8 text-[#F3F0E7] sm:px-10 lg:px-20 lg:pb-10">
-                  <span className="block text-[1.5rem] leading-[1.25] lg:text-[1.7rem]">{name}</span>
+                  <span className="serif block text-[1.75rem] leading-[1.2] lg:text-[2.25rem]">{name}</span>
                   <span className="mt-3.5 block max-w-[416px] text-[14px] leading-[1.5] text-[#F3F0E7]/90">{line}</span>
                   <span className="mt-4 inline-flex items-center gap-3 text-[15px] lg:text-[16px]">
                     {t.houseLinks[k]} <ArrowRight size={18} strokeWidth={1.5} className="transition-transform duration-300 group-hover:translate-x-1" />
