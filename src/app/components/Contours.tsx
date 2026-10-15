@@ -6,7 +6,9 @@
 //
 // Canvas 2D, drawn only while the section is on screen. Touch screens get the
 // drift only; reduced motion, one still frame.
+// On phones (lib/calm.ts) it is drawn still, as for reduced motion.
 import { useEffect, useRef } from 'react';
+import { stillMotion } from '../lib/calm';
 
 const LINES = 26;
 const INK = '249,247,244';
@@ -19,7 +21,7 @@ export function Contours({ className = '' }: { className?: string }) {
     const host = canvas?.closest('section') ?? canvas?.parentElement;
     const ctx = canvas?.getContext('2d');
     if (!canvas || !host || !ctx) return undefined;
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reduced = stillMotion();
     const pointerOk = !reduced && window.matchMedia('(pointer: fine)').matches;
     // On a touch screen the lens drifts slowly by itself.
     const auto = !reduced && !pointerOk;

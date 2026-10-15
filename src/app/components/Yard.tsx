@@ -7,7 +7,9 @@
 // 2D canvas, drawn back to front (row by row, since the lanes separate the
 // rows; then along each row, then up each stack). It runs while on screen (the same on
 // phones) and stops off screen; reduced motion shows one still frame.
+// On phones (lib/calm.ts) it is drawn still, as for reduced motion.
 import { useEffect, useRef } from 'react';
+import { stillMotion } from '../lib/calm';
 
 const COLS = 6, ROWS = 5;            // stacks along x (length) and y (across)
 const LX = 3, LY = 1, LZ = 1;        // one container, in units
@@ -32,7 +34,7 @@ export function Yard({ className = '' }: { className?: string }) {
     const host = canvas?.closest('section') ?? canvas?.parentElement;
     const ctx = canvas?.getContext('2d');
     if (!canvas || !host || !ctx) return undefined;
-    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const still = stillMotion();
 
     // The yard: a height and a colour for every slot.
     const heights: number[][] = [];

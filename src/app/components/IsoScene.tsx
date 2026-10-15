@@ -17,8 +17,10 @@
 // and fades out under the copy (from below on phones); it runs while on
 // screen, the same on phones, and stops off screen. Reduced motion shows one
 // still frame.
+// On phones (lib/calm.ts) it is drawn still, as for reduced motion.
 import { useEffect, useRef } from 'react';
 import { VN, PHU_QUOC, ISLANDS, CITIES, inside } from '../lib/vietnam';
+import { stillMotion } from '../lib/calm';
 
 export type SceneKind = 'towers' | 'office' | 'market' | 'lounge';
 
@@ -415,7 +417,7 @@ export function IsoScene({ kind, className = '' }: { kind: SceneKind; className?
     const host = canvas?.closest('section') ?? canvas?.parentElement;
     const ctx = canvas?.getContext('2d');
     if (!canvas || !host || !ctx) return undefined;
-    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const still = stillMotion();
     const scene = SCENES[kind]();
     let w = 0, h = 0, dpr = 1, u = 24, ox = 0, oy = 0, raf = 0, visible = false;
     const t0 = performance.now();

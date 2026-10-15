@@ -7,7 +7,9 @@
 // The SVG is generated once with a fixed seed. Pointer work only runs while
 // the pointer is over the section; the bobbing is CSS (theme.css,
 // .hl-candles). Touch screens get the bobbing only; reduced motion, neither.
+// On phones (lib/calm.ts) it is drawn still, as for reduced motion.
 import { useEffect, useRef } from 'react';
+import { stillMotion } from '../lib/calm';
 
 const VB_W = 1440;
 const VB_H = 810;
@@ -68,7 +70,7 @@ export function Candles({ className = '' }: { className?: string }) {
     const svg = svgRef.current;
     const host = svg?.closest('section') ?? svg?.parentElement;
     if (!svg || !host) return undefined;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    if (stillMotion()) return undefined;
     // On a touch screen there is no pointer to follow: the swell sweeps
     // slowly from side to side while the section is on screen.
     const auto = window.matchMedia('(pointer: coarse)').matches;

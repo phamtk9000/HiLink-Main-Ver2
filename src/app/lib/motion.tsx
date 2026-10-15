@@ -48,6 +48,8 @@ export const loadMotion = () =>
   ));
 
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Phones get less motion than wide screens (lib/calm.ts).
+const phone = () => window.matchMedia('(max-width: 767px)').matches;
 
 /** Jump to the top with no glide — for a route change. */
 export function scrollTopNow() {
@@ -191,9 +193,13 @@ export function ScrollMotion() {
     document.fonts?.ready.then(refresh).catch(() => {});
     // Wait one frame so the new page has laid out.
     raf = requestAnimationFrame(() => {
+      // On phones: no split headings, no parallax, no growing frames — only
+      // a short plain fade as cards and copy arrive.
+      const calm = phone();
+      const RISE_Y = calm ? 0 : 50;
       ctx = gsap.context(() => {
         // 1. Headings: h2 everywhere in main, h1 unless framer already animates it.
-        main.querySelectorAll<HTMLElement>('h1, h2').forEach((el) => {
+        if (!calm) main.querySelectorAll<HTMLElement>('h1, h2').forEach((el) => {
           if (el.tagName === 'H1' && animatedByFramer(el)) return;
           if (el.closest('[aria-hidden="true"], button, a')) return;
           const isHero = el.tagName === 'H1';
@@ -229,7 +235,7 @@ export function ScrollMotion() {
           items.forEach((c) => { if (!cards.includes(c) && !cards.some((p) => p.contains(c))) cards.push(c); });
         });
         if (cards.length) {
-          gsap.set(cards, { autoAlpha: 0, y: 50 });
+          gsap.set(cards, { autoAlpha: 0, y: RISE_Y });
           ScrollTrigger.batch(cards, {
             start: 'top 92%',
             once: true,
@@ -239,8 +245,8 @@ export function ScrollMotion() {
                 const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
                 return Math.abs(ra.top - rb.top) > 12 ? ra.top - rb.top : ra.left - rb.left;
               });
-              gsap.to(els, { y: 0, duration: 0.67, delay: 0.15, ease: RISE, stagger: 0.09, overwrite: 'auto', clearProps: 'transform' });
-              gsap.to(els, { autoAlpha: 1, duration: 0.67, ease: FADE, stagger: 0.09, clearProps: 'opacity,visibility' });
+              if (!calm) gsap.to(els, { y: 0, duration: 0.67, delay: 0.15, ease: RISE, stagger: 0.09, overwrite: 'auto', clearProps: 'transform' });
+              gsap.to(els, { autoAlpha: 1, duration: calm ? 0.45 : 0.67, ease: FADE, stagger: calm ? 0.05 : 0.09, clearProps: 'opacity,visibility' });
             },
           });
         }
@@ -258,20 +264,20 @@ export function ScrollMotion() {
               !cards.includes(c) && !c.getAttribute('style') && !animatedByFramer(c),
           ).slice(0, 3);
           if (!after.length) return;
-          gsap.set(after, { autoAlpha: 0, y: 50 });
+          gsap.set(after, { autoAlpha: 0, y: RISE_Y });
           ScrollTrigger.create({
             trigger: h2,
             start: 'top 85%',
             once: true,
             onEnter: () => {
-              gsap.to(after, { y: 0, duration: 0.67, delay: 0.25, ease: RISE, stagger: 0.08, clearProps: 'transform' });
-              gsap.to(after, { autoAlpha: 1, duration: 0.67, delay: 0.1, ease: FADE, stagger: 0.08, clearProps: 'opacity,visibility' });
+              if (!calm) gsap.to(after, { y: 0, duration: 0.67, delay: 0.25, ease: RISE, stagger: 0.08, clearProps: 'transform' });
+              gsap.to(after, { autoAlpha: 1, duration: calm ? 0.45 : 0.67, delay: 0.1, ease: FADE, stagger: 0.08, clearProps: 'opacity,visibility' });
             },
           });
         });
 
         // 2c. Framed media that grows to full size as it comes up the screen.
-        main.querySelectorAll<HTMLElement>('[data-scroll-grow]').forEach((el) => {
+        if (!calm) main.querySelectorAll<HTMLElement>('[data-scroll-grow]').forEach((el) => {
           gsap.fromTo(el, { scale: 0.92 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: el, start: 'top 95%', end: 'top 25%', scrub: 0.6 } });
         });
 
@@ -287,7 +293,7 @@ export function ScrollMotion() {
         });
 
         // 3. Parallax: large photographs that are not links and not already animated.
-        main.querySelectorAll<HTMLImageElement>('section img').forEach((img) => {
+        if (!calm) main.querySelectorAll<HTMLImageElement>('section img').forEach((img) => {
           if (img.closest('a, button') || img.getAttribute('style') || animatedByFramer(img)) return;
           const frame = img.parentElement;
           if (!frame || img.getBoundingClientRect().height < 320) return;
@@ -327,7 +333,7 @@ export function ScrollMotion() {
 /** Lets the background pattern (theme.css) drift slowly against the scroll. */
 export function PatternDrift() {
   useEffect(() => {
-    if (reducedMotion()) return undefined;
+    if (reducedMotion() || phone()) return undefined;
     const onScroll = () => document.documentElement.style.setProperty('--pat-drift', `${Math.round(window.scrollY * -0.06)}px`);
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();

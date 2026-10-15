@@ -615,3 +615,10 @@ main section[class*="bg-[#F4F0EA]"]::before {
 .hl-caret { display: inline-block; width: 2px; height: 0.95em; margin-left: 3px; vertical-align: -0.1em; background: #D12126; animation: hl-caret 1s steps(1) infinite; }
 @keyframes hl-caret { 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .hl-caret { animation: none; } }
+
+/* Phones get fewer effects (lib/calm.ts): looping and drawn decoration holds
+   still, and drawn ornaments simply appear. */
+@media (max-width: 767px) {
+  .hl-candles g { animation: none; }
+  .hl-corner, .hl-corner__line, .hl-corner__gem { transition: none; }
+}

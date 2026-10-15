@@ -17,6 +17,7 @@
 // The loop runs only while the section is on screen and the tab is visible.
 // Reduced motion: one still frame, no auto-advance. No WebGL: the gradient,
 // stats and captions still work, without the lines.
+// On phones (lib/calm.ts) it is drawn still, as for reduced motion.
 import { useEffect, useRef, useState } from 'react';
 import { Moon, MoonStar, Pause, Play, Sun, SunDim, Sunrise, Sunset } from 'lucide-react';
 import { PARTNER_FIGURE } from '../data/site';
@@ -24,6 +25,7 @@ import { useLang } from '../lib/i18n';
 import { LinkField, rgb, type Palette } from '../lib/linkField';
 import { Flag } from './Flag';
 import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
+import { stillMotion } from '../lib/calm';
 
 type Scene = 0 | 1 | 2 | 3;
 type Tod = 'predawn' | 'sunrise' | 'daytime' | 'dusk' | 'sunset' | 'night';
@@ -119,7 +121,7 @@ export function LinkPhilosophy() {
   const [webgl, setWebgl] = useState(true);
   const [touch, setTouch] = useState(false);
   const [cycle, setCycle] = useState(0); // restarts the auto-advance timer
-  const reduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduced = stillMotion();
   const sky = SKIES[tod];
 
   useEffect(() => {

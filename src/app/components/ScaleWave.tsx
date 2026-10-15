@@ -9,12 +9,14 @@
 // slowly while on screen, stops off screen and does not react to the
 // pointer. Without WebGL2, fine light lines on a 2D canvas stand in.
 // Reduced motion: a still frame and the final numbers.
+// On phones (lib/calm.ts) it is drawn still, as for reduced motion.
 import { useEffect, useRef, useState } from 'react';
 import { PARTNER_COUNT, SERVICES } from '../data/site';
 import { useLang } from '../lib/i18n';
 import { Flag } from './Flag';
 import { createStripeSilk, STRIPE_HERO, type SilkConfig } from '../lib/stripeSilk';
 import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
+import { stillMotion } from '../lib/calm';
 
 const T = {
   en: {
@@ -119,7 +121,7 @@ export function ScaleWave() {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [counted, setCounted] = useState(false);
-  const still = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const still = stillMotion();
 
   useEffect(() => {
     const section = sectionRef.current;
