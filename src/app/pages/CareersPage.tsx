@@ -13,7 +13,8 @@ import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 const VALUE_ICONS = [<Heart size={26} />, <GraduationCap size={26} />, <Globe2 size={26} />, <Sparkles size={26} />, <Scale size={26} />, <Compass size={26} />];
 
 // One photograph per team (Teams at HiLink).
-const TEAM_PHOTOS = ['/photos/f19-window.webp', '/photos/f15-reception.webp', '/photos/hbc-client-meeting.webp', '/photos/f15-boardroom.webp'];
+// Generated photographs of the kind of work each team does (PHOTO-CREDITS.md).
+const TEAM_PHOTOS = ['/photos/ai-team-property.webp', '/photos/ai-team-community.webp', '/photos/ai-team-advisory.webp', '/photos/ai-team-studio.webp'];
 
 const gallery = [
   '/photos/hbc-lounge-2.webp',

@@ -40,9 +40,9 @@ TARGETS = {
     'city':  (0.50, 0.08, 0.87, 0.28, 0.08, 0.030),
 }
 GROUPS = [
-    ('club', ('hbc-', 'qc-', 'quarter-club-', 'ai-event-')),
-    ('city', ('stock-', 'blog-dong-da', 'forum-dong-da-', 'forum-quan-dong-da')),
-    ('space', ('f15-', 'f19-', 'nc35-', 'qh-', 'blog-', 'forum-')),
+    ('club', ('hbc-', 'qc-', 'quarter-club-', 'ai-event-', 'ai-club-', 'ai-cc-')),
+    ('city', ('stock-', 'blog-dong-da', 'forum-dong-da-', 'forum-quan-dong-da', 'ai-forum-')),
+    ('space', ('f15-', 'f19-', 'nc35-', 'qh-', 'blog-', 'forum-', 'ai-team-')),
 ]
 
 

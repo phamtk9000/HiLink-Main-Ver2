@@ -30,7 +30,7 @@ export const FORUM_POSTS: ForumPost[] = [
    "vi": "Khi doanh nghiệp cần một địa chỉ đăng ký và người nhận thư, nhưng chưa cần chỗ ngồi hằng ngày.",
    "en": "For when a company needs a registered address and someone to receive its post, but not yet a desk every day."
   },
-  "image": "/photos/hbc-reception.webp",
+  "image": "/photos/ai-forum-eoffice.webp",
   "blocks": [
    {
     "type": "p",
@@ -112,7 +112,7 @@ export const FORUM_POSTS: ForumPost[] = [
    "vi": "Từ buổi gặp bốn người đến cuộc họp mười hai người — và cả lounge khi bạn tổ chức sự kiện.",
    "en": "From a meeting of four to a table of twelve — and whole lounges when you host an event."
   },
-  "image": "/photos/f15-boardroom.webp",
+  "image": "/photos/ai-forum-meeting.webp",
   "blocks": [
    {
     "type": "p",
@@ -172,7 +172,7 @@ export const FORUM_POSTS: ForumPost[] = [
    "vi": "Một không gian làm việc boutique giữa phố cổ, vài phút đi bộ ra hồ Hoàn Kiếm.",
    "en": "A boutique workspace in the old city, a few minutes' walk from Hoan Kiem Lake."
   },
-  "image": "/photos/nc35-hall.webp",
+  "image": "/photos/ai-forum-cathedral.webp",
   "blocks": [
    {
     "type": "p",
@@ -232,7 +232,7 @@ export const FORUM_POSTS: ForumPost[] = [
    "vi": "Lounge, văn phòng riêng, phòng họp và không gian sự kiện trên cùng một sàn — HiLink Premium Workspace.",
    "en": "Lounge, private offices, meeting rooms and an event space on one floor — HiLink Premium Workspace."
   },
-  "image": "/photos/f15-lounge-wide-xl.webp",
+  "image": "/photos/ai-forum-skyline.webp",
   "blocks": [
    {
     "type": "p",
@@ -300,7 +300,7 @@ export const FORUM_POSTS: ForumPost[] = [
    "vi": "Lounge cho doanh nhân, doanh nghiệp và cộng đồng — tiếp khách, giao lưu, làm việc — tại tầng 7, 60 Lý Thái Tổ.",
    "en": "A lounge for businesspeople, companies and the community — to host, to meet, to work — on Floor 7, 60 Ly Thai To."
   },
-  "image": "/photos/hbc-lounge-3.webp",
+  "image": "/photos/ai-forum-lake.webp",
   "blocks": [
    {
     "type": "p",
@@ -360,7 +360,7 @@ export const FORUM_POSTS: ForumPost[] = [
    "vi": "Những điều nên chuẩn bị để tài sản được chăm sóc và sinh lời khi bạn không có mặt.",
    "en": "What to prepare so the property is looked after, and earning, while you are away."
   },
-  "image": "/properties/quarter-house/qh-07.webp",
+  "image": "/photos/ai-forum-keys.webp",
   "blocks": [
    {
     "type": "p",
@@ -423,7 +423,7 @@ export const FORUM_POSTS: ForumPost[] = [
    "vi": "Hãy cùng HiLink phân tích những yếu tố về không gian làm việc để giúp bạn tìm ra giải pháp văn phòng phù hợp nhất với nhu cầu của mình.",
    "en": "HiLink breaks down the workspace factors that help you choose the office solution that best fits your needs."
   },
-  "image": "/photos/blog-office-solution.webp",
+  "image": "/photos/ai-forum-chairs.webp",
   "blocks": [
    {
     "type": "p",
@@ -602,7 +602,7 @@ export const FORUM_POSTS: ForumPost[] = [
    "vi": "HiLink mang đến những giải pháp hỗ trợ bạn làm việc hiệu quả hơn và tận dụng tối đa dịch vụ tại coworking space.",
    "en": "The HiLink services that help you work more effectively — and how to get the most out of each one."
   },
-  "image": "/photos/blog-coworking-services.webp",
+  "image": "/photos/ai-forum-coffee.webp",
   "blocks": [
    {
     "type": "p",
@@ -762,7 +762,7 @@ export const FORUM_POSTS: ForumPost[] = [
    "vi": "Với không gian mở và thiết kế hiện đại, HiLink mang đến điều kiện lý tưởng để bạn phát huy cảm hứng sáng tạo và kết nối hiệu quả.",
    "en": "With open space and modern design, HiLink creates the ideal conditions for creativity and meaningful connection."
   },
-  "image": "/photos/blog-open-space.webp",
+  "image": "/photos/ai-forum-office.webp",
   "blocks": [
    {
     "type": "p",
@@ -868,7 +868,7 @@ export const FORUM_POSTS: ForumPost[] = [
    "vi": "Quận Đống Đa đã trở thành một trong những điểm đến phổ biến cho nhiều doanh nghiệp tìm kiếm không gian làm việc hiện đại và thuận tiện.",
    "en": "Dong Da has become one of Hanoi's most popular districts for businesses looking for a modern, convenient workspace."
   },
-  "image": "/photos/blog-dong-da.webp",
+  "image": "/photos/ai-forum-dongda.webp",
   "blocks": [
    {
     "type": "p",

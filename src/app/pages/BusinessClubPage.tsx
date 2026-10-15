@@ -27,11 +27,11 @@ const HOUSE_PHOTOS = [
 const HOUSE_IDS = ['obc', 'club-tqk'];
 const CARDS = ['/brand/card-club.webp', '/brand/card-premier.webp', '/brand/card-executive.webp'];
 // One photograph for each benefit (the order of T.benefits).
-// Networking and private hires are shown with generated event photographs (PHOTO-CREDITS.md).
-const BENEFIT_PHOTOS = ['/photos/hbc-globe.webp', '/photos/ai-event-networking.webp', '/photos/hbc-host.webp', '/photos/hbc-client-meeting.webp', '/photos/hbc-mr8.webp', '/photos/ai-event-dinner.webp'];
+// Generated photographs, one for each benefit (PHOTO-CREDITS.md).
+const BENEFIT_PHOTOS = ['/photos/ai-club-lounge.webp', '/photos/ai-club-networking.webp', '/photos/ai-club-concierge.webp', '/photos/ai-club-reciprocal.webp', '/photos/ai-club-advisor.webp', '/photos/ai-event-dinner.webp'];
 // The partner network: a photograph for each group, an icon for each service
 // (the order of T.svc; no glyph twice in a group).
-const SVC_PHOTOS = ['/photos/hbc-advisor.webp', '/photos/hbc-fandb.webp'];
+const SVC_PHOTOS = ['/photos/ai-club-support.webp', '/photos/ai-club-dining.webp'];
 const SVC_ICONS = [
   [Sparkles, Search, TrendingUp, ClipboardList, Scale, Layers, Users, Truck, Globe],
   [UtensilsCrossed, Bell, Sparkles, Calendar, Plane],

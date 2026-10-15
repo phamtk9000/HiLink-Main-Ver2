@@ -18,15 +18,18 @@ HiLink property; replace them with HiLink photographs when suitable ones exist.
 
 ## Generated photographs
 
-The files below were generated with Higgsfield (Soul 2.0; the dinner photograph
-then edited with GPT Image 2.5 to remove a stray label) on 15/10/2026 at the
-user's request. They show events in general, not real HiLink events or
-people, so they are used only where a page describes a kind of experience,
-never to stand for a named HiLink place. Replace them with photographs of
-HiLink's own events when those exist.
+The files named `public/photos/ai-*.webp` were generated with Higgsfield
+(Soul 2.0; a few made or cleaned of stray lettering with GPT Image 2.5) on
+15/10/2026 at the user's request. They show the kind of experience a page
+describes, not real HiLink events, staff, members or rooms, so they are never
+used to stand for a named HiLink place. Replace them with HiLink's own
+photographs when those exist. Graded with the other photographs by
+scripts/photo-grade.py (club, space or city).
 
-| File | Used on |
+| Files | Used on |
 | --- | --- |
-| `public/photos/ai-event-networking.webp` | Business Club — "Networking opportunities" |
-| `public/photos/ai-event-dinner.webp` | Business Club — "Private hires" |
-| `public/photos/ai-event-reception.webp` | Concierge — "Events & Experiences" |
+| `ai-club-lounge`, `ai-club-networking`, `ai-club-concierge`, `ai-club-reciprocal`, `ai-club-advisor`, `ai-event-dinner` | Business Club — "What membership includes" (one per benefit) |
+| `ai-club-support`, `ai-club-dining` | Business Club — business support and lifestyle services |
+| `ai-cc-travel`, `ai-cc-dining`, `ai-event-reception`, `ai-cc-lifestyle`, `ai-cc-assistant`, `ai-cc-bespoke` | Concierge — "What we can arrange" (one per service) |
+| `ai-team-property`, `ai-team-community`, `ai-team-advisory`, `ai-team-studio` | Careers — the four teams |
+| `ai-forum-*` (10) | Forum — the cover of each article (Home carousel, forum list, article page) |

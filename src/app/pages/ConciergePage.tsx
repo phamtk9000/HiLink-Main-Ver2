@@ -19,8 +19,8 @@ import { photo } from '../lib/photo';
 
 const HERO = ['/photos/hbc-reception.webp', '/photos/hbc-lounge-5.webp', '/photos/qc-bar-2.webp'];
 // One photograph for each thing we arrange (the order of T.services).
-// Events & experiences is shown with a generated event photograph (PHOTO-CREDITS.md).
-const SERVICE_PHOTOS = ['/photos/hbc-hostess.webp', '/photos/hbc-fandb.webp', '/photos/ai-event-reception.webp', '/photos/hbc-study.webp', '/photos/hbc-advisor.webp', '/photos/hbc-host.webp'];
+// Generated photographs, one for each service (PHOTO-CREDITS.md).
+const SERVICE_PHOTOS = ['/photos/ai-cc-travel.webp', '/photos/ai-cc-dining.webp', '/photos/ai-event-reception.webp', '/photos/ai-cc-lifestyle.webp', '/photos/ai-cc-assistant.webp', '/photos/ai-cc-bespoke.webp'];
 const HOUSE_PHOTOS = ['/photos/hbc-lounge-3.webp', '/photos/qc-lounge.webp'];
 // Each house's own place on the Business Club page.
 const HOUSE_LINKS = ['/business-club#obc', '/business-club#club-tqk'];
