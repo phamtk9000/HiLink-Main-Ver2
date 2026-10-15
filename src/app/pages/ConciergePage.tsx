@@ -19,10 +19,11 @@ import { photo } from '../lib/photo';
 const HERO = ['/photos/hbc-reception.webp', '/photos/hbc-lounge-5.webp', '/photos/qc-bar-2.webp'];
 // The photograph beside the enquiry form.
 const FORM_PHOTO = '/photos/ai-cc-lifestyle.webp';
-// One photograph for each thing we arrange (the order of T.services):
-// generated, in warm sepia seen from above, after a reference the user gave
-// (PHOTO-CREDITS.md).
-const SERVICE_PHOTOS = ['/photos/ai-sepia-travel.webp', '/photos/ai-sepia-dining.webp', '/photos/ai-sepia-events.webp', '/photos/ai-sepia-lifestyle.webp', '/photos/ai-sepia-business.webp', '/photos/ai-sepia-bespoke.webp'];
+// One photograph for each thing we arrange (the order of T.services), all
+// generated (PHOTO-CREDITS.md): the first three as before, at the user's
+// request; the last three in warm sepia seen from above, after a reference
+// the user gave.
+const SERVICE_PHOTOS = ['/photos/ai-cc-travel.webp', '/photos/ai-cc-dining.webp', '/photos/ai-event-reception.webp', '/photos/ai-sepia-lifestyle.webp', '/photos/ai-sepia-business.webp', '/photos/ai-sepia-bespoke.webp'];
 const HOUSE_PHOTOS = ['/photos/hbc-lounge-3.webp', '/photos/qc-lounge.webp'];
 // Each house's own place on the Business Club page.
 const HOUSE_LINKS = ['/business-club#obc', '/business-club#club-tqk'];
@@ -267,6 +268,9 @@ export function ConciergePage() {
         <div className="[display:grid] grid-cols-[minmax(0,1fr)] lg:grid-cols-12">
           <div className="relative min-h-[320px] overflow-hidden sm:min-h-[420px] lg:col-span-5 lg:min-h-0">
             <img {...photo(FORM_PHOTO, '(min-width: 1024px) 42vw, 100vw')} alt="" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
+            {/* the HiLink mark in white at the foot, as on every form's photograph */}
+            <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/50 to-transparent" aria-hidden="true" />
+            <img src="/brand/logo-hilink-lockup.svg" alt="" aria-hidden="true" className="absolute bottom-6 left-6 h-9 w-auto [filter:brightness(0)_invert(1)] opacity-95 lg:bottom-8 lg:left-8 lg:h-11" />
           </div>
           <div className="px-6 py-16 sm:px-10 lg:col-span-7 lg:px-20 lg:py-24 xl:px-28">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126]">{t.formEyebrow}</p>

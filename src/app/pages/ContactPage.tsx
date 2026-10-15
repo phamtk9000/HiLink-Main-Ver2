@@ -174,6 +174,9 @@ export function ContactPage() {
           <div className="lg:sticky lg:top-[76px] flex flex-col gap-8 p-6 sm:p-10 lg:p-12 lg:h-[calc(100vh-76px)]">
             <div className="relative min-h-[260px] flex-1 overflow-hidden rounded-[8px] bg-[#2A2623]">
               <img {...photo('/photos/f15-reception.webp', '(min-width: 1024px) 38vw, 100vw')} alt={t.photoAlt} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" />
+              {/* the HiLink mark in white at the foot, as on every form's photograph */}
+              <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/50 to-transparent" aria-hidden="true" />
+              <img src="/brand/logo-hilink-lockup.svg" alt="" aria-hidden="true" className="absolute bottom-6 left-6 h-9 w-auto [filter:brightness(0)_invert(1)] opacity-95 lg:bottom-8 lg:left-8 lg:h-11" />
             </div>
             <div className="text-center">
               <p className="serif text-[1.55rem] lg:text-[1.7rem] text-[#2A2623]">{t.find}</p>
