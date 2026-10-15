@@ -10,6 +10,7 @@ import { Flag } from '../components/Flag';
 import { photo } from '../lib/photo';
 import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 import { LifeCollage } from '../components/LifeCollage';
+import { ABOUT } from '../data/aboutCopy';
 import { ValueTiles } from '../components/ValueTiles';
 
 const VALUE_ICONS = [<Heart size={26} />, <GraduationCap size={26} />, <Globe2 size={26} />, <Sparkles size={26} />, <Scale size={26} />, <Compass size={26} />];
@@ -107,8 +108,9 @@ export function CareersPage() {
         </div>
       </section>
 
-      {/* Life at HiLink — the scattered collage (LifeCollage). */}
-      <LifeCollage eyebrow={t.lifeEyebrow} title={t.lifeTitle} lead={t.lifeLead} alt={t.lifeAlt} />
+      {/* Life at HiLink — the scattered collage (LifeCollage), with HiLink's line
+          (approved, from the About copy) written in by hand. */}
+      <LifeCollage eyebrow={t.lifeEyebrow} title={t.lifeTitle} lead={t.lifeLead} alt={t.lifeAlt} quote={ABOUT[lang].howTitle} />
 
       {/* Why join — values; each tile fills with an abstract ground under the pointer (ValueTiles). */}
       <section id="why-join" className="py-24 lg:py-32 bg-white">

@@ -8,8 +8,12 @@
 // On phones the pictures stack in two columns instead (the scattered field
 // would make them too small to see).
 // The ground is a warm sand (white and the dark ground were both turned
-// down). Reduced motion keeps everything still.
-import { useEffect, useRef } from 'react';
+// down). In the empty lower right corner HiLink's line is written by hand
+// as it comes into view — each line drawn out from the left, then a red
+// stroke under it — in Dancing Script, the one handwritten face on the site
+// (it carries Vietnamese). Reduced motion keeps everything still.
+import { useEffect, useRef, useState } from 'react';
+import '@fontsource-variable/dancing-script/wght.css';
 import { photo } from '../lib/photo';
 import { loadMotion } from '../lib/motion';
 import { Flag } from './Flag';
@@ -41,7 +45,31 @@ const NINE_PHOTOS = [
   '/photos/qc-dining.webp', '/photos/f19-window.webp', '/photos/f15-lounge-cabin.webp',
 ];
 
-export function LifeCollage({ eyebrow, title, lead, alt }: { eyebrow: string; title: string; lead: string; alt: string }) {
+// The line, handwritten: written out when it comes into view.
+function Handwritten({ text, className = '' }: { text: string; className?: string }) {
+  const ref = useRef<HTMLQuoteElement>(null);
+  const [on, setOn] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setOn(true); io.disconnect(); } }, { threshold: 0.6 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  const lines = text.split(/(?<=\.)\s+/);
+  return (
+    <blockquote ref={ref} className={`hl-hand ${on ? 'is-in' : ''} ${className}`}>
+      {lines.map((line, k) => (
+        <span key={line} className="hl-hand__line block" style={{ transitionDelay: `${0.2 + k * 1.5}s` }}>{line}</span>
+      ))}
+      <svg viewBox="0 0 220 14" className="mt-1 w-[62%]" fill="none" aria-hidden="true">
+        <path className="hl-hand__stroke" style={{ transitionDelay: `${0.2 + lines.length * 1.5}s` }} d="M3 9c34-6 70-7 108-4s72 4 106-3" stroke="#D12126" strokeWidth="2.4" strokeLinecap="round" pathLength={1} />
+      </svg>
+    </blockquote>
+  );
+}
+
+export function LifeCollage({ eyebrow, title, lead, alt, quote }: { eyebrow: string; title: string; lead: string; alt: string; quote: string }) {
   const sec = useRef<HTMLElement>(null);
   const field = useRef<HTMLDivElement>(null);
 
@@ -88,6 +116,7 @@ export function LifeCollage({ eyebrow, title, lead, alt }: { eyebrow: string; ti
             <div style={{ aspectRatio: String(s.r) }}>{pic(s.src, `${Math.round(s.w)}vw`)}</div>
           </div>
         ))}
+        <Handwritten text={quote} className="absolute left-[67%] top-[85%] w-[30%] text-[clamp(1.6rem,2.35vw,2.6rem)]" />
         <div data-depth={NINE.d} className="absolute" style={place(NINE)}>
           <div className="[display:grid] grid-cols-3 gap-[2px]" style={{ aspectRatio: String(NINE.r) }}>
             {NINE_PHOTOS.map((src) => <div key={src} className="min-h-0 overflow-hidden">{pic(src, '7vw')}</div>)}
@@ -103,6 +132,7 @@ export function LifeCollage({ eyebrow, title, lead, alt }: { eyebrow: string; ti
           </li>
         ))}
       </ul>
+      <Handwritten text={quote} className="mx-auto mt-12 w-fit px-6 text-[1.9rem] md:hidden" />
     </section>
   );
 }
