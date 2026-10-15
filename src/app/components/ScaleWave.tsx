@@ -9,14 +9,15 @@
 // slowly while on screen, stops off screen and does not react to the
 // pointer. Without WebGL2, fine light lines on a 2D canvas stand in.
 // Reduced motion: a still frame and the final numbers.
-// On phones (lib/calm.ts) it is drawn still, as for reduced motion.
+// It keeps moving on phones (the user wants the wave there), drawn at a
+// lower pixel ratio so scrolling stays smooth (lib/calm.ts).
 import { useEffect, useRef, useState } from 'react';
 import { PARTNER_COUNT, SERVICES } from '../data/site';
 import { useLang } from '../lib/i18n';
 import { Flag } from './Flag';
 import { createStripeSilk, STRIPE_HERO, type SilkConfig } from '../lib/stripeSilk';
 import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
-import { stillMotion } from '../lib/calm';
+import { isPhone } from '../lib/calm';
 
 const T = {
   en: {
@@ -121,7 +122,7 @@ export function ScaleWave() {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [counted, setCounted] = useState(false);
-  const still = stillMotion();
+  const still = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -135,7 +136,7 @@ export function ScaleWave() {
 
     const resize = () => {
       const r = canvas.parentElement!.getBoundingClientRect();
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, isPhone() ? 1.5 : 2);
       w = r.width; h = r.height;
       if (silk) { silk.configure(framing(w, h)); silk.resize(w, h, dpr); }
       else {

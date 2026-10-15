@@ -1,10 +1,11 @@
 // A silk surface (lib/silk.ts) filling its parent: sized to it, drawn only
 // while on screen, swelling under the pointer anywhere in the nearest
 // section (on touch screens the swell travels by itself). Still frame for reduced motion; nothing if WebGL2 is missing.
-// On phones (lib/calm.ts) it is drawn still, as for reduced motion.
+// It keeps moving on phones (the user wants the wave there), drawn at a
+// lower pixel ratio so scrolling stays smooth (lib/calm.ts).
 import { useEffect, useRef } from 'react';
 import { createSilk } from '../lib/silk';
-import { stillMotion } from '../lib/calm';
+import { isPhone } from '../lib/calm';
 
 export function SilkCanvas({ variant = 'sheet', className = '' }: { variant?: 'ribbon' | 'sheet'; className?: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -16,7 +17,7 @@ export function SilkCanvas({ variant = 'sheet', className = '' }: { variant?: 'r
     if (!canvas || !box || !host) return undefined;
     const silk = createSilk(canvas, variant);
     if (!silk) return undefined;
-    const still = stillMotion();
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const t0 = performance.now();
     const pointer = { x: -1e4, on: 0, target: 0 };
     let raf = 0, visible = false;
@@ -37,7 +38,7 @@ export function SilkCanvas({ variant = 'sheet', className = '' }: { variant?: 'r
     const run = () => { if (!raf && !still) raf = requestAnimationFrame(loop); };
     const resize = () => {
       const r = box.getBoundingClientRect();
-      silk.resize(r.width, r.height, Math.min(window.devicePixelRatio || 1, 2));
+      silk.resize(r.width, r.height, Math.min(window.devicePixelRatio || 1, isPhone() ? 1.5 : 2));
       draw(performance.now());
     };
     const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) run(); });

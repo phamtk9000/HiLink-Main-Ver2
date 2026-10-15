@@ -124,7 +124,8 @@ export function CareersPage() {
       </section>
 
       {/* Benefits + feature image */}
-      <section className="relative py-16 sm:py-24 lg:py-32 bg-white text-[#2A2623]">
+      {/* data-phone-motion: its photograph keeps the scroll parallax on phones too (lib/motion). */}
+      <section data-phone-motion className="relative py-16 sm:py-24 lg:py-32 bg-white text-[#2A2623]">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className="relative aspect-[4/3] overflow-hidden rounded-[8px]">
             <img loading="lazy" decoding="async" {...photo('/photos/hbc-team.webp')} alt={t.teamAlt} className="w-full h-full object-cover" />

@@ -193,8 +193,8 @@ export function ScrollMotion() {
     document.fonts?.ready.then(refresh).catch(() => {});
     // Wait one frame so the new page has laid out.
     raf = requestAnimationFrame(() => {
-      // On phones: no split headings, no parallax, no growing frames — only
-      // a short plain fade as cards and copy arrive.
+      // On phones: no split headings or growing frames, parallax only where a
+      // section asks for it — and a short plain fade as cards and copy arrive.
       const calm = phone();
       const RISE_Y = calm ? 0 : 50;
       ctx = gsap.context(() => {
@@ -293,17 +293,23 @@ export function ScrollMotion() {
         });
 
         // 3. Parallax: large photographs that are not links and not already animated.
-        if (!calm) main.querySelectorAll<HTMLImageElement>('section img').forEach((img) => {
-          if (img.closest('a, button') || img.getAttribute('style') || animatedByFramer(img)) return;
+        // On phones only where a section asks for it ([data-phone-motion]), and lighter.
+        main.querySelectorAll<HTMLImageElement>('section img').forEach((img) => {
+          const asked = !!img.closest('[data-phone-motion]');
+          if (calm && !asked) return;
+          // (a section that asks may have its frame fading in as a card; the
+          // picture itself is still free to move)
+          if (img.closest('a, button') || img.getAttribute('style') || (!(asked && calm) && animatedByFramer(img))) return;
           const frame = img.parentElement;
-          if (!frame || img.getBoundingClientRect().height < 320) return;
+          if (!frame || img.getBoundingClientRect().height < (calm ? 200 : 320)) return;
           if (getComputedStyle(frame).overflow === 'visible' && !img.classList.contains('absolute')) return;
+          const reach = calm ? 3 : 5, zoom = calm ? 1.08 : 1.12;
           gsap.fromTo(
             img,
-            { yPercent: -5, scale: 1.12 },
+            { yPercent: -reach, scale: zoom },
             {
-              yPercent: 5,
-              scale: 1.12,
+              yPercent: reach,
+              scale: zoom,
               ease: 'none',
               scrollTrigger: { trigger: frame, start: 'top bottom', end: 'bottom top', scrub: true },
             },

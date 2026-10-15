@@ -79,6 +79,7 @@ function Typed({ text, className = '' }: { text: string; className?: string }) {
 export function LifeCollage({ eyebrow, title, lead, alt, quote }: { eyebrow: string; title: string; lead: string; alt: string; quote: string }) {
   const sec = useRef<HTMLElement>(null);
   const field = useRef<HTMLDivElement>(null);
+  const cols = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const root = sec.current;
@@ -94,6 +95,15 @@ export function LifeCollage({ eyebrow, title, lead, alt, quote }: { eyebrow: str
           gsap.fromTo(el, { yPercent: d * 22 }, { yPercent: -d * 22, ease: 'none', scrollTrigger: { trigger: el.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } });
           gsap.from(el.firstElementChild, { scale: 0.86, autoAlpha: 0, duration: 1.1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 92%', once: true } });
         });
+        // phones: the two columns at different speeds, each picture opening up
+        const box = cols.current;
+        if (box && box.offsetHeight) {
+          const right = box.querySelector('[data-col="1"]');
+          if (right) gsap.fromTo(right, { y: 40 }, { y: -40, ease: 'none', scrollTrigger: { trigger: box, start: 'top bottom', end: 'bottom top', scrub: 0.4 } });
+          box.querySelectorAll<HTMLElement>('[data-pic]').forEach((el) => {
+            gsap.from(el, { scale: 0.92, autoAlpha: 0, duration: 0.8, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 95%', once: true } });
+          });
+        }
       }, root);
     });
     return () => { gone = true; ctx?.revert(); };
@@ -131,14 +141,21 @@ export function LifeCollage({ eyebrow, title, lead, alt, quote }: { eyebrow: str
         </div>
       </div>
 
-      {/* Phones: two columns of the same pictures, taller and wider in turn. */}
-      <ul role="list" aria-label={alt} className="mt-12 columns-2 gap-2 px-6 md:hidden">
-        {SLOTS.slice(0, 10).map((s, k) => (
-          <li key={s.src} className="mb-2 break-inside-avoid overflow-hidden" style={{ aspectRatio: k % 3 === 0 ? '3 / 4' : k % 3 === 1 ? '1 / 1' : '4 / 3' }}>
-            {pic(s.src, '50vw')}
-          </li>
+      {/* Phones: two columns of the same pictures, taller and wider in turn;
+          as the page scrolls the right column glides up faster than the left
+          (the collage's depth, kept simple), and each picture opens up from
+          slightly small as it arrives. Transforms only, so it stays smooth. */}
+      <div ref={cols} role="img" aria-label={alt} className="mt-12 flex items-start gap-2 px-6 md:hidden">
+        {[0, 1].map((c) => (
+          <div key={c} data-col={c} className={`flex flex-1 flex-col gap-2 ${c === 1 ? 'pt-16' : ''}`}>
+            {SLOTS.slice(0, 10).filter((_, k) => k % 2 === c).map((s, j) => (
+              <div key={s.src} data-pic className="overflow-hidden" style={{ aspectRatio: (j + c) % 3 === 0 ? '3 / 4' : (j + c) % 3 === 1 ? '1 / 1' : '4 / 3' }}>
+                {pic(s.src, '50vw')}
+              </div>
+            ))}
+          </div>
         ))}
-      </ul>
+      </div>
       <Typed text={quote} className="mx-6 mt-12 text-[1.55rem] md:hidden" />
     </section>
   );
