@@ -1,7 +1,7 @@
 // Workspace Leasing — original layout. Locations, spaces and starting prices
 // come from HiLink Workspaces (hilink.vn); live prices and booking stay there.
 import { ArrowRight, ArrowUpRight, ExternalLink } from 'lucide-react';
-import { Building2, Users, Wifi, Coffee, Mail, Calendar, MapPin, Key, Clock, ServiceIcon } from '../components/Glyph';
+import { Users, Calendar, MapPin, Key, Clock, ServiceIcon } from '../components/Glyph';
 import { motion } from 'motion/react';
 import { useState, useEffect, useRef } from 'react';
 import { FAQ } from '../components/FAQ';
@@ -14,7 +14,6 @@ import { PartnerMarquee } from '../components/PartnerMarquee';
 import { photo } from '../lib/photo';
 import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
 
-const AMENITY_ICONS = [<Wifi size={24} />, <Coffee size={24} />, <Users size={24} />, <Building2 size={24} />, <Calendar size={24} />, <Mail size={24} />];
 // The photograph of each location (the first is shown).
 const LOCATION_PHOTOS: Record<string, string[]> = {
   obc: ['/photos/hbc-lounge.webp', '/photos/hbc-lounge-3.webp', '/photos/hbc-meeting.webp', '/photos/hbc-lounge-4.webp'],
@@ -35,8 +34,8 @@ const T = {
     tour: 'Book a Tour', visit: 'Visit HiLink Workspace', view: 'View Locations',
     eyebrow: 'Workspace Leasing', title: 'Work Where You Thrive',
     lead: 'Premium flexible workspace across six Hanoi addresses — private offices, desks, meeting rooms and business addresses.',
-    whyTitle: 'Why Choose HiLink', whyLead: 'More than just a desk — a complete business ecosystem',
-    amenities: [['1 Gbps Fibre Wi-Fi', 'Fast, reliable connection'], ['Pantry', 'Coffee and tea on every floor'], ['Meeting Rooms', 'Rooms for 4–12 people'], ['Staffed Reception', 'Guests welcomed for you'], ['Event Space', 'Lounges for events'], ['Mail Handling', 'Letters and parcels received']],
+    whyTitle: 'With every HiLink workspace', whyLead: 'What comes with a desk, an office or a floor of your own.',
+    amenities: [['1 Gbps fibre Wi-Fi', 'Fast, reliable connection'], ['Pantry', 'Coffee and tea on every floor'], ['Meeting rooms', 'For 4–12 people, by the hour'], ['Staffed reception', 'Your guests welcomed for you'], ['Mail & parcels', 'Letters and parcels received'], ['Calls handled', 'Calls taken for you'], ['Business address', 'Register your company with E-office'], ['Event space', 'Whole lounges for events'], ['Live availability', 'See and book spaces on hilink.vn']],
     pricingTitle: 'Spaces & Pricing', pricingLead: 'Starting prices from HiLink Workspaces — live prices and booking on hilink.vn',
     popular: 'Popular', start: 'Get Started', from: 'From',
     unsure: 'Not sure which one fits? Tell us the size of your team and we will suggest one.',
@@ -73,8 +72,8 @@ const T = {
     tour: 'Đặt lịch tham quan', visit: 'Đến HiLink Workspace', view: 'Xem địa điểm',
     eyebrow: 'Cho thuê văn phòng', title: 'Làm việc ở nơi bạn phát triển',
     lead: 'Không gian làm việc linh hoạt cao cấp tại sáu địa chỉ ở Hà Nội — văn phòng riêng, chỗ ngồi, phòng họp và địa chỉ doanh nghiệp.',
-    whyTitle: 'Vì sao chọn HiLink', whyLead: 'Hơn cả một chỗ ngồi — một hệ sinh thái doanh nghiệp trọn vẹn',
-    amenities: [['Wi-Fi cáp quang 1 Gbps', 'Kết nối nhanh, ổn định'], ['Pantry', 'Cà phê và trà ở mọi tầng'], ['Phòng họp', 'Phòng cho 4–12 người'], ['Lễ tân trực', 'Đón khách giúp bạn'], ['Không gian sự kiện', 'Lounge cho sự kiện'], ['Nhận thư', 'Nhận thư và bưu phẩm']],
+    whyTitle: 'Đi kèm mọi không gian HiLink', whyLead: 'Những gì bạn có cùng một chỗ ngồi, một văn phòng hay nguyên một sàn.',
+    amenities: [['Wi-Fi cáp quang 1 Gbps', 'Kết nối nhanh, ổn định'], ['Pantry', 'Cà phê và trà ở mọi tầng'], ['Phòng họp', 'Cho 4–12 người, đặt theo giờ'], ['Lễ tân trực', 'Đón khách giúp bạn'], ['Thư & bưu phẩm', 'Nhận thư và bưu phẩm'], ['Nghe máy hộ', 'Nhận cuộc gọi giúp bạn'], ['Địa chỉ doanh nghiệp', 'Đăng ký công ty với E-office'], ['Không gian sự kiện', 'Cả lounge cho sự kiện'], ['Phòng trống trực tuyến', 'Xem và đặt chỗ trên hilink.vn']],
     pricingTitle: 'Không gian & giá', pricingLead: 'Giá khởi điểm của HiLink Workspaces — giá hiện hành và đặt chỗ trên hilink.vn',
     popular: 'Phổ biến', start: 'Bắt đầu', from: 'Từ',
     unsure: 'Chưa rõ lựa chọn nào phù hợp? Cho chúng tôi biết quy mô đội ngũ để được gợi ý.',
@@ -199,31 +198,26 @@ export function WorkspacePage() {
         </div>
       </section>
 
-      {/* Why HiLink Workspaces */}
+      {/* What comes with a HiLink workspace, after "Included in all
+          memberships" on themalin.co: a plain list in three ruled columns
+          (left, centre and right aligned), each a fact HiLink states. */}
       <section className="relative py-24 lg:py-32 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <motion.div className="text-center mb-16">
-            <h2 className="serif text-4xl lg:text-5xl mb-6">{t.whyTitle}</h2>
-            <p className="text-xl text-[#6B645D] max-w-3xl mx-auto">
-              {t.whyLead}
-            </p>
-          </motion.div>
-
-          <motion.div className="grid md:grid-cols-3 lg:grid-cols-6 gap-8">
-            {t.amenities.map(([name, description], i) => (
-              <motion.div
+          <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
+            <h2 className="serif text-4xl lg:col-span-7 lg:text-5xl">{t.whyTitle}</h2>
+            <p className="text-[1.0625rem] leading-relaxed text-[#6B645D] lg:col-span-5">{t.whyLead}</p>
+          </div>
+          <ul className="mt-12 grid border-t border-[#2A2623]/20 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
+            {t.amenities.map(([name, note], i) => (
+              <li
                 key={name}
-                className="text-center"
-                whileHover={{ y: -5 }}
+                className={`flex flex-col gap-1 border-b border-[#2A2623]/20 py-5 sm:pr-6 lg:py-6 ${['lg:items-start lg:text-left', 'lg:items-center lg:text-center', 'lg:items-end lg:text-right'][i % 3]}`}
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-[#F8F6F1] rounded-full text-[#D12126] mb-4">
-                  {AMENITY_ICONS[i]}
-                </div>
-                <h3 className="serif text-lg mb-2">{name}</h3>
-                <p className="text-sm text-[#6B645D]">{description}</p>
-              </motion.div>
+                <span className="text-[14px] font-semibold uppercase tracking-[0.08em] text-[#2A2623]">{name}</span>
+                <span className="text-[13.5px] text-[#6B645D]">{note}</span>
+              </li>
             ))}
-          </motion.div>
+          </ul>
         </div>
       </section>
 
