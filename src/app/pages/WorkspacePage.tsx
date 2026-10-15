@@ -116,8 +116,12 @@ export function WorkspacePage() {
   const tourUrl = ws(lang, '/book-a-tour');
 
   useEffect(() => {
+    // Shown once past the hero, and put away again when the footer comes
+    // into view, so it never sits over the HiLink mark there.
     const handleScroll = () => {
-      setShowCTA(window.scrollY > 300);
+      const foot = [...document.querySelectorAll('footer')].pop();
+      const atFoot = !!foot && foot.getBoundingClientRect().top < window.innerHeight - 40;
+      setShowCTA(window.scrollY > 300 && !atFoot);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -130,7 +134,7 @@ export function WorkspacePage() {
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: showCTA ? 0 : 100, opacity: showCTA ? 1 : 0 }}
         transition={{ duration: 0.3 }}
-        className="fixed bottom-8 right-8 z-50"
+        className={`fixed bottom-8 right-8 z-50 ${showCTA ? '' : 'pointer-events-none'}`}
       >
         <a
           href={tourUrl}

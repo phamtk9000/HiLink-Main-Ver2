@@ -1,10 +1,11 @@
 // The footer, after themalin.co and to its measurements (1440: 376px tall,
-// 29px in from the edge, columns 200px wide, headings on a 22px line, links
+// 29px in from the edge, columns spread to 320px at the user's request, headings on a 22px line, links
 // every 28px, 28px social icons, the address on a 23px line, the mark
 // 125px tall); their condensed face is matched by size of eye in Inter.
 // On a plain cream ground (no pattern),
 // columns under bold capital headings — the solutions, the company, the
-// sections of the forum — then the social links, the address in capitals and
+// sections of the forum — then the social links with the phone and email
+// beside them, the address in capitals and
 // the fine print; the HiLink mark large in the lower right.
 import { Link } from 'react-router';
 import { Facebook, Linkedin, Instagram } from 'lucide-react';
@@ -18,13 +19,13 @@ const socials = SOCIAL.map((s) => ({ ...s, Icon: ICONS[s.label as keyof typeof I
 const T = {
   en: {
     group: 'A member of HiCorp Group.',
-    solutions: 'Solutions', company: 'Company', forum: 'HiLink Forum', contact: 'Contact',
+    solutions: 'Solutions', company: 'Company', forum: 'HiLink Forum',
     comp: ['About Us', 'Business Club', 'Partners', 'Careers', 'All Solutions', 'Contact'],
     privacy: 'Privacy Policy', terms: 'Terms and Conditions', code: 'Enterprise code', rights: 'All rights reserved.',
   },
   vi: {
     group: 'Thành viên Tập đoàn HiCorp.',
-    solutions: 'Giải pháp', company: 'Công ty', forum: 'Diễn đàn HiLink', contact: 'Liên hệ',
+    solutions: 'Giải pháp', company: 'Công ty', forum: 'Diễn đàn HiLink',
     comp: ['Về chúng tôi', 'Business Club', 'Đối tác', 'Tuyển dụng', 'Tất cả giải pháp', 'Liên hệ'],
     privacy: 'Chính sách bảo mật', terms: 'Điều khoản & Điều kiện', code: 'Mã số doanh nghiệp', rights: 'Bảo lưu mọi quyền.',
   },
@@ -41,7 +42,7 @@ export function Footer() {
   return (
     <footer className="bg-[#F8F6F1] text-[#2A2623]">
       <div className="px-6 pt-10 pb-9 lg:px-[29px] lg:pt-[29px] lg:pb-[38px]">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-4 lg:flex lg:gap-x-0 [&>*]:lg:w-[200px]">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-3 lg:flex lg:gap-x-0 [&>*]:lg:w-[320px]">
           <nav aria-label={t.solutions}>
             <p className={head}>{t.solutions}</p>
             <ul>
@@ -66,23 +67,23 @@ export function Footer() {
               ))}
             </ul>
           </nav>
-          <div>
-            <p className={head}>{t.contact}</p>
-            <ul>
-              <li><a href={CONTACT.phoneHref} className={link}>{CONTACT.phone}</a></li>
-              <li><a href={CONTACT.emailHref} className={link}>{CONTACT.email}</a></li>
-            </ul>
-          </div>
         </div>
 
         <div className="mt-8 flex flex-col gap-8 lg:-mt-[30px] lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <div className="flex gap-[6px] lg:mt-[48px]">
-              {socials.map(({ label, href, Icon }) => (
-                <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="text-[#2A2623] hover:text-[#D12126] transition-colors">
-                  <Icon size={28} strokeWidth={1.5} />
-                </a>
-              ))}
+            {/* the social links, and beside them the ways to reach HiLink */}
+            <div className="flex flex-wrap items-center gap-x-8 gap-y-3 lg:mt-[48px]">
+              <div className="flex gap-[6px]">
+                {socials.map(({ label, href, Icon }) => (
+                  <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="text-[#2A2623] hover:text-[#D12126] transition-colors">
+                    <Icon size={28} strokeWidth={1.5} />
+                  </a>
+                ))}
+              </div>
+              <p className="flex flex-wrap gap-x-6 gap-y-1 text-[15px] text-[#2A2623]/85">
+                <a href={CONTACT.phoneHref} className="hover:text-[#D12126] transition-colors">{CONTACT.phone}</a>
+                <a href={CONTACT.emailHref} className="hover:text-[#D12126] transition-colors">{CONTACT.email}</a>
+              </p>
             </div>
             <address className="mt-[10px] not-italic text-[15px] font-bold uppercase leading-[23px] tracking-[0.01em] text-[#2A2623]">{CONTACT.address[lang]}</address>
             <p className="mt-0.5 text-[12px] leading-[18px] text-[#6B645D]">
