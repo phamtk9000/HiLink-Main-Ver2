@@ -248,7 +248,9 @@ export function AboutPage() {
       {/* HiLink in numbers. */}
       <ScaleWave />
 
-      {/* Values: three columns under drawn rules. */}
+      {/* What makes HiLink different and how it works, as one section: the
+          three principles under drawn rules, then the way of working as a
+          line that fills as you read, ending in the outcome. */}
       <section className="bg-white py-20 lg:py-28">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-12 gap-8 items-end">
@@ -273,26 +275,22 @@ export function AboutPage() {
               );
             })}
           </div>
-        </div>
-      </section>
 
-      {/* How we work: one line that fills as you read, ending in the outcome. */}
-      <section className="relative bg-white py-20 lg:py-28">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-12 gap-8 items-end">
-            <div className="lg:col-span-6">
-              {eyebrow(a.howEyebrow)}
-              <h2 className="serif leading-[1.1]">{a.howTitle}</h2>
+          <div className="mt-16 lg:mt-20 rounded-[16px] bg-[#F8F6F1] px-6 py-10 sm:px-10 lg:px-14 lg:py-14">
+            <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-end">
+              <div className="lg:col-span-6">
+                {eyebrow(a.howEyebrow)}
+                <h3 className="serif hl-group-title text-[#2A2623]">{a.howTitle}</h3>
+              </div>
+              <p className="lg:col-span-5 lg:col-start-8 text-[16px] leading-relaxed text-[#6B645D]">{a.howBody}</p>
             </div>
-            <p className="lg:col-span-5 lg:col-start-8 text-[17px] leading-relaxed text-[#6B645D]">{a.howBody}</p>
-          </div>
-          <div className="relative mt-16 lg:mt-20">
+            <div className="relative mt-10 lg:mt-12">
             <div className="absolute left-[7px] top-0 bottom-0 w-px bg-[#2A2623]/15 lg:left-0 lg:right-0 lg:top-[7px] lg:bottom-auto lg:h-px lg:w-auto" aria-hidden="true" />
             <div data-scroll-progress className="absolute left-[7px] top-0 bottom-0 w-px origin-top bg-[#D12126] lg:left-0 lg:right-0 lg:top-[7px] lg:bottom-auto lg:h-[2px] lg:w-auto lg:origin-left" aria-hidden="true" />
             <ol className="relative grid gap-10 lg:grid-cols-5 lg:gap-8">
               {a.stages.map(({ t: title, s }, i) => (
                 <li key={title} className="relative pl-10 lg:pl-0">
-                  <span className="absolute left-0 lg:static grid h-[15px] w-[15px] place-items-center rounded-full border border-[#D12126] bg-white" aria-hidden="true">
+                  <span className="absolute left-0 lg:static grid h-[15px] w-[15px] place-items-center rounded-full border border-[#D12126] bg-[#F8F6F1]" aria-hidden="true">
                     <span className="h-[5px] w-[5px] rounded-full bg-[#D12126]" />
                   </span>
                   <p className="lg:mt-8 text-[12px] uppercase tracking-[0.2em] text-[#6B645D]">{t.steps} {String(i + 1).padStart(2, '0')}</p>
@@ -306,6 +304,7 @@ export function AboutPage() {
                 <p className="serif mt-2 text-[1.45rem] leading-snug text-[#D12126]">{a.performs}</p>
               </li>
             </ol>
+          </div>
           </div>
         </div>
       </section>
