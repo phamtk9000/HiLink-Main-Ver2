@@ -6,11 +6,11 @@
 // columns under bold capital headings — the solutions, the company, the
 // sections of the forum — then the social links with the phone and email
 // beside them, the address in capitals and
-// the fine print; the HiLink mark large in the lower right.
+// one short line of fine print; the HiLink mark large in the lower right.
 import { Link } from 'react-router';
 import { Facebook, Linkedin, Instagram } from 'lucide-react';
 import { useLang } from '../lib/i18n';
-import { COMPANY, CONTACT, SERVICES, SOCIAL } from '../data/site';
+import { CONTACT, SERVICES, SOCIAL } from '../data/site';
 import { FORUM_CATEGORIES } from '../data/forum';
 
 const ICONS = { LinkedIn: Linkedin, Instagram, Facebook };
@@ -18,16 +18,14 @@ const socials = SOCIAL.map((s) => ({ ...s, Icon: ICONS[s.label as keyof typeof I
 
 const T = {
   en: {
-    group: 'A member of HiCorp Group.',
     solutions: 'Solutions', company: 'Company', forum: 'HiLink Forum',
     comp: ['About Us', 'Business Club', 'Partners', 'Careers', 'All Solutions', 'Contact'],
-    privacy: 'Privacy Policy', terms: 'Terms and Conditions', code: 'Enterprise code', rights: 'All rights reserved.',
+    privacy: 'Privacy Policy', terms: 'Terms and Conditions',
   },
   vi: {
-    group: 'Thành viên Tập đoàn HiCorp.',
     solutions: 'Giải pháp', company: 'Công ty', forum: 'Diễn đàn HiLink',
     comp: ['Về chúng tôi', 'Business Club', 'Đối tác', 'Tuyển dụng', 'Tất cả giải pháp', 'Liên hệ'],
-    privacy: 'Chính sách bảo mật', terms: 'Điều khoản & Điều kiện', code: 'Mã số doanh nghiệp', rights: 'Bảo lưu mọi quyền.',
+    privacy: 'Chính sách bảo mật', terms: 'Điều khoản & Điều kiện',
   },
 };
 
@@ -86,12 +84,13 @@ export function Footer() {
               </p>
             </div>
             <address className="mt-[10px] not-italic text-[15px] font-bold uppercase leading-[23px] tracking-[0.01em] text-[#2A2623]">{CONTACT.address[lang]}</address>
-            <p className="mt-0.5 text-[12px] leading-[18px] text-[#6B645D]">
-              © {currentYear} {COMPANY.name[lang]}. {t.rights} {t.code} {COMPANY.enterpriseCode}. {t.group}
-            </p>
-            <p className="flex gap-5 text-[12px] leading-[18px]">
-              <Link to={l('/privacy-policy')} className="text-[#6B645D] hover:text-[#D12126] transition-colors">{t.privacy}</Link>
-              <Link to={l('/terms')} className="text-[#6B645D] hover:text-[#D12126] transition-colors">{t.terms}</Link>
+            {/* the fine print, kept to one line */}
+            <p className="mt-1.5 flex flex-wrap gap-x-2 text-[12px] leading-[18px] text-[#6B645D]">
+              <span>© {currentYear} HiLink</span>
+              <span aria-hidden="true">·</span>
+              <Link to={l('/privacy-policy')} className="hover:text-[#D12126] transition-colors">{t.privacy}</Link>
+              <span aria-hidden="true">·</span>
+              <Link to={l('/terms')} className="hover:text-[#D12126] transition-colors">{t.terms}</Link>
             </p>
           </div>
           <img src="/brand/logo-hilink-lockup.svg" alt="HiLink — Your Solution" className="h-20 w-auto self-start sm:h-24 lg:h-[125px] lg:self-end" />
