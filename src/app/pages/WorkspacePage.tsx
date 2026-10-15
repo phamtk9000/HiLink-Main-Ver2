@@ -13,6 +13,7 @@ import { Contours } from '../components/Contours';
 import { PartnerMarquee } from '../components/PartnerMarquee';
 import { photo } from '../lib/photo';
 import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
+import { CtaContact } from '../components/CtaContact';
 
 // The photograph of each location (the first is shown).
 const LOCATION_PHOTOS: Record<string, string[]> = {
@@ -329,6 +330,7 @@ export function WorkspacePage() {
             <Calendar size={18} />
             {t.ctaBtn}
           </a>
+          <CtaContact className="mt-10" />
         </motion.div>
       </section>
     </>

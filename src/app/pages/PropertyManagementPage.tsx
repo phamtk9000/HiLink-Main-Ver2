@@ -341,6 +341,7 @@ export function PropertyManagementPage() {
             <div className="mt-1 flex flex-col items-start gap-x-[22px] gap-y-4 sm:flex-row sm:items-center">
               <Link to={l('/contact')} className="inline-flex w-full items-center justify-center rounded-full bg-[#F8F6F1] px-[30px] py-[14px] text-[13px] font-semibold uppercase leading-[1.5] tracking-[0.07em] text-[#0F0F0F] hover:bg-white transition-colors sm:w-auto">{t.cta}</Link>
               <a href={CONTACT.phoneHref} className="text-[14.5px] font-semibold tabular-nums text-[#F8F6F1] underline-offset-4 hover:underline">{t.hotline}: {CONTACT.phone}</a>
+              <a href={CONTACT.emailHref} className="text-[14.5px] font-semibold text-[#F8F6F1] underline-offset-4 hover:underline">{CONTACT.email}</a>
             </div>
           </div>
           <div className="relative aspect-[16/11] overflow-hidden rounded-[12px] bg-[#26302A]">

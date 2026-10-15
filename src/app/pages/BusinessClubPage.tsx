@@ -17,6 +17,7 @@ import { ws } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { photo } from '../lib/photo';
 import { TileFx, type TileKind } from '../components/TileFx';
+import { CtaContact } from '../components/CtaContact';
 
 const HOURS_VI: [RegExp, string][] = [[/Mon/g, 'T2'], [/Fri/g, 'T6'], [/Sat/g, 'T7'], [/Sun/g, 'CN'], [/late/g, 'khuya']];
 const HERO = ['/photos/hbc-lounge-xl.webp', '/photos/qc-bar.webp', '/photos/hbc-lounge-3.webp'];
@@ -286,6 +287,7 @@ export function BusinessClubPage() {
           <a href={applyUrl} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 px-12 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#A3181C] transition-colors">
             {t.apply} <ArrowUpRight size={15} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </a>
+          <CtaContact className="mt-10" />
         </div>
       </section>
     </>

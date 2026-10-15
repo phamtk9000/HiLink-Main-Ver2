@@ -15,6 +15,7 @@ import { PartnerMarquee } from '../components/PartnerMarquee';
 import { Candles } from '../components/Candles';
 import { photo } from '../lib/photo';
 import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
+import { CtaContact } from '../components/CtaContact';
 
 const IMG = {
   hero: '/photos/f15-lounge-wide-xl.webp',
@@ -281,6 +282,7 @@ export function HomePage() {
           <Link to={l('/contact')} className="group inline-flex items-center gap-2 px-12 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.16em] hover:bg-[#A3181C] transition-colors">
             {t.book} <ArrowUpRight size={15} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </Link>
+          <CtaContact className="mt-10" />
         </div>
       </section>
     </>

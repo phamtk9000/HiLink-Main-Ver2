@@ -5,6 +5,7 @@ import { motion } from 'motion/react';
 import { useLang, usePageMeta } from '../lib/i18n';
 import { Yard } from '../components/Yard';
 import { Contours } from '../components/Contours';
+import { CtaContact } from '../components/CtaContact';
 
 // No HiLink photograph of an industrial site exists yet, so image slots show
 // a dark panel with an icon. Swap in photos when HiLink supplies them.
@@ -221,6 +222,7 @@ export function IndustrialPage() {
           >
             {t.cta}
           </Link>
+          <CtaContact className="mt-10" />
         </motion.div>
       </section>
     </>

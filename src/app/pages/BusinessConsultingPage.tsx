@@ -12,6 +12,7 @@ import { IsoScene } from '../components/IsoScene';
 import { FigureStack, Statement } from '../components/Figures';
 import { Contours } from '../components/Contours';
 import { WORKSPACE_LOCATIONS } from '../data/workspaceLocations';
+import { CtaContact } from '../components/CtaContact';
 
 const SERVICE_META = [
   { icon: <Globe size={28} />, image: '/photos/hbc-client-meeting.webp' },
@@ -332,6 +333,7 @@ export function BusinessConsultingPage() {
             <p className="text-white/70 text-lg max-w-lg">
               {t.ctaLead}
             </p>
+            <CtaContact align="start" className="mt-8" />
           </div>
           <Link
             to={l('/contact')}
