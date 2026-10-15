@@ -1,4 +1,8 @@
-// The footer, after themalin.co: on a plain cream ground (no pattern),
+// The footer, after themalin.co and to its measurements (1440: 376px tall,
+// 29px in from the edge, columns 200px wide, headings on a 22px line, links
+// every 28px, 28px social icons, the address on a 23px line, the mark
+// 125px tall); their condensed face is matched by size of eye in Inter.
+// On a plain cream ground (no pattern),
 // columns under bold capital headings — the solutions, the company, the
 // sections of the forum — then the social links, the address in capitals and
 // the fine print; the HiLink mark large in the lower right.
@@ -31,13 +35,13 @@ export function Footer() {
   const { lang, l } = useLang();
   const t = T[lang];
 
-  const link = 'text-[16px] leading-[1.6] text-[#2A2623]/85 hover:text-[#D12126] transition-colors';
-  const head = 'mb-3 text-[15px] font-bold uppercase tracking-[0.04em] text-[#2A2623]';
+  const link = 'block text-[15px] leading-[28px] text-[#2A2623]/85 hover:text-[#D12126] transition-colors';
+  const head = 'mb-1 text-[15px] font-bold uppercase leading-[22px] tracking-[0.02em] text-[#2A2623]';
 
   return (
     <footer className="bg-[#F8F6F1] text-[#2A2623]">
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-12 pt-16 pb-10 lg:pt-20">
-        <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-4 lg:flex lg:gap-x-[4.5rem]">
+      <div className="px-6 pt-10 pb-9 lg:px-[29px] lg:pt-[29px] lg:pb-[38px]">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-4 lg:flex lg:gap-x-0 [&>*]:lg:w-[200px]">
           <nav aria-label={t.solutions}>
             <p className={head}>{t.solutions}</p>
             <ul>
@@ -71,25 +75,25 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-10 lg:mt-16 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mt-8 flex flex-col gap-8 lg:-mt-[30px] lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <div className="flex gap-3">
+            <div className="flex gap-[6px] lg:mt-[48px]">
               {socials.map(({ label, href, Icon }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="text-[#2A2623] hover:text-[#D12126] transition-colors">
-                  <Icon size={26} strokeWidth={1.6} />
+                  <Icon size={28} strokeWidth={1.5} />
                 </a>
               ))}
             </div>
-            <address className="mt-5 not-italic text-[15px] font-bold uppercase leading-snug tracking-[0.02em] text-[#2A2623]">{CONTACT.address[lang]}</address>
-            <p className="mt-2 text-[13px] text-[#6B645D]">
+            <address className="mt-[10px] not-italic text-[15px] font-bold uppercase leading-[23px] tracking-[0.01em] text-[#2A2623]">{CONTACT.address[lang]}</address>
+            <p className="mt-0.5 text-[12px] leading-[18px] text-[#6B645D]">
               © {currentYear} {COMPANY.name[lang]}. {t.rights} {t.code} {COMPANY.enterpriseCode}. {t.group}
             </p>
-            <p className="mt-1.5 flex gap-5 text-[13px]">
+            <p className="flex gap-5 text-[12px] leading-[18px]">
               <Link to={l('/privacy-policy')} className="text-[#6B645D] hover:text-[#D12126] transition-colors">{t.privacy}</Link>
               <Link to={l('/terms')} className="text-[#6B645D] hover:text-[#D12126] transition-colors">{t.terms}</Link>
             </p>
           </div>
-          <img src="/brand/logo-hilink-lockup.svg" alt="HiLink — Your Solution" className="h-20 w-auto self-start sm:h-28 lg:h-36 lg:self-end" />
+          <img src="/brand/logo-hilink-lockup.svg" alt="HiLink — Your Solution" className="h-20 w-auto self-start sm:h-24 lg:h-[125px] lg:self-end" />
         </div>
       </div>
     </footer>
