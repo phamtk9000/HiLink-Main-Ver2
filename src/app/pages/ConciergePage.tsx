@@ -5,11 +5,10 @@
 // we arrange; how a request is handled; what sets the service apart, on club
 // green; the gallery (it moves only when asked); the two houses, each with
 // its own way in; and the enquiry.
-import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { scrollToEl } from '../lib/motion';
-import { Mail } from '../components/Glyph';
 import { HeroFade, RuleTitle, Showcase, type Shot } from '../components/Club';
 import { CONTACT } from '../data/site';
 import { useLang, usePageMeta } from '../lib/i18n';
@@ -18,9 +17,12 @@ import { Flag } from '../components/Flag';
 import { photo } from '../lib/photo';
 
 const HERO = ['/photos/hbc-reception.webp', '/photos/hbc-lounge-5.webp', '/photos/qc-bar-2.webp'];
-// One photograph for each thing we arrange (the order of T.services).
-// Generated photographs, one for each service (PHOTO-CREDITS.md).
-const SERVICE_PHOTOS = ['/photos/ai-cc-travel.webp', '/photos/ai-cc-dining.webp', '/photos/ai-event-reception.webp', '/photos/ai-cc-lifestyle.webp', '/photos/ai-cc-assistant.webp', '/photos/ai-cc-bespoke.webp'];
+// The photograph beside the enquiry form.
+const FORM_PHOTO = '/photos/ai-cc-lifestyle.webp';
+// One photograph for each thing we arrange (the order of T.services):
+// generated, in warm sepia seen from above, after a reference the user gave
+// (PHOTO-CREDITS.md).
+const SERVICE_PHOTOS = ['/photos/ai-sepia-travel.webp', '/photos/ai-sepia-dining.webp', '/photos/ai-sepia-events.webp', '/photos/ai-sepia-lifestyle.webp', '/photos/ai-sepia-business.webp', '/photos/ai-sepia-bespoke.webp'];
 const HOUSE_PHOTOS = ['/photos/hbc-lounge-3.webp', '/photos/qc-lounge.webp'];
 // Each house's own place on the Business Club page.
 const HOUSE_LINKS = ['/business-club#obc', '/business-club#club-tqk'];
@@ -63,7 +65,7 @@ const T = {
     name: 'Full Name', email: 'Email Address', phone: 'Phone Number', message: 'Tell us about your needs and how we can assist you...',
     submit: 'Send request', sending: 'Sending…', sentTitle: 'Enquiry received', messageLbl: 'Your request', formNote: 'Your enquiry is handled in complete confidence. A member of our team will be in touch with you.',
     privacy: ['By sending, you agree to our', 'Privacy Policy'],
-    qLbl: 'Questions?', qText: 'Our concierge team is available 24/7',
+    formEyebrow: 'Private request',
     explore: 'Explore', prev: 'Previous photograph', next: 'Next photograph',
     housesTitle: 'Where we host you', houseLinks: ['Explore the Business Club', 'Explore The Quarter Club'],
     houses: [
@@ -103,7 +105,7 @@ const T = {
     name: 'Họ và tên', email: 'Địa chỉ email', phone: 'Số điện thoại', message: 'Cho chúng tôi biết nhu cầu của bạn và chúng tôi có thể hỗ trợ thế nào...',
     submit: 'Gửi yêu cầu', sending: 'Đang gửi…', sentTitle: 'Đã nhận yêu cầu', messageLbl: 'Yêu cầu của bạn', formNote: 'Yêu cầu của bạn được bảo mật tuyệt đối. Đội ngũ của chúng tôi sẽ liên hệ lại với bạn.',
     privacy: ['Khi gửi, bạn đồng ý với', 'Chính sách bảo mật'],
-    qLbl: 'Câu hỏi?', qText: 'Đội concierge sẵn sàng 24/7',
+    formEyebrow: 'Yêu cầu riêng',
     explore: 'Khám phá', prev: 'Ảnh trước', next: 'Ảnh tiếp theo',
     housesTitle: 'Nơi chúng tôi đón tiếp bạn', houseLinks: ['Khám phá Business Club', 'Khám phá Quarter Club'],
     houses: [
@@ -258,65 +260,63 @@ export function ConciergePage() {
         </div>
       </section>
 
-      {/* Membership enquiry. */}
-      <section id="enquire" className="relative pb-24 lg:pb-32 bg-white hl-no-rule scroll-mt-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12"><RuleTitle>{t.formTitle}</RuleTitle></div>
-        <div className="max-w-[720px] mx-auto px-6 mt-10">
-          <p className="mb-12 text-center text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.formLead}</p>
-          {sent ? (
-            <div role="status" className="text-center py-12 bg-[#F8F6F1]">
-              <CheckCircle2 size={44} className="mx-auto mb-5 text-[#D12126]" />
-              <p className="serif text-3xl text-[#2A2623] mb-3">{t.sentTitle}</p>
-              <p className="text-[#6B645D]">{t.formNote}</p>
-            </div>
-          ) : (
-          <form onSubmit={handleSubmit} className="relative space-y-5">
-            <input {...HONEYPOT_PROPS} />
-            <div>
-              <label htmlFor="cg-name" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.name} *</label>
-              <input id="cg-name" type="text" autoComplete="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#2A2623]/20 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] focus:ring-1 focus:ring-[#D12126] user-invalid:border-[#B01B20] transition-colors duration-200" required />
-            </div>
-            <div className="grid sm:grid-cols-2 gap-5">
-              <div>
-                <label htmlFor="cg-email" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.email} *</label>
-                <input id="cg-email" type="email" autoComplete="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#2A2623]/20 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] focus:ring-1 focus:ring-[#D12126] user-invalid:border-[#B01B20] transition-colors duration-200" required />
-              </div>
-              <div>
-                <label htmlFor="cg-phone" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.phone} *</label>
-                <input id="cg-phone" type="tel" autoComplete="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#2A2623]/20 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] focus:ring-1 focus:ring-[#D12126] user-invalid:border-[#B01B20] transition-colors duration-200" required />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="cg-message" className="block text-[13px] uppercase tracking-[0.14em] text-[#6B645D] mb-2">{t.messageLbl} *</label>
-              <textarea id="cg-message" placeholder={t.message} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} rows={6} className="w-full px-6 py-4 bg-[#F8F6F1] border border-[#2A2623]/20 text-[#2A2623] placeholder-[#6B645D] focus:outline-none focus:border-[#D12126] focus:ring-1 focus:ring-[#D12126] user-invalid:border-[#B01B20] transition-colors duration-200 resize-none" required />
-            </div>
-            <button
-              type="submit"
-              disabled={sending}
-              aria-busy={sending}
-              className="w-full px-12 py-4 bg-[#D12126] text-white text-[12px] uppercase tracking-[0.2em] hover:bg-[#A3181C] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D12126] transition-colors duration-200 disabled:opacity-60"
-            >
-              {sending ? t.sending : t.submit}
-            </button>
-            {error && <p role="alert" className="text-[15px] text-[#B01B20] text-center">{error}</p>}
-            <p className="text-[14px] leading-[1.6] text-[#6B645D] text-center">
-              {t.formNote} {t.privacy[0]} <Link to={l('/privacy-policy')} className="underline decoration-[#2A2623]/30 underline-offset-4 hover:text-[#D12126]">{t.privacy[1]}</Link>.
-            </p>
-          </form>
-          )}
-        </div>
-      </section>
-
-      {/* Contact */}
-      <section className="relative py-16 bg-white">
-        <div className="max-w-[1320px] mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="text-center md:text-left">
-            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126] mb-2">{t.qLbl}</p>
-            <p className="text-xl text-[#2A2623]">{t.qText}</p>
+      {/* The enquiry, set out like the Contact page: a photograph down one side,
+          the full height of the section, and on the other the form — fields
+          drawn as a single rule each, a quiet dark button. */}
+      <section id="enquire" className="relative bg-white hl-no-rule scroll-mt-24 border-t border-[#2A2623]/10">
+        <div className="[display:grid] grid-cols-[minmax(0,1fr)] lg:grid-cols-12">
+          <div className="relative min-h-[320px] overflow-hidden sm:min-h-[420px] lg:col-span-5 lg:min-h-0">
+            <img {...photo(FORM_PHOTO, '(min-width: 1024px) 42vw, 100vw')} alt="" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
           </div>
-          <a href={CONTACT.emailHref} className="flex items-center gap-3 text-[#6B645D] hover:text-[#D12126] transition-colors">
-            <Mail size={20} /> <span>{CONTACT.email}</span>
-          </a>
+          <div className="px-6 py-16 sm:px-10 lg:col-span-7 lg:px-20 lg:py-24 xl:px-28">
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#D12126]">{t.formEyebrow}</p>
+            <h2 className="serif hl-club-title mt-4 text-[#2A2623]">{t.formTitle}</h2>
+            <p className="mt-5 max-w-[52ch] text-[1.0625rem] leading-relaxed text-[#6B645D]">{t.formLead}</p>
+            {sent ? (
+              <div role="status" className="mt-12 border-t border-[#2A2623]/15 pt-10">
+                <CheckCircle2 size={36} className="mb-4 text-[#D12126]" />
+                <p className="serif text-3xl text-[#2A2623] mb-3">{t.sentTitle}</p>
+                <p className="text-[#6B645D]">{t.formNote}</p>
+              </div>
+            ) : (
+            <form onSubmit={handleSubmit} className="relative mt-12 max-w-[640px] space-y-9">
+              <input {...HONEYPOT_PROPS} />
+              <div>
+                <label htmlFor="cg-name" className="block text-[11px] uppercase tracking-[0.18em] text-[#6B645D]">{t.name} *</label>
+                <input id="cg-name" type="text" autoComplete="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full border-0 border-b border-[#2A2623]/25 bg-transparent px-0 pb-3 pt-1 text-[17px] text-[#2A2623] placeholder-[#6B645D]/70 focus:outline-none focus:border-[#2A2623] user-invalid:border-[#B01B20] transition-colors duration-200" required />
+              </div>
+              <div className="grid sm:grid-cols-2 gap-9 sm:gap-10">
+                <div>
+                  <label htmlFor="cg-email" className="block text-[11px] uppercase tracking-[0.18em] text-[#6B645D]">{t.email} *</label>
+                  <input id="cg-email" type="email" autoComplete="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full border-0 border-b border-[#2A2623]/25 bg-transparent px-0 pb-3 pt-1 text-[17px] text-[#2A2623] placeholder-[#6B645D]/70 focus:outline-none focus:border-[#2A2623] user-invalid:border-[#B01B20] transition-colors duration-200" required />
+                </div>
+                <div>
+                  <label htmlFor="cg-phone" className="block text-[11px] uppercase tracking-[0.18em] text-[#6B645D]">{t.phone} *</label>
+                  <input id="cg-phone" type="tel" autoComplete="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full border-0 border-b border-[#2A2623]/25 bg-transparent px-0 pb-3 pt-1 text-[17px] text-[#2A2623] placeholder-[#6B645D]/70 focus:outline-none focus:border-[#2A2623] user-invalid:border-[#B01B20] transition-colors duration-200" required />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="cg-message" className="block text-[11px] uppercase tracking-[0.18em] text-[#6B645D]">{t.messageLbl} *</label>
+                <textarea id="cg-message" placeholder={t.message} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} rows={4} className="w-full border-0 border-b border-[#2A2623]/25 bg-transparent px-0 pb-3 pt-1 text-[17px] text-[#2A2623] placeholder-[#6B645D]/70 focus:outline-none focus:border-[#2A2623] user-invalid:border-[#B01B20] transition-colors duration-200 resize-none" required />
+              </div>
+              <div className="flex flex-col gap-5 pt-2 sm:flex-row sm:items-center sm:justify-between">
+                <button
+                  type="submit"
+                  disabled={sending}
+                  aria-busy={sending}
+                  className="group inline-flex items-center justify-center gap-3 bg-[#2A2623] px-9 py-4 text-[12px] uppercase tracking-[0.2em] text-white hover:bg-[#D12126] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D12126] transition-colors duration-200 disabled:opacity-60"
+                >
+                  {sending ? t.sending : t.submit} <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
+                </button>
+                <a href={CONTACT.emailHref} className="text-[14px] text-[#6B645D] hover:text-[#D12126] transition-colors">{CONTACT.email}</a>
+              </div>
+              {error && <p role="alert" className="text-[15px] text-[#B01B20]">{error}</p>}
+              <p className="text-[13px] leading-[1.6] text-[#6B645D]">
+                {t.formNote} {t.privacy[0]} <Link to={l('/privacy-policy')} className="underline decoration-[#2A2623]/30 underline-offset-4 hover:text-[#D12126]">{t.privacy[1]}</Link>.
+              </p>
+            </form>
+            )}
+          </div>
         </div>
       </section>
     </>
